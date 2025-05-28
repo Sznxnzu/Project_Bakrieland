@@ -12,15 +12,32 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    .stApp { background-color: #0E1117; color: #E6E6E6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .stApp {
+        background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/wallpaper.jpg"); /* YOUR WALLPAPER */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-color: #0E1117; /* Fallback */
+        color: #E6E6E6;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
     .stButton > button { background-color: #007bff; color: white; border-radius: 8px; padding: 10px 20px; font-size: 1.1em; transition: background-color 0.3s ease; }
     .stButton > button:hover { background-color: #0056b3; }
     .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 { color: #007bff; border-bottom: 1px solid #2d384c; padding-bottom: 5px; margin-bottom: 15px; }
-    .stContainer { background-color: #1a222f; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-    .recommendation-box { border: 2px solid #007bff; border-radius: 10px; padding: 15px; margin-bottom: 20px; box-shadow: 0 0 15px rgba(0, 123, 255, 0.5); background-color: #0d121c; text-align: center; }
+    
+    /* Make containers semi-transparent to show wallpaper */
+    .stContainer { background-color: rgba(26, 34, 47, 0.9); padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+    .recommendation-box {
+        border: 2px solid #007bff;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
+        background-color: rgba(13, 18, 28, 0.9); /* Semi-transparent */
+        text-align: center;
+    }
     .recommendation-text p, .recommendation-text ul, .recommendation-text li { font-size: 15px !important; }
-    /* Removed the previous .st-emotion-cache-1c7y2kl to avoid conflict */
-    /* Removed #small-camera .st-emotion-cache-13ejsyy as it might not be needed or relevant */
 
     /* Camera input styling - Only changed this part to fix grey border and alignment */
     div[data-testid="stCameraInput"] > div {
@@ -28,7 +45,7 @@ st.markdown(
         height: 50% !important; /* Explicitly set height */
         margin: 0; /* Left align: remove auto margins */
         float: left; /* Left align */
-        background-color: #0E1117; /* Crucial: Match app background to hide any gaps/borders */
+        background-color: rgba(14, 17, 23, 0.9); /* Semi-transparent background for camera input container */
         overflow: hidden; /* Hide any potential content overflow */
         border-radius: 8px; /* Apply border-radius to the container itself */
     }
