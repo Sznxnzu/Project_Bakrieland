@@ -8,6 +8,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+# --- Inject custom CSS for a darker theme and some visual resemblance ---
 st.markdown("""
     <style>
     .stApp {
@@ -76,6 +77,8 @@ with col_header_right: # --- Header Section (Top Right like "Bakrieland" and "Po
         </p>
     """, unsafe_allow_html=True)
 
+st.markdown("---") # Separator
+
 col1, col2, col3 = st.columns([1, 1, 2])
 
 with col1: # --- Column 1: Property Recommendation ---
@@ -101,24 +104,25 @@ with col2: # --- Column 2: Holiday Recommendation ---
 
 
 with col3: # --- Column 3: Image Capture and Mood Analytic ---
+    st.markdown("<h2 style='text-align: center;'>MOOD ANALYTIC</h2>", unsafe_allow_html=True)
+    st.subheader("Capture Your Mood!")
+    st.markdown("<p style='font-size:0.9em; color:#bbb;'>Use your camera to take a picture for mood analysis simulation.</p>", unsafe_allow_html=True)
 
     picture = st.camera_input("")
 
     if picture:
         # --- Simulated Mood Analysis Results ---
         simulated_moods = ["Happy", "Calm", "Energetic", "Thoughtful", "Brave", "Relaxed"]
-        simulated_property = ["City apartment", "suburban chateau", "rural farmhouse", "beachfront villa", "mountain cabin"]
-        simulated_holiday = ["Ocean Cruise","Beach Walk","Mountain Hiking","Forest Trekking","Mushroom Picking"]
+        simulated_property_options = ["City apartment", "Suburban chateau", "Rural farmhouse", "Beachfront villa", "Mountain cabin"]
+        simulated_holiday_options = ["Ocean Cruise", "Beach Walk", "Mountain Hiking", "Forest Trekking", "Mushroom Picking"]
 
         selected_mood = random.choice(simulated_moods)
-        selected_property = random.choice(simulated_property)
-        selected_holiday = random.choice(simulated_holiday)
+        selected_property = random.choice(simulated_property_options)
+        selected_holiday = random.choice(simulated_holiday_options)
 
-        st.markdown("<h2 style='text-align: center;'>MOOD ANALYTIC</h2>", unsafe_allow_html=True)
         st.markdown(f"""
             <hr style="border-top: 1px dashed #2d384c;"/>
             <div class="recommendation-text">
-
                 <p><strong>Analisa Mood:</strong></p>
                 <ul>
                     <li>{selected_mood}</li>
@@ -127,7 +131,7 @@ with col3: # --- Column 3: Image Capture and Mood Analytic ---
                     <li>{selected_mood}</li>
                 </ul>
 
-                <p><strong>Property Recommendation:</strong>
+                <p><strong>Property Recommendation:</strong></p>
                 <ul>
                     <li>{selected_property}</li>
                     <li>{selected_property}</li>
@@ -140,9 +144,8 @@ with col3: # --- Column 3: Image Capture and Mood Analytic ---
                     <li>{selected_holiday}</li>
                     <li>{selected_holiday}</li>
                 </ul>
-
             </div>
-        """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True) # Ensure unsafe_allow_html=True is here!
     else:
         st.markdown("""
             <p style='text-align: center; padding-top: 20px; font-size: 1.1em; color: #aaa;'>
