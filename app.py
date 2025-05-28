@@ -19,25 +19,28 @@ st.markdown(
     .stContainer { background-color: #1a222f; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
     .recommendation-box { border: 2px solid #007bff; border-radius: 10px; padding: 15px; margin-bottom: 20px; box-shadow: 0 0 15px rgba(0, 123, 255, 0.5); background-color: #0d121c; text-align: center; }
     .recommendation-text p, .recommendation-text ul, .recommendation-text li { font-size: 15px !important; }
-    .st-emotion-cache-1c7y2kl { width: 50% !important; margin: 0 auto; display: block; }
-    .st-emotion-cache-1c7y2kl button { width: 100% !important; }
-    #small-camera .st-emotion-cache-13ejsyy { transform: scale(0.5); transform-origin: top left; }
+    /* Removed the previous .st-emotion-cache-1c7y2kl to avoid conflict */
+    /* Removed #small-camera .st-emotion-cache-13ejsyy as it might not be needed or relevant */
 
-    /* Camera input half width styling */
+    /* Camera input styling - Only changed this part to fix grey border and alignment */
     div[data-testid="stCameraInput"] > div {
         width: 50% !important;
-        height: 50% !important; /* Added height */
-        margin: 0; /* Changed from '0 auto' to '0' for left alignment */
-        float: left; /* Added float for left alignment */
+        height: 50% !important; /* Explicitly set height */
+        margin: 0; /* Left align: remove auto margins */
+        float: left; /* Left align */
+        background-color: #0E1117; /* Crucial: Match app background to hide any gaps/borders */
+        overflow: hidden; /* Hide any potential content overflow */
+        border-radius: 8px; /* Apply border-radius to the container itself */
     }
     div[data-testid="stCameraInput"] video,
     div[data-testid="stCameraInput"] img {
         width: 100% !important;
-        height: auto !important;
-        border-radius: 8px;
+        height: 100% !important; /* Make sure video/image fills the parent's 50% height */
+        object-fit: cover; /* Ensures video/image covers the area without distortion */
+        border-radius: 8px; /* Apply border-radius to the media itself */
     }
     div[data-testid="stCameraInput"] button {
-        width: 50% !important;
+        width: 100% !important; /* Button should now fill the 50% width of its parent container */
         border-radius: 8px;
     }
     </style>
@@ -64,17 +67,31 @@ col1, col2, col3 = st.columns([1, 1, 2])
 
 with col1:
     st.markdown("<h2 style='text-align: center;'>PROPERTY RECOMMENDATION</h2>", unsafe_allow_html=True)
+    st.markdown("<div class='recommendation-box'>", unsafe_allow_html=True) # Kept your original div wrappers
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KEMIRIPAN PURI WIDYAKARTA", use_container_width=True)
+    st.markdown("</div>", unsafe_allow_html=True) # Kept your original div wrappers
+
+    st.markdown("<div class='recommendation-box'>", unsafe_allow_html=True) # Kept your original div wrappers
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR PUNCAK RESIDENCE", use_container_width=True)
+    st.markdown("</div>", unsafe_allow_html=True) # Kept your original div wrappers
 
 with col2:
     st.markdown("<h2 style='text-align: center;'>HOLIDAY RECOMMENDATION</h2>", unsafe_allow_html=True)
+    st.markdown("<div class='recommendation-box'>", unsafe_allow_html=True) # Kept your original div wrappers
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE LAND", use_container_width=True)
+    st.markdown("</div>", unsafe_allow_html=True) # Kept your original div wrappers
+
+    st.markdown("<div class='recommendation-box'>", unsafe_allow_html=True) # Kept your original div wrappers
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVIERA OUTBOUND", use_container_width=True)
+    st.markdown("</div>", unsafe_allow_html=True) # Kept your original div wrappers
 
 with col3:
+    st.markdown("<h2 style='text-align: center;'>MOOD ANALYTIC</h2>", unsafe_allow_html=True)
+    st.subheader("Capture Your Mood!")
+    st.markdown("<p style='font-size:0.9em; color:#bbb;'>Use your camera to take a picture for mood analysis simulation.</p>", unsafe_allow_html=True)
+
     picture = st.camera_input("")
-    
+
     if picture:
         simulated_moods = ["Happy", "Calm", "Energetic", "Thoughtful", "Brave", "Relaxed"]
         simulated_property_options = ["City apartment", "Suburban chateau", "Rural farmhouse", "Beachfront villa", "Mountain cabin"]
@@ -103,6 +120,3 @@ with col3:
             "</p>",
             unsafe_allow_html=True
         )
-
-st.markdown("---")
-st.markdown("<p style='text-align: center; color: grey; font-size: 0.8em;'>&copy; 2025 Cloud-Powered Recommendation System UI. All rights reserved. (Simulated)</p>", unsafe_allow_html=True)
