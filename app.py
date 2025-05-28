@@ -20,6 +20,7 @@ st.markdown(
     ".recommendation-text p, .recommendation-text ul, .recommendation-text li { font-size: 15px !important; }"
     ".st-emotion-cache-1c7y2kl { width: 50% !important; margin: 0 auto; display: block; }"
     ".st-emotion-cache-1c7y2kl button { width: 100% !important; }"
+    "#small-camera .st-emotion-cache-13ejsyy { transform: scale(0.5); transform-origin: top left; }"
     "</style>",
     unsafe_allow_html=True
 )
@@ -62,11 +63,9 @@ with col2:
     st.markdown("</div>", unsafe_allow_html=True)
 
 with col3:
-    st.markdown("<h2 style='text-align: center;'>MOOD ANALYTIC</h2>", unsafe_allow_html=True)
-    st.subheader("Capture Your Mood!")
-    st.markdown("<p style='font-size:0.9em; color:#bbb;'>Use your camera to take a picture for mood analysis simulation.</p>", unsafe_allow_html=True)
-
+    st.markdown("<div id='small-camera'>", unsafe_allow_html=True)
     picture = st.camera_input("")
+    st.markdown("</div>", unsafe_allow_html=True)
 
     if picture:
         simulated_moods = ["Happy", "Calm", "Energetic", "Thoughtful", "Brave", "Relaxed"]
