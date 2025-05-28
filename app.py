@@ -67,21 +67,17 @@ col1, col2, col3 = st.columns([1, 1, 2])
 
 with col1:
     st.markdown("<h2 style='text-align: center;'>PROPERTY RECOMMENDATION</h2>", unsafe_allow_html=True)
-    st.markdown("<div class='recommendation-box'>", unsafe_allow_html=True) # Kept your original div wrappers
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KEMIRIPAN PURI WIDYAKARTA", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True) # Kept your original div wrappers
 
-    st.markdown("<div class='recommendation-box'>", unsafe_allow_html=True) # Kept your original div wrappers
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR PUNCAK RESIDENCE", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True) # Kept your original div wrappers
 
 with col2:
     st.markdown("<h2 style='text-align: center;'>HOLIDAY RECOMMENDATION</h2>", unsafe_allow_html=True)
-    st.markdown("<div class='recommendation-box'>", unsafe_allow_html=True) # Kept your original div wrappers
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE LAND", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True) # Kept your original div wrappers
 
-    st.markdown("<div class='recommendation-box'>", unsafe_allow_html=True) # Kept your original div wrappers
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVIERA OUTBOUND", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True) # Kept your original div wrappers
 
