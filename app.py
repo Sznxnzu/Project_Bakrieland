@@ -50,6 +50,9 @@ st.markdown("""
         background-color: #0d121c; /* Inner dark background */
         text-align: center;
     }
+    .recommendation-text p, .recommendation-text ul, .recommendation-text li {
+        font-size: 15px !important; /* Set font size to 15px for all text within this class */
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -78,7 +81,7 @@ with col1:
     st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown("<div class='recommendation-box'>", unsafe_allow_html=True)
-    # Using property_image.jpeg from your GitHub repository (repeated for second property)
+    # Using property_image.jpeg from your GitHub repository
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR PUNCAK RESIDENCE", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -91,7 +94,7 @@ with col2:
     st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown("<div class='recommendation-box'>", unsafe_allow_html=True)
-    # Using themepark_image.jpg from your GitHub repository (repeated for second themepark)
+    # Using themepark_image.jpg from your GitHub repository
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVIERA OUTBOUND", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -105,8 +108,8 @@ with col3:
     picture = st.camera_input("Open Camera")
 
     if picture:
-        # No captured image display, as per requirement
-        st.info("Image captured. Simulating mood analysis results...")
+        # Removed: st.info("Image captured. Simulating mood analysis results...") as requested
+        # Removed: st.image(picture, caption="Captured Image", use_container_width=True)
 
         # --- Simulated Mood Analysis Results ---
         simulated_moods = ["Happy", "Calm", "Energetic", "Thoughtful", "Brave", "Relaxed"]
@@ -118,39 +121,13 @@ with col3:
         # Combined Mood Analysis, Property, and Holiday Recommendation into a single block
         st.markdown(f"""
             <hr style="border-top: 1px dashed #2d384c;"/>
-            <h4>1. Mood Analysis:</h4>
-            <p>Based on a simulated analysis, your expression suggests a **{selected_mood}** mood. This typically correlates with someone who is:</p>
-            <ul>
-                <li><strong>Outlook:</strong> A generally positive and engaged disposition.</li>
-                <li><strong>Energy Level:</strong> Moderate to high, ready for engagement.</li>
-                <li><strong>Personality Traits:</strong> May include adaptability, curiosity, and a drive for personal fulfillment.</li>
-                <li><strong>Core Feeling:</strong> A sense of well-being and openness.</li>
-            </ul>
+            <div class="recommendation-text">
+                <p><strong>Mood Analysis:</strong> Based on a simulated analysis, your expression suggests a **{selected_mood}** mood. This typically correlates with someone who is:</p>
+                <ul>
+                    <li>Outlook: A generally positive and engaged disposition.</li>
+                    <li>Energy Level: Moderate to high, ready for engagement.</li>
+                    <li>Personality Traits: May include adaptability, curiosity, and a drive for personal fulfillment.</li>
+                    <li>Core Feeling: A sense of well-being and openness.</li>
+                </ul>
 
-            <h4>2. Property Recommendation:</h4>
-            <p>For your simulated **{selected_mood}** mood, a recommended property might be:</p>
-            <ul>
-                <li><strong>Type:</strong> Placeholder Modern Villa / Green Residence</li>
-                <li><strong>Description:</strong> This property is envisioned for individuals seeking a blend of comfort, modern aesthetics, and serene environments. It often features spacious interiors, smart home technologies, and access to community green spaces or nature reserves.</li>
-                <li><strong>Key Features:</strong> Large windows for natural light, open-plan living, communal recreation areas, and proximity to wellness facilities.</li>
-            </ul>
-
-            <h4>3. Holiday Recommendation:</h4>
-            <p>For your simulated **{selected_mood}** mood, a recommended holiday might be:</p>
-            <ul>
-                <li><strong>Type:</strong> Placeholder Nature Escape / Urban Exploration</li>
-                <li><strong>Description:</strong> An experience designed to refresh your senses and stimulate your interests, whether through tranquil natural beauty or the vibrant energy of a bustling city. Activities could range from leisurely hikes to cultural tours.</li>
-                <li><strong>Key Activities:</strong> Hiking trails, local culinary experiences, historical site visits, or relaxing spa treatments.</li>
-            </ul>
-            <p style='font-size:0.8em; color:#888;'><i>(All recommendations are simulated and would be dynamically generated by a real system.)</i></p>
-        """, unsafe_allow_html=True)
-    else:
-        st.markdown("""
-            <p style='text-align: center; padding-top: 20px; font-size: 1.1em; color: #aaa;'>
-                📸 Awaiting image capture... Your mood analysis and recommendations will appear here.
-            </p>
-        """, unsafe_allow_html=True)
-
-# --- Footer ---
-st.markdown("---")
-st.markdown("<p style='text-align: center; color: grey; font-size: 0.8em;'>&copy; 2025 Cloud-Powered Recommendation System UI. All rights reserved. (Simulated)</p>", unsafe_allow_html=True)
+                <p><strong>Property Recommendation:
