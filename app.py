@@ -50,8 +50,14 @@ st.markdown("""
         background-color: #0d121c; /* Inner dark background */
         text-align: center;
     }
+    /* Custom class for recommendation text font size */
     .recommendation-text p, .recommendation-text ul, .recommendation-text li {
         font-size: 15px !important; /* Set font size to 15px for all text within this class */
+    }
+    /* Make camera input smaller */
+    .st-emotion-cache-1c7y2kl { /* This targets the outer div of st.camera_input */
+        width: 50% !important;
+        margin: 0 auto; /* Center the camera input */
     }
     </style>
 """, unsafe_allow_html=True)
@@ -105,18 +111,13 @@ with col3:
     # --- Image Capture and Display ---
     st.subheader("Capture Your Mood!")
     st.markdown("<p style='font-size:0.9em; color:#bbb;'>Use your camera to take a picture for mood analysis simulation.</p>", unsafe_allow_html=True)
-    picture = st.camera_input("Open Camera")
+    # The label for camera_input is set to an empty string to remove the default button text
+    picture = st.camera_input("")
 
     if picture:
-        # No captured image display, as per requirement
-        # Removed: st.info("Image captured. Simulating mood analysis results...") as requested
-
         # --- Simulated Mood Analysis Results ---
         simulated_moods = ["Happy", "Calm", "Energetic", "Thoughtful", "Brave", "Relaxed"]
         selected_mood = random.choice(simulated_moods) # Pick a random mood for simulation
-
-        st.markdown(f"<h3 style='color:#f0e68c;'>Simulated Mood Detected: **{selected_mood}**</h3>", unsafe_allow_html=True)
-        st.markdown("<p style='font-size:0.8em; color:#888;'><i>(This is a placeholder for actual mood detection logic.)</i></p>", unsafe_allow_html=True)
 
         # Combined Mood Analysis, Property, and Holiday Recommendation into a single block
         st.markdown(f"""
