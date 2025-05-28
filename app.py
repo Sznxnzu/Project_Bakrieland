@@ -65,7 +65,7 @@ with col2:
 with col3:
     st.markdown(
         """
-        <div style="transform: scale(0.6); transform-origin: top left; width: 100%; height: 100px;">
+        <div style="transform: scale(0.6); transform-origin: top left; width: 50%; height: 100px;">
         """, unsafe_allow_html=True
     )
     picture = st.camera_input("")
