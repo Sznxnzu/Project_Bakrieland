@@ -56,11 +56,11 @@ st.markdown("""
 # --- Header Section (Top Right like "Bakrieland" and "Powered By") ---
 col_header_left, col_header_right = st.columns([0.7, 0.3])
 with col_header_right:
-    # Placeholder images for logos
-    st.image("https://via.placeholder.com/150x50/1a222f/E6E6E6?text=BAKRIELAND", width=150)
+    # Using images from your GitHub repository
+    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/bakrieland_logo.png", width=150)
     st.markdown("""
         <p style='text-align: right; font-size: 0.8em; color: #888;'>
-            POWERED BY <img src='https://via.placeholder.com/50x20/1a222f/E6E6E6?text=G.AI' width='50' style='vertical-align: middle; margin-left: 5px;'>
+            POWERED BY <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/google_logo.png' width='50' style='vertical-align: middle; margin-left: 5px;'>
         </p>
     """, unsafe_allow_html=True)
 
@@ -73,22 +73,26 @@ col1, col2, col3 = st.columns([1, 1, 2]) # Adjust ratios as needed
 with col1:
     st.markdown("<h2 style='text-align: center;'>PROPERTY RECOMMENDATION</h2>", unsafe_allow_html=True)
     st.markdown("<div class='recommendation-box'>", unsafe_allow_html=True)
-    st.image("https://via.placeholder.com/400x250/343a40/FFFFFF?text=PROPERTY+IMAGE+1", caption="KEMIRIPAN PURI WIDYAKARTA", use_container_width=True) # Changed to use_container_width
+    # Using property_image.jpeg from your GitHub repository
+    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KEMIRIPAN PURI WIDYAKARTA", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown("<div class='recommendation-box'>", unsafe_allow_html=True)
-    st.image("https://via.placeholder.com/400x250/343a40/FFFFFF?text=PROPERTY+IMAGE+2", caption="BOGOR PUNCAK RESIDENCE", use_container_width=True) # Changed to use_container_width
+    # Using property_image.jpeg from your GitHub repository (repeated for second property)
+    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR PUNCAK RESIDENCE", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
 # --- Column 2: Holiday Recommendation ---
 with col2:
     st.markdown("<h2 style='text-align: center;'>HOLIDAY RECOMMENDATION</h2>", unsafe_allow_html=True)
     st.markdown("<div class='recommendation-box'>", unsafe_allow_html=True)
-    st.image("https://via.placeholder.com/400x250/343a40/FFFFFF?text=THEMEPARK+IMAGE+1", caption="JUNGLE LAND", use_container_width=True) # Changed to use_container_width
+    # Using themepark_image.jpg from your GitHub repository
+    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE LAND", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown("<div class='recommendation-box'>", unsafe_allow_html=True)
-    st.image("https://via.placeholder.com/400x250/343a40/FFFFFF?text=OUTBOUND+IMAGE+2", caption="RIVIERA OUTBOUND", use_container_width=True) # Changed to use_container_width
+    # Using themepark_image.jpg from your GitHub repository (repeated for second themepark)
+    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVIERA OUTBOUND", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
 # --- Column 3: Image Capture and Mood Analytic ---
@@ -101,7 +105,7 @@ with col3:
     picture = st.camera_input("Open Camera")
 
     if picture:
-        # Removed: st.image(picture, caption="Captured Image", use_container_width=True)
+        # No captured image display, as per requirement
         st.info("Image captured. Simulating mood analysis results...")
 
         # --- Simulated Mood Analysis Results ---
