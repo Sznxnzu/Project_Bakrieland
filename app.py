@@ -98,7 +98,6 @@ with col3:
         selected_holiday = random.choice(simulated_holiday_options)
 
         html_content = (
-            "<hr style='border-top: 1px dashed #2d384c;'/>"
             "<div class='recommendation-text'>"
             "<p><strong>Analisa Mood:</strong></p>"
             f"<ul><li>{selected_mood}</li><li>{selected_mood}</li><li>{selected_mood}</li><li>{selected_mood}</li></ul>"
@@ -111,7 +110,7 @@ with col3:
         st.markdown(html_content, unsafe_allow_html=True)
     else:
         st.markdown(
-            "<p style='text-align: center; padding-top: 20px; font-size: 1.1em; color: #aaa;'>"
+            "<p style='text-align: left; padding-top: 20px; font-size: 1.1em; color: #aaa;'>"
             "Awaiting image capture..."
             "</p>",
             unsafe_allow_html=True
