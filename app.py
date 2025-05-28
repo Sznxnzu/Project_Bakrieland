@@ -120,7 +120,6 @@ with col3: # --- Column 3: Image Capture and Mood Analytic ---
         selected_property = random.choice(simulated_property_options)
         selected_holiday = random.choice(simulated_holiday_options)
 
-        # THIS IS THE CRUCIAL BLOCK - RE-TYPED AND CAREFULLY CHECKED
         st.markdown(f"""
             <hr style="border-top: 1px dashed #2d384c;"/>
             <div class="recommendation-text">
