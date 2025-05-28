@@ -26,7 +26,9 @@ st.markdown(
     /* Camera input half width styling */
     div[data-testid="stCameraInput"] > div {
         width: 50% !important;
-        margin: 0 auto;
+        height: 50% !important; /* Added height */
+        margin: 0; /* Changed from '0 auto' to '0' for left alignment */
+        float: left; /* Added float for left alignment */
     }
     div[data-testid="stCameraInput"] video,
     div[data-testid="stCameraInput"] img {
@@ -35,7 +37,7 @@ st.markdown(
         border-radius: 8px;
     }
     div[data-testid="stCameraInput"] button {
-        width: 100% !important;
+        width: 50% !important;
         border-radius: 8px;
     }
     </style>
