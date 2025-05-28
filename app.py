@@ -55,9 +55,13 @@ st.markdown("""
         font-size: 15px !important; /* Set font size to 15px for all text within this class */
     }
     /* Make camera input smaller */
-    .st-emotion-cache-1c7y2kl { /* This targets the outer div of st.camera_input */
+    .st-emotion-cache-1c7y2kl { /* This targets the outer div of st.camera_input in recent Streamlit versions */
         width: 50% !important;
         margin: 0 auto; /* Center the camera input */
+        display: block; /* Ensure it takes up full width for centering to work */
+    }
+    .st-emotion-cache-1c7y2kl button { /* Targets the button specifically */
+        width: 100% !important; /* Make the button fill the reduced width */
     }
     </style>
 """, unsafe_allow_html=True)
@@ -120,6 +124,7 @@ with col3:
         selected_mood = random.choice(simulated_moods) # Pick a random mood for simulation
 
         # Combined Mood Analysis, Property, and Holiday Recommendation into a single block
+        # All literal curly braces {{ }} are escaped to avoid f-string syntax errors.
         st.markdown(f"""
             <hr style="border-top: 1px dashed #2d384c;"/>
             <div class="recommendation-text">
