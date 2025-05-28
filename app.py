@@ -14,7 +14,7 @@ st.markdown(
     <style>
     .stApp {
         background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/wallpaper.jpg"); /* YOUR WALLPAPER */
-        background-size: contain;
+        background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
