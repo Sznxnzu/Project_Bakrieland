@@ -86,10 +86,6 @@ with col2:
     st.markdown("</div>", unsafe_allow_html=True) # Kept your original div wrappers
 
 with col3:
-    st.markdown("<h2 style='text-align: center;'>MOOD ANALYTIC</h2>", unsafe_allow_html=True)
-    st.subheader("Capture Your Mood!")
-    st.markdown("<p style='font-size:0.9em; color:#bbb;'>Use your camera to take a picture for mood analysis simulation.</p>", unsafe_allow_html=True)
-
     picture = st.camera_input("")
 
     if picture:
