@@ -110,9 +110,4 @@ with col3:
         )
         st.markdown(html_content, unsafe_allow_html=True)
     else:
-        st.markdown(
-            "<p style='text-align: center; padding-top: 20px; font-size: 1.1em; color: #aaa;'>"
-            "📸 Awaiting image capture... Your mood analysis and recommendations will appear here."
-            "</p>",
-            unsafe_allow_html=True
-        )
+      ## insert else functionality here!
