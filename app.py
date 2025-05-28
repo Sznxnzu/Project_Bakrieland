@@ -25,6 +25,16 @@ st.markdown(
     .stButton > button { background-color: #007bff; color: white; border-radius: 8px; padding: 10px 20px; font-size: 1.1em; transition: background-color 0.3s ease; }
     .stButton > button:hover { background-color: #0056b3; }
     .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 { color: #007bff; border-bottom: 1px solid #2d384c; padding-bottom: 5px; margin-bottom: 15px; }
+
+    /* New CSS for the specific header background */
+    .header-with-bg {{
+        background-color: rgba(0, 123, 255, 0.2); /* A semi-transparent blue background */
+        padding: 10px 20px; /* Add padding inside the background */
+        border-radius: 8px; /* Rounded corners for the background */
+        text-align: center; /* Center the text */
+        margin-bottom: 15px; /* Add some space below the header */
+        border: 1px solid rgba(0, 123, 255, 0.4); /* Optional subtle border */
+    }}
     
     /* Make containers semi-transparent to show wallpaper */
     .stContainer { background-color: rgba(26, 34, 47, 0.9); padding: 20px; border-radius: 10px; margin-bottom: 20px; }
@@ -83,7 +93,11 @@ st.markdown("---")
 col1, col2, col3 = st.columns([1, 1, 2])
 
 with col1:
-    st.markdown("<h2 style='text-align: center;'>PROPERTY RECOMMENDATION</h2>", unsafe_allow_html=True)
+    st.markdown("""
+        <div class="header-with-bg">
+            <h2 style='text-align: center; margin-bottom: 0;'>PROPERTY RECOMMENDATION</h2>
+        </div>
+    """, unsafe_allow_html=True)
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KEMIRIPAN PURI WIDYAKARTA", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True) # Kept your original div wrappers
 
@@ -91,7 +105,11 @@ with col1:
     st.markdown("</div>", unsafe_allow_html=True) # Kept your original div wrappers
 
 with col2:
-    st.markdown("<h2 style='text-align: center;'>HOLIDAY RECOMMENDATION</h2>", unsafe_allow_html=True)
+    st.markdown("""
+        <div class="header-with-bg">
+            <h2 style='text-align: center; margin-bottom: 0;'>HOLIDAY RECOMMENDATION</h2>
+        </div>
+    """, unsafe_allow_html=True)
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE LAND", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True) # Kept your original div wrappers
 
