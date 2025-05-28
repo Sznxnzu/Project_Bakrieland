@@ -120,27 +120,33 @@ with col3: # --- Column 3: Image Capture and Mood Analytic ---
         selected_property = random.choice(simulated_property_options)
         selected_holiday = random.choice(simulated_holiday_options)
 
-        # Removed the redundant <h2>MOOD ANALYTIC</h2> and <hr> from here as they were already above.
-        # This is the section where the UI was showing "code".
+        # THIS IS THE CRUCIAL BLOCK - RE-TYPED AND CAREFULLY CHECKED
         st.markdown(f"""
             <hr style="border-top: 1px dashed #2d384c;"/>
             <div class="recommendation-text">
                 <p><strong>Analisa Mood:</strong></p>
                 <ul>
                     <li>{selected_mood}</li>
+                    <li>{selected_mood}</li>
+                    <li>{selected_mood}</li>
+                    <li>{selected_mood}</li>
                 </ul>
 
                 <p><strong>Property Recommendation:</strong></p>
                 <ul>
+                    <li>{selected_property}</li>
+                    <li>{selected_property}</li>
                     <li>{selected_property}</li>
                 </ul>
 
                 <p><strong>Holiday Recommendation:</strong></p>
                 <ul>
                     <li>{selected_holiday}</li>
+                    <li>{selected_holiday}</li>
+                    <li>{selected_holiday}</li>
                 </ul>
             </div>
-        """, unsafe_allow_html=True) # THIS is the crucial part: unsafe_allow_html=True must be here for rendering HTML.
+        """, unsafe_allow_html=True)
     else:
         st.markdown("""
             <p style='text-align: center; padding-top: 20px; font-size: 1.1em; color: #aaa;'>
