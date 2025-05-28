@@ -8,7 +8,6 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# --- Inject custom CSS for a darker theme and some visual resemblance ---
 st.markdown("""
     <style>
     .stApp {
@@ -66,90 +65,82 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- Header Section (Top Right like "Bakrieland" and "Powered By") ---
+
 col_header_left, col_header_right = st.columns([0.7, 0.3])
-with col_header_right:
-    # Using images from your GitHub repository
+
+with col_header_right: # --- Header Section (Top Right like "Bakrieland" and "Powered By") ---
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/bakrieland_logo.png", width=150)
     st.markdown("""
         <p style='text-align: right; font-size: 0.8em; color: #888;'>
-            POWERED BY <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/google_logo.png' width='50' style='vertical-align: middle; margin-left: 5px;'>
+            POWERED BY <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/google_logo.png' width='50' style='vertical-align: middle; margin-left: 5px;'> <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/metrodata_logo.png' width='50' style='vertical-align: middle; margin-left: 5px;'>
         </p>
     """, unsafe_allow_html=True)
 
-st.markdown("---") # Separator
+col1, col2, col3 = st.columns([1, 1, 2])
 
-# --- Main Layout: Three Columns ---
-col1, col2, col3 = st.columns([1, 1, 2]) # Adjust ratios as needed
-
-# --- Column 1: Property Recommendation ---
-with col1:
+with col1: # --- Column 1: Property Recommendation ---
     st.markdown("<h2 style='text-align: center;'>PROPERTY RECOMMENDATION</h2>", unsafe_allow_html=True)
     st.markdown("<div class='recommendation-box'>", unsafe_allow_html=True)
-    # Using property_image.jpeg from your GitHub repository
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KEMIRIPAN PURI WIDYAKARTA", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown("<div class='recommendation-box'>", unsafe_allow_html=True)
-    # Using property_image.jpeg from your GitHub repository (repeated for second property)
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR PUNCAK RESIDENCE", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
-# --- Column 2: Holiday Recommendation ---
-with col2:
+
+with col2: # --- Column 2: Holiday Recommendation ---
     st.markdown("<h2 style='text-align: center;'>HOLIDAY RECOMMENDATION</h2>", unsafe_allow_html=True)
     st.markdown("<div class='recommendation-box'>", unsafe_allow_html=True)
-    # Using themepark_image.jpg from your GitHub repository
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE LAND", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown("<div class='recommendation-box'>", unsafe_allow_html=True)
-    # Using themepark_image.jpg from your GitHub repository (repeated for second themepark)
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVIERA OUTBOUND", use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
-# --- Column 3: Image Capture and Mood Analytic ---
-with col3:
-    st.markdown("<h2 style='text-align: center;'>MOOD ANALYTIC</h2>", unsafe_allow_html=True)
 
-    # --- Image Capture and Display ---
-    st.subheader("Capture Your Mood!")
-    st.markdown("<p style='font-size:0.9em; color:#bbb;'>Use your camera to take a picture for mood analysis simulation.</p>", unsafe_allow_html=True)
-    # The label for camera_input is set to an empty string to remove the default button text
+with col3: # --- Column 3: Image Capture and Mood Analytic ---
+
     picture = st.camera_input("")
 
     if picture:
         # --- Simulated Mood Analysis Results ---
         simulated_moods = ["Happy", "Calm", "Energetic", "Thoughtful", "Brave", "Relaxed"]
-        selected_mood = random.choice(simulated_moods) # Pick a random mood for simulation
+        simulated_property = ["City apartment", "suburban chateau", "rural farmhouse", "beachfront villa", "mountain cabin"]
+        simulated_holiday = ["Ocean Cruise","Beach Walk","Mountain Hiking","Forest Trekking","Mushroom Picking"]
 
-        # Combined Mood Analysis, Property, and Holiday Recommendation into a single block
-        # All literal curly braces {{ }} are escaped to avoid f-string syntax errors.
+        selected_mood = random.choice(simulated_moods)
+        selected_property = random.choice(simulated_property)
+        selected_holiday = random.choice(simulated_holiday)
+
+        st.markdown("<h2 style='text-align: center;'>MOOD ANALYTIC</h2>", unsafe_allow_html=True)
         st.markdown(f"""
             <hr style="border-top: 1px dashed #2d384c;"/>
             <div class="recommendation-text">
-                <p><strong>Mood Analysis:</strong> Based on a simulated analysis, your expression suggests a **{selected_mood}** mood. This typically correlates with someone who is:</p>
+
+                <p><strong>Analisa Mood:</strong></p>
                 <ul>
-                    <li>Outlook: A generally positive and engaged disposition.</li>
-                    <li>Energy Level: Moderate to high, ready for engagement.</li>
-                    <li>Personality Traits: May include adaptability, curiosity, and a drive for personal fulfillment.</li>
-                    <li>Core Feeling: A sense of well-being and openness.</li>
+                    <li>{selected_mood}</li>
+                    <li>{selected_mood}</li>
+                    <li>{selected_mood}</li>
+                    <li>{selected_mood}</li>
                 </ul>
 
-                <p><strong>Property Recommendation:</strong> For your simulated **{selected_mood}** mood, a recommended property might be:</p>
+                <p><strong>Property Recommendation:</strong>
                 <ul>
-                    <li>Type: Placeholder Modern Villa / Green Residence</li>
-                    <li>Description: This property is envisioned for individuals seeking a blend of comfort, modern aesthetics, and serene environments. It often features spacious interiors, smart home technologies, and access to community green spaces or nature reserves.</li>
-                    <li>Key Features: Large windows for natural light, open-plan living, communal recreation areas, and proximity to wellness facilities.</li>
+                    <li>{selected_property}</li>
+                    <li>{selected_property}</li>
+                    <li>{selected_property}</li>
                 </ul>
 
-                <p><strong>Holiday Recommendation:</strong> For your simulated **{selected_mood}** mood, a recommended holiday might be:</p>
+                <p><strong>Holiday Recommendation:</strong></p>
                 <ul>
-                    <li>Type: Placeholder Nature Escape / Urban Exploration</li>
-                    <li>Description: An experience designed to refresh your senses and stimulate your interests, whether through tranquil natural beauty or the vibrant energy of a bustling city. Activities could range from leisurely hikes to cultural tours.</li>
-                    <li>Key Activities: Hiking trails, local culinary experiences, historical site visits, or relaxing spa treatments.</li>
+                    <li>{selected_holiday}</li>
+                    <li>{selected_holiday}</li>
+                    <li>{selected_holiday}</li>
                 </ul>
-                <p style='font-size:0.8em; color:#888;'><i>(All recommendations are simulated and would be dynamically generated by a real system.)</i></p>
+
             </div>
         """, unsafe_allow_html=True)
     else:
