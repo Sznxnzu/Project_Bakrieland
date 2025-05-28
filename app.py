@@ -63,7 +63,11 @@ with col2:
     st.markdown("</div>", unsafe_allow_html=True)
 
 with col3:
-    st.markdown("<div id='small-camera'>", unsafe_allow_html=True)
+    st.markdown(
+        """
+        <div style="transform: scale(0.6); transform-origin: top left; width: 100%; height: 100px;">
+        """, unsafe_allow_html=True
+    )
     picture = st.camera_input("")
     st.markdown("</div>", unsafe_allow_html=True)
 
