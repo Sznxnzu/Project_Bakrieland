@@ -30,10 +30,10 @@ st.markdown(
         background-image: url('https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/tester.png');
         background-size: cover;
         background-position: center;
-        padding: 8px 20px;
+        padding: 0px 0px;
         border-radius: 8px;
         text-align: center;
-        margin-bottom: 5px;
+        margin-bottom: 0px;
         border: 1px solid rgba(0, 123, 255, 0.4);
         color: #ffffff;
     }
