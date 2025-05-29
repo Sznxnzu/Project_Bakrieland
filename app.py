@@ -4,7 +4,7 @@ import random
 # --- Page Configuration ---
 st.set_page_config(
     layout="wide",
-    page_title="Cloud-Powered Recommendation System (UI Simulation)",
+    page_title="Bakrieland Project",
     initial_sidebar_state="collapsed"
 )
 
