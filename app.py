@@ -28,7 +28,10 @@ st.markdown(
 
     .header-with-bg {
         background-image: url('https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/header_bg.png');
-        background-size: cover;
+        # width: 300px;
+        # height: 300px;
+        background-size: contain;
+        background-repeat: no-repeat;
         background-position: center;
         padding: 0px 0px;
         text-align: center;
