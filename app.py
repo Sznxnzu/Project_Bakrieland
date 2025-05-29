@@ -26,14 +26,17 @@ st.markdown(
     .stButton > button:hover { background-color: #0056b3; }
     .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 { color: #007bff; border-bottom: 1px solid #2d384c; padding-bottom: 5px; margin-bottom: 15px; }
 
-    .header-with-bg {{
-        background-color: rgba(0, 123, 255, 0.2);
+    .header-with-bg {
+        background-image: url('https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/tester.png');
+        background-size: cover;
+        background-position: center;
         padding: 10px 20px;
         border-radius: 8px;
         text-align: center;
         margin-bottom: 15px;
         border: 1px solid rgba(0, 123, 255, 0.4);
-    }}
+        color: #ffffff;
+    }
 
     .stContainer { background-color: rgba(26, 34, 47, 0.9); padding: 20px; border-radius: 10px; margin-bottom: 20px; }
     .recommendation-box {
