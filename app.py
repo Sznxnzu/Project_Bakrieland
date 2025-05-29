@@ -85,65 +85,55 @@ with col_header_right:
         unsafe_allow_html=True
     )
 
-st.markdown("---")
+with col_header_left:
+    st.markdown("---")
+    
+    col1, col2, col3 = st.columns([1, 1, 2])
 
-col1, col2, col3 = st.columns([1, 1, 2])
+    with col1:
+        st.markdown("""
+            <div class="header-with-bg">
+                <h2 style='text-align: center; margin-bottom: 0;'>PROPERTY RECOMMENDATION</h2>
+            </div>
+        """, unsafe_allow_html=True)
+        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KEMIRIPAN PURI WIDYAKARTA", use_container_width=True)
+        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR PUNCAK RESIDENCE", use_container_width=True)
 
-with col1:
-    st.markdown("""
-        <div class="header-with-bg">
-            <h2 style='text-align: center; margin-bottom: 0;'>PROPERTY RECOMMENDATION</h2>
-        </div>
-    """, unsafe_allow_html=True)
-    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KEMIRIPAN PURI WIDYAKARTA", use_container_width=True)
-    st.markdown("</div>", unsafe_allow_html=True)
+    with col2:
+        st.markdown("""
+            <div class="header-with-bg">
+                <h2 style='text-align: center; margin-bottom: 0;'>HOLIDAY RECOMMENDATION</h2>
+            </div>
+        """, unsafe_allow_html=True)
+        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE LAND", use_container_width=True)
+        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVIERA OUTBOUND", use_container_width=True)
 
-    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR PUNCAK RESIDENCE", use_container_width=True)
-    st.markdown("</div>", unsafe_allow_html=True)
+    with col3:
+        picture = st.camera_input("")
+        if picture:
+            simulated_moods = ["Happy", "Calm", "Energetic", "Thoughtful", "Brave", "Relaxed"]
+            simulated_property_options = ["City apartment", "Suburban chateau", "Rural farmhouse", "Beachfront villa", "Mountain cabin"]
+            simulated_holiday_options = ["Ocean Cruise", "Beach Walk", "Mountain Hiking", "Forest Trekking", "Mushroom Picking"]
 
-with col2:
-    st.markdown("""
-        <div class="header-with-bg">
-            <h2 style='text-align: center; margin-bottom: 0;'>HOLIDAY RECOMMENDATION</h2>
-        </div>
-    """, unsafe_allow_html=True)
-    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE LAND", use_container_width=True)
-    st.markdown("</div>", unsafe_allow_html=True)
+            selected_mood = random.choice(simulated_moods)
+            selected_property = random.choice(simulated_property_options)
+            selected_holiday = random.choice(simulated_holiday_options)
 
-    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVIERA OUTBOUND", use_container_width=True)
-    st.markdown("</div>", unsafe_allow_html=True)
-
-
-
-## Add integration with Gemini 2.5 in the code below!
-
-with col3:
-    picture = st.camera_input("")
-
-    if picture:
-        simulated_moods = ["Happy", "Calm", "Energetic", "Thoughtful", "Brave", "Relaxed"]
-        simulated_property_options = ["City apartment", "Suburban chateau", "Rural farmhouse", "Beachfront villa", "Mountain cabin"]
-        simulated_holiday_options = ["Ocean Cruise", "Beach Walk", "Mountain Hiking", "Forest Trekking", "Mushroom Picking"]
-
-        selected_mood = random.choice(simulated_moods)
-        selected_property = random.choice(simulated_property_options)
-        selected_holiday = random.choice(simulated_holiday_options)
-
-        html_content = (
-            "<div class='recommendation-text'>"
-            "<p><strong>Analisa Mood:</strong></p>"
-            f"<ul><li>{selected_mood}</li><li>{selected_mood}</li><li>{selected_mood}</li><li>{selected_mood}</li></ul>"
-            "<p><strong>Property Recommendation:</strong></p>"
-            f"<ul><li>{selected_property}</li><li>{selected_property}</li><li>{selected_property}</li></ul>"
-            "<p><strong>Holiday Recommendation:</strong></p>"
-            f"<ul><li>{selected_holiday}</li><li>{selected_holiday}</li><li>{selected_holiday}</li></ul>"
-            "</div>"
-        )
-        st.markdown(html_content, unsafe_allow_html=True)
-    else:
-        st.markdown(
-            "<p style='text-align: left; padding-top: 20px; font-size: 1.1em; color: #aaa;'>"
-            "Awaiting image capture..."
-            "</p>",
-            unsafe_allow_html=True
-        )
+            html_content = (
+                "<div class='recommendation-text'>"
+                "<p><strong>Analisa Mood:</strong></p>"
+                f"<ul><li>{selected_mood}</li><li>{selected_mood}</li><li>{selected_mood}</li><li>{selected_mood}</li></ul>"
+                "<p><strong>Property Recommendation:</strong></p>"
+                f"<ul><li>{selected_property}</li><li>{selected_property}</li><li>{selected_property}</li></ul>"
+                "<p><strong>Holiday Recommendation:</strong></p>"
+                f"<ul><li>{selected_holiday}</li><li>{selected_holiday}</li><li>{selected_holiday}</li></ul>"
+                "</div>"
+            )
+            st.markdown(html_content, unsafe_allow_html=True)
+        else:
+            st.markdown(
+                "<p style='text-align: left; padding-top: 20px; font-size: 1.1em; color: #aaa;'>"
+                "Awaiting image capture..."
+                "</p>",
+                unsafe_allow_html=True
+            )
