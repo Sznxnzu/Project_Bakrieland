@@ -61,20 +61,20 @@ st.markdown(
     .recommendation-text p, .recommendation-text ul, .recommendation-text li { font-size: 15px !important; }
 
     div[data-testid="stCameraInput"] > div {
-        width: 50% !important;
-        height: 50% !important; 
-        margin: 0; 
-        float: left;
-        background-color: rgba(14, 17, 23, 0.9);
+        width: 300px !important;
+        height: 300px !important;
+        border-radius: 50% !important;
         overflow: hidden;
-        border-radius: 8px;
+        margin: auto;
+        background-color: rgba(14, 17, 23, 0.9);
     }
+    
     div[data-testid="stCameraInput"] video,
     div[data-testid="stCameraInput"] img {
         width: 100% !important;
         height: 100% !important;
         object-fit: cover;
-        border-radius: 8px;
+        border-radius: 50% !important;
     }
     div[data-testid="stCameraInput"] button {
         width: 100% !important;
