@@ -13,11 +13,11 @@ st.markdown(
     """
     <style>
     .stApp {
-        # background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/wallpaper.png");
-        # background-size: cover;
-        # background-position: center;
-        # background-repeat: no-repeat;
-        # background-attachment: fixed;
+        background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/wallpaper.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
         background-color: #0E1117;
         color: #E6E6E6;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
