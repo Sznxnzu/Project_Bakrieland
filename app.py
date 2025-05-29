@@ -38,6 +38,18 @@ st.markdown(
         margin-bottom: 0px;
     }
 
+    .image-box {
+      background-image: url('https://your-background-url.com/div_bg.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      padding: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     .stContainer { background-color: rgba(26, 34, 47, 0.9); padding: 20px; border-radius: 10px; margin-bottom: 20px; }
     .recommendation-box {
         border: 2px solid #007bff;
@@ -97,18 +109,22 @@ with col_header_left:
             <div class="header-with-bg">
                 <h2 style='text-align: center; margin-bottom: 0; font-size: 24px;'>PROPERTY RECOMMENDATION</h2>
             </div>
+            <div class="image-box">
         """, unsafe_allow_html=True)
         st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KEMIRIPAN PURI WIDYAKARTA", use_container_width=True)
         st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR PUNCAK RESIDENCE", use_container_width=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
     with col2:
         st.markdown("""
             <div class="header-with-bg">
                 <h2 style='text-align: center; margin-bottom: 0; font-size: 24px;'>HOLIDAY RECOMMENDATION</h2>
             </div>
+            <div class="image-box">
         """, unsafe_allow_html=True)
         st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE LAND", use_container_width=True)
         st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVIERA OUTBOUND", use_container_width=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
     with col3:
         picture = st.camera_input("")
