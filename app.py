@@ -13,12 +13,12 @@ st.markdown(
     """
     <style>
     .stApp {
-        background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/wallpaper.png"); /* YOUR WALLPAPER */
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-color: #0E1117; /* Fallback */
+        # background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/wallpaper.png");
+        # background-size: cover;
+        # background-position: center;
+        # background-repeat: no-repeat;
+        # background-attachment: fixed;
+        background-color: #0E1117;
         color: #E6E6E6;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
@@ -26,17 +26,15 @@ st.markdown(
     .stButton > button:hover { background-color: #0056b3; }
     .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 { color: #007bff; border-bottom: 1px solid #2d384c; padding-bottom: 5px; margin-bottom: 15px; }
 
-    /* New CSS for the specific header background */
     .header-with-bg {{
-        background-color: rgba(0, 123, 255, 0.2); /* A semi-transparent blue background */
-        padding: 10px 20px; /* Add padding inside the background */
-        border-radius: 8px; /* Rounded corners for the background */
-        text-align: center; /* Center the text */
-        margin-bottom: 15px; /* Add some space below the header */
-        border: 1px solid rgba(0, 123, 255, 0.4); /* Optional subtle border */
+        background-color: rgba(0, 123, 255, 0.2);
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-align: center;
+        margin-bottom: 15px;
+        border: 1px solid rgba(0, 123, 255, 0.4);
     }}
-    
-    /* Make containers semi-transparent to show wallpaper */
+
     .stContainer { background-color: rgba(26, 34, 47, 0.9); padding: 20px; border-radius: 10px; margin-bottom: 20px; }
     .recommendation-box {
         border: 2px solid #007bff;
@@ -44,30 +42,29 @@ st.markdown(
         padding: 15px;
         margin-bottom: 20px;
         box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
-        background-color: rgba(13, 18, 28, 0.9); /* Semi-transparent */
+        background-color: rgba(13, 18, 28, 0.9);
         text-align: center;
     }
     .recommendation-text p, .recommendation-text ul, .recommendation-text li { font-size: 15px !important; }
 
-    /* Camera input styling - Only changed this part to fix grey border and alignment */
     div[data-testid="stCameraInput"] > div {
         width: 50% !important;
-        height: 50% !important; /* Explicitly set height */
-        margin: 0; /* Left align: remove auto margins */
-        float: left; /* Left align */
-        background-color: rgba(14, 17, 23, 0.9); /* Semi-transparent background for camera input container */
-        overflow: hidden; /* Hide any potential content overflow */
-        border-radius: 8px; /* Apply border-radius to the container itself */
+        height: 50% !important; 
+        margin: 0; 
+        float: left;
+        background-color: rgba(14, 17, 23, 0.9);
+        overflow: hidden;
+        border-radius: 8px;
     }
     div[data-testid="stCameraInput"] video,
     div[data-testid="stCameraInput"] img {
         width: 100% !important;
-        height: 100% !important; /* Make sure video/image fills the parent's 50% height */
-        object-fit: cover; /* Ensures video/image covers the area without distortion */
-        border-radius: 8px; /* Apply border-radius to the media itself */
+        height: 100% !important;
+        object-fit: cover;
+        border-radius: 8px;
     }
     div[data-testid="stCameraInput"] button {
-        width: 100% !important; /* Button should now fill the 50% width of its parent container */
+        width: 100% !important;
         border-radius: 8px;
     }
     </style>
@@ -75,14 +72,14 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-col_header_left, col_header_right = st.columns([0.7, 0.3])
+col_header_left, col_header_right = st.columns([0.9, 0.1])
 
 with col_header_right:
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/bakrieland_logo.png", width=150)
     st.markdown(
         "<p style='text-align: right; font-size: 0.8em; color: #888;'>"
         "POWERED BY "
-        "<img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/google_logo.png' width='50' style='vertical-align: middle; margin-left: 5px;'>"
+        "<img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/google_logo.png' width='80' style='vertical-align: middle; margin-left: 5px;'>"
         "<img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/metrodata_logo.png' width='50' style='vertical-align: middle; margin-left: 5px;'>"
         "</p>",
         unsafe_allow_html=True
@@ -99,10 +96,10 @@ with col1:
         </div>
     """, unsafe_allow_html=True)
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KEMIRIPAN PURI WIDYAKARTA", use_container_width=True)
-    st.markdown("</div>", unsafe_allow_html=True) # Kept your original div wrappers
+    st.markdown("</div>", unsafe_allow_html=True)
 
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR PUNCAK RESIDENCE", use_container_width=True)
-    st.markdown("</div>", unsafe_allow_html=True) # Kept your original div wrappers
+    st.markdown("</div>", unsafe_allow_html=True)
 
 with col2:
     st.markdown("""
@@ -111,10 +108,14 @@ with col2:
         </div>
     """, unsafe_allow_html=True)
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE LAND", use_container_width=True)
-    st.markdown("</div>", unsafe_allow_html=True) # Kept your original div wrappers
+    st.markdown("</div>", unsafe_allow_html=True)
 
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVIERA OUTBOUND", use_container_width=True)
-    st.markdown("</div>", unsafe_allow_html=True) # Kept your original div wrappers
+    st.markdown("</div>", unsafe_allow_html=True)
+
+
+
+## Add integration with Gemini 2.5 in the code below!
 
 with col3:
     picture = st.camera_input("")
