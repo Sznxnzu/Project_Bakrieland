@@ -39,7 +39,7 @@ st.markdown(
     }
 
     .image-box {
-      background-image: url('https://your-background-url.com/div_bg.png');
+      background-image: url('https://your-background-url.com/tester.png');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
