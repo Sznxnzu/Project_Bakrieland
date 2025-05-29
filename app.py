@@ -27,7 +27,7 @@ st.markdown(
     .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 { color: #007bff; border-bottom: 1px solid #2d384c; padding-bottom: 5px; margin-bottom: 15px; }
 
     .header-with-bg {
-        background-image: url('https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/header_bg.png');
+        background-image: url('https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/tester.png');
         background-size: cover;
         background-position: center;
         padding: 0px 0px;
