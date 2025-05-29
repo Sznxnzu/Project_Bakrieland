@@ -94,7 +94,7 @@ with col_header_left:
     with col1:
         st.markdown("""
             <div class="header-with-bg">
-                <h2 style='text-align: center; margin-bottom: 0; font-size: 28px;'>PROPERTY RECOMMENDATION</h2>
+                <h2 style='text-align: center; margin-bottom: 0; font-size: 20px;'>PROPERTY RECOMMENDATION</h2>
             </div>
         """, unsafe_allow_html=True)
         st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KEMIRIPAN PURI WIDYAKARTA", use_container_width=True)
@@ -103,7 +103,7 @@ with col_header_left:
     with col2:
         st.markdown("""
             <div class="header-with-bg">
-                <h2 style='text-align: center; margin-bottom: 0; font-size: 28px;'>HOLIDAY RECOMMENDATION</h2>
+                <h2 style='text-align: center; margin-bottom: 0; font-size: 20px;'>HOLIDAY RECOMMENDATION</h2>
             </div>
         """, unsafe_allow_html=True)
         st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE LAND", use_container_width=True)
