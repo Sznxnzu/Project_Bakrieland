@@ -38,7 +38,7 @@ st.markdown(
 
     .image-box {
       background-image: url('https://your-background-url.com/tester.png');
-      background-size: contain;
+      background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
       padding: 20px;
