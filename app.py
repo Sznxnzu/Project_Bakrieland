@@ -72,7 +72,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-col_header_left, col_header_right = st.columns([0.9, 0.1])
+col_header_left, col_header_right = st.columns([0.8, 0.2])
 
 with col_header_right:
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/bakrieland_logo.png", width=150)
