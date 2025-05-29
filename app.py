@@ -86,8 +86,7 @@ with col_header_right:
     )
 
 with col_header_left:
-    st.markdown("---")
-    
+  
     col1, col2, col3 = st.columns([1, 1, 2])
 
     with col1:
