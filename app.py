@@ -13,7 +13,7 @@ def load_lottieurl(url):
         return None
     return r.json()
 
-lottie_robot = load_lottieurl("lottie_robot = load_lottieurl("https://assets10.lottiefiles.com/packages/lf20_touohxv0.json")  # Robot mengetik
+lottie_robot = load_lottieurl("https://assets10.lottiefiles.com/packages/lf20_touohxv0.json")  # Robot mengetik
 
 # --- Custom CSS ---
 st.markdown(
