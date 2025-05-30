@@ -1,71 +1,55 @@
 import streamlit as st
 import random
-from streamlit_lottie import st_lottie
-import requests
 
-# --- Page Config ---
 st.set_page_config(layout="wide", page_title="Bakrieland Project", initial_sidebar_state="collapsed")
 
-# --- Lottie Loader ---
-def load_lottieurl(url):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()
-
-lottie_robot = load_lottieurl("https://assets1.lottiefiles.com/packages/lf20_u4yrau.json")  # Robot mengetik
-
-# --- Custom CSS ---
-st.markdown(
-    """
+# --- Custom CSS + dotlottie-player setup ---
+st.markdown("""
     <style>
     .stApp {
         background-image: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Utama%20Aplikasi.png");
         background-size: cover;
         background-position: center;
-        background-repeat: no-repeat;
         background-attachment: fixed;
-        color: #E6E6E6;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: white;
+        font-family: 'Segoe UI', sans-serif;
     }
-    .header-with-bg {
-        background-color: rgba(0,0,0,0.5);
+    .header-box {
+        text-align: center;
         border: 2px solid #00f0ff;
+        background-color: rgba(0,0,50,0.5);
         border-radius: 8px;
-        padding: 4px;
+        padding: 6px;
+        margin-bottom: 10px;
+        box-shadow: 0 0 10px #00f0ff;
+        color: #00f0ff;
+        font-size: 18px;
+    }
+    .content-box {
+        border: 2px solid #00f0ff;
+        background-color: rgba(0,0,30,0.6);
+        border-radius: 8px;
+        padding: 10px;
         margin-bottom: 10px;
         text-align: center;
-        color: #00f0ff;
-        font-weight: bold;
-    }
-    .recommendation-box {
-        border: 2px solid #00f0ff;
-        border-radius: 10px;
-        padding: 10px;
-        box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
-        background-color: rgba(13, 18, 28, 0.85);
-        text-align: center;
-    }
-    .recommendation-box img {
-        border-radius: 5px;
-        margin-bottom: 5px;
+        box-shadow: 0 0 10px #00f0ff;
     }
     .mood-box {
         border: 2px solid #00f0ff;
-        background-color: rgba(10, 15, 30, 0.8);
+        background-color: rgba(10, 15, 30, 0.85);
         padding: 15px;
         border-radius: 10px;
         box-shadow: 0 0 20px #00f0ff;
         font-size: 15px;
+        margin-bottom: 20px;
     }
     </style>
-    """,
-    unsafe_allow_html=True
-)
 
-# --- Header ---
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+""", unsafe_allow_html=True)
+
+# --- Header Branding ---
 col_left, col_right = st.columns([0.85, 0.15])
-
 with col_right:
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/bakrieland_logo.png", width=130)
     st.markdown("""
@@ -75,27 +59,25 @@ with col_right:
         </p>
     """, unsafe_allow_html=True)
 
-# --- Layout Section ---
+# --- Content Area ---
 col1, col2, col3 = st.columns([1, 1, 1.4])
 
 with col1:
-    st.markdown('<div class="header-with-bg">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
-    with st.container():
-        st.markdown('<div class="recommendation-box">', unsafe_allow_html=True)
-        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KAHURIPAN NIRWANA", use_container_width=True)
-        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR NIRWANA RESIDENCE", use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
+    st.markdown('<div class="content-box">', unsafe_allow_html=True)
+    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KAHURIPAN NIRWANA", use_container_width=True)
+    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR NIRWANA RESIDENCE", use_container_width=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
 with col2:
-    st.markdown('<div class="header-with-bg">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
-    with st.container():
-        st.markdown('<div class="recommendation-box">', unsafe_allow_html=True)
-        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE SEA", use_container_width=True)
-        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVERA OUTBOND", use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
+    st.markdown('<div class="content-box">', unsafe_allow_html=True)
+    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE SEA", use_container_width=True)
+    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVERA OUTBOND", use_container_width=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
 with col3:
-    st.markdown('<div class="header-with-bg">MOOD ANALYTIC</div>', unsafe_allow_html=True)
+    st.markdown('<div class="header-box">MOOD ANALYTIC</div>', unsafe_allow_html=True)
     picture = st.camera_input("")
 
     if picture:
@@ -109,24 +91,31 @@ with col3:
                 <li>Elegan/Glamor: Penampilannya secara keseluruhan memberikan kesan ini.</li>
                 <li>Tenang/Terkontrol: Tidak ada tanda-tanda kegelisahan atau kekacauan.</li>
             </ul>
-
-            <p><strong>Properti:</strong></p>
+            <p><strong>Property:</strong></p>
             <ul>
-                <li>Apartemen Mewah di Pusat Kota: Fasilitas lengkap, pemandangan kota, dan privasi.</li>
-                <li>Villa Eksklusif: Kolam renang pribadi dan suasana alam tenang.</li>
-                <li>Rumah Klasik Modern: Arsitektur yang indah dan interior kristal.</li>
+                <li>Apartemen Mewah di Pusat Kota</li>
+                <li>Hunian Klasik Modern</li>
+                <li>Villa Eksklusif Pemandangan Alam</li>
             </ul>
-
             <p><strong>Rekomendasi Liburan:</strong></p>
             <ul>
-                <li>Resort Mewah: Pantai pribadi dan layanan premium tanpa gangguan.</li>
-                <li>City Tour & Kuliner: Eksplorasi kota dan budaya lokal.</li>
-                <li>Kapal Pesiar: Relaksasi, hiburan, dan pengalaman baru.</li>
+                <li>Liburan Santai di Resort</li>
+                <li>Perjalanan Kuliner Kota</li>
+                <li>Kapal Pesiar Mewah</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
 
-        st_lottie(lottie_robot, height=200)
-    else:
-        st.markdown("<p style='color:#ccc;'>Silakan aktifkan kamera untuk memulai analisis mood.</p>", unsafe_allow_html=True)
-        st_lottie(lottie_robot, height=200)
+    # --- DotLottie Robot Animation (ALWAYS SHOW) ---
+    st.markdown("""
+        <div style="text-align: center;">
+            <dotlottie-player
+                src="https://lottie.host/361e18c3-a1dc-4e6b-af1e-6dcdded54c47/yY2N31uIA2.lottie"
+                background="transparent"
+                speed="1"
+                style="width: 280px; height: 280px;"
+                loop
+                autoplay
+            ></dotlottie-player>
+        </div>
+    """, unsafe_allow_html=True)
