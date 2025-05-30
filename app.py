@@ -1,150 +1,143 @@
 import streamlit as st
 import random
-# --- Page Configuration ---
-st.set_page_config(
-    layout="wide",
-    page_title="Bakrieland Project",
-    initial_sidebar_state="collapsed"
-)
 
-# --- Inject custom CSS ---
-st.markdown(
-    """
-   <style>
+st.set_page_config(layout="wide", page_title="Bakrieland Project", initial_sidebar_state="collapsed")
+
+# --- CSS Styling ---
+st.markdown("""
+<style>
 .stApp {
     background-image: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Utama%20Aplikasi.png");
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
     background-attachment: fixed;
-    background-color: #0E1117;
-    color: #E6E6E6;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
 }
-    .stButton > button { background-color: #007bff; color: white; border-radius: 8px; padding: 10px 20px; font-size: 1.1em; transition: background-color 0.3s ease; }
-    .stButton > button:hover { background-color: #0056b3; }
-    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 { color: #007bff; border-bottom: 1px solid #2d384c; padding-bottom: 5px; margin-bottom: 15px; }
 
-    .header-with-bg {
-        background-image: url('https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/header_bg.png');
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        padding: 0px 0px;
-        text-align: center;
-        margin-bottom: 0px;
-    }
+.header-box {
+    text-align: center;
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,50,0.5);
+    border-radius: 8px;
+    padding: 6px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff;
+}
 
-    .image-box {
-      background-image: url('https://your-background-url.com/tester.png');
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-      padding: 20px;
-      margin-bottom: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+.header-box h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #00f0ff;
+}
 
-    .stContainer { background-color: rgba(26, 34, 47, 0.9); padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-    .recommendation-box {
-        border: 2px solid #007bff;
-        border-radius: 10px;
-        padding: 15px;
-        margin-bottom: 20px;
-        box-shadow: 0 0 15px rgba(0, 123, 255, 0.5);
-        background-color: rgba(13, 18, 28, 0.9);
-        text-align: center;
-    }
-    .recommendation-text p, .recommendation-text ul, .recommendation-text li { font-size: 15px !important; }
+.content-box {
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,30,0.6);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px #00f0ff;
+}
 
-    div[data-testid="stCameraInput"] > div {
-        width: 300px !important;
-        height: 300px !important;
-        border-radius: 50% !important;
-        overflow: hidden;
-        margin: auto;
-        background-color: rgba(14, 17, 23, 0.9);
-    }
-    
-    div[data-testid="stCameraInput"] video,
-    div[data-testid="stCameraInput"] img {
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: cover;
-        border-radius: 50% !important;
-    }
-    div[data-testid="stCameraInput"] button {
-        width: 100% !important;
-        border-radius: 8px;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+.content-box img {
+    border: 3px solid #00f0ff;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
 
-col_header_left, col_header_right = st.columns([0.8, 0.2])
+.mood-box {
+    border: 2px solid #00f0ff;
+    background-color: rgba(10, 15, 30, 0.8);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00f0ff;
+    font-size: 15px;
+}
 
-with col_header_right:
-    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/bakrieland_logo.png", width=150)
-    st.markdown(
-        "<p style='text-align: right; font-size: 0.8em; color: #888;'>"
-        "POWERED BY "
-        "<img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/google_logo.png' width='80' style='vertical-align: middle; margin-left: 5px;'>"
-        "<img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/metrodata_logo.png' width='50' style='vertical-align: middle; margin-left: 5px;'>"
-        "</p>",
-        unsafe_allow_html=True
-    )
+.mood-box ul {
+    padding-left: 20px;
+}
 
-with col_header_left:
-  
-    col1, col2, col3 = st.columns([1, 1, 2])
+.qr-and-robot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+</style>
+""", unsafe_allow_html=True)
 
-    with col1:
-        st.markdown("""
-            <div class="header-with-bg">
-                <h2 style='text-align: center; margin-bottom: 0; font-size: 24px;'>PROPERTY RECOMMENDATION</h2>
-            </div>
+# --- HEADER SECTION ---
+col_left, col_right = st.columns([0.85, 0.15])
+
+with col_right:
+    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/bakrieland_logo.png", width=130)
+    st.markdown("""
+        <p style='text-align:right; font-size: 0.8em; color:#aaa;'>POWERED BY<br>
+        <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/google_logo.png' width='60'>
+        <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/metrodata_logo.png' width='40'>
+        </p>
+    """, unsafe_allow_html=True)
+
+# --- MAIN SECTION ---
+col1, col2, col3 = st.columns([1, 1, 1.4])
+
+# PROPERTY RECOMMENDATION
+with col1:
+    st.markdown('<div class="header-box"><h3>PROPERTY RECOMMENDATION</h3></div>', unsafe_allow_html=True)
+    with st.container():
+        st.markdown('<div class="content-box">', unsafe_allow_html=True)
+        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KAHURIPAN NIRWANA", use_container_width=True)
+        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR NIRWANA RESIDENCE", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+# HOLIDAY RECOMMENDATION
+with col2:
+    st.markdown('<div class="header-box"><h3>HOLIDAY RECOMMENDATION</h3></div>', unsafe_allow_html=True)
+    with st.container():
+        st.markdown('<div class="content-box">', unsafe_allow_html=True)
+        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE SEA", use_container_width=True)
+        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVERA OUTBOND", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+# MOOD ANALYTIC SECTION
+with col3:
+    st.markdown('<div class="header-box"><h3>MOOD ANALYTIC</h3></div>', unsafe_allow_html=True)
+    picture = st.camera_input("")
+
+    if picture:
+        mood = "Percaya Diri"
+        st.image(picture, width=150)
+
+        st.markdown(f"""
+        <div class="mood-box">
+            <p><strong>Analisa Mood:</strong></p>
+            <ul>
+                <li>Percaya Diri: Terlihat dari sorot matanya dan posisi wajahnya.</li>
+                <li>Elegan/Glamor: Penampilannya secara keseluruhan memberikan kesan ini.</li>
+                <li>Tenang/Terkontrol: Tidak ada tanda-tanda kegelisahan atau kekacauan.</li>
+            </ul>
+            <p><strong>Property:</strong></p>
+            <ul>
+                <li>Apartemen Mewah di Pusat Kota: Dengan fasilitas lengkap seperti gym dan pemandangan kota.</li>
+                <li>Hunian Bergaya Klasik Modern: Desain elegan berpadu interior kristal dan marmer.</li>
+                <li>Villa Eksklusif: Dikelilingi alam terbuka dengan kolam renang pribadi.</li>
+            </ul>
+            <p><strong>Rekomendasi Liburan yang Cocok:</strong></p>
+            <ul>
+                <li>Liburan Santai di Resort Mewah: Pantai pribadi, spa, dan layanan premium.</li>
+                <li>Perjalanan Belanja & Kuliner di Kota Bogor.</li>
+                <li>Pelayaran Kapal Pesiar Mewah: Hiburan, relaksasi dan pengalaman baru.</li>
+            </ul>
+        </div>
         """, unsafe_allow_html=True)
-        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KEMIRIPAN PURI WIDYAKARTA", use_container_width=True)
-        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR PUNCAK RESIDENCE", use_container_width=True)
 
-    with col2:
         st.markdown("""
-            <div class="header-with-bg">
-                <h2 style='text-align: center; margin-bottom: 0; font-size: 24px;'>HOLIDAY RECOMMENDATION</h2>
-            </div>
+        <div class="qr-and-robot">
+            <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" width="120">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://bakrieland.com" width="80">
+        </div>
         """, unsafe_allow_html=True)
-        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE LAND", use_container_width=True)
-        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVIERA OUTBOUND", use_container_width=True)
-
-    with col3:
-        picture = st.camera_input("")
-        if picture:
-            simulated_moods = ["Happy", "Calm", "Energetic", "Thoughtful", "Brave", "Relaxed"]
-            simulated_property_options = ["City apartment", "Suburban chateau", "Rural farmhouse", "Beachfront villa", "Mountain cabin"]
-            simulated_holiday_options = ["Ocean Cruise", "Beach Walk", "Mountain Hiking", "Forest Trekking", "Mushroom Picking"]
-
-            selected_mood = random.choice(simulated_moods)
-            selected_property = random.choice(simulated_property_options)
-            selected_holiday = random.choice(simulated_holiday_options)
-
-            html_content = (
-                "<div class='recommendation-text'>"
-                "<p><strong>Analisa Mood:</strong></p>"
-                f"<ul><li>{selected_mood}</li><li>{selected_mood}</li><li>{selected_mood}</li><li>{selected_mood}</li></ul>"
-                "<p><strong>Property Recommendation:</strong></p>"
-                f"<ul><li>{selected_property}</li><li>{selected_property}</li><li>{selected_property}</li></ul>"
-                "<p><strong>Holiday Recommendation:</strong></p>"
-                f"<ul><li>{selected_holiday}</li><li>{selected_holiday}</li><li>{selected_holiday}</li></ul>"
-                "</div>"
-            )
-            st.markdown(html_content, unsafe_allow_html=True)
-        else:
-            st.markdown(
-                "<p style='text-align: left; padding-top: 20px; font-size: 1.1em; color: #aaa;'>"
-                "Awaiting image capture..."
-                "</p>",
-                unsafe_allow_html=True
-            )
+    else:
+        st.markdown("<p style='color:#ccc;'>Silakan aktifkan kamera untuk analisis mood otomatis.</p>", unsafe_allow_html=True)
