@@ -1,6 +1,5 @@
 import streamlit as st
 import random
-
 # --- Page Configuration ---
 st.set_page_config(
     layout="wide",
@@ -11,17 +10,17 @@ st.set_page_config(
 # --- Inject custom CSS ---
 st.markdown(
     """
-    <style>
-    .stApp {
-        background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/wallpaper.png");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-color: #0E1117;
-        color: #E6E6E6;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+   <style>
+.stApp {
+    background-image: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Utama%20Aplikasi.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: #0E1117;
+    color: #E6E6E6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
     .stButton > button { background-color: #007bff; color: white; border-radius: 8px; padding: 10px 20px; font-size: 1.1em; transition: background-color 0.3s ease; }
     .stButton > button:hover { background-color: #0056b3; }
     .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 { color: #007bff; border-bottom: 1px solid #2d384c; padding-bottom: 5px; margin-bottom: 15px; }
