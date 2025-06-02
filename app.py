@@ -83,7 +83,7 @@ div[data-testid="stCameraInput"] img {
 
 ## test
 genai.configure(api_key="AIzaSyBd7y7fGY7UAtyQKle1slS97kb_SfWr3WE")
-model = genai.GenerativeModel("gemini-pro-vision")
+model = genai.GenerativeModel("gemini-1.5-flash-latest")
 user_input = st.text_input("Ask something:")
 if user_input:
     response = model.generate_content(user_input)
@@ -109,18 +109,17 @@ with col_header_right:
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("### 🤖 Robot Interaktif")
     components.html(
         """
         <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
         <model-viewer id="robot" 
-            src="https://cdn.jsdelivr.net/gh/husnanali05/FP_Datmin@main/robotglb.glb"
-            alt="Robot Nerinho"
+            src="https://cdn.jsdelivr.net/gh/husnanali05/FP_Datmin@main/nerinho_-_mascote_da_neomind.glb"
+            alt="Robot Nerinho 3D"
             camera-controls 
             auto-rotate 
             autoplay
-            style="width: 100%; height: 450px; margin-top: -20px;"
+            style="width: 100%; height: 400px;"
             ar 
             shadow-intensity="1"
             environment-image="neutral"
@@ -136,7 +135,7 @@ with col_header_right:
           });
         </script>
         """,
-        height=480
+        height=420
     )
     st.markdown("""
           <div class="qr-box">
