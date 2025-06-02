@@ -1,3 +1,75 @@
+import streamlit as st
+import streamlit.components.v1 as components
+
+st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
+
+st.markdown("""
+<style>
+html, body, [data-testid="stAppViewContainer"] {
+        overflow: hidden !important;
+    }
+    ::-webkit-scrollbar {
+        display: none;
+    }
+.stApp {
+    background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/wallpaper_2.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+}
+.header-box {
+    text-align: center;
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,50,0.5);
+    border-radius: 8px;
+    padding: 6px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff;
+    color: #00f0ff;
+    font-size: 18px;
+}
+.portrait-box {
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,30,0.6);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff;
+    text-align: center;
+}
+.mood-box {
+    border: 2px solid #00f0ff;
+    background-color: rgba(10, 15, 30, 0.85);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00f0ff;
+    font-size: 8px;
+    margin-top: 10px;
+}
+div[data-testid="stCameraInput"] > div {
+    aspect-ratio: 4 / 5;
+    width: 60% !important;
+    height: auto !important;
+    margin: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.1);
+}
+div[data-testid="stCameraInput"] video,
+div[data-testid="stCameraInput"] img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
+div[data-testid="stCameraInput"] button[aria-label="Clear photo"] {
+    display: none !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 col_header_left, col_header_right = st.columns([0.8, 0.2])
 with col_header_right:
     col_00, col_01 = st.columns([0.5, 0.5])
@@ -17,7 +89,6 @@ with col_header_right:
         </div>
         """, unsafe_allow_html=True)
 
-    # Tambahkan robot 3D di bawah logo
     st.markdown("### 🤖 Robot Interaktif")
     components.html(
         """
