@@ -3,7 +3,6 @@ import streamlit.components.v1 as components
 
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
-# --- CSS ---
 st.markdown("""
 <style>
 .stApp {
@@ -55,52 +54,54 @@ with col_header_right:
     <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/metrodata_logo.png' width='50'>
     </p>
     """, unsafe_allow_html=True)
-  components.html(
-    """
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    components.html(
+        """
+        <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
-    <model-viewer id="robot" 
-        src="https://cdn.jsdelivr.net/gh/husnanali05/FP_Datmin@main/nerinho_-_mascote_da_neomind.glb"
-        alt="Robot Nerinho 3D"
-        camera-controls 
-        auto-rotate 
-        autoplay
-        style="width: 100%; height: 400px;"
-        ar 
-        shadow-intensity="1"
-        environment-image="neutral"
-        exposure="1"
-        interaction-prompt="none">
-    </model-viewer>
+        <model-viewer id="robot" 
+            src="https://cdn.jsdelivr.net/gh/husnanali05/FP_Datmin@main/nerinho_-_mascote_da_neomind.glb"
+            alt="Robot Nerinho 3D"
+            camera-controls 
+            auto-rotate 
+            autoplay
+            style="width: 100%; height: 400px;"
+            ar 
+            shadow-intensity="1"
+            environment-image="neutral"
+            exposure="1"
+            interaction-prompt="none">
+        </model-viewer>
 
-    <script>
-      const robot = document.querySelector("#robot");
-      robot.addEventListener("click", () => {
-        robot.currentTime = 0;
-        robot.play();
-      });
-    </script>
-    """,
-    height=420
-  )
+        <script>
+          const robot = document.querySelector("#robot");
+          robot.addEventListener("click", () => {
+            robot.currentTime = 0;
+            robot.play();
+          });
+        </script>
+        """,
+        height=420
+    )
 
 with col_header_left:
-  col1, col2, col3 = st.columns([1, 1, 1.4])
-  with col1:
-      st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
-      st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
-      st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KAHURIPAN NIRWANA", use_container_width=True)
-      st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR NIRWANA RESIDENCE", use_container_width=True)
-      st.markdown('</div>', unsafe_allow_html=True)
+    col1, col2, col3 = st.columns([1, 1, 1.4])
+    with col1:
+        st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
+        st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
+        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KAHURIPAN NIRWANA", use_container_width=True)
+        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR NIRWANA RESIDENCE", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
-  with col2:
-      st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
-      st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
-      st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE SEA", use_container_width=True)
-      st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVERA OUTBOND", use_container_width=True)
-      st.markdown('</div>', unsafe_allow_html=True)
+    with col2:
+        st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
+        st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
+        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE SEA", use_container_width=True)
+        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVERA OUTBOND", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
-  with col3:
+    with col3:
+        st.markdown('<div class="header-box">MOOD ANALYTIC</div>', unsafe_allow_html=True) # Added for consistency with other headers
+        st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'>Ambil foto wajah Anda untuk analisis mood.</p>", unsafe_allow_html=True) # Added user instruction
         picture = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
         if picture:
             st.image(picture, width=200)
