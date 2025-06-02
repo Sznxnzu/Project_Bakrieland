@@ -39,14 +39,14 @@ st.markdown("""
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 0 20px #00f0ff;
-    font-size: 15px;
+    font-size: 8px;
     margin-top: 10px;
 }
 div[data-testid="stCameraInput"] > div {
     aspect-ratio: 4 / 5;
     width: 60% !important;
     height: auto !important;
-    margin: 0 auto;
+    margin: 0;
     border-radius: 20px;
     overflow: hidden;
     background-color: rgba(0,0,0,0.1);
@@ -135,7 +135,6 @@ with col_header_left:
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
         picture = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
         if picture:
-            st.image(picture, width=200)
             st.markdown("""
             <div class="mood-box">
                 <p><strong>Analisa Mood:</strong></p>
