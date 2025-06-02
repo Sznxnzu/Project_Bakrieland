@@ -108,35 +108,6 @@ with col_header_right:
             <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/metrodata_logo.png' width='50' style='margin: 5px;'>
         </div>
         """, unsafe_allow_html=True)
-
-    components.html(
-    """
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-
-    <model-viewer id="robot" 
-        src="https://cdn.jsdelivr.net/gh/husnanali05/FP_Datmin@main/Untitled.glb"
-        alt="Robot Nerinho Siap Jalan"
-        camera-controls 
-        auto-rotate 
-        autoplay
-        style="width: 100%; height: 400px;"
-        ar 
-        shadow-intensity="1"
-        environment-image="neutral"
-        exposure="1"
-        interaction-prompt="none">
-    </model-viewer>
-
-    <script>
-      const robot = document.querySelector("#robot");
-      robot.addEventListener("click", () => {
-        robot.currentTime = 0;
-        robot.play();
-      });
-    </script>
-    """,
-    height=420
-)
     st.markdown("""
           <div class="qr-box">
               <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/qr_logo.png" style="width:100%; border-radius: 8px;" />
@@ -167,29 +138,62 @@ with col_header_left:
           </div>
         """, unsafe_allow_html=True)
 
-    with col3:
-        st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
-        picture = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
-        if picture:
-            st.markdown("""
-            <div class="mood-box">
-                <p><strong>Analisa Mood:</strong></p>
-                <ul>
-                    <li>Percaya Diri: Terlihat dari sorot matanya dan posisi wajahnya.</li>
-                    <li>Elegan/Glamor: Penampilannya secara keseluruhan memberikan kesan ini.</li>
-                    <li>Tenang/Terkontrol: Tidak ada tanda-tanda kegelisahan atau kekacauan.</li>
-                </ul>
-                <p><strong>Property:</strong></p>
-                <ul>
-                    <li>Apartemen Mewah di Pusat Kota</li>
-                    <li>Hunian Klasik Modern</li>
-                    <li>Villa Eksklusif Pemandangan Alam</li>
-                </ul>
-                <p><strong>Rekomendasi Liburan:</strong></p>
-                <ul>
-                    <li>Liburan Santai di Resort</li>
-                    <li>Perjalanan Kuliner Kota</li>
-                    <li>Kapal Pesiar Mewah</li>
-                </ul>
-            </div>
-            """, unsafe_allow_html=True)
+with col3:
+    st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
+    picture = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
+    if picture:
+        st.markdown("""
+        <div class="mood-box">
+            <p><strong>Analisa Mood:</strong></p>
+            <ul>
+                <li>Percaya Diri: Terlihat dari sorot matanya dan posisi wajahnya.</li>
+                <li>Elegan/Glamor: Penampilannya secara keseluruhan memberikan kesan ini.</li>
+                <li>Tenang/Terkontrol: Tidak ada tanda-tanda kegelisahan atau kekacauan.</li>
+            </ul>
+            <p><strong>Property:</strong></p>
+            <ul>
+                <li>Apartemen Mewah di Pusat Kota</li>
+                <li>Hunian Klasik Modern</li>
+                <li>Villa Eksklusif Pemandangan Alam</li>
+            </ul>
+            <p><strong>Rekomendasi Liburan:</strong></p>
+            <ul>
+                <li>Liburan Santai di Resort</li>
+                <li>Perjalanan Kuliner Kota</li>
+                <li>Kapal Pesiar Mewah</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+# Define robot_col as a new column below the previous layout
+robot_col = st.container()
+with robot_col:
+    st.markdown("### 🤖 Robot Interaktif")
+    components.html(
+        """
+        <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+        <model-viewer id="robot" 
+            src="https://cdn.jsdelivr.net/gh/husnanali05/FP_Datmin@main/Untitled.glb"
+            alt="Robot Nerinho Siap Jalan"
+            camera-controls 
+            auto-rotate 
+            autoplay
+            style="width: 100%; height: 400px;"
+            ar 
+            shadow-intensity="1"
+            environment-image="neutral"
+            exposure="1"
+            interaction-prompt="none">
+        </model-viewer>
+
+        <script>
+          const robot = document.querySelector("#robot");
+          robot.addEventListener("click", () => {
+            robot.currentTime = 0;
+            robot.play();
+          });
+        </script>
+        """,
+        height=420
+    )
