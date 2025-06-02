@@ -127,6 +127,11 @@ with col_header_right:
         """,
         height=420
     )
+    st.markdown("""
+          <div class="portrait-box">
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/qr_logo.png" style="width:100%; border-radius: 8px;" />
+          </div>
+        """, unsafe_allow_html=True)
 
 with col_header_left:
     col1, col2, col3 = st.columns([1, 1, 1.4])
