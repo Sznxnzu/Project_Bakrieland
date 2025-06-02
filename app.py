@@ -62,7 +62,6 @@ div[data-testid="stCameraInput"] > div {
     height: 60% !important;
     margin: 0;
     border-radius: 20px;
-    overflow: hidden;
     background-color: rgba(0,0,0,0.1);
 }
 div[data-testid="stCameraInput"] video,
