@@ -128,7 +128,7 @@ with col_header_right:
         height=420
     )
     st.markdown("""
-          <div class="portrait-box">
+          <div class="qr-box">
               <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/qr_logo.png" style="width:100%; border-radius: 8px;" />
           </div>
         """, unsafe_allow_html=True)
