@@ -46,7 +46,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- HEADER ---
 col_header_left, col_header_right = st.columns([0.8, 0.2])
 with col_header_right:
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/bakrieland_logo.png", width=120)
@@ -57,10 +56,9 @@ with col_header_right:
     </p>
     """, unsafe_allow_html=True)
 
-# --- MAIN 3-COLUMN LAYOUT ---
-col1, col2, col3 = st.columns([1, 1, 1.4])
+with col_header_left:
+  col1, col2, col3 = st.columns([1, 1, 1.4])
 
-# --- PROPERTY RECOMMENDATION ---
 with col1:
     st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
     st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
@@ -68,7 +66,6 @@ with col1:
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR NIRWANA RESIDENCE", use_container_width=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
-# --- HOLIDAY RECOMMENDATION ---
 with col2:
     st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
     st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
@@ -76,7 +73,6 @@ with col2:
     st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVERA OUTBOND", use_container_width=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
-# --- CAMERA + ROBOT INTERAKTIF ---
 with col3:
     cam_col, robot_col = st.columns([1.2, 1])
     with cam_col:
