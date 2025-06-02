@@ -112,30 +112,30 @@ with col3:
     with robot_col:
         st.markdown("### 🤖 Robot Interaktif")
         components.html(
-            """
-            <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    """
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
-            <model-viewer id="robot" 
-                src="https://cdn.jsdelivr.net/gh/husnanali05/FP_Datmin@main/nerinho_-_mascote_da_neomind.glb"
-                alt="Robot Nerinho 3D"
-                camera-controls 
-                auto-rotate 
-                autoplay
-                style="width: 100%; height: 400px;"
-                ar 
-                shadow-intensity="1"
-                environment-image="neutral"
-                exposure="1"
-                interaction-prompt="none">
-            </model-viewer>
+    <model-viewer id="robot" 
+        src="https://cdn.jsdelivr.net/gh/husnanali05/FP_Datmin@main/cute-robot-colored.glb"
+        alt="Cute Robot Colored 3D"
+        camera-controls 
+        auto-rotate 
+        autoplay
+        style="width: 100%; height: 400px;"
+        ar 
+        shadow-intensity="1"
+        environment-image="neutral"
+        exposure="1"
+        interaction-prompt="none">
+    </model-viewer>
 
-            <script>
-              const robot = document.querySelector("#robot");
-              robot.addEventListener("click", () => {
-                robot.currentTime = 0;
-                robot.play();
-              });
-            </script>
-            """,
-            height=420
-        )
+    <script>
+      const robot = document.querySelector("#robot");
+      robot.addEventListener("click", () => {
+        robot.currentTime = 0;
+        robot.play();
+      });
+    </script>
+    """,
+    height=420
+)
