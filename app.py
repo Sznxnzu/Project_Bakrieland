@@ -114,7 +114,7 @@ with col_header_right:
         <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
         <model-viewer id="robot" 
-            src="https://cdn.jsdelivr.net/gh/husnanali05/FP_Datmin@main/nerinho_-_mascote_da_neomind.glb"
+            src="https://cdn.jsdelivr.net/gh/husnanali05/FP_Datmin@main/robotglb.glb"
             alt="Robot Nerinho 3D"
             camera-controls 
             auto-rotate 
