@@ -7,7 +7,7 @@ st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial
 st.markdown("""
 <style>
 .stApp {
-    background-image: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Utama%20Aplikasi.png");
+    background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/wallpaper_2.png");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
