@@ -78,10 +78,7 @@ with col2:
 
 # --- CAMERA + ROBOT INTERAKTIF ---
 with col3:
-    st.markdown('<div class="header-box">MOOD ANALYTIC</div>', unsafe_allow_html=True)
-
     cam_col, robot_col = st.columns([1.2, 1])
-
     with cam_col:
         picture = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
         if picture:
@@ -110,7 +107,6 @@ with col3:
             """, unsafe_allow_html=True)
 
     with robot_col:
-        st.markdown("### 🤖 Robot Interaktif")
         components.html(
             """
             <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
