@@ -48,10 +48,18 @@ html, body, [data-testid="stAppViewContainer"] {
     font-size: 10px;
     margin-top: 10px;
 }
+.mood-box p {
+    margin-bottom: 0;
+}
+.mood-box ul {
+    margin-top: 0;
+    margin-bottom: 1em;
+    padding-left: 20px;
+}
 div[data-testid="stCameraInput"] > div {
     aspect-ratio: 4 / 5;
-    width: 60% !important;
-    height: auto !important;
+    width: 30% !important;
+    height: 60% !important;
     margin: 0;
     border-radius: 20px;
     overflow: hidden;
@@ -144,16 +152,6 @@ with col_header_left:
         picture = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
         if picture:
             st.markdown("""
-            <style>
-                .mood-box p {
-                    margin-bottom: 0;
-                }
-                .mood-box ul {
-                    margin-top: 0;
-                    margin-bottom: 1em;
-                    padding-left: 20px;
-                }
-            </style>
             <div class="mood-box">
                 <p><strong>Analisa Mood:</strong></p>
                 <ul>
