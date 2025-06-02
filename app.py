@@ -59,9 +59,10 @@ html, body, [data-testid="stAppViewContainer"] {
 div[data-testid="stCameraInput"] > div {
     aspect-ratio: 4 / 5;
     width: 30% !important;
-    height: 60% !important;
+    height: 80% !important;
     margin: 0;
     border-radius: 20px;
+    overflow: hidden;
     background-color: rgba(0,0,0,0.1);
 }
 div[data-testid="stCameraInput"] video,
