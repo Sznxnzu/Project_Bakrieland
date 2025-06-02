@@ -58,8 +58,8 @@ html, body, [data-testid="stAppViewContainer"] {
 }
 div[data-testid="stCameraInput"] > div {
     aspect-ratio: 4 / 5;
-    width: 30% !important;
-    height: 100% !important;
+    width: 60% !important;
+    height: auto !important;
     margin: 0;
     border-radius: 20px;
     overflow: hidden;
