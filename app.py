@@ -169,8 +169,10 @@ with col_header_left:
 
     with col3:
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
-        picture = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
-        if picture:
+        user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
+        if user_input:
+            response = model.generate_content(user_input)
+            st.write("**Gemini says:**", response.text)
             st.markdown("""
             <div class="mood-box">
                 <p><strong>Analisa Mood:</strong></p>
