@@ -64,9 +64,6 @@ div[data-testid="stCameraInput"] img {
     height: 100%;
     border-radius: 20px;
 }
-div[data-testid="stCameraInput"] button[aria-label="Clear photo"] {
-    display: none !important;
-}
 </style>
 """, unsafe_allow_html=True)
 
@@ -147,6 +144,16 @@ with col_header_left:
         picture = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
         if picture:
             st.markdown("""
+            <style>
+                .mood-box p {
+                    margin-bottom: 0;
+                }
+                .mood-box ul {
+                    margin-top: 0;
+                    margin-bottom: 1em;
+                    padding-left: 20px;
+                }
+            </style>
             <div class="mood-box">
                 <p><strong>Analisa Mood:</strong></p>
                 <ul>
