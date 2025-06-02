@@ -49,15 +49,19 @@ col_header_left, col_header_right = st.columns([0.8, 0.2])
 with col_header_right:
     col_00, col_01 = st.columns([0.2, 0.8])
     with col_00:
-        st.markdown(
-            "<p style='text-align:right; font-size: 0.8em; color:#aaa;'>POWERED BY<br></p>",
-            unsafe_allow_html=True
-        )
-    with col_01:
-        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/bakrieland_logo.png", width=120)
         st.markdown("""
-        <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/google_logo.png' width='50'>
-        <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/metrodata_logo.png' width='50'>
+        <div style='display: flex; align-items: flex-end; height: 100%; justify-content: flex-start;'>
+            <p style='font-size: 0.8em; color:#aaa; margin: 0;'>POWERED BY</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col_01:
+        st.markdown("""
+        <div style='text-align: right;'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/bakrieland_logo.png' width='120' style='display: block; margin: 0 auto;'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/google_logo.png' width='50' style='margin: 5px;'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/metrodata_logo.png' width='50' style='margin: 5px;'>
+        </div>
         """, unsafe_allow_html=True)
 
     components.html(
