@@ -76,7 +76,7 @@ with col_header_right:
     with col_00:
         st.markdown("""
         <div style='display: flex; align-items: flex-end; height: 100%; justify-content: flex-start;'>
-            <p style='font-size: 0.8em; color:#aaa; margin: 0;'>POWERED BY</p>
+            <p style='font-size: 0.6em; color:#aaa; margin: 0;'>POWERED BY</p>
         </div>
         """, unsafe_allow_html=True)
 
