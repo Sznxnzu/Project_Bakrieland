@@ -83,7 +83,7 @@ div[data-testid="stCameraInput"] img {
 
 ## test
 genai.configure(api_key="AIzaSyBd7y7fGY7UAtyQKle1slS97kb_SfWr3WE")
-model = genai.GenerativeModel("models/gemini-pro")
+model = genai.GenerativeModel("gemini-pro-vision")
 user_input = st.text_input("Ask something:")
 if user_input:
     response = model.generate_content(user_input)
