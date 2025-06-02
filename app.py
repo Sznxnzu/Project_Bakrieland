@@ -45,7 +45,7 @@ html, body, [data-testid="stAppViewContainer"] {
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 0 20px #00f0ff;
-    font-size: 8px;
+    font-size: 10px;
     margin-top: 10px;
 }
 div[data-testid="stCameraInput"] > div {
@@ -122,23 +122,25 @@ with col_header_left:
     col1, col2, col3 = st.columns([1, 1, 1.4])
     with col1:
         st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
-        st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
-        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KAHURIPAN NIRWANA", use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
-        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR NIRWANA RESIDENCE", use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown("""
+          <div class="portrait-box">
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg" style="width:100%; border-radius: 8px;" />
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">KAHURIPAN NIRWANA</p>
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg" style="width:100%; border-radius: 8px;" />
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">BOGOR NIRWANA RESIDENCE</p>
+          </div>
+        """, unsafe_allow_html=True)
 
     with col2:
         st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
-        st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
-        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE SEA", use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
-        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVERA OUTBOND", use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown("""
+          <div class="portrait-box">
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpeg" style="width:100%; border-radius: 8px;" />
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">Jungle Sea</p>
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpeg" style="width:100%; border-radius: 8px;" />
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">Rivera Outbond</p>
+          </div>
+        """, unsafe_allow_html=True)
 
     with col3:
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
