@@ -5,12 +5,17 @@ st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial
 
 st.markdown("""
 <style>
-html, body, [data-testid="stAppViewContainer"] {
-    overflow: hidden !important;
+/* Disable vertical scrolling */
+html, body, [data-testid="stAppViewContainer"], [data-testid="stVerticalBlock"], [data-testid="stScrollableContainer"] {
+    overflow-y: hidden !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
 }
+
 ::-webkit-scrollbar {
     display: none;
 }
+
 .stApp {
     background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/wallpaper_2.png");
     background-size: cover;
