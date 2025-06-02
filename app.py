@@ -53,7 +53,7 @@ with col_header_right:
     st.markdown("""
     <p style='text-align:right; font-size: 0.8em; color:#aaa;'>POWERED BY<br>
     <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/google_logo.png' width='50'>
-    <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/metrodata_logo.png' width='35'>
+    <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/metrodata_logo.png' width='50'>
     </p>
     """, unsafe_allow_html=True)
 
