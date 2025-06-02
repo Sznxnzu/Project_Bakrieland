@@ -64,6 +64,9 @@ div[data-testid="stCameraInput"] img {
     height: 100%;
     border-radius: 20px;
 }
+div[data-testid="stCameraInput"] button[aria-label="Clear photo"] {
+    display: none !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
