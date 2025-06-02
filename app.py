@@ -111,31 +111,28 @@ with col_header_right:
 
     components.html(
     """
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-
-    <model-viewer id="robot" 
-        src="https://cdn.jsdelivr.net/gh/husnanali05/FP_Datmin@main/cute-robot-colored.glb"
-        alt="Cute Robot Colored 3D"
-        camera-controls 
-        auto-rotate 
-        autoplay
-        style="width: 100%; height: 400px;"
-        ar 
-        shadow-intensity="1"
-        environment-image="neutral"
-        exposure="1"
-        interaction-prompt="none">
-    </model-viewer>
-
-    <script>
-      const robot = document.querySelector("#robot");
-      robot.addEventListener("click", () => {
-        robot.currentTime = 0;
-        robot.play();
-      });
-    </script>
+    <div class="sketchfab-embed-wrapper"> 
+        <iframe title="Nerinho - Mascote da Neomind" 
+                frameborder="0" 
+                allowfullscreen 
+                mozallowfullscreen="true" 
+                webkitallowfullscreen="true" 
+                allow="autoplay; fullscreen; xr-spatial-tracking" 
+                xr-spatial-tracking 
+                execution-while-out-of-viewport 
+                execution-while-not-rendered 
+                web-share 
+                width="100%" 
+                height="500" 
+                src="https://sketchfab.com/models/509667ee4a40446e88abbf2dbbfbd426/embed?autospin=1&autostart=1&preload=1&transparent=1">
+        </iframe> 
+        <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #aaa;"> 
+            Model oleh <a href="https://sketchfab.com/jeanbrandenburg" target="_blank" style="color: #1CAAD9;">Jean Carlos Brandenburg</a> di 
+            <a href="https://sketchfab.com" target="_blank" style="color: #1CAAD9;">Sketchfab</a>
+        </p>
+    </div>
     """,
-    height=420
+    height=540
 )
     st.markdown("""
           <div class="qr-box">
