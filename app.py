@@ -47,13 +47,19 @@ st.markdown("""
 
 col_header_left, col_header_right = st.columns([0.8, 0.2])
 with col_header_right:
-    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/bakrieland_logo.png", width=120)
-    st.markdown("""
-    <p style='text-align:right; font-size: 0.8em; color:#aaa;'>POWERED BY<br>
-    <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/google_logo.png' width='50'>
-    <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/metrodata_logo.png' width='50'>
-    </p>
-    """, unsafe_allow_html=True)
+    col_00, col_01 = st.columns([0.2, 0.8])
+    with col_00:
+        st.markdown(
+            "<p style='text-align:right; font-size: 0.8em; color:#aaa;'>POWERED BY<br></p>",
+            unsafe_allow_html=True
+        )
+    with col_01:
+        st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/bakrieland_logo.png", width=120)
+        st.markdown("""
+        <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/google_logo.png' width='50'>
+        <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/metrodata_logo.png' width='50'>
+        """, unsafe_allow_html=True)
+
     components.html(
         """
         <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
@@ -89,6 +95,9 @@ with col_header_left:
         st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
         st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KAHURIPAN NIRWANA", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
         st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR NIRWANA RESIDENCE", use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
@@ -96,12 +105,14 @@ with col_header_left:
         st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
         st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE SEA", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
         st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVERA OUTBOND", use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
     with col3:
-        st.markdown('<div class="header-box">MOOD ANALYTIC</div>', unsafe_allow_html=True) # Added for consistency with other headers
-        st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'>Ambil foto wajah Anda untuk analisis mood.</p>", unsafe_allow_html=True) # Added user instruction
+        st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
         picture = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
         if picture:
             st.image(picture, width=200)
