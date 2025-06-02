@@ -5,17 +5,12 @@ st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial
 
 st.markdown("""
 <style>
-/* Disable vertical scrolling */
-html, body, [data-testid="stAppViewContainer"], [data-testid="stVerticalBlock"], [data-testid="stScrollableContainer"] {
-    overflow-y: hidden !important;
-    height: 100vh !important;
-    max-height: 100vh !important;
-}
-
-::-webkit-scrollbar {
-    display: none;
-}
-
+html, body, [data-testid="stAppViewContainer"] {
+        overflow: hidden !important;
+    }
+    ::-webkit-scrollbar {
+        display: none;
+    }
 .stApp {
     background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/wallpaper_2.png");
     background-size: cover;
@@ -29,34 +24,33 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stVerticalBlock"],
     border: 2px solid #00f0ff;
     background-color: rgba(0,0,50,0.5);
     border-radius: 8px;
-    padding: 5px;
-    margin-bottom: 8px;
+    padding: 6px;
+    margin-bottom: 10px;
     box-shadow: 0 0 10px #00f0ff;
     color: #00f0ff;
-    font-size: 14px;
+    font-size: 18px;
 }
 .portrait-box {
     border: 2px solid #00f0ff;
     background-color: rgba(0,0,30,0.6);
     border-radius: 8px;
-    padding: 8px;
-    margin-bottom: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
     box-shadow: 0 0 10px #00f0ff;
     text-align: center;
-    font-size: 90%;
 }
 .mood-box {
     border: 2px solid #00f0ff;
     background-color: rgba(10, 15, 30, 0.85);
-    padding: 12px;
+    padding: 15px;
     border-radius: 10px;
     box-shadow: 0 0 20px #00f0ff;
-    font-size: 6.5px;
-    margin-top: 8px;
+    font-size: 8px;
+    margin-top: 10px;
 }
 div[data-testid="stCameraInput"] > div {
     aspect-ratio: 4 / 5;
-    width: 48% !important;
+    width: 60% !important;
     height: auto !important;
     margin: 0;
     border-radius: 20px;
@@ -82,16 +76,16 @@ with col_header_right:
     with col_00:
         st.markdown("""
         <div style='display: flex; align-items: flex-end; height: 100%; justify-content: flex-start;'>
-            <p style='font-size: 0.7em; color:#aaa; margin: 0;'>POWERED BY</p>
+            <p style='font-size: 0.8em; color:#aaa; margin: 0;'>POWERED BY</p>
         </div>
         """, unsafe_allow_html=True)
 
     with col_01:
         st.markdown("""
         <div style='text-align: right;'>
-            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/bakrieland_logo.png' width='96' style='margin: 4px;'>
-            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/google_logo.png' width='40' style='margin: 4px;'>
-            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/metrodata_logo.png' width='40' style='margin: 4px;'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/bakrieland_logo.png' width='120' margin: 5px;'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/google_logo.png' width='50' style='margin: 5px;'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/metrodata_logo.png' width='50' style='margin: 5px;'>
         </div>
         """, unsafe_allow_html=True)
 
@@ -105,7 +99,7 @@ with col_header_right:
             camera-controls 
             auto-rotate 
             autoplay
-            style="width: 100%; height: 336px;"
+            style="width: 100%; height: 400px;"
             ar 
             shadow-intensity="1"
             environment-image="neutral"
@@ -121,7 +115,7 @@ with col_header_right:
           });
         </script>
         """,
-        height=336
+        height=420
     )
 
 with col_header_left:
@@ -147,7 +141,7 @@ with col_header_left:
         st.markdown('</div>', unsafe_allow_html=True)
 
     with col3:
-        st.markdown("<p style='text-align: center; font-size:0.8em; color:#bbb;'></p>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
         picture = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
         if picture:
             st.markdown("""
