@@ -1,5 +1,6 @@
 import streamlit as st
 import streamlit.components.v1 as components
+import google.generativeai as genai
 
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
@@ -79,6 +80,15 @@ div[data-testid="stCameraInput"] img {
 }
 </style>
 """, unsafe_allow_html=True)
+
+## test
+genai.configure(api_key="AIzaSyBd7y7fGY7UAtyQKle1slS97kb_SfWr3WE")
+model = genai.GenerativeModel("gemini-pro")
+user_input = st.text_input("Ask something:")
+if user_input:
+    response = model.generate_content(user_input)
+    st.write("**Gemini says:**", response.text)
+## test
 
 col_header_left, col_header_right = st.columns([0.85, 0.15])
 with col_header_right:
