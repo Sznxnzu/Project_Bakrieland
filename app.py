@@ -135,9 +135,9 @@ with col_header_left:
         st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.markdown("""
           <div class="portrait-box">
-              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpeg" style="width:100%; border-radius: 8px;" />
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg" style="width:100%; border-radius: 8px;" />
               <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">Jungle Sea</p>
-              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpeg" style="width:100%; border-radius: 8px;" />
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg" style="width:100%; border-radius: 8px;" />
               <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">Rivera Outbond</p>
           </div>
         """, unsafe_allow_html=True)
