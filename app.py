@@ -1,89 +1,89 @@
 import streamlit as st
-import random
 
-st.set_page_config(layout="wide", page_title="Bakrieland Project", initial_sidebar_state="collapsed")
+st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
-# --- Custom CSS ---
+# --- CSS ---
 st.markdown("""
-    <style>
-    .stApp {
-        background-image: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Utama%20Aplikasi.png");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        color: white;
-        font-family: 'Segoe UI', sans-serif;
-    }
-    .header-box {
-        text-align: center;
-        border: 2px solid #00f0ff;
-        background-color: rgba(0,0,50,0.5);
-        border-radius: 8px;
-        padding: 6px;
-        margin-bottom: 10px;
-        box-shadow: 0 0 10px #00f0ff;
-        color: #00f0ff;
-        font-size: 18px;
-    }
-    .content-box {
-        border: 2px solid #00f0ff;
-        background-color: rgba(0,0,30,0.6);
-        border-radius: 8px;
-        padding: 10px;
-        margin-bottom: 10px;
-        text-align: center;
-        box-shadow: 0 0 10px #00f0ff;
-    }
-    .mood-box {
-        border: 2px solid #00f0ff;
-        background-color: rgba(10, 15, 30, 0.85);
-        padding: 15px;
-        border-radius: 10px;
-        box-shadow: 0 0 20px #00f0ff;
-        font-size: 15px;
-        margin-bottom: 20px;
-    }
-    </style>
+<style>
+.stApp {
+    background-image: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Utama%20Aplikasi.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+}
+.header-box {
+    text-align: center;
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,50,0.5);
+    border-radius: 8px;
+    padding: 6px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff;
+    color: #00f0ff;
+    font-size: 18px;
+}
+.portrait-box {
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,30,0.6);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff;
+    text-align: center;
+}
+.mood-box {
+    border: 2px solid #00f0ff;
+    background-color: rgba(10, 15, 30, 0.85);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00f0ff;
+    font-size: 15px;
+    margin-top: 10px;
+}
+</style>
 """, unsafe_allow_html=True)
 
-# --- Header Section ---
-col_left, col_right = st.columns([0.85, 0.15])
-with col_right:
-    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/bakrieland_logo.png", width=130)
+# --- dotlottie script for transparent robot animation ---
+st.markdown("""
+<script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+""", unsafe_allow_html=True)
+
+# --- HEADER ---
+col_header_left, col_header_right = st.columns([0.8, 0.2])
+with col_header_right:
+    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/bakrieland_logo.png", width=120)
     st.markdown("""
-        <p style='text-align:right; font-size: 0.8em; color:#aaa;'>POWERED BY<br>
-        <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/google_logo.png' width='60'>
-        <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/metrodata_logo.png' width='40'>
-        </p>
+    <p style='text-align:right; font-size: 0.8em; color:#aaa;'>POWERED BY<br>
+    <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/google_logo.png' width='50'>
+    <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/metrodata_logo.png' width='35'>
+    </p>
     """, unsafe_allow_html=True)
 
-# --- Main 3-column Layout ---
+# --- MAIN 3-COLUMN LAYOUT ---
 col1, col2, col3 = st.columns([1, 1, 1.4])
 
-# --- Column 1: Property Recommendation ---
 with col1:
     st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
-    st.markdown('<div class="content-box">', unsafe_allow_html=True)
-    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KAHURIPAN NIRWANA", use_container_width=True)
-    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR NIRWANA RESIDENCE", use_container_width=True)
+    st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
+    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="KAHURIPAN NIRWANA", use_column_width=True)
+    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg", caption="BOGOR NIRWANA RESIDENCE", use_column_width=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
-# --- Column 2: Holiday Recommendation ---
 with col2:
     st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
-    st.markdown('<div class="content-box">', unsafe_allow_html=True)
-    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE SEA", use_container_width=True)
-    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVERA OUTBOND", use_container_width=True)
+    st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
+    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="JUNGLE SEA", use_column_width=True)
+    st.image("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg", caption="RIVERA OUTBOND", use_column_width=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
-# --- Column 3: Mood Analytic + Camera + Robot ---
 with col3:
     st.markdown('<div class="header-box">MOOD ANALYTIC</div>', unsafe_allow_html=True)
     picture = st.camera_input("")
 
     if picture:
-        st.image(picture, width=150)
-
+        st.image(picture, width=200)
         st.markdown("""
         <div class="mood-box">
             <p><strong>Analisa Mood:</strong></p>
@@ -107,10 +107,21 @@ with col3:
         </div>
         """, unsafe_allow_html=True)
 
-    # --- Always show robot animation ---
-    st.markdown("""
-    <div style="text-align: center;">
-        <iframe src="https://lottie.host/?file=361e18c3-a1dc-4e6b-af1e-6dcdded54c47/yY2N31uIA2.lottie"
-                width="300" height="300" style="border: none;" allowfullscreen></iframe>
-    </div>
-    """, unsafe_allow_html=True)
+    # --- ROBOT INTERAKTIF ---
+    st.markdown("## 🤖 Asisten Virtual BakrieBot")
+    wave = st.button("Klik aku!")
+
+    if wave:
+        st.markdown("""
+        <div style="text-align: center;">
+            <dotlottie-player
+                src="https://lottie.host/361e18c3-a1dc-4e6b-af1e-6dcdded54c47/yY2N31uIA2.lottie"
+                background="transparent"
+                speed="1"
+                style="width: 250px; height: 250px;"
+                autoplay>
+            </dotlottie-player>
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.image("c6be5555-1512-4dfe-a8bb-2b2d83232629.png", width=250, caption="Hai! Klik aku ya ✋")
