@@ -70,9 +70,9 @@ div[data-testid="stCameraInput"] button[aria-label="Clear photo"] {
 </style>
 """, unsafe_allow_html=True)
 
-col_header_left, col_header_right = st.columns([0.8, 0.2])
+col_header_left, col_header_right = st.columns([0.85, 0.15])
 with col_header_right:
-    col_00, col_01 = st.columns([0.5, 0.5])
+    col_00, col_01 = st.columns([0.3, 0.7])
     with col_00:
         st.markdown("""
         <div style='display: flex; align-items: flex-end; height: 100%; justify-content: flex-start;'>
