@@ -146,11 +146,14 @@ with col_header_left:
 
     placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png"
     placeholder_caption = ""
+    placeholder_analysis = ""
 
     if "image_states" not in st.session_state:
       st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
     if "image_captions" not in st.session_state:
       st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
+    if "image_analysis" not in st.session_state:
+      st.session_state.image_captions = [placeholder_analysis]
 
     with col1:
 
@@ -195,28 +198,22 @@ with col_header_left:
         if user_input:
             image = Image.open(io.BytesIO(user_input.getvalue()))
 
-            url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
-            response = requests.get(url)
-            prompt = response.text
-            response = model.generate_content([prompt, image])
-            raw_output = response.text
-            escaped_text = html.escape(response.text)
-
-            url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
-            response_json = requests.get(url_json)
-            prompt_json = response_json.text
-            response_json = model.generate_content([prompt_json, raw_output])
-
-            st.markdown(f"""
-            <div class="mood-box">
-                <pre style="white-space: pre-wrap;">{escaped_text}</pre>
-            </div>
-            """, unsafe_allow_html=True)
-
-            st.write("**Gemini says:**", response_json.text)
-            
             if image is not None:
-              st.write("WOOWOWOWOOWOWOWOWOWOOWOWOW")
+
+              url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
+              response = requests.get(url)
+              prompt = response.text
+              response = model.generate_content([prompt, image])
+              raw_output = response.text
+              escaped_text = html.escape(response.text)
+
+              url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
+              response_json = requests.get(url_json)
+              prompt_json = response_json.text
+              response_json = model.generate_content([prompt_json, raw_output])
+
+              st.write("**Gemini says:**", response_json.text)
+
               filenames = response_json.text.strip().split(",")
               midpoint = len(filenames) // 2
               first_filenames = filenames[:midpoint]
@@ -231,6 +228,8 @@ with col_header_left:
               imgcap_property_2 = first_filenames[1].strip()
               imgcap_holiday_1 = second_filenames[0].strip()
               imgcap_holiday_2 = second_filenames[1].strip()
+
+              updated_img_analysis = escaped_text
 
               updated_image_urls = [
                   imgpath_property_1,
@@ -248,3 +247,13 @@ with col_header_left:
 
               st.session_state.image_states = updated_image_urls
               st.session_state.image_captions = updated_image_captions
+              st.session_state.image_analysis = updated_image_analysis
+        
+        analysis_list = []
+        for analysis in st.session_state.image_analysis:
+          analysis_list.append(analysis)
+        st.markdown(f"""
+          <div class="mood-box">
+          <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
+          </div>
+          """, unsafe_allow_html=True)
