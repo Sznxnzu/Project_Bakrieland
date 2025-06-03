@@ -190,3 +190,18 @@ with col_header_left:
             """, unsafe_allow_html=True)
 
             st.write("**Gemini says:**", response_json.text)
+            filenames = response_json.text.strip().split(",")
+
+            midpoint = len(filenames) // 2
+            first_filenames = filenames[:midpoint]
+            second_filenames = filenames[midpoint:]
+
+            for filename in first_filenames:
+              filename = filename.strip()
+              image_url = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{filename}.jpg"
+              st.image(image_url, caption=filename, use_column_width=True)
+
+            for filename in second_filenames:
+              filename = filename.strip()
+              image_url = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{filename}.jpg"
+              st.image(image_url, caption=filename, use_column_width=True)
