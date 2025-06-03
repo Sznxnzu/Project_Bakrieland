@@ -105,3 +105,4 @@ Notes:
 2. Use bullet points at every *insert*, where the symbol '-' in the example and format above denotes bullets
 3. DO NOT print /NEWLINE/; it simply denotes where the spacing is. 
 4. DO NOT include debug
+5. property and holiday location MUST BE FROM THE DATABASE, DO NOT HALLUCINATE FROM OUTSIDE THE DATABASE
