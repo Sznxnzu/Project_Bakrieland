@@ -169,8 +169,8 @@ with col_header_left:
     placeholder_caption = ""
     placeholder_analysis = ""
     
-    if "user_input" not in st.session_state:
-      st.session_state.user_input = None
+    if "allow_display" not in st.session_state:
+      st.session_state.allow_display = False
     if "image_states" not in st.session_state:
       st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
     if "image_captions" not in st.session_state:
@@ -222,7 +222,7 @@ with col_header_left:
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
         analysis_list = []
-        
+
         for analysis in st.session_state.image_analysis:
           analysis_list.append(analysis)
         if len(analysis) < 1:
@@ -240,49 +240,51 @@ with col_header_left:
         
         if user_input:
             image = Image.open(io.BytesIO(user_input.getvalue()))
-            if image is not None:
-              url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
-              response = requests.get(url)
-              prompt = response.text
-              response = model.generate_content([prompt, image])
-              raw_output = response.text
-              escaped_text = html.escape(response.text)
-              url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
-              response_json = requests.get(url_json)
-              prompt_json = response_json.text
-              response_json = model.generate_content([prompt_json, raw_output])
+            if image is not None :
+              if st.session_state.allow_display:
+                url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
+                response = requests.get(url)
+                prompt = response.text
+                response = model.generate_content([prompt, image])
+                raw_output = response.text
+                escaped_text = html.escape(response.text)
+                url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
+                response_json = requests.get(url_json)
+                prompt_json = response_json.text
+                response_json = model.generate_content([prompt_json, raw_output])
 
-              filenames = response_json.text.strip().split(",")
-              midpoint = len(filenames) // 2
-              first_filenames = filenames[:midpoint]
-              second_filenames = filenames[midpoint:]
+                filenames = response_json.text.strip().split(",")
+                midpoint = len(filenames) // 2
+                first_filenames = filenames[:midpoint]
+                second_filenames = filenames[midpoint:]
 
-              imgpath_property_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[0].strip()}.jpg"
-              imgpath_property_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[1].strip()}.jpg"
-              imgpath_holiday_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[0].strip()}.jpg"
-              imgpath_holiday_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[1].strip()}.jpg"
-              imgcap_property_1 = first_filenames[0].strip()
-              imgcap_property_2 = first_filenames[1].strip()
-              imgcap_holiday_1 = second_filenames[0].strip()
-              imgcap_holiday_2 = second_filenames[1].strip()
-              updated_image_analysis = escaped_text
+                imgpath_property_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[0].strip()}.jpg"
+                imgpath_property_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[1].strip()}.jpg"
+                imgpath_holiday_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[0].strip()}.jpg"
+                imgpath_holiday_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[1].strip()}.jpg"
+                imgcap_property_1 = first_filenames[0].strip()
+                imgcap_property_2 = first_filenames[1].strip()
+                imgcap_holiday_1 = second_filenames[0].strip()
+                imgcap_holiday_2 = second_filenames[1].strip()
+                updated_image_analysis = escaped_text
 
-              updated_image_urls = [
-                  imgpath_property_1,
-                  imgpath_property_2,
-                  imgpath_holiday_1,
-                  imgpath_holiday_2
-              ]
-              updated_image_captions = [
-                  imgcap_property_1,
-                  imgcap_property_2,
-                  imgcap_holiday_1,
-                  imgcap_holiday_2
-              ]
+                updated_image_urls = [
+                    imgpath_property_1,
+                    imgpath_property_2,
+                    imgpath_holiday_1,
+                    imgpath_holiday_2
+                ]
+                updated_image_captions = [
+                    imgcap_property_1,
+                    imgcap_property_2,
+                    imgcap_holiday_1,
+                    imgcap_holiday_2
+                ]
 
-              st.session_state.image_states = updated_image_urls
-              st.session_state.image_captions = updated_image_captions
-              st.session_state.image_analysis = [updated_image_analysis]
+                st.session_state.image_states = updated_image_urls
+                st.session_state.image_captions = updated_image_captions
+                st.session_state.image_analysis = [updated_image_analysis]
 
               if st.button("Process Photo"):
+                st.session_state.allow_display = True
                 st.rerun()
