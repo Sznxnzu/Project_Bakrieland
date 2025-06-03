@@ -146,8 +146,8 @@ with col_header_left:
 
     placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png"
 
-    if "image_url" not in st.session_state:
-      st.session_state.image_url = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
+    if "image_states" not in st.session_state:
+      st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
 
     with col1:
         for url in st.session_state.image_states[:2]:
