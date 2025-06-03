@@ -3,7 +3,7 @@ Please help me identify and isolate the names, then format them.
 
 here is an example of what i want you to do
 Input:
--input start-
+
 Analisa Mood:
 Lelah: Ekspresi wajah dan rambut yang sedikit acak-acakan menunjukkan kelelahan.
 Santai: Posisi tubuh yang rileks menunjukkan suasana hati yang tenang dan santai.
@@ -18,12 +18,10 @@ Rekomendasi Liburan yang Cocok:
 Hotel Aston Sidoarjo: Menikmati fasilitas hotel yang nyaman dan tenang di kota Sidoarjo.
 The Grove Suites: Menikmati ketenangan dan kenyamanan di hotel yang nyaman.
 Rivera: Berpartisipasi dalam kegiatan outbound yang menyenangkan untuk melepas penat.
--input end-
+
 
 Output:
--output start-
 Awana Townhouse Yogyakarta, Kahuripan Nirwana 1, Bogor Nirwana Residence 1 | Hotel Aston Sidoarjo, The Grove Suites, Rivera
--output end-
 
 Notes:
 1. do not use bullet points for the output
