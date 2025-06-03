@@ -164,9 +164,9 @@ with col_header_left:
         st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.markdown(f"""
           <div class="portrait-box">
-              <img src="{url_list_1[0]}" style="width:100%; border-radius: 8px;" />
+              <img src="{url_list_1[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
               <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_1[0]}</p>
-              <img src="{url_list_1[1]}" style="width:100%; border-radius: 8px;" />
+              <img src="{url_list_1[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
               <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_1[1]}</p>
           </div>
         """, unsafe_allow_html=True)
@@ -182,9 +182,9 @@ with col_header_left:
         st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.markdown(f"""
           <div class="portrait-box">
-              <img src="{url_list_2[0]}" style="width:100%; border-radius: 8px;" />
+              <img src="{url_list_2[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
               <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_2[0]}</p>
-              <img src="{url_list_2[1]}" style="width:100%; border-radius: 8px;" />
+              <img src="{url_list_2[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
               <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_2[1]}</p>
           </div>
         """, unsafe_allow_html=True)
