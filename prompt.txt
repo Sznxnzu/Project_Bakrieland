@@ -104,3 +104,4 @@ Notes:
 1. Add spacing at every /NEWLINE/; which is at the end of every sentence, and add double spacing between each new category where the categories are (Analisa Mood, Property, and Rekomendasi Liburan yang Cocok)
 2. Use bullet points at every *insert*, where the symbol '-' in the example and format above denotes bullets
 3. DO NOT print /NEWLINE/; it simply denotes where the spacing is. 
+4. DO NOT include debug
