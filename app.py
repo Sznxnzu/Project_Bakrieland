@@ -63,6 +63,25 @@ html, body, [data-testid="stAppViewContainer"] {
     margin-bottom: 1em;
     padding-left: 20px;
 }
+.mood-box-content {
+    border: 2px solid #00f0ff;
+    background-color: rgba(10, 15, 30, 0.85);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00f0ff;
+    font-size: 10px;
+    margin-top: 10px;
+    width: 100%;
+    height: 40vh;
+}
+.mood-box-content p {
+    margin-bottom: 0;
+}
+.mood-box-content ul {
+    margin-top: 0;
+    margin-bottom: 1em;
+    padding-left: 20px;
+}
 div[data-testid="stCameraInput"] > div {
     aspect-ratio: 4 / 5;
     width: 60% !important;
@@ -203,13 +222,22 @@ with col_header_left:
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
         analysis_list = []
+        
         for analysis in st.session_state.image_analysis:
           analysis_list.append(analysis)
-        st.markdown(f"""
+        if len(analysis) < 1:
+          st.markdown(f"""
           <div class="mood-box">
           <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
           </div>
           """, unsafe_allow_html=True)
+        else:
+          st.markdown(f"""
+          <div class="mood-box-content">
+          <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
+          </div>
+          """, unsafe_allow_html=True)
+        
         if user_input:
             image = Image.open(io.BytesIO(user_input.getvalue()))
             if image is not None:
