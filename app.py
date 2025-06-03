@@ -144,23 +144,23 @@ with col_header_right:
 with col_header_left:
     col1, col2, col3 = st.columns([1, 1, 1.4])
 
-    if "filenames" not in st.session_state:
-        st.session_state.filenames = None
-    if "processed" not in st.session_state:
-        st.session_state.processed = False
-    if "escaped_text" not in st.session_state:
-        st.session_state["escaped_text"] = None
-    if "gemini_text" not in st.session_state:
-        st.session_state["gemini_text"] = None
+    # Initialize session state keys if not present
+    for key, default in {
+        "filenames": None,
+        "processed": False,
+        "escaped_text": None,
+        "gemini_text": None,
+        "raw_output": None,
+    }.items():
+        if key not in st.session_state:
+            st.session_state[key] = default
 
     with col3:
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
 
-        # Add a button to trigger processing
-        process_button = st.button("Process Image")
-
-        if process_button and user_input:
+        # Process and show outputs immediately when photo is taken
+        if user_input:
             image = Image.open(io.BytesIO(user_input.getvalue()))
 
             url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
@@ -175,27 +175,33 @@ with col_header_left:
             prompt_json = response_json.text
             response_json = model.generate_content([prompt_json, raw_output])
 
+            # Store these outputs for immediate display
             st.session_state["escaped_text"] = escaped_text
             st.session_state["gemini_text"] = response_json.text
-            st.session_state.filenames = response_json.text.strip().split(",")
-            st.session_state.processed = True
-
-        # If no user input or button not pressed, reset processed flag and outputs
-        if not user_input:
-            st.session_state.processed = False
-            st.session_state.filenames = None
+            st.session_state["raw_output"] = raw_output
+        else:
+            # Clear outputs if no image
             st.session_state["escaped_text"] = None
             st.session_state["gemini_text"] = None
+            st.session_state["raw_output"] = None
+            st.session_state.processed = False
+            st.session_state.filenames = None
 
-        # Display output if processed
-        if st.session_state.processed:
+        # Show the immediate output below camera input
+        if st.session_state["escaped_text"]:
             st.markdown(f"""
-            <div class="mood-box">
-                <pre style="white-space: pre-wrap;">{st.session_state['escaped_text']}</pre>
-            </div>
+                <div class="mood-box">
+                    <pre style="white-space: pre-wrap;">{st.session_state['escaped_text']}</pre>
+                </div>
             """, unsafe_allow_html=True)
-
             st.write("**Gemini says:**", st.session_state["gemini_text"])
+
+        # Button to update filenames and recommendations in col1 & col2
+        process_button = st.button("Process Image for Recommendations")
+
+        if process_button and st.session_state["raw_output"]:
+            st.session_state.filenames = st.session_state["raw_output"].strip().split(",")
+            st.session_state.processed = True
 
     filenames = st.session_state.filenames
 
@@ -209,7 +215,7 @@ with col_header_left:
 
     with col1:
         st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
-        if filenames and len(filenames) > 1:
+        if filenames and len(first_filenames) > 1:
             image_path_property_1 = first_filenames[0]
             image_path_property_2 = first_filenames[1]
             st.markdown(f"""
@@ -233,7 +239,7 @@ with col_header_left:
 
     with col2:
         st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
-        if filenames and len(filenames) > 3:
+        if filenames and len(second_filenames) > 1:
             image_path_holiday_1 = second_filenames[0]
             image_path_holiday_2 = second_filenames[1]
             st.markdown(f"""
