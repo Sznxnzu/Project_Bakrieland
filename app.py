@@ -53,7 +53,7 @@ html, body, [data-testid="stAppViewContainer"] {
     font-size: 10px;
     margin-top: 10px;
     width: 100%;
-    height: 20vh;
+    height: 17vh;
 }
 .mood-box p {
     margin-bottom: 0;
