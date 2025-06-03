@@ -4,20 +4,17 @@ import io
 
 # Initialize with a default image only once
 if "display_image" not in st.session_state:
-    st.session_state.display_image = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png"
+    st.session_state.display_image = "https://via.placeholder.com/300?text=Initial+Image"
 
-# Show current image
-st.image(st.session_state.display_image, caption="Current Image", use_column_width=True)
-
-# Take picture from camera
+# Camera input
 camera_picture = st.camera_input("Take a picture")
 
-# Button to update the displayed image
-if st.button("Use This Photo") and camera_picture is not None:
-    # Convert camera input (bytes) into a PIL image (or just store bytes)
-    image_bytes = camera_picture.getvalue()
-    st.session_state.display_image = image_bytes  # You can also save image to disk or cloud here
+# If camera input is available, update the displayed image
+if camera_picture is not None:
+    st.session_state.display_image = camera_picture.getvalue()
 
-# If the display_image is bytes (camera input), show it
+# Display the current image (whether default or from camera)
 if isinstance(st.session_state.display_image, bytes):
-    st.image(st.session_state.display_image, caption="Updated from Camera", use_column_width=True)
+    st.image(st.session_state.display_image, caption="From Camera", use_column_width=True)
+else:
+    st.image(st.session_state.display_image, caption="Initial Image", use_column_width=True)
