@@ -17,7 +17,7 @@ html, body, [data-testid="stAppViewContainer"] {
         display: none;
     }
 .stApp {
-    background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/wallpaper/wallpaper_2.png");
+    background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/wallpaper_2.png");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -85,14 +85,8 @@ div[data-testid="stCameraInput"] img {
 </style>
 """, unsafe_allow_html=True)
 
-## test
-genai.configure(api_key="AIzaSyBd7y7fGY7UAtyQKle1slS97kb_SfWr3WE")
+genai.configure(api_key= st.secrets["gemini_api"])
 model = genai.GenerativeModel("gemini-1.5-flash-latest")
-user_input = st.text_input("Ask something:")
-if user_input:
-    response = model.generate_content(user_input)
-    st.write("**Gemini says:**", response.text)
-## test
 
 col_header_left, col_header_right = st.columns([0.85, 0.15])
 with col_header_right:
@@ -107,9 +101,9 @@ with col_header_right:
     with col_01:
         st.markdown("""
         <div style='text-align: right;'>
-            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png' width='120' margin: 5px;'>
-            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png' width='50' style='margin: 5px;'>
-            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png' width='50' style='margin: 5px;'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/bakrieland_logo.png' width='120' margin: 5px;'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/google_logo.png' width='50' style='margin: 5px;'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/metrodata_logo.png' width='50' style='margin: 5px;'>
         </div>
         """, unsafe_allow_html=True)
 
@@ -143,7 +137,7 @@ with col_header_right:
     )
     st.markdown("""
           <div class="qr-box">
-              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png" style="width:100%; border-radius: 8px;" />
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/qr_logo.png" style="width:100%; border-radius: 8px;" />
           </div>
         """, unsafe_allow_html=True)
 
