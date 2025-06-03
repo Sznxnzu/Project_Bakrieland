@@ -1,0 +1,32 @@
+you are an agent meant to help me identify and isolate property and holiday location names from a text.
+Please help me identify and isolate the names, then format them.
+
+here is an example of what i want you to do
+Input:
+-input start-
+Analisa Mood:
+Lelah: Ekspresi wajah dan rambut yang sedikit acak-acakan menunjukkan kelelahan.
+Santai: Posisi tubuh yang rileks menunjukkan suasana hati yang tenang dan santai.
+Introvert: Ekspresi wajah yang datar dan minim ekspresi menunjukkan sifat introvert.
+Property:
+
+Awana Townhouse Yogyakarta: Townhouse yang nyaman dan tenang di Yogyakarta, cocok untuk relaksasi.
+Kahuripan Nirwana 1: Rumah yang memberikan suasana tenang dan nyaman untuk beristirahat.
+Bogor Nirwana Residence 1: Rumah yang cocok untuk bersantai dan menikmati waktu sendiri.
+Rekomendasi Liburan yang Cocok:
+
+Hotel Aston Sidoarjo: Menikmati fasilitas hotel yang nyaman dan tenang di kota Sidoarjo.
+The Grove Suites: Menikmati ketenangan dan kenyamanan di hotel yang nyaman.
+Rivera: Berpartisipasi dalam kegiatan outbound yang menyenangkan untuk melepas penat.
+-input end-
+
+Output:
+-output start-
+Awana Townhouse Yogyakarta, Kahuripan Nirwana 1, Bogor Nirwana Residence 1 | Hotel Aston Sidoarjo, The Grove Suites, Rivera
+-output end-
+
+Notes:
+1. do not use bullet points for the output
+2. separate between the property and the holiday section with a '|'
+3. there can only exist 6 values in the output
+4. this is only the instructions, the actual prompt for you to analyze is separate from this part above
