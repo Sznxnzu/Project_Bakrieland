@@ -179,28 +179,11 @@ with col_header_left:
             url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
             response = requests.get(url)
             prompt = response.text
-
             response = model.generate_content([prompt, image])
-            st.write("**Gemini says:**", response.text)
+            escaped_text = html.escape(response.text)
+
             st.markdown("""
             <div class="mood-box">
-                <p><strong>Analisa Mood:</strong></p>
-                <ul>
-                    <li>Percaya Diri: Terlihat dari sorot matanya dan posisi wajahnya.</li>
-                    <li>Elegan/Glamor: Penampilannya secara keseluruhan memberikan kesan ini.</li>
-                    <li>Tenang/Terkontrol: Tidak ada tanda-tanda kegelisahan atau kekacauan.</li>
-                </ul>
-                <p><strong>Property:</strong></p>
-                <ul>
-                    <li>Apartemen Mewah di Pusat Kota</li>
-                    <li>Hunian Klasik Modern</li>
-                    <li>Villa Eksklusif Pemandangan Alam</li>
-                </ul>
-                <p><strong>Rekomendasi Liburan:</strong></p>
-                <ul>
-                    <li>Liburan Santai di Resort</li>
-                    <li>Perjalanan Kuliner Kota</li>
-                    <li>Kapal Pesiar Mewah</li>
-                </ul>
+              <pre style="white-space: pre-wrap;">{escaped_text}</pre>
             </div>
             """, unsafe_allow_html=True)
