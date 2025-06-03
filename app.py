@@ -113,14 +113,14 @@ with col_header_right:
         """
         <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
-        <model-viewer id="robot" 
+        <model-viewer id="robot"
             src="https://cdn.jsdelivr.net/gh/husnanali05/FP_Datmin@main/nerinho_-_mascote_da_neomind.glb"
             alt="Robot Nerinho 3D"
-            camera-controls 
-            auto-rotate 
+            camera-controls
+            auto-rotate
             autoplay
             style="width: 100%; height: 400px;"
-            ar 
+            ar
             shadow-intensity="1"
             environment-image="neutral"
             exposure="1"
@@ -257,7 +257,14 @@ with col_header_left:
               if not st.session_state.has_rerun:
                 st.session_state.has_rerun = True
                 st.rerun()
-        
+        else:
+            if st.session_state.has_rerun:
+            st.session_state.has_rerun = False
+            st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
+            st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
+            st.session_state.image_analysis = [placeholder_analysis]
+
+
         analysis_list = []
         for analysis in st.session_state.image_analysis:
           analysis_list.append(analysis)
