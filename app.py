@@ -159,27 +159,34 @@ with col_header_left:
                 prompt = response.text
                 response = model.generate_content([prompt, image])
                 raw_output = response.text
-                escaped_text = html.escape(response.text)
+                escaped_text = html.escape(raw_output)
 
                 url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
                 response_json = requests.get(url_json)
                 prompt_json = response_json.text
                 response_json = model.generate_content([prompt_json, raw_output])
 
-                st.markdown(f"""
-                <div class="mood-box">
-                    <pre style="white-space: pre-wrap;">{escaped_text}</pre>
-                </div>
-                """, unsafe_allow_html=True)
-
-                st.write("**Gemini says:**", response_json.text)
-
+                # Save results to session_state instead of showing immediately
+                st.session_state["escaped_text"] = escaped_text
+                st.session_state["gemini_text"] = response_json.text
                 st.session_state.filenames = response_json.text.strip().split(",")
                 st.session_state.processed = True
-                st.rerun()
 
         else:
             st.session_state.processed = False
+            st.session_state.filenames = None
+            st.session_state["escaped_text"] = None
+            st.session_state["gemini_text"] = None
+
+        # Display output if processed
+        if st.session_state.get("processed", False):
+            st.markdown(f"""
+            <div class="mood-box">
+                <pre style="white-space: pre-wrap;">{st.session_state['escaped_text']}</pre>
+            </div>
+            """, unsafe_allow_html=True)
+
+            st.write("**Gemini says:**", st.session_state["gemini_text"])
 
     filenames = st.session_state.filenames
 
