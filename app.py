@@ -17,7 +17,7 @@ html, body, [data-testid="stAppViewContainer"] {
         display: none;
     }
 .stApp {
-    background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/wallpaper_2.png");
+    background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/wallpaper/wallpaper_2.png");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
