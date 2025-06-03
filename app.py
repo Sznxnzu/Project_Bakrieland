@@ -183,8 +183,8 @@ with col_header_left:
             response = model.generate_content([prompt, image])
             escaped_text = html.escape(response.text)
 
-            st.markdown("""
+            st.markdown(f"""
             <div class="mood-box">
-              <pre style="white-space: pre-wrap;">{escaped_text}</pre>
+                <pre style="white-space: pre-wrap;">{escaped_text}</pre>
             </div>
             """, unsafe_allow_html=True)
