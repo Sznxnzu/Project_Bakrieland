@@ -52,6 +52,8 @@ html, body, [data-testid="stAppViewContainer"] {
     box-shadow: 0 0 20px #00f0ff;
     font-size: 10px;
     margin-top: 10px;
+    width: 100%;
+    height: 20vh;
 }
 .mood-box p {
     margin-bottom: 0;
@@ -144,7 +146,7 @@ with col_header_right:
 with col_header_left:
     col1, col2, col3 = st.columns([1, 1, 1.4])
 
-    placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png"
+    placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/placeholder.png"
     placeholder_caption = ""
     placeholder_analysis = ""
 
@@ -215,7 +217,7 @@ with col_header_left:
               prompt_json = response_json.text
               response_json = model.generate_content([prompt_json, raw_output])
 
-              st.write("**Gemini says:**", response_json.text)
+              # st.write("**Gemini says:**", response_json.text)
 
               filenames = response_json.text.strip().split(",")
               midpoint = len(filenames) // 2
