@@ -229,7 +229,7 @@ with col_header_left:
               imgcap_holiday_1 = second_filenames[0].strip()
               imgcap_holiday_2 = second_filenames[1].strip()
 
-              updated_image_analysis = response
+              updated_image_analysis = escaped_text
 
               updated_image_urls = [
                   imgpath_property_1,
@@ -247,11 +247,11 @@ with col_header_left:
 
               st.session_state.image_states = updated_image_urls
               st.session_state.image_captions = updated_image_captions
-              st.session_state.image_analysis = updated_image_analysis
+              st.session_state.image_analysis = [updated_image_analysis]
         
         analysis_list = []
         for analysis in st.session_state.image_analysis:
-          analysis_list.append(html.escape(analysis.text))
+          analysis_list.append(analysis)
         st.markdown(f"""
           <div class="mood-box">
           <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
