@@ -229,7 +229,7 @@ with col_header_left:
               imgcap_holiday_1 = second_filenames[0].strip()
               imgcap_holiday_2 = second_filenames[1].strip()
 
-              updated_img_analysis = escaped_text
+              updated_image_analysis = escaped_text
 
               updated_image_urls = [
                   imgpath_property_1,
