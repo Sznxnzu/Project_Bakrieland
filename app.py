@@ -152,15 +152,14 @@ with col_header_left:
     
     if "user_input" not in st.session_state:
       st.session_state.user_input = None
+    if "show_camera" not in st.session_state:
+      st.session_state.show_camera = True
     if "image_states" not in st.session_state:
       st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
     if "image_captions" not in st.session_state:
       st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
     if "image_analysis" not in st.session_state:
       st.session_state.image_analysis = [placeholder_analysis]
-    if "has_rerun" not in st.session_state:
-      st.session_state.has_rerun = False
-
 
     with col1:
 
@@ -201,76 +200,74 @@ with col_header_left:
 
     with col3:
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
-        user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
-        if user_input:
+        
+        if st.session_state.show_camera:
+          user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
+          if user_input:
             st.session_state.user_input = user_input
+            st.session_state.show_camera = False
             image = Image.open(io.BytesIO(user_input.getvalue()))
 
-            if image is not None:
+            url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
+            response = requests.get(url)
+            prompt = response.text
+            response = model.generate_content([prompt, image])
+            raw_output = response.text
+            escaped_text = html.escape(response.text)
+            url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
+            response_json = requests.get(url_json)
+            prompt_json = response_json.text
+            response_json = model.generate_content([prompt_json, raw_output])
 
-              url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
-              response = requests.get(url)
-              prompt = response.text
-              response = model.generate_content([prompt, image])
-              raw_output = response.text
-              escaped_text = html.escape(response.text)
+            # st.write("**Gemini says:**", response_json.text)
 
-              url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
-              response_json = requests.get(url_json)
-              prompt_json = response_json.text
-              response_json = model.generate_content([prompt_json, raw_output])
+            filenames = response_json.text.strip().split(",")
+            midpoint = len(filenames) // 2
+            first_filenames = filenames[:midpoint]
+            second_filenames = filenames[midpoint:]
 
-              # st.write("**Gemini says:**", response_json.text)
+            imgpath_property_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[0].strip()}.jpg"
+            imgpath_property_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[1].strip()}.jpg"
+            imgpath_holiday_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[0].strip()}.jpg"
+            imgpath_holiday_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[1].strip()}.jpg"
+            imgcap_property_1 = first_filenames[0].strip()
+            imgcap_property_2 = first_filenames[1].strip()
+            imgcap_holiday_1 = second_filenames[0].strip()
+            imgcap_holiday_2 = second_filenames[1].strip()
+            updated_image_analysis = escaped_text
 
-              filenames = response_json.text.strip().split(",")
-              midpoint = len(filenames) // 2
-              first_filenames = filenames[:midpoint]
-              second_filenames = filenames[midpoint:]
+            updated_image_urls = [
+                imgpath_property_1,
+                imgpath_property_2,
+                imgpath_holiday_1,
+                imgpath_holiday_2
+            ]
+            updated_image_captions = [
+                imgcap_property_1,
+                imgcap_property_2,
+                imgcap_holiday_1,
+                imgcap_holiday_2
+            ]
+            st.session_state.image_states = updated_image_urls
+            st.session_state.image_captions = updated_image_captions
+            st.session_state.image_analysis = [updated_image_analysis]
 
-              imgpath_property_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[0].strip()}.jpg"
-              imgpath_property_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[1].strip()}.jpg"
-              imgpath_holiday_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[0].strip()}.jpg"
-              imgpath_holiday_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[1].strip()}.jpg"
-
-              imgcap_property_1 = first_filenames[0].strip()
-              imgcap_property_2 = first_filenames[1].strip()
-              imgcap_holiday_1 = second_filenames[0].strip()
-              imgcap_holiday_2 = second_filenames[1].strip()
-
-              updated_image_analysis = escaped_text
-
-              updated_image_urls = [
-                  imgpath_property_1,
-                  imgpath_property_2,
-                  imgpath_holiday_1,
-                  imgpath_holiday_2
-              ]
-
-              updated_image_captions = [
-                  imgcap_property_1,
-                  imgcap_property_2,
-                  imgcap_holiday_1,
-                  imgcap_holiday_2
-              ]
-
-              st.session_state.image_states = updated_image_urls
-              st.session_state.image_captions = updated_image_captions
-              st.session_state.image_analysis = [updated_image_analysis]
-
-              if not st.session_state.has_rerun:
-                st.session_state.has_rerun = True
-                st.rerun()
-                
+        else:
+          st.write("image captured")
+          st.image(st.session_state.user_input)
+        
         if st.button("Clear Photo"):
           st.session_state.user_input = None
-          st.session_state.has_rerun = False
-
-
+          st.session_state.show_camera = True
+        
+        if st.button("Process Photo"):
+          st.rerun()
+        
         analysis_list = []
-        for analysis in st.session_state.image_analysis:
-          analysis_list.append(analysis)
-        st.markdown(f"""
-          <div class="mood-box">
-          <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
-          </div>
-          """, unsafe_allow_html=True)
+          for analysis in st.session_state.image_analysis:
+            analysis_list.append(analysis)
+          st.markdown(f"""
+            <div class="mood-box">
+            <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
+            </div>
+            """, unsafe_allow_html=True)
