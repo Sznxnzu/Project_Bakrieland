@@ -287,4 +287,7 @@ with col_header_left:
 
               if st.button("Process Photo"):
                 st.session_state.allow_display = True
+                st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
+                st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
+                st.session_state.image_analysis = [placeholder_analysis]
                 st.rerun()
