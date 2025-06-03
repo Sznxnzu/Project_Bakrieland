@@ -174,7 +174,7 @@ with col_header_left:
             st.write("**Gemini says:**", response_json.text)
 
             st.session_state.filenames = response_json.text.strip().split(",")
-            st.experimental_rerun()
+            st.rerun()
 
     filenames = st.session_state.filenames
 
