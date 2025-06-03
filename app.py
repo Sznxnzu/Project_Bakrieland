@@ -199,9 +199,9 @@ with col_header_left:
             for filename in first_filenames:
               filename = filename.strip()
               image_url = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{filename}.jpg"
-              st.image(image_url, caption=filename, use_column_width=True)
+              st.image(image_url, caption=filename)
 
             for filename in second_filenames:
               filename = filename.strip()
               image_url = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{filename}.jpg"
-              st.image(image_url, caption=filename, use_column_width=True)
+              st.image(image_url, caption=filename)
