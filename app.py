@@ -143,35 +143,31 @@ with col_header_right:
 
 with col_header_left:
     col1, col2, col3 = st.columns([1, 1, 1.4])
-
-    if "filenames" not in st.session_state:
-        st.session_state.filenames = {
-            "property": ["property_image", "property_image"],
-            "holiday": ["themepark_image", "themepark_image"]
-        }
-
     with col1:
         st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
-        st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
-        for filename in st.session_state.filenames["property"]:
-            image_url = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{filename}.jpg"
-            st.image(image_url, caption=filename, use_column_width=True)
-            st.markdown(f'<p style="text-align:center; margin-top:5px; font-size:0.9em; color:#ccc;">{filename.replace("_", " ").title()}</p>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown("""
+          <div class="portrait-box">
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg" style="width:100%; border-radius: 8px;" />
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">KAHURIPAN NIRWANA</p>
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg" style="width:100%; border-radius: 8px;" />
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">BOGOR NIRWANA RESIDENCE</p>
+          </div>
+        """, unsafe_allow_html=True)
 
     with col2:
         st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
-        st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
-        for filename in st.session_state.filenames["holiday"]:
-            image_url = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{filename}.jpg"
-            st.image(image_url, caption=filename, use_column_width=True)
-            st.markdown(f'<p style="text-align:center; margin-top:5px; font-size:0.9em; color:#ccc;">{filename.replace("_", " ").title()}</p>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown("""
+          <div class="portrait-box">
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg" style="width:100%; border-radius: 8px;" />
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">Jungle Sea</p>
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg" style="width:100%; border-radius: 8px;" />
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">Rivera Outbond</p>
+          </div>
+        """, unsafe_allow_html=True)
 
     with col3:
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
-
         if user_input:
             image = Image.open(io.BytesIO(user_input.getvalue()))
 
@@ -180,7 +176,7 @@ with col_header_left:
             prompt = response.text
             response = model.generate_content([prompt, image])
             raw_output = response.text
-            escaped_text = html.escape(raw_output)
+            escaped_text = html.escape(response.text)
 
             url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
             response_json = requests.get(url_json)
@@ -194,32 +190,18 @@ with col_header_left:
             """, unsafe_allow_html=True)
 
             st.write("**Gemini says:**", response_json.text)
-
-            filenames = [f.strip() for f in response_json.text.strip().split(",") if f.strip()]
+            filenames = response_json.text.strip().split(",")
 
             midpoint = len(filenames) // 2
-            property_files = filenames[:midpoint]
-            holiday_files = filenames[midpoint:]
+            first_filenames = filenames[:midpoint]
+            second_filenames = filenames[midpoint:]
 
-            st.session_state.filenames = {
-                "property": property_files if property_files else ["property_image", "property_image"],
-                "holiday": holiday_files if holiday_files else ["themepark_image", "themepark_image"]
-            }
+            for filename in first_filenames:
+              filename = filename.strip()
+              image_url = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{filename}.jpg"
+              st.image(image_url, caption=filename)
 
-            col_prop, col_hol = st.columns(2)
-            with col_prop:
-                st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
-                st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
-                for filename in st.session_state.filenames["property"]:
-                    image_url = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{filename}.jpg"
-                    st.image(image_url, caption=filename, use_column_width=True)
-                    st.markdown(f'<p style="text-align:center; margin-top:5px; font-size:0.9em; color:#ccc;">{filename.replace("_", " ").title()}</p>', unsafe_allow_html=True)
-                st.markdown('</div>', unsafe_allow_html=True)
-            with col_hol:
-                st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
-                st.markdown('<div class="portrait-box">', unsafe_allow_html=True)
-                for filename in st.session_state.filenames["holiday"]:
-                    image_url = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{filename}.jpg"
-                    st.image(image_url, caption=filename, use_column_width=True)
-                    st.markdown(f'<p style="text-align:center; margin-top:5px; font-size:0.9em; color:#ccc;">{filename.replace("_", " ").title()}</p>', unsafe_allow_html=True)
-                st.markdown('</div>', unsafe_allow_html=True)
+            for filename in second_filenames:
+              filename = filename.strip()
+              image_url = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{filename}.jpg"
+              st.image(image_url, caption=filename)
