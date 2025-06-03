@@ -21,10 +21,9 @@ Rivera: Berpartisipasi dalam kegiatan outbound yang menyenangkan untuk melepas p
 
 
 Output:
-Awana Townhouse Yogyakarta, Kahuripan Nirwana 1, Bogor Nirwana Residence 1 | Hotel Aston Sidoarjo, The Grove Suites, Rivera
+Awana Townhouse Yogyakarta, Kahuripan Nirwana 1, Bogor Nirwana Residence 1, Hotel Aston Sidoarjo, The Grove Suites, Rivera
 
 Notes:
 1. do not use bullet points for the output
-2. separate between the property and the holiday section with a '|'
-3. there can only exist 6 values in the output
-4. this is only the instructions, the actual prompt for you to analyze is separate from this part above
+2. there can only exist 6 values in the output
+3. this is only the instructions, the actual prompt for you to analyze is separate from this part above
