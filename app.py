@@ -190,6 +190,7 @@ with col_header_left:
         """, unsafe_allow_html=True)
 
     with col3:
+        op_state = 0
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
         if user_input:
@@ -214,8 +215,9 @@ with col_header_left:
             """, unsafe_allow_html=True)
 
             st.write("**Gemini says:**", response_json.text)
+            op_state = 1
             
-            if image is not None:
+            if op_state == 1:
               filenames = response_json.text.strip().split(",")
               midpoint = len(filenames) // 2
               first_filenames = filenames[:midpoint]
