@@ -285,7 +285,6 @@ with col_header_left:
                 st.session_state.image_captions = updated_image_captions
                 st.session_state.image_analysis = [updated_image_analysis]
                 st.session_state.process_triggered = False 
-                st.rerun()
 
               if st.button("Process Photo"):
                 st.session_state.allow_display = True
