@@ -176,7 +176,7 @@ with col_header_left:
 
                 st.session_state.filenames = response_json.text.strip().split(",")
                 st.session_state.processed = True
-                st.experimental_rerun()
+                st.rerun()
 
         else:
             st.session_state.processed = False
