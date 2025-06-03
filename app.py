@@ -174,8 +174,12 @@ with col_header_left:
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
         if user_input:
             image = Image.open(io.BytesIO(user_input.getvalue()))
-            response = model.generate_content([image])
-            st.write("**Gemini says:**", response.text)
+
+            url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
+            response = requests.get(url)
+            prompt = response.text
+            
+            response = model.generate_content([prompt, image])
             st.write("**Gemini says:**", response.text)
             st.markdown("""
             <div class="mood-box">
