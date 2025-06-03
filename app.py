@@ -177,30 +177,34 @@ with col_header_left:
 
     with col1:
         st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
-        for filename in first_filenames:
-          filename = filename.strip()
-          image_url = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{filename}.jpg"
-          st.image(image_url, caption=filename)
-        st.markdown("""
-          <div class="portrait-box">
-              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg" style="width:100%; border-radius: 8px;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">KAHURIPAN NIRWANA</p>
-              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg" style="width:100%; border-radius: 8px;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">BOGOR NIRWANA RESIDENCE</p>
-          </div>
-        """, unsafe_allow_html=True)
+        if filenames and len(filenames) > 0:
+          for filename in first_filenames:
+            filename = filename.strip()
+            image_url = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{filename}.jpg"
+            st.image(image_url, caption=filename)
+        else:
+          st.markdown("""
+            <div class="portrait-box">
+                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg" style="width:100%; border-radius: 8px;" />
+                <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">KAHURIPAN NIRWANA</p>
+                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg" style="width:100%; border-radius: 8px;" />
+                <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">BOGOR NIRWANA RESIDENCE</p>
+            </div>
+          """, unsafe_allow_html=True)
 
     with col2:
         st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
-        for filename in second_filenames:
-          filename = filename.strip()
-          image_url = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{filename}.jpg"
-          st.image(image_url, caption=filename)
-        st.markdown("""
-          <div class="portrait-box">
-              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg" style="width:100%; border-radius: 8px;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">Jungle Sea</p>
-              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg" style="width:100%; border-radius: 8px;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">Rivera Outbond</p>
-          </div>
-        """, unsafe_allow_html=True)
+        if filenames and len(filenames) > 0:
+          for filename in second_filenames:
+            filename = filename.strip()
+            image_url = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{filename}.jpg"
+            st.image(image_url, caption=filename)
+        else:
+          st.markdown("""
+            <div class="portrait-box">
+                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg" style="width:100%; border-radius: 8px;" />
+                <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">Jungle Sea</p>
+                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg" style="width:100%; border-radius: 8px;" />
+                <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">Rivera Outbond</p>
+            </div>
+          """, unsafe_allow_html=True)
