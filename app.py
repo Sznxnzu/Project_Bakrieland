@@ -153,7 +153,7 @@ with col_header_left:
     if "image_captions" not in st.session_state:
       st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
     if "image_analysis" not in st.session_state:
-      st.session_state.image_captions = [placeholder_analysis]
+      st.session_state.image_analysis = [placeholder_analysis]
 
     with col1:
 
