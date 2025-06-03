@@ -144,7 +144,7 @@ with col_header_right:
 with col_header_left:
     col1, col2, col3 = st.columns([1, 1, 1.4])
 
-    placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/qr_logo.png"
+    placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png"
 
     if "image_url" not in st.session_state:
       st.session_state.image_url = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
@@ -214,7 +214,7 @@ with col_header_left:
                   imgpath_holiday_1,
                   imgpath_holiday_2
               ]
-              
+
               st.write(updated_image_urls)
 
               st.session_state.image_states = updated_image_urls
