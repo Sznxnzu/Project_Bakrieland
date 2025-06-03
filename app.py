@@ -200,6 +200,7 @@ with col_header_left:
         process_button = st.button("Process Image for Recommendations")
 
         if process_button and st.session_state["raw_output"]:
+            st.write("Button was pressed!")
             st.session_state.filenames = st.session_state["raw_output"].strip().split(",")
             st.session_state.processed = True
 
