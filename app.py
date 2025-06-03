@@ -148,20 +148,25 @@ with col_header_left:
 
     if "image_states" not in st.session_state:
       st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
+    if "image_captions" not in st.session_state:
+      st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
 
     with col1:
 
         url_list_1 = []
         for url in st.session_state.image_states[:2]:
           url_list_1.append(url)
+        cap_list_1 = []
+        for captions in st.session_state.image_captions[:2]:
+          cap_list_1.append(captions)
 
         st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.markdown(f"""
           <div class="portrait-box">
               <img src="{url_list_1[0]}" style="width:100%; border-radius: 8px;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">KAHURIPAN NIRWANA</p>
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_1[0]}</p>
               <img src="{url_list_1[1]}" style="width:100%; border-radius: 8px;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">BOGOR NIRWANA RESIDENCE</p>
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_1[1]}</p>
           </div>
         """, unsafe_allow_html=True)
 
@@ -169,14 +174,17 @@ with col_header_left:
         url_list_2 = []
         for url in st.session_state.image_states[2:]:
           url_list_2.append(url)
+        cap_list_2 = []
+        for captions in st.session_state.image_captions[2:]:
+          cap_list_2.append(captions)
 
         st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.markdown(f"""
           <div class="portrait-box">
               <img src="{url_list_2[0]}" style="width:100%; border-radius: 8px;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">Jungle Sea</p>
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_2[0]}</p>
               <img src="{url_list_2[1]}" style="width:100%; border-radius: 8px;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">Rivera Outbond</p>
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_2[1]}</p>
           </div>
         """, unsafe_allow_html=True)
 
@@ -217,6 +225,11 @@ with col_header_left:
               imgpath_holiday_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[0].strip()}.jpg"
               imgpath_holiday_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[1].strip()}.jpg"
 
+              imgcap_property_1 = first_filenames[0].strip()
+              imgcap_property_2 = first_filenames[1].strip()
+              imgcap_holiday_1 = second_filenames[0].strip()
+              img_cap_holiday_2 = second_filenames[1].strip()
+
               updated_image_urls = [
                   imgpath_property_1,
                   imgpath_property_2,
@@ -224,8 +237,12 @@ with col_header_left:
                   imgpath_holiday_2
               ]
 
-              st.session_state.image_states = updated_image_urls
+              updated_image_captions = [
+                  imgcap_property_1,
+                  imgcap_property_2,
+                  imgcap_holiday_1,
+                  imgcap_holiday_2
+              ]
 
-              for url in st.session_state.image_states[:2]:
-                st.write(url)
-                st.image(url, width=300)
+              st.session_state.image_states = updated_image_urls
+              st.session_state.image_captions = updated_image_captions
