@@ -3,6 +3,7 @@ import streamlit.components.v1 as components
 import google.generativeai as genai
 from PIL import Image
 import io
+import requests
 
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
@@ -178,7 +179,7 @@ with col_header_left:
             url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
             response = requests.get(url)
             prompt = response.text
-            
+
             response = model.generate_content([prompt, image])
             st.write("**Gemini says:**", response.text)
             st.markdown("""
