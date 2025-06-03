@@ -143,7 +143,9 @@ with col_header_right:
 
 with col_header_left:
     col1, col2, col3 = st.columns([1, 1, 1.4])
-    filenames = None
+
+    if "filenames" not in st.session_state:
+        st.session_state.filenames = None
 
     with col3:
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
@@ -170,11 +172,18 @@ with col_header_left:
             """, unsafe_allow_html=True)
 
             st.write("**Gemini says:**", response_json.text)
-            filenames = response_json.text.strip().split(",")
 
-            midpoint = len(filenames) // 2
-            first_filenames = filenames[:midpoint]
-            second_filenames = filenames[midpoint:]
+            st.session_state.filenames = response_json.text.strip().split(",")
+
+    filenames = st.session_state.filenames
+
+    if filenames:
+        midpoint = len(filenames) // 2
+        first_filenames = filenames[:midpoint]
+        second_filenames = filenames[midpoint:]
+    else:
+        first_filenames = []
+        second_filenames = []
 
     with col1:
         st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
