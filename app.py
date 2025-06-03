@@ -143,6 +143,7 @@ with col_header_right:
 
 with col_header_left:
     col1, col2, col3 = st.columns([1, 1, 1.4])
+    filenames = None
 
     with col3:
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
