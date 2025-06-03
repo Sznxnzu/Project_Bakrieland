@@ -149,7 +149,9 @@ with col_header_left:
     placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/placeholder.png"
     placeholder_caption = ""
     placeholder_analysis = ""
-
+    
+    if "user_input" not in st.session_state:
+      st.session_state.user_input = None
     if "image_states" not in st.session_state:
       st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
     if "image_captions" not in st.session_state:
@@ -201,6 +203,7 @@ with col_header_left:
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
         if user_input:
+            st.session_state.user_input = user_input
             image = Image.open(io.BytesIO(user_input.getvalue()))
 
             if image is not None:
@@ -258,12 +261,9 @@ with col_header_left:
                 st.session_state.has_rerun = True
                 st.rerun()
                 
-        if st.button("Reset"):
+        if st.button("Clear Photo"):
+          st.session_state.user_input = None
           st.session_state.has_rerun = False
-          st.session_state.image_states = [placeholder_url] * 4
-          st.session_state.image_captions = [placeholder_caption] * 4
-          st.session_state.image_analysis = [placeholder_analysis]
-          st.rerun()
 
 
         analysis_list = []
