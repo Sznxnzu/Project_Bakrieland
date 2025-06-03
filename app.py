@@ -170,7 +170,7 @@ with col_header_left:
     placeholder_analysis = ""
     
     if "allow_display" not in st.session_state:
-      st.session_state.allow_display = False
+      st.session_state.allow_display = True
     if "image_states" not in st.session_state:
       st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
     if "image_captions" not in st.session_state:
