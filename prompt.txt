@@ -106,3 +106,5 @@ Notes:
 3. DO NOT print /NEWLINE/; it simply denotes where the spacing is. 
 4. DO NOT include debug
 5. property and holiday location MUST BE FROM THE DATABASE, DO NOT HALLUCINATE FROM OUTSIDE THE DATABASE
+6. property recommendation MUST BE ONLY from the property database (Database of Property Names), DO NOT MIX UP WITH HOLIDAY PLACES
+7. holiday recommendation MUST BE ONLY from the holiday database (Database of Holiday Locations), DO NOT MIX UP WITH PROPERTY NAMES
