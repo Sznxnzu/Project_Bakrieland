@@ -154,6 +154,9 @@ with col_header_left:
       st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
     if "image_analysis" not in st.session_state:
       st.session_state.image_analysis = [placeholder_analysis]
+    if "has_rerun" not in st.session_state:
+      st.session_state.has_rerun = False
+
 
     with col1:
 
@@ -248,7 +251,10 @@ with col_header_left:
               st.session_state.image_states = updated_image_urls
               st.session_state.image_captions = updated_image_captions
               st.session_state.image_analysis = [updated_image_analysis]
-              st.rerun()
+
+              if not st.session_state.has_rerun:
+                st.session_state.has_rerun = True
+                st.rerun()
         
         analysis_list = []
         for analysis in st.session_state.image_analysis:
