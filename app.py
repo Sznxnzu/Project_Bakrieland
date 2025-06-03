@@ -150,25 +150,32 @@ with col_header_left:
       st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
 
     with col1:
+
+        url_list_1 = []
         for url in st.session_state.image_states[:2]:
-          st.write(url)
-          st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
-          st.markdown(f"""
-            <div class="portrait-box">
-                <img src="{url}" style="width:100%; border-radius: 8px;" />
-                <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">KAHURIPAN NIRWANA</p>
-                <img src="{url}" style="width:100%; border-radius: 8px;" />
-                <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">BOGOR NIRWANA RESIDENCE</p>
-            </div>
-          """, unsafe_allow_html=True)
+          url_list_1.append(url)
+
+        st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
+        st.markdown(f"""
+          <div class="portrait-box">
+              <img src="{url_list_1[0]}" style="width:100%; border-radius: 8px;" />
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">KAHURIPAN NIRWANA</p>
+              <img src="{url_list_1[1]}" style="width:100%; border-radius: 8px;" />
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">BOGOR NIRWANA RESIDENCE</p>
+          </div>
+        """, unsafe_allow_html=True)
 
     with col2:
+        url_list_2 = []
+        for url in st.session_state.image_states[2:]:
+          url_list_2.append(url)
+
         st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
-        st.markdown("""
+        st.markdown(f"""
           <div class="portrait-box">
-              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg" style="width:100%; border-radius: 8px;" />
+              <img src="{url_list_2[0]}" style="width:100%; border-radius: 8px;" />
               <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">Jungle Sea</p>
-              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg" style="width:100%; border-radius: 8px;" />
+              <img src="{url_list_2[1]}" style="width:100%; border-radius: 8px;" />
               <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">Rivera Outbond</p>
           </div>
         """, unsafe_allow_html=True)
