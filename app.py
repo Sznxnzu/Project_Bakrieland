@@ -143,23 +143,31 @@ with col_header_right:
 
 with col_header_left:
     col1, col2, col3 = st.columns([1, 1, 1.4])
+    with col1:
+        st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
+        st.markdown("""
+          <div class="portrait-box">
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg" style="width:100%; border-radius: 8px;" />
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">KAHURIPAN NIRWANA</p>
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg" style="width:100%; border-radius: 8px;" />
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">BOGOR NIRWANA RESIDENCE</p>
+          </div>
+        """, unsafe_allow_html=True)
 
-    # Initialize session state keys if not present
-    for key, default in {
-        "filenames": None,
-        "processed": False,
-        "escaped_text": None,
-        "gemini_text": None,
-        "raw_output": None,
-    }.items():
-        if key not in st.session_state:
-            st.session_state[key] = default
+    with col2:
+        st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
+        st.markdown("""
+          <div class="portrait-box">
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg" style="width:100%; border-radius: 8px;" />
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">Jungle Sea</p>
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg" style="width:100%; border-radius: 8px;" />
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">Rivera Outbond</p>
+          </div>
+        """, unsafe_allow_html=True)
 
     with col3:
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
-
-        # Process and show outputs immediately when photo is taken
         if user_input:
             image = Image.open(io.BytesIO(user_input.getvalue()))
 
@@ -168,96 +176,32 @@ with col_header_left:
             prompt = response.text
             response = model.generate_content([prompt, image])
             raw_output = response.text
-            escaped_text = html.escape(raw_output)
+            escaped_text = html.escape(response.text)
 
             url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
             response_json = requests.get(url_json)
             prompt_json = response_json.text
             response_json = model.generate_content([prompt_json, raw_output])
 
-            # Store these outputs for immediate display
-            st.session_state["escaped_text"] = escaped_text
-            st.session_state["gemini_text"] = response_json.text
-            st.session_state["raw_output"] = raw_output
-        else:
-            # Clear outputs if no image
-            st.session_state["escaped_text"] = None
-            st.session_state["gemini_text"] = None
-            st.session_state["raw_output"] = None
-            st.session_state.processed = False
-            st.session_state.filenames = None
-
-        # Show the immediate output below camera input
-        if st.session_state["escaped_text"]:
             st.markdown(f"""
-                <div class="mood-box">
-                    <pre style="white-space: pre-wrap;">{st.session_state['escaped_text']}</pre>
-                </div>
-            """, unsafe_allow_html=True)
-            st.write("**Gemini says:**", st.session_state["gemini_text"])
-
-        # Button to update filenames and recommendations in col1 & col2
-        process_button = st.button("Process Image for Recommendations")
-
-        if process_button and st.session_state["raw_output"]:
-            st.write("Button was pressed!")
-            st.session_state.filenames = st.session_state["raw_output"].strip().split(",")
-            st.session_state.processed = True
-
-    filenames = st.session_state.filenames
-
-    if filenames:
-        midpoint = len(filenames) // 2
-        first_filenames = filenames[:midpoint]
-        second_filenames = filenames[midpoint:]
-    else:
-        first_filenames = []
-        second_filenames = []
-
-    with col1:
-        st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
-        if filenames and len(first_filenames) > 1:
-            image_path_property_1 = first_filenames[0]
-            image_path_property_2 = first_filenames[1]
-            st.markdown(f"""
-                <div class="portrait-box">
-                    <img src="{image_path_property_1}" style="width:100%; border-radius: 8px;" />
-                    <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">KAHURIPAN NIRWANA</p>
-                    <img src="{image_path_property_2}" style="width:100%; border-radius: 8px;" />
-                    <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">BOGOR NIRWANA RESIDENCE</p>
-                </div>
-            """, unsafe_allow_html=True)
-        else:
-            placeholder_path = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg"
-            st.markdown(f"""
-                <div class="portrait-box">
-                    <img src="{placeholder_path}" style="width:100%; border-radius: 8px;" />
-                    <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">KAHURIPAN NIRWANA</p>
-                    <img src="{placeholder_path}" style="width:100%; border-radius: 8px;" />
-                    <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">BOGOR NIRWANA RESIDENCE</p>
-                </div>
+            <div class="mood-box">
+                <pre style="white-space: pre-wrap;">{escaped_text}</pre>
+            </div>
             """, unsafe_allow_html=True)
 
-    with col2:
-        st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
-        if filenames and len(second_filenames) > 1:
-            image_path_holiday_1 = second_filenames[0]
-            image_path_holiday_2 = second_filenames[1]
-            st.markdown(f"""
-                <div class="portrait-box">
-                    <img src="{image_path_holiday_1}" style="width:100%; border-radius: 8px;" />
-                    <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">KAHURIPAN NIRWANA</p>
-                    <img src="{image_path_holiday_2}" style="width:100%; border-radius: 8px;" />
-                    <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">BOGOR NIRWANA RESIDENCE</p>
-                </div>
-            """, unsafe_allow_html=True)
-        else:
-            placeholder_path = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/holiday_image.jpeg"
-            st.markdown(f"""
-                <div class="portrait-box">
-                    <img src="{placeholder_path}" style="width:100%; border-radius: 8px;" />
-                    <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">KAHURIPAN NIRWANA</p>
-                    <img src="{placeholder_path}" style="width:100%; border-radius: 8px;" />
-                    <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">BOGOR NIRWANA RESIDENCE</p>
-                </div>
-            """, unsafe_allow_html=True)
+            st.write("**Gemini says:**", response_json.text)
+            filenames = response_json.text.strip().split(",")
+
+            midpoint = len(filenames) // 2
+            first_filenames = filenames[:midpoint]
+            second_filenames = filenames[midpoint:]
+
+            for filename in first_filenames:
+              filename = filename.strip()
+              image_url = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{filename}.jpg"
+              st.image(image_url, caption=filename, use_column_width=True)
+
+            for filename in second_filenames:
+              filename = filename.strip()
+              image_url = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{filename}.jpg"
+              st.image(image_url, caption=filename, use_column_width=True)
