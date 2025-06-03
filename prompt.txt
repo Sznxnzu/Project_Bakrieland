@@ -27,6 +27,7 @@ Rekomendasi Liburan yang Cocok:
 /NEWLINE/
 - *insert holiday_location_3 here* : *insert possible activities in the holiday location here (use only a single sentence)*
 /NEWLINE/
+$debug$*insert property_name_1 here*,*insert property_name_2 here*,*insert property_name_3 here*,*insert holiday_location_1 here*,*insert holiday_location_2 here*,*insert holiday_location_3 here*
 
 Below is the Database of Property Names:
 **where the format is Property Name - Property Type
@@ -99,6 +100,7 @@ Rekomendasi Liburan yang Cocok:
 /NEWLINE/
 - Pelayaran Kapal Pesiar Mewah: Menjelajahi berbagai destinasi dengan fasilitas bintang lima di kapal pesiar, menawarkan kombinasi relaksasi, hiburan, dan pengalaman baru.
 /NEWLINE/
+$debug$Kahuripan Nirwana,Bogor Nirwana Residence,Bumi Pakuan,Rivera 1,Aston Bogor,Bagus Beach Walk 1
 
 Notes:
 1. Add spacing at every /NEWLINE/; which is at the end of every sentence, and add double spacing between each new category where the categories are (Analisa Mood, Property, and Rekomendasi Liburan yang Cocok)
