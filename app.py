@@ -260,11 +260,6 @@ with col_header_left:
               if st.button("Process Photo"):
                 st.rerun()
 
-        if st.button("Clear Photo"):
-          st.session_state.user_input = None
-          st.session_state.has_rerun = False
-
-
         analysis_list = []
         for analysis in st.session_state.image_analysis:
           analysis_list.append(analysis)
