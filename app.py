@@ -215,9 +215,8 @@ with col_header_left:
                   imgpath_holiday_2
               ]
 
-              st.write(updated_image_urls)
-
               st.session_state.image_states = updated_image_urls
 
-              for url in st.session_state.image_states:
+              for url in st.session_state.image_states[:2]:
+                st.write(url)
                 st.image(url, width=300)
