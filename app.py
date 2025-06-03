@@ -53,7 +53,7 @@ html, body, [data-testid="stAppViewContainer"] {
     font-size: 10px;
     margin-top: 10px;
     width: 100%;
-    height: 10vh;
+    height: 20vh;
 }
 .mood-box p {
     margin-bottom: 0;
@@ -122,9 +122,9 @@ with col_header_right:
     with col_01:
         st.markdown("""
         <div style='text-align: right;'>
-            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/bakrieland_logo.png' width='120' margin: 5px;'>
-            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/google_logo.png' width='50' style='margin: 5px;'>
-            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/metrodata_logo.png' width='50' style='margin: 5px;'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png' width='120' margin: 5px;'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png' width='50' style='margin: 5px;'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png' width='50' style='margin: 5px;'>
         </div>
         """, unsafe_allow_html=True)
 
