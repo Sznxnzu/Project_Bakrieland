@@ -202,25 +202,27 @@ with col_header_left:
     with col3:
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
+        analysis_list = []
+        for analysis in st.session_state.image_analysis:
+          analysis_list.append(analysis)
+        st.markdown(f"""
+          <div class="mood-box">
+          <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
+          </div>
+          """, unsafe_allow_html=True)
         if user_input:
-            st.session_state.user_input = user_input
             image = Image.open(io.BytesIO(user_input.getvalue()))
-
             if image is not None:
-
               url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
               response = requests.get(url)
               prompt = response.text
               response = model.generate_content([prompt, image])
               raw_output = response.text
               escaped_text = html.escape(response.text)
-
               url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
               response_json = requests.get(url_json)
               prompt_json = response_json.text
               response_json = model.generate_content([prompt_json, raw_output])
-
-              # st.write("**Gemini says:**", response_json.text)
 
               filenames = response_json.text.strip().split(",")
               midpoint = len(filenames) // 2
@@ -231,12 +233,10 @@ with col_header_left:
               imgpath_property_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[1].strip()}.jpg"
               imgpath_holiday_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[0].strip()}.jpg"
               imgpath_holiday_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[1].strip()}.jpg"
-
               imgcap_property_1 = first_filenames[0].strip()
               imgcap_property_2 = first_filenames[1].strip()
               imgcap_holiday_1 = second_filenames[0].strip()
               imgcap_holiday_2 = second_filenames[1].strip()
-
               updated_image_analysis = escaped_text
 
               updated_image_urls = [
@@ -245,7 +245,6 @@ with col_header_left:
                   imgpath_holiday_1,
                   imgpath_holiday_2
               ]
-
               updated_image_captions = [
                   imgcap_property_1,
                   imgcap_property_2,
@@ -259,12 +258,3 @@ with col_header_left:
 
               if st.button("Process Photo"):
                 st.rerun()
-
-        analysis_list = []
-        for analysis in st.session_state.image_analysis:
-          analysis_list.append(analysis)
-        st.markdown(f"""
-          <div class="mood-box">
-          <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
-          </div>
-          """, unsafe_allow_html=True)
