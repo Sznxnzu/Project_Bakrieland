@@ -229,7 +229,7 @@ with col_header_left:
               imgcap_property_1 = first_filenames[0].strip()
               imgcap_property_2 = first_filenames[1].strip()
               imgcap_holiday_1 = second_filenames[0].strip()
-              img_cap_holiday_2 = second_filenames[1].strip()
+              imgcap_holiday_2 = second_filenames[1].strip()
 
               updated_image_urls = [
                   imgpath_property_1,
