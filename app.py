@@ -176,36 +176,50 @@ with col_header_left:
             first_filenames = filenames[:midpoint]
             second_filenames = filenames[midpoint:]
 
-    with col1:
-        st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
-        if filenames and len(filenames) > 0:
-          for filename in first_filenames:
-            filename = filename.strip()
-            image_url = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{filename}.jpg"
-            st.image(image_url, caption=filename)
-        else:
-          st.markdown("""
-            <div class="portrait-box">
-                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg" style="width:100%; border-radius: 8px;" />
-                <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">KAHURIPAN NIRWANA</p>
-                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg" style="width:100%; border-radius: 8px;" />
-                <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">BOGOR NIRWANA RESIDENCE</p>
-            </div>
-          """, unsafe_allow_html=True)
+      with col1:
+          st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
+          if filenames and len(filenames) > 0:
+              image_path_property_1 = first_filenames[0]
+              image_path_property_2 = first_filenames[1]
+              st.markdown(f"""
+                  <div class="portrait-box">
+                      <img src="{image_path_property_1}" style="width:100%; border-radius: 8px;" />
+                      <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">KAHURIPAN NIRWANA</p>
+                      <img src="{image_path_property_2}" style="width:100%; border-radius: 8px;" />
+                      <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">BOGOR NIRWANA RESIDENCE</p>
+                  </div>
+              """, unsafe_allow_html=True)
+          else:
+              placeholder_path = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/property_image.jpeg"
+              st.markdown(f"""
+                  <div class="portrait-box">
+                      <img src="{placeholder_path}" style="width:100%; border-radius: 8px;" />
+                      <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">KAHURIPAN NIRWANA</p>
+                      <img src="{placeholder_path}" style="width:100%; border-radius: 8px;" />
+                      <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">BOGOR NIRWANA RESIDENCE</p>
+                  </div>
+              """, unsafe_allow_html=True)
 
-    with col2:
-        st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
-        if filenames and len(filenames) > 0:
-          for filename in second_filenames:
-            filename = filename.strip()
-            image_url = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{filename}.jpg"
-            st.image(image_url, caption=filename)
-        else:
-          st.markdown("""
-            <div class="portrait-box">
-                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg" style="width:100%; border-radius: 8px;" />
-                <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">Jungle Sea</p>
-                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/themepark_image.jpg" style="width:100%; border-radius: 8px;" />
-                <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">Rivera Outbond</p>
-            </div>
-          """, unsafe_allow_html=True)
+      with col2:
+          st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
+          if filenames and len(filenames) > 0:
+              image_path_holiday_1 = second_filenames[0]
+              image_path_holiday_2 = second_filenames[1]
+              st.markdown(f"""
+                  <div class="portrait-box">
+                      <img src="{image_path_holiday_1}" style="width:100%; border-radius: 8px;" />
+                      <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">KAHURIPAN NIRWANA</p>
+                      <img src="{image_path_holiday_2}" style="width:100%; border-radius: 8px;" />
+                      <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">BOGOR NIRWANA RESIDENCE</p>
+                  </div>
+              """, unsafe_allow_html=True)
+          else:
+              placeholder_path = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/holiday_image.jpeg"
+              st.markdown(f"""
+                  <div class="portrait-box">
+                      <img src="{placeholder_path}" style="width:100%; border-radius: 8px;" />
+                      <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">KAHURIPAN NIRWANA</p>
+                      <img src="{placeholder_path}" style="width:100%; border-radius: 8px;" />
+                      <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">BOGOR NIRWANA RESIDENCE</p>
+                  </div>
+              """, unsafe_allow_html=True)
