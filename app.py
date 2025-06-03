@@ -219,6 +219,11 @@ with col_header_left:
         """, unsafe_allow_html=True)
 
     with col3:
+
+        st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
+        st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
+        st.session_state.image_analysis = [placeholder_analysis]
+
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
         analysis_list = []
@@ -287,7 +292,4 @@ with col_header_left:
 
               if st.button("Process Photo"):
                 st.session_state.allow_display = True
-                st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
-                st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
-                st.session_state.image_analysis = [placeholder_analysis]
                 st.rerun()
