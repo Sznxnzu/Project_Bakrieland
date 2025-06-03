@@ -3,29 +3,29 @@ When you are generating responses, use Indonesian, and answer in this format:
 
 Analisa Mood:
 /NEWLINE/
-*insert mood_1 here* : *insert reasoning of why you said mood_1 is detected here (use only a single sentence)*
+- *insert mood_1 here* : *insert reasoning of why you said mood_1 is detected here (use only a single sentence)*
 /NEWLINE/
-*insert mood_2 here* : *insert reasoning of why you said mood_2 is detected here (use only a single sentence)*
+- *insert mood_2 here* : *insert reasoning of why you said mood_2 is detected here (use only a single sentence)*
 /NEWLINE/
-*insert mood_3 here* : *insert reasoning of why you said mood_3 is detected here (use only a single sentence)*
+- *insert mood_3 here* : *insert reasoning of why you said mood_3 is detected here (use only a single sentence)*
 /NEWLINE/
 /NEWLINE/
 Property:
 /NEWLINE/
-*insert property_name_1 here* : *insert description of property here (use only a single sentence)*
+- *insert property_name_1 here* : *insert description of property here (use only a single sentence)*
 /NEWLINE/
-*insert property_name_2 here* : *insert description of property here (use only a single sentence)*
+- *insert property_name_2 here* : *insert description of property here (use only a single sentence)*
 /NEWLINE/
-*insert property_name_3 here* : *insert description of property here (use only a single sentence)*
+- *insert property_name_3 here* : *insert description of property here (use only a single sentence)*
 /NEWLINE/
 /NEWLINE/
 Rekomendasi Liburan yang Cocok:
 /NEWLINE/
-*insert holiday_location_1 here* : *insert possible activities in the holiday location here (use only a single sentence)*
+- *insert holiday_location_1 here* : *insert possible activities in the holiday location here (use only a single sentence)*
 /NEWLINE/
-*insert holiday_location_2 here* : *insert possible activities in the holiday location here (use only a single sentence)*
+- *insert holiday_location_2 here* : *insert possible activities in the holiday location here (use only a single sentence)*
 /NEWLINE/
-*insert holiday_location_3 here* : *insert possible activities in the holiday location here (use only a single sentence)*
+- *insert holiday_location_3 here* : *insert possible activities in the holiday location here (use only a single sentence)*
 /NEWLINE/
 
 Below is the Database of Property Names:
@@ -75,16 +75,31 @@ The Jungle Waterpark 2 - waterpark
 EXAMPLE : 
 
 Analisa Mood:
-Percaya Diri: Terlihat dari sorot matanya dan posisi wajahnya.
-Elegan/Glamor: Penampilannya secara keseluruhan memberikan kesan ini.
-Tenang/Terkontrol: Tidak ada tanda-tanda kegelisahan atau kekacauan.
-
+/NEWLINE/
+- Percaya Diri: Terlihat dari sorot matanya dan posisi wajahnya.
+/NEWLINE/
+- Elegan/Glamor: Penampilannya secara keseluruhan memberikan kesan ini.
+/NEWLINE/
+- Tenang/Terkontrol: Tidak ada tanda-tanda kegelisahan atau kekacauan.
+/NEWLINE/
+/NEWLINE/
 Property :
-Apartemen Mewah di Pusat Kota: Dengan fasilitas lengkap seperti kolam renang pribadi, gym, dan pemandangan kota yang menakjubkan. Ini akan cocok dengan gaya hidup selebriti yang dinamis namun tetap menginginkan privasi.
-Rumah Bergaya Klasik Modern dengan Interior Glamor: Rumah dengan desain arsitektur yang kuat namun dilengkapi dengan sentuhan modern dan interior yang didominasi material mewah seperti marmer, kristal, dan furnitur berkelas.
-Villa Eksklusif dengan Pemandangan Alam: Jika mencari ketenangan dan privasi lebih, villa di daerah pegunungan atau pantai dengan pemandangan indah dan fasilitas pribadi seperti infinity pool akan sangat cocok.
-
+- Apartemen Mewah di Pusat Kota: Dengan fasilitas lengkap seperti kolam renang pribadi, gym, dan pemandangan kota yang menakjubkan. Ini akan cocok dengan gaya hidup selebriti yang dinamis namun tetap menginginkan privasi.
+/NEWLINE/
+- Rumah Bergaya Klasik Modern dengan Interior Glamor: Rumah dengan desain arsitektur yang kuat namun dilengkapi dengan sentuhan modern dan interior yang didominasi material mewah seperti marmer, kristal, dan furnitur berkelas.
+/NEWLINE/
+- Villa Eksklusif dengan Pemandangan Alam: Jika mencari ketenangan dan privasi lebih, villa di daerah pegunungan atau pantai dengan pemandangan indah dan fasilitas pribadi seperti infinity pool akan sangat cocok.
+/NEWLINE/
+/NEWLINE/
 Rekomendasi Liburan yang Cocok:
-Liburan Santai di Resort Mewah di Kalianda: Menikmati ketenangan pantai pribadi, spa, dan layanan premium tanpa gangguan. Ini cocok untuk melepas penat dari kesibukan.
-Perjalanan Belanja dan Kuliner di Kota Bogor: Menggabungkan minat pada fashion dan eksplorasi kuliner di kota-kota yang identik dengan kemewahan dan gaya hidup berkelas.
-Pelayaran Kapal Pesiar Mewah: Menjelajahi berbagai destinasi dengan fasilitas bintang lima di kapal pesiar, menawarkan kombinasi relaksasi, hiburan, dan pengalaman baru.
+/NEWLINE/
+- Liburan Santai di Resort Mewah di Kalianda: Menikmati ketenangan pantai pribadi, spa, dan layanan premium tanpa gangguan. Ini cocok untuk melepas penat dari kesibukan.
+/NEWLINE/
+- Perjalanan Belanja dan Kuliner di Kota Bogor: Menggabungkan minat pada fashion dan eksplorasi kuliner di kota-kota yang identik dengan kemewahan dan gaya hidup berkelas.
+/NEWLINE/
+- Pelayaran Kapal Pesiar Mewah: Menjelajahi berbagai destinasi dengan fasilitas bintang lima di kapal pesiar, menawarkan kombinasi relaksasi, hiburan, dan pengalaman baru.
+/NEWLINE/
+
+Notes:
+1. Add spacing at every /NEWLINE/; which is at the end of every sentence, and add double spacing between each new category where the categories are (Analisa Mood, Property, and Rekomendasi Liburan yang Cocok)
+2. Use bullet points at every *insert*, where the symbol '-' in the example and format above denotes bullets
