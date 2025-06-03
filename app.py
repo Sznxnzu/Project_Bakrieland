@@ -151,30 +151,35 @@ with col_header_left:
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
         if user_input:
-            image = Image.open(io.BytesIO(user_input.getvalue()))
+            if not st.session_state.get("processed", False):
+                image = Image.open(io.BytesIO(user_input.getvalue()))
 
-            url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
-            response = requests.get(url)
-            prompt = response.text
-            response = model.generate_content([prompt, image])
-            raw_output = response.text
-            escaped_text = html.escape(response.text)
+                url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
+                response = requests.get(url)
+                prompt = response.text
+                response = model.generate_content([prompt, image])
+                raw_output = response.text
+                escaped_text = html.escape(response.text)
 
-            url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
-            response_json = requests.get(url_json)
-            prompt_json = response_json.text
-            response_json = model.generate_content([prompt_json, raw_output])
+                url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
+                response_json = requests.get(url_json)
+                prompt_json = response_json.text
+                response_json = model.generate_content([prompt_json, raw_output])
 
-            st.markdown(f"""
-            <div class="mood-box">
-                <pre style="white-space: pre-wrap;">{escaped_text}</pre>
-            </div>
-            """, unsafe_allow_html=True)
+                st.markdown(f"""
+                <div class="mood-box">
+                    <pre style="white-space: pre-wrap;">{escaped_text}</pre>
+                </div>
+                """, unsafe_allow_html=True)
 
-            st.write("**Gemini says:**", response_json.text)
+                st.write("**Gemini says:**", response_json.text)
 
-            st.session_state.filenames = response_json.text.strip().split(",")
-            st.rerun()
+                st.session_state.filenames = response_json.text.strip().split(",")
+                st.session_state.processed = True
+                st.experimental_rerun()
+
+        else:
+            st.session_state.processed = False
 
     filenames = st.session_state.filenames
 
