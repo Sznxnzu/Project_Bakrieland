@@ -257,12 +257,13 @@ with col_header_left:
               if not st.session_state.has_rerun:
                 st.session_state.has_rerun = True
                 st.rerun()
-        else:
-            if st.session_state.has_rerun:
-            st.session_state.has_rerun = False
-            st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
-            st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
-            st.session_state.image_analysis = [placeholder_analysis]
+                
+        if st.button("Reset"):
+          st.session_state.has_rerun = False
+          st.session_state.image_states = [placeholder_url] * 4
+          st.session_state.image_captions = [placeholder_caption] * 4
+          st.session_state.image_analysis = [placeholder_analysis]
+          st.rerun()
 
 
         analysis_list = []
