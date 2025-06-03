@@ -146,40 +146,49 @@ with col_header_left:
 
     if "filenames" not in st.session_state:
         st.session_state.filenames = None
+    if "processed" not in st.session_state:
+        st.session_state.processed = False
+    if "escaped_text" not in st.session_state:
+        st.session_state["escaped_text"] = None
+    if "gemini_text" not in st.session_state:
+        st.session_state["gemini_text"] = None
 
     with col3:
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
-        if user_input:
-            if not st.session_state.get("processed", False):
-                image = Image.open(io.BytesIO(user_input.getvalue()))
 
-                url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
-                response = requests.get(url)
-                prompt = response.text
-                response = model.generate_content([prompt, image])
-                raw_output = response.text
-                escaped_text = html.escape(raw_output)
+        # Add a button to trigger processing
+        process_button = st.button("Process Image")
 
-                url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
-                response_json = requests.get(url_json)
-                prompt_json = response_json.text
-                response_json = model.generate_content([prompt_json, raw_output])
+        if process_button and user_input:
+            image = Image.open(io.BytesIO(user_input.getvalue()))
 
-                # Save results to session_state instead of showing immediately
-                st.session_state["escaped_text"] = escaped_text
-                st.session_state["gemini_text"] = response_json.text
-                st.session_state.filenames = response_json.text.strip().split(",")
-                st.session_state.processed = True
+            url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
+            response = requests.get(url)
+            prompt = response.text
+            response = model.generate_content([prompt, image])
+            raw_output = response.text
+            escaped_text = html.escape(raw_output)
 
-        else:
+            url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
+            response_json = requests.get(url_json)
+            prompt_json = response_json.text
+            response_json = model.generate_content([prompt_json, raw_output])
+
+            st.session_state["escaped_text"] = escaped_text
+            st.session_state["gemini_text"] = response_json.text
+            st.session_state.filenames = response_json.text.strip().split(",")
+            st.session_state.processed = True
+
+        # If no user input or button not pressed, reset processed flag and outputs
+        if not user_input:
             st.session_state.processed = False
             st.session_state.filenames = None
             st.session_state["escaped_text"] = None
             st.session_state["gemini_text"] = None
 
         # Display output if processed
-        if st.session_state.get("processed", False):
+        if st.session_state.processed:
             st.markdown(f"""
             <div class="mood-box">
                 <pre style="white-space: pre-wrap;">{st.session_state['escaped_text']}</pre>
@@ -200,7 +209,7 @@ with col_header_left:
 
     with col1:
         st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
-        if filenames and len(filenames) > 0:
+        if filenames and len(filenames) > 1:
             image_path_property_1 = first_filenames[0]
             image_path_property_2 = first_filenames[1]
             st.markdown(f"""
@@ -224,7 +233,7 @@ with col_header_left:
 
     with col2:
         st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
-        if filenames and len(filenames) > 0:
+        if filenames and len(filenames) > 3:
             image_path_holiday_1 = second_filenames[0]
             image_path_holiday_2 = second_filenames[1]
             st.markdown(f"""
