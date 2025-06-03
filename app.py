@@ -177,8 +177,15 @@ with col_header_left:
             response = model.generate_content([prompt, image])
             escaped_text = html.escape(response.text)
 
+            url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
+            response_json = requests.get(url)
+            prompt_json = response.text
+            response = model.generate_content([prompt_json, escaped_text])
+
             st.markdown(f"""
             <div class="mood-box">
                 <pre style="white-space: pre-wrap;">{escaped_text}</pre>
             </div>
             """, unsafe_allow_html=True)
+
+            st.write("**Gemini says:**", response.text)
