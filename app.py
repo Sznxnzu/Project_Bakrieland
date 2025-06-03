@@ -175,12 +175,13 @@ with col_header_left:
             response = requests.get(url)
             prompt = response.text
             response = model.generate_content([prompt, image])
+            raw_output = response.text
             escaped_text = html.escape(response.text)
 
             url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
-            response_json = requests.get(url)
-            prompt_json = response.text
-            response = model.generate_content([prompt_json, escaped_text])
+            response_json = requests.get(url_json)
+            prompt_json = response_json.text
+            response_json = model.generate_content([prompt_json, raw_output])
 
             st.markdown(f"""
             <div class="mood-box">
@@ -188,4 +189,4 @@ with col_header_left:
             </div>
             """, unsafe_allow_html=True)
 
-            st.write("**Gemini says:**", response.text)
+            st.write("**Gemini says:**", response_json.text)
