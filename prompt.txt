@@ -108,3 +108,4 @@ Notes:
 5. property and holiday location MUST BE FROM THE DATABASE, DO NOT HALLUCINATE FROM OUTSIDE THE DATABASE
 6. property recommendation MUST BE ONLY from the property database (Database of Property Names), DO NOT MIX UP WITH HOLIDAY PLACES
 7. holiday recommendation MUST BE ONLY from the holiday database (Database of Holiday Locations), DO NOT MIX UP WITH PROPERTY NAMES
+8. REMEMBER: "Jungleland 1" and "The Jungle Waterpark 1" is NOT a property. DO NOT recommend it as a property, it is a HOLIDAY LOCATION.
