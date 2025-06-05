@@ -176,7 +176,7 @@ with col_header_left:
     if "image_analysis" not in st.session_state:
       st.session_state.image_analysis = [placeholder_analysis]
     
-    if "first_instace" not in st.session_state:
+    if "first_instance" not in st.session_state:
       st.session_state.first_instance = True
     if "has_rerun" not in st.session_state:
       st.session_state.has_rerun = False
