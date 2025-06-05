@@ -231,6 +231,9 @@ with col_header_left:
           <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
           </div>
           """, unsafe_allow_html=True)
+          if st.session_state.first_rerun == True:
+            if st.button("Process Photo"):
+              st.rerun()
         else:
           st.markdown(f"""
           <div class="mood-box-content">
@@ -302,5 +305,6 @@ with col_header_left:
 
             st.session_state.has_rerun = False
         else:
+          st.write("no user input")
           st.session_state.has_rerun = True
             
