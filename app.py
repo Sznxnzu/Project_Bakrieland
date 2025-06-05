@@ -181,6 +181,38 @@ with col_robot:
     </script>
     """, unsafe_allow_html=True)
 
+col_header_left, col_robot = st.columns([0.75, 0.25])
+
+with col_robot:
+    st.markdown("""
+    <div style='display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 30px;'>
+        <p style='font-size: 0.7em; color:#aaa; margin-bottom: 4px;'>POWERED BY</p>
+        <div style='display: flex; gap: 6px; align-items: center; justify-content: center; margin-bottom: 12px;'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png' width='90'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png' width='40'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png' width='40'>
+        </div>
+        <lottie-player 
+            id="robot"
+            src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json"
+            background="transparent"
+            speed="1"
+            style="width: 250px; height: 250px;"
+            autoplay
+            loop>
+        </lottie-player>
+    </div>
+
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script>
+        document.getElementById("robot").addEventListener("click", function() {
+            const r = document.getElementById("robot");
+            r.stop();
+            r.play();
+        });
+    </script>
+    """, unsafe_allow_html=True)
+
 with col_header_left:
     col1, col2, col3 = st.columns([1, 1, 1.4])
 
