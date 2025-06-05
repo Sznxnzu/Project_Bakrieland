@@ -16,52 +16,52 @@ components.html("""
   src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
 }
 
-* {
-  box-sizing: border-box;
-}
-:root {
-  --size: 20px;
-}
 html, body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  height: 100%;
-  background: hsl(0 0% 6%);
-}
-.el {
-  background: conic-gradient(from 180deg at 50% 70%,hsla(0,0%,98%,1) 0deg,#eec32d 72deg,#ec4b4b 144deg,#709ab9 216deg,#4dffbf 288deg,hsla(0,0%,98%,1) 360deg);
-  width: 100vw;
+  background: #0a0a0a;
   height: 100vh;
-  mask:
-    radial-gradient(circle at 50% 50%, white 2px, transparent 2.5px) 50% 50% / var(--size) var(--size),
-    url("https://assets.codepen.io/605876/noise-mask.png") 256px 50% / 256px 256px;
-  mask-composite: intersect;
-  animation: flicker 20s infinite linear;
+}
+
+.el {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: -100;
+  width: 100vw;
+  height: 100vh;
+  background: conic-gradient(
+    from 180deg at 50% 70%,
+    hsla(0,0%,98%,1) 0deg,
+    #eec32d 72deg,
+    #ec4b4b 144deg,
+    #709ab9 216deg,
+    #4dffbf 288deg,
+    hsla(0,0%,98%,1) 360deg
+  );
+  background-blend-mode: overlay;
+  opacity: 0.15;
+  animation: flicker 20s linear infinite;
+  z-index: -999;
 }
+
 h1 {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  margin: 0;
-  font-size: clamp(6rem, 8vw + 1rem, 14rem);
   font-family: "Geist", sans-serif;
-  font-weight: 140;
-  color: hsl(0 0% 2%);
-  mix-blend-mode: soft-light;
-  filter: drop-shadow(0 0 2px white);
-  text-shadow: 2px 2px white;
-  z-index: -99;
+  font-size: clamp(4rem, 10vw, 12rem);
+  color: white;
+  text-shadow: 0 0 10px rgba(255,255,255,0.5);
+  mix-blend-mode: overlay;
+  z-index: -998;
 }
+
 @keyframes flicker {
-  to {
-    mask-position: 50% 50%, 0 50%;
-  }
+  0% { filter: brightness(1); }
+  50% { filter: brightness(1.3); }
+  100% { filter: brightness(1); }
 }
 </style>
 
@@ -71,6 +71,9 @@ h1 {
 
 st.markdown("""
 <style>
+            .stApp, [data-testid="stAppViewContainer"] {
+  background: transparent !important;
+}
 .header-box {
     text-align: center;
     border: 2px solid #00f0ff;
