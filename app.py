@@ -256,8 +256,10 @@ with col_header_left:
           </div>
         """, unsafe_allow_html=True)
         with col3:
-    st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
-    user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
+    st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>",
+                unsafe_allow_html=True)
+    user_input = st.camera_input(
+        "Ambil foto wajah Anda", label_visibility="collapsed")
 
     analysis_list = []
     for analysis in st.session_state.image_analysis:
@@ -281,9 +283,10 @@ with col_header_left:
         if st.button("Process Photo"):
             st.rerun()
 
-    # Reset default state
-    st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
-    st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
+    st.session_state.image_states = [
+        placeholder_url, placeholder_url, placeholder_url, placeholder_url]
+    st.session_state.image_captions = [
+        placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
     st.session_state.image_analysis = [placeholder_analysis]
 
     if user_input and (st.session_state.first_instance or st.session_state.has_rerun):
@@ -340,7 +343,7 @@ with col_header_left:
     else:
         st.session_state.has_rerun = True
 
-    # ✅ Tambahkan robot dan QR code di bawah analisis
+    # Tambahkan robot dan QR code di bawah hasil analisis
     components.html(
         """
         <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
