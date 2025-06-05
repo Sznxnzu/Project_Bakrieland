@@ -7,55 +7,61 @@ import requests
 import html
 
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
-components.html("""
+st.markdown("""
 <style>
-html, body {
+html, body, [data-testid="stAppViewContainer"] {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background: black;
-  font-family: 'Segoe UI', sans-serif;
-  color: white;
-}
-.stApp {
-  background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/wallpaper/wallpaper_2.png");
-  background-size: cover;
-  background-position: center;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,238,226,1) 68%, rgba(255,25,25,1) 98%);
+  animation: gradient 15s ease infinite;
+  background-size: 400% 400%;
   background-attachment: fixed;
-  background-repeat: no-repeat;
-  z-index: 0;
 }
+
+@keyframes gradient {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
 .wave {
+  background: rgb(255 255 255 / 25%);
+  border-radius: 1000% 1000% 0 0;
   position: fixed;
-  bottom: 0;
   width: 200%;
-  height: 100px;
-  background: rgba(0, 255, 0, 0.2);
-  border-radius: 40%;
-  animation: waveAnim 4s linear infinite;
-  z-index: 0;
+  height: 12em;
+  animation: wave 10s -3s linear infinite;
+  transform: translate3d(0, 0, 0);
+  opacity: 0.8;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
 }
-.wave:nth-child(2) {
-  animation-delay: 2s;
-  opacity: 0.5;
+.wave:nth-of-type(2) {
+  bottom: -1.25em;
+  animation: wave 18s linear reverse infinite;
+  opacity: 0.8;
 }
-.wave:nth-child(3) {
-  animation-delay: 1s;
-  opacity: 0.2;
+.wave:nth-of-type(3) {
+  bottom: -2.5em;
+  animation: wave 20s -1s reverse infinite;
+  opacity: 0.9;
 }
-@keyframes waveAnim {
-  0% {
-    transform: translateX(0) translateY(0);
-  }
-  100% {
-    transform: translateX(-50%) translateY(0);
-  }
+
+@keyframes wave {
+  2%   { transform: translateX(1); }
+  25%  { transform: translateX(-25%); }
+  50%  { transform: translateX(-50%); }
+  75%  { transform: translateX(-25%); }
+  100% { transform: translateX(1); }
 }
 </style>
 <div class="wave"></div>
 <div class="wave"></div>
 <div class="wave"></div>
-""", height=0)
+""", unsafe_allow_html=True)
 st.markdown("""
 <style>
 .header-box {
