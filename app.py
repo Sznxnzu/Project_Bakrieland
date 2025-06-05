@@ -127,35 +127,32 @@ with col_header_right:
             <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png' width='50' style='margin: 5px;'>
         </div>
         """, unsafe_allow_html=True)
-
     components.html(
-        """
-        <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    """
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
-        <model-viewer id="robot"
-            src="https://cdn.jsdelivr.net/gh/husnanali05/FP_Datmin@main/nerinho_-_mascote_da_neomind.glb"
-            alt="Robot Nerinho 3D"
-            camera-controls
-            auto-rotate
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <lottie-player 
+            id="robot"
+            src="https://lottie.host/8f3015b1-8ab9-4e57-8c44-e92fc3f3a6ef/xtFaGhBXLN.json"
+            background="transparent"
+            speed="1"
+            style="width: 300px; height: 300px;"
             autoplay
-            style="width: 100%; height: 400px;"
-            ar
-            shadow-intensity="1"
-            environment-image="neutral"
-            exposure="1"
-            interaction-prompt="none">
-        </model-viewer>
+            loop>
+        </lottie-player>
+    </div>
 
-        <script>
-          const robot = document.querySelector("#robot");
-          robot.addEventListener("click", () => {
-            robot.currentTime = 0;
-            robot.play();
-          });
-        </script>
-        """,
-        height=420
-    )
+    <script>
+        document.getElementById("robot").addEventListener("click", function() {
+            const r = document.getElementById("robot");
+            r.stop();
+            r.play();
+        });
+    </script>
+    """,
+    height=340
+)
     st.markdown("""
           <div class="qr-box">
               <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png" style="width:100%; border-radius: 8px;" />
