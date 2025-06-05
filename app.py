@@ -10,19 +10,15 @@ st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial
 # ✅ Modern Gradient Sphere Background
 st.markdown("""
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 html, body, [data-testid="stAppViewContainer"] {
     font-family: 'Inter', 'Helvetica Neue', sans-serif;
-    overflow: hidden;
-    background-color: #050505;
-    height: 100vh;
+    overflow-x: hidden;
+    background: #050505;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
     position: relative;
-    z-index: 0;
 }
 
 .gradient-background {
@@ -31,14 +27,16 @@ html, body, [data-testid="stAppViewContainer"] {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -2;
     overflow: hidden;
+    z-index: -3;
 }
 
 .gradient-sphere {
     position: absolute;
     border-radius: 50%;
     filter: blur(60px);
+    animation-play-state: running !important;
+    will-change: transform;
 }
 
 .sphere-1 {
@@ -72,12 +70,10 @@ html, body, [data-testid="stAppViewContainer"] {
     0% { transform: translate(0, 0) scale(1); }
     100% { transform: translate(10%, 10%) scale(1.1); }
 }
-
 @keyframes float-2 {
     0% { transform: translate(0, 0) scale(1); }
     100% { transform: translate(-10%, -5%) scale(1.15); }
 }
-
 @keyframes float-3 {
     0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
     100% { transform: translate(-5%, 10%) scale(1.05); opacity: 0.6; }
@@ -90,7 +86,7 @@ html, body, [data-testid="stAppViewContainer"] {
     width: 100%;
     height: 100%;
     opacity: 0.05;
-    z-index: 5;
+    z-index: 2;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
@@ -104,7 +100,7 @@ html, body, [data-testid="stAppViewContainer"] {
     background-image: 
         linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    z-index: 2;
+    z-index: 1;
 }
 
 .glow {
@@ -119,10 +115,37 @@ html, body, [data-testid="stAppViewContainer"] {
     animation: pulse 8s infinite alternate;
     filter: blur(30px);
 }
-
 @keyframes pulse {
     0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.9); }
     100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* Partikel interaktif */
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* Garis scanner */
+.scanner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(to right, rgba(0,255,255,0.3), rgba(0,255,255,1), rgba(0,255,255,0.3));
+    animation: scan 5s infinite linear;
+    z-index: 3;
+}
+@keyframes scan {
+    0% { top: 0%; }
+    100% { top: 100%; }
 }
 </style>
 
@@ -133,7 +156,25 @@ html, body, [data-testid="stAppViewContainer"] {
     <div class="glow"></div>
     <div class="grid-overlay"></div>
     <div class="noise-overlay"></div>
+    <div class="scanner"></div>
 </div>
+
+<script>
+// Partikel interaktif
+const createParticle = (x, y) => {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    p.style.left = `${x}px`;
+    p.style.top = `${y}px`;
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 1000);
+};
+document.addEventListener('mousemove', e => {
+    for (let i = 0; i < 3; i++) {
+        createParticle(e.clientX + Math.random() * 10 - 5, e.clientY + Math.random() * 10 - 5);
+    }
+});
+</script>
 """, unsafe_allow_html=True)
 st.markdown("""
 <style>
