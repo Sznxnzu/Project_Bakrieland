@@ -9,47 +9,18 @@ import html
 # ✅ HARUS DI ATAS
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
-# ✅ Background Matrix Animation
-components.html("""
-<canvas id="matrix-canvas" style="
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -10;
-    width: 100vw;
-    height: 100vh;
-    opacity: 0.25;
-    background: black;
-    pointer-events: none;"></canvas>
-<script>
-const c = document.getElementById("matrix-canvas");
-const ctx = c.getContext("2d");
-c.height = window.innerHeight;
-c.width = window.innerWidth;
-
-const letters = "01";
-const fontSize = 14;
-const columns = c.width / fontSize;
-const drops = Array(Math.floor(columns)).fill(1);
-
-function draw() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-  ctx.fillRect(0, 0, c.width, c.height);
-  ctx.fillStyle = "#00FF00";
-  ctx.font = fontSize + "px monospace";
-
-  for (let i = 0; i < drops.length; i++) {
-    const text = letters.charAt(Math.floor(Math.random() * letters.length));
-    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-    if (drops[i] * fontSize > c.height && Math.random() > 0.975) {
-      drops[i] = 0;
-    }
-    drops[i]++;
-  }
+# ✅ Background Matrix Animation via GIF (for Streamlit Cloud compatibility)
+st.markdown("""
+<style>
+html, body, .stApp {
+    background: url("https://i.gifer.com/7VE.gif") no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
 }
-setInterval(draw, 33);
-</script>
-""", height=0)
+</style>
+""", unsafe_allow_html=True)
 st.markdown("""
 <style>
 html, body {
