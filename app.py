@@ -249,6 +249,7 @@ with col_header_left:
           
             if st.session_state.first_instance == True:
               st.session_state.first_instance = False
+              st.session_state.has_rerun = True
             
             st.write("has_rerun:", st.session_state.has_rerun)
             st.write("first_instance:", st.session_state.first_instance)
@@ -299,5 +300,4 @@ with col_header_left:
             st.session_state.image_analysis = [updated_image_analysis]
 
             if st.button("Process Photo"):
-              st.session_state.has_rerun = True
               st.rerun()
