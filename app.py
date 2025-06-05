@@ -11,104 +11,156 @@ st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial
 
 st.markdown("""
 <style>
- .stApp, [data-testid="stAppViewContainer"] {
-    background: conic-gradient(
-        from 180deg at 50% 70%,
-        #eec32d 0deg,
-        #ec4b4b 120deg,
-        #709ab9 240deg,
-        #4dffbf 360deg
-    );
-    background-size: 300% 300%;
-    animation: spinBG 20s linear infinite;
-    font-family: 'Segoe UI', sans-serif;
-    color: white;
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+
+html, body {
+  font-family: 'Josefin Sans', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100vh;
 }
-@keyframes spinBG {
-    0% { background-position: 0% 0%; }
-    100% { background-position: 100% 100%; }
+
+.stApp, [data-testid="stAppViewContainer"] {
+  background: transparent !important;
+  overflow: hidden !important;
 }
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Animasi background gradasi + cube */
+.background {
+  background: linear-gradient(132deg, #FC415A, #591BC5, #212335);
+  background-size: 400% 400%;
+  animation: Gradient 15s ease infinite;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  z-index: -999;
+}
+.cube {
+  position: absolute;
+  top: 80vh;
+  left: 45vw;
+  width: 10px;
+  height: 10px;
+  border: solid 1px #D7D4E4;
+  transform-origin: top left;
+  transform: scale(0) rotate(0deg) translate(-50%, -50%);
+  animation: cube 12s ease-in forwards infinite;
+}
+.cube:nth-child(2n) { border-color: #FFF; }
+.cube:nth-child(2) { animation-delay: 2s; left: 25vw; top: 40vh; }
+.cube:nth-child(3) { animation-delay: 4s; left: 75vw; top: 50vh; }
+.cube:nth-child(4) { animation-delay: 6s; left: 90vw; top: 10vh; }
+.cube:nth-child(5) { animation-delay: 8s; left: 10vw; top: 85vh; }
+.cube:nth-child(6) { animation-delay: 10s; left: 50vw; top: 10vh; }
+
+@keyframes Gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes cube {
+  from {
+    transform: scale(0) rotate(0deg) translate(-50%, -50%);
+    opacity: 1;
+  }
+  to {
+    transform: scale(20) rotate(960deg) translate(-50%, -50%);
+    opacity: 0;
+  }
+}
+
+/* Styling dari UI kamu */
 .header-box {
-    text-align: center;
-    border: 2px solid #00f0ff;
-    background-color: rgba(0,0,50,0.5);
-    border-radius: 8px;
-    padding: 6px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 10px #00f0ff;
-    color: #00f0ff;
-    font-size: 18px;
+  text-align: center;
+  border: 2px solid #00f0ff;
+  background-color: rgba(0,0,50,0.5);
+  border-radius: 8px;
+  padding: 6px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 10px #00f0ff;
+  color: #00f0ff;
+  font-size: 18px;
 }
 .portrait-box {
-    border: 2px solid #00f0ff;
-    background-color: rgba(0,0,30,0.6);
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 10px #00f0ff;
-    text-align: center;
+  border: 2px solid #00f0ff;
+  background-color: rgba(0,0,30,0.6);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 10px #00f0ff;
+  text-align: center;
 }
 .mood-box {
-    border: 2px solid #00f0ff;
-    background-color: rgba(10, 15, 30, 0.85);
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px #00f0ff;
-    font-size: 10px;
-    margin-top: 10px;
-    width: 100%;
-    height: 17vh;
-}
-.mood-box p {
-    margin-bottom: 0;
-}
-.mood-box ul {
-    margin-top: 0;
-    margin-bottom: 1em;
-    padding-left: 20px;
+  border: 2px solid #00f0ff;
+  background-color: rgba(10, 15, 30, 0.85);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #00f0ff;
+  font-size: 10px;
+  margin-top: 10px;
+  width: 100%;
+  height: 17vh;
 }
 .mood-box-content {
-    border: 2px solid #00f0ff;
-    background-color: rgba(10, 15, 30, 0.85);
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px #00f0ff;
-    font-size: 10px;
-    margin-top: 10px;
-    width: 100%;
-    height: auto;
+  border: 2px solid #00f0ff;
+  background-color: rgba(10, 15, 30, 0.85);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #00f0ff;
+  font-size: 10px;
+  margin-top: 10px;
+  width: 100%;
+  height: auto;
 }
-.mood-box-content p {
-    margin-bottom: 0;
+.mood-box p, .mood-box-content p {
+  margin-bottom: 0;
 }
-.mood-box-content ul {
-    margin-top: 0;
-    margin-bottom: 1em;
-    padding-left: 20px;
+.mood-box ul, .mood-box-content ul {
+  margin-top: 0;
+  margin-bottom: 1em;
+  padding-left: 20px;
 }
 div[data-testid="stCameraInput"] > div {
-    aspect-ratio: 4 / 5;
-    width: 60% !important;
-    height: auto !important;
-    margin: 0;
-    border-radius: 20px;
-    background-color: rgba(0, 0, 0, 0.1);
+  aspect-ratio: 4 / 5;
+  width: 60% !important;
+  height: auto !important;
+  margin: 0;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 div[data-testid="stCameraInput"] button {
-    display: inline-block !important;
-    visibility: visible !important;
-    position: relative !important;
-    z-index: 10 !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  position: relative !important;
+  z-index: 10 !important;
 }
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    border-radius: 20px;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
 }
 </style>
+
+<div class="background">
+  <div class="cube"></div>
+  <div class="cube"></div>
+  <div class="cube"></div>
+  <div class="cube"></div>
+  <div class="cube"></div>
+  <div class="cube"></div>
+</div>
 """, unsafe_allow_html=True)
+
 
 genai.configure(api_key= st.secrets["gemini_api"])
 model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
