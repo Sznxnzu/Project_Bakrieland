@@ -242,10 +242,16 @@ with col_header_left:
         st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
         st.session_state.image_analysis = [placeholder_analysis]
 
+        st.write("has_rerun:", st.session_state.has_rerun)
+        st.write("first_instance:", st.session_state.first_instance)
+
         if user_input and (st.session_state.first_instance == True or st.session_state.has_rerun == True):
           
             if st.session_state.first_instance == True:
               st.session_state.first_instance = False
+            
+            st.write("has_rerun:", st.session_state.has_rerun)
+            st.write("first_instance:", st.session_state.first_instance)
 
             image = Image.open(io.BytesIO(user_input.getvalue()))
 
