@@ -6,9 +6,10 @@ import io
 import requests
 import html
 
-# --- Page layout ---
+# ✅ HARUS DI ATAS
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
-# --- Background matrix effect (canvas) ---
+
+# ✅ Background Matrix Animation
 components.html("""
 <canvas id="matrix-canvas" style="
     position: fixed;
@@ -20,7 +21,6 @@ components.html("""
     opacity: 0.25;
     background: black;
     pointer-events: none;"></canvas>
-
 <script>
 const c = document.getElementById("matrix-canvas");
 const ctx = c.getContext("2d");
@@ -50,7 +50,6 @@ function draw() {
 setInterval(draw, 33);
 </script>
 """, height=0)
-# --- Styling ---
 st.markdown("""
 <style>
 html, body {
