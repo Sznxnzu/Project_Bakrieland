@@ -255,46 +255,40 @@ with col_header_left:
               <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_2[1]}</p>
           </div>
         """, unsafe_allow_html=True)
-
-    with col3:
+        with col3:
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
 
         analysis_list = []
         for analysis in st.session_state.image_analysis:
-          analysis_list.append(analysis)
-        if len(analysis) < 1:
-          st.markdown(f"""
-          <div class="mood-box">
-          <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
-          </div>
-          """, unsafe_allow_html=True)
-          if st.session_state.first_instance == True or st.session_state.has_rerun == True:
-            if st.button("Process Photo"):
-              st.rerun()
-        else:
-          st.markdown(f"""
-          <div class="mood-box-content">
-          <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
-          </div>
-          """, unsafe_allow_html=True)
-          if st.button("Process Photo"):
-              st.rerun()
+            analysis_list.append(analysis)
 
+        if len(analysis_list[0]) < 1:
+            st.markdown(f"""
+            <div class="mood-box">
+            <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
+            </div>
+            """, unsafe_allow_html=True)
+            if st.session_state.first_instance or st.session_state.has_rerun:
+                if st.button("Process Photo"):
+                    st.rerun()
+        else:
+            st.markdown(f"""
+            <div class="mood-box-content">
+            <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
+            </div>
+            """, unsafe_allow_html=True)
+            if st.button("Process Photo"):
+                st.rerun()
+
+        # Reset default state
         st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
         st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
         st.session_state.image_analysis = [placeholder_analysis]
 
-        # st.write("has_rerun:", st.session_state.has_rerun)
-        # st.write("first_instance:", st.session_state.first_instance)
-
-        if user_input and (st.session_state.first_instance == True or st.session_state.has_rerun == True):
-          
-            if st.session_state.first_instance == True:
-              st.session_state.first_instance = False
-            
-            # st.write("has_rerun:", st.session_state.has_rerun)
-            # st.write("first_instance:", st.session_state.first_instance)
+        if user_input and (st.session_state.first_instance or st.session_state.has_rerun):
+            if st.session_state.first_instance:
+                st.session_state.first_instance = False
 
             image = Image.open(io.BytesIO(user_input.getvalue()))
 
@@ -304,6 +298,7 @@ with col_header_left:
             response = model.generate_content([prompt, image])
             raw_output = response.text
             escaped_text = html.escape(response.text)
+
             url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
             response_json = requests.get(url_json)
             prompt_json = response_json.text
@@ -318,6 +313,7 @@ with col_header_left:
             imgpath_property_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[1].strip()}.jpg"
             imgpath_holiday_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[0].strip()}.jpg"
             imgpath_holiday_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[1].strip()}.jpg"
+
             imgcap_property_1 = first_filenames[0].strip()
             imgcap_property_2 = first_filenames[1].strip()
             imgcap_holiday_1 = second_filenames[0].strip()
@@ -340,9 +336,38 @@ with col_header_left:
             st.session_state.image_states = updated_image_urls
             st.session_state.image_captions = updated_image_captions
             st.session_state.image_analysis = [updated_image_analysis]
-
             st.session_state.has_rerun = False
         else:
-          # st.write("no user input")
-          st.session_state.has_rerun = True
-    
+            st.session_state.has_rerun = True
+
+        # ✅ Tambahkan robot dan QR code di bawah analisis
+        components.html(
+            """
+            <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <lottie-player 
+                    id="robot"
+                    src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json"
+                    background="transparent"
+                    speed="1"
+                    style="width: 220px; height: 220px;"
+                    autoplay
+                    loop>
+                </lottie-player>
+            </div>
+            <script>
+                document.getElementById("robot").addEventListener("click", function() {
+                    const r = document.getElementById("robot");
+                    r.stop();
+                    r.play();
+                });
+            </script>
+            """,
+            height=240
+        )
+
+        st.markdown("""
+        <div class="qr-box" style="margin-top: -10px;">
+            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png" style="width:120px; border-radius: 8px; display:block; margin:auto;" />
+        </div>
+        """, unsafe_allow_html=True)
