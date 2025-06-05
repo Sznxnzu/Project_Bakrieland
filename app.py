@@ -6,6 +6,9 @@ import io
 import requests
 import html
 
+# ⬇️ WAJIB: Ini harus jadi baris Streamlit pertama
+st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
+
 components.html("""
 <style>
 * {
