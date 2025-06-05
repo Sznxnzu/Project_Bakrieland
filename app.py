@@ -7,9 +7,9 @@ import requests
 import html
 
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
-# Inject background wave animation (tanpa file eksternal)
-components.html("""
+st.markdown("""
 <style>
+/* ANIMASI WAVE + BACKGROUND GRADIENT */
 body {
     margin: auto;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -54,23 +54,8 @@ body {
     75% { transform: translateX(-25%); }
     100% { transform: translateX(1); }
 }
-</style>
-<div>
-  <div class="wave"></div>
-  <div class="wave"></div>
-  <div class="wave"></div>
-</div>
-""", height=0)
-st.markdown("""
-<style>
-/* Scrollbar dan layout Streamlit */
-.stApp, [data-testid="stAppViewContainer"] {
-  background: transparent !important;
-  overflow: hidden !important;
-}
-::-webkit-scrollbar {
-  display: none;
-}
+
+/* STYLING LAINNYA YANG KAMU GUNAKAN */
 .header-box {
     text-align: center;
     border: 2px solid #00f0ff;
@@ -151,6 +136,11 @@ div[data-testid="stCameraInput"] img {
     border-radius: 20px;
 }
 </style>
+
+<!-- WAVE ELEMENTS -->
+<div class="wave"></div>
+<div class="wave"></div>
+<div class="wave"></div>
 """, unsafe_allow_html=True)
 
 genai.configure(api_key= st.secrets["gemini_api"])
