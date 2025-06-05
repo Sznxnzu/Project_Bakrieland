@@ -6,6 +6,9 @@ import io
 import requests
 import html
 
+st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
+
+# Wajib ditaruh awal dan jangan ter-escape
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 <style>
@@ -94,8 +97,6 @@ div[data-testid="stCameraInput"] > div::after {
 }
 </style>
 """, unsafe_allow_html=True)
-
-st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 genai.configure(api_key= st.secrets["gemini_api"])
 model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
 
