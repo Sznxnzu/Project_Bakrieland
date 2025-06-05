@@ -245,49 +245,48 @@ with col_header_left:
             image = Image.open(io.BytesIO(user_input.getvalue()))
             image_bytes = user_input.getvalue()
 
-            if len(image_bytes) < 0:
-              url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
-              response = requests.get(url)
-              prompt = response.text
-              response = model.generate_content([prompt, image])
-              raw_output = response.text
-              escaped_text = html.escape(response.text)
-              url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
-              response_json = requests.get(url_json)
-              prompt_json = response_json.text
-              response_json = model.generate_content([prompt_json, raw_output])
+            url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
+            response = requests.get(url)
+            prompt = response.text
+            response = model.generate_content([prompt, image])
+            raw_output = response.text
+            escaped_text = html.escape(response.text)
+            url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
+            response_json = requests.get(url_json)
+            prompt_json = response_json.text
+            response_json = model.generate_content([prompt_json, raw_output])
 
-              filenames = response_json.text.strip().split(",")
-              midpoint = len(filenames) // 2
-              first_filenames = filenames[:midpoint]
-              second_filenames = filenames[midpoint:]
+            filenames = response_json.text.strip().split(",")
+            midpoint = len(filenames) // 2
+            first_filenames = filenames[:midpoint]
+            second_filenames = filenames[midpoint:]
 
-              imgpath_property_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[0].strip()}.jpg"
-              imgpath_property_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[1].strip()}.jpg"
-              imgpath_holiday_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[0].strip()}.jpg"
-              imgpath_holiday_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[1].strip()}.jpg"
-              imgcap_property_1 = first_filenames[0].strip()
-              imgcap_property_2 = first_filenames[1].strip()
-              imgcap_holiday_1 = second_filenames[0].strip()
-              imgcap_holiday_2 = second_filenames[1].strip()
-              updated_image_analysis = escaped_text
+            imgpath_property_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[0].strip()}.jpg"
+            imgpath_property_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[1].strip()}.jpg"
+            imgpath_holiday_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[0].strip()}.jpg"
+            imgpath_holiday_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[1].strip()}.jpg"
+            imgcap_property_1 = first_filenames[0].strip()
+            imgcap_property_2 = first_filenames[1].strip()
+            imgcap_holiday_1 = second_filenames[0].strip()
+            imgcap_holiday_2 = second_filenames[1].strip()
+            updated_image_analysis = escaped_text
 
-              updated_image_urls = [
-                  imgpath_property_1,
-                  imgpath_property_2,
-                  imgpath_holiday_1,
-                  imgpath_holiday_2
-              ]
-              updated_image_captions = [
-                  imgcap_property_1,
-                  imgcap_property_2,
-                  imgcap_holiday_1,
-                  imgcap_holiday_2
-              ]
+            updated_image_urls = [
+                imgpath_property_1,
+                imgpath_property_2,
+                imgpath_holiday_1,
+                imgpath_holiday_2
+            ]
+            updated_image_captions = [
+                imgcap_property_1,
+                imgcap_property_2,
+                imgcap_holiday_1,
+                imgcap_holiday_2
+            ]
 
-              st.session_state.image_states = updated_image_urls
-              st.session_state.image_captions = updated_image_captions
-              st.session_state.image_analysis = [updated_image_analysis]
+            st.session_state.image_states = updated_image_urls
+            st.session_state.image_captions = updated_image_captions
+            st.session_state.image_analysis = [updated_image_analysis]
 
-              if st.button("Process Photo"):
-                st.rerun()
+            if st.button("Process Photo"):
+              st.rerun()
