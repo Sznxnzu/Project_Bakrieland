@@ -8,48 +8,36 @@ import html
 
 # ⬇️ WAJIB: Ini harus jadi baris Streamlit pertama
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
+# inject efek animasi background + cube sebagai layout terpisah
+import streamlit.components.v1 as components
 
-st.markdown("""
+components.html("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
 
 html, body {
   font-family: 'Josefin Sans', sans-serif;
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  height: 100vh;
+  height: 100%;
 }
-
-.stApp, [data-testid="stAppViewContainer"] {
-  background: transparent !important;
-  overflow: hidden !important;
-}
-::-webkit-scrollbar {
-  display: none;
-}
-
-/* Animasi background gradasi + cube */
 .background {
   background: linear-gradient(132deg, #FC415A, #591BC5, #212335);
   background-size: 400% 400%;
   animation: Gradient 15s ease infinite;
   position: fixed;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
   z-index: -999;
 }
 .cube {
   position: absolute;
-  top: 80vh;
-  left: 45vw;
   width: 10px;
   height: 10px;
-  border: solid 1px #D7D4E4;
+  border: 1px solid #D7D4E4;
   transform-origin: top left;
   transform: scale(0) rotate(0deg) translate(-50%, -50%);
   animation: cube 12s ease-in forwards infinite;
@@ -76,79 +64,6 @@ html, body {
     opacity: 0;
   }
 }
-
-/* Styling dari UI kamu */
-.header-box {
-  text-align: center;
-  border: 2px solid #00f0ff;
-  background-color: rgba(0,0,50,0.5);
-  border-radius: 8px;
-  padding: 6px;
-  margin-bottom: 10px;
-  box-shadow: 0 0 10px #00f0ff;
-  color: #00f0ff;
-  font-size: 18px;
-}
-.portrait-box {
-  border: 2px solid #00f0ff;
-  background-color: rgba(0,0,30,0.6);
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 10px;
-  box-shadow: 0 0 10px #00f0ff;
-  text-align: center;
-}
-.mood-box {
-  border: 2px solid #00f0ff;
-  background-color: rgba(10, 15, 30, 0.85);
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px #00f0ff;
-  font-size: 10px;
-  margin-top: 10px;
-  width: 100%;
-  height: 17vh;
-}
-.mood-box-content {
-  border: 2px solid #00f0ff;
-  background-color: rgba(10, 15, 30, 0.85);
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px #00f0ff;
-  font-size: 10px;
-  margin-top: 10px;
-  width: 100%;
-  height: auto;
-}
-.mood-box p, .mood-box-content p {
-  margin-bottom: 0;
-}
-.mood-box ul, .mood-box-content ul {
-  margin-top: 0;
-  margin-bottom: 1em;
-  padding-left: 20px;
-}
-div[data-testid="stCameraInput"] > div {
-  aspect-ratio: 4 / 5;
-  width: 60% !important;
-  height: auto !important;
-  margin: 0;
-  border-radius: 20px;
-  background-color: rgba(0, 0, 0, 0.1);
-}
-div[data-testid="stCameraInput"] button {
-  display: inline-block !important;
-  visibility: visible !important;
-  position: relative !important;
-  z-index: 10 !important;
-}
-div[data-testid="stCameraInput"] video,
-div[data-testid="stCameraInput"] img {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-}
 </style>
 
 <div class="background">
@@ -159,8 +74,98 @@ div[data-testid="stCameraInput"] img {
   <div class="cube"></div>
   <div class="cube"></div>
 </div>
+""", height=0)
+st.markdown("""
+<style>
+/* Scrollbar dan layout Streamlit */
+.stApp, [data-testid="stAppViewContainer"] {
+  background: transparent !important;
+  overflow: hidden !important;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+.header-box {
+    text-align: center;
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,50,0.5);
+    border-radius: 8px;
+    padding: 6px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff;
+    color: #00f0ff;
+    font-size: 18px;
+}
+.portrait-box {
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,30,0.6);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff;
+    text-align: center;
+}
+.mood-box {
+    border: 2px solid #00f0ff;
+    background-color: rgba(10, 15, 30, 0.85);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00f0ff;
+    font-size: 10px;
+    margin-top: 10px;
+    width: 100%;
+    height: 17vh;
+}
+.mood-box p {
+    margin-bottom: 0;
+}
+.mood-box ul {
+    margin-top: 0;
+    margin-bottom: 1em;
+    padding-left: 20px;
+}
+.mood-box-content {
+    border: 2px solid #00f0ff;
+    background-color: rgba(10, 15, 30, 0.85);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00f0ff;
+    font-size: 10px;
+    margin-top: 10px;
+    width: 100%;
+    height: auto;
+}
+.mood-box-content p {
+    margin-bottom: 0;
+}
+.mood-box-content ul {
+    margin-top: 0;
+    margin-bottom: 1em;
+    padding-left: 20px;
+}
+div[data-testid="stCameraInput"] > div {
+    aspect-ratio: 4 / 5;
+    width: 60% !important;
+    height: auto !important;
+    margin: 0;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+div[data-testid="stCameraInput"] button {
+    display: inline-block !important;
+    visibility: visible !important;
+    position: relative !important;
+    z-index: 10 !important;
+}
+div[data-testid="stCameraInput"] video,
+div[data-testid="stCameraInput"] img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
+</style>
 """, unsafe_allow_html=True)
-
 
 genai.configure(api_key= st.secrets["gemini_api"])
 model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
