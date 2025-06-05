@@ -9,70 +9,24 @@ import html
 # ⬇️ WAJIB: Ini harus jadi baris Streamlit pertama
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
-components.html("""
-<style>
-@font-face {
-  font-family: "Geist";
-  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background: #0a0a0a;
-  height: 100vh;
-}
-
-.el {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: conic-gradient(
-    from 180deg at 50% 70%,
-    hsla(0,0%,98%,1) 0deg,
-    #eec32d 72deg,
-    #ec4b4b 144deg,
-    #709ab9 216deg,
-    #4dffbf 288deg,
-    hsla(0,0%,98%,1) 360deg
-  );
-  background-blend-mode: overlay;
-  opacity: 0.15;
-  animation: flicker 20s linear infinite;
-  z-index: -999;
-}
-
-h1 {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: "Geist", sans-serif;
-  font-size: clamp(4rem, 10vw, 12rem);
-  color: white;
-  text-shadow: 0 0 10px rgba(255,255,255,0.5);
-  mix-blend-mode: overlay;
-  z-index: -998;
-}
-
-@keyframes flicker {
-  0% { filter: brightness(1); }
-  50% { filter: brightness(1.3); }
-  100% { filter: brightness(1); }
-}
-</style>
-
-<div class="el"></div>
-<h1>Bakrieland</h1>
-""", height=0)
-
 st.markdown("""
 <style>
-            .stApp, [data-testid="stAppViewContainer"] {
-  background: transparent !important;
+ .stApp, [data-testid="stAppViewContainer"] {
+    background: conic-gradient(
+        from 180deg at 50% 70%,
+        #eec32d 0deg,
+        #ec4b4b 120deg,
+        #709ab9 240deg,
+        #4dffbf 360deg
+    );
+    background-size: 300% 300%;
+    animation: spinBG 20s linear infinite;
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+}
+@keyframes spinBG {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
 }
 .header-box {
     text-align: center;
