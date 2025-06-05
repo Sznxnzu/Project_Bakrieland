@@ -11,18 +11,23 @@ st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial
 st.markdown("""
 <style>
 html, body, [data-testid="stAppViewContainer"] {
-        overflow: hidden !important;
-    }
-    ::-webkit-scrollbar {
-        display: none;
-    }
-.stApp {
-    background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/wallpaper/wallpaper_2.png");
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    overflow: hidden !important;
+    background: black !important;
     font-family: 'Segoe UI', sans-serif;
     color: white;
+}
+canvas#matrix-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -10;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.25;
+    pointer-events: none;
+}
+::-webkit-scrollbar {
+    display: none;
 }
 .header-box {
     text-align: center;
@@ -44,43 +49,18 @@ html, body, [data-testid="stAppViewContainer"] {
     box-shadow: 0 0 10px #00f0ff;
     text-align: center;
 }
+.mood-box, .mood-box-content {
+    border: 2px solid #00f0ff;
+    background-color: rgba(10, 15, 30, 0.85);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00f0ff;
+    font-size: 10px;
+    margin-top: 10px;
+    width: 100%;
+}
 .mood-box {
-    border: 2px solid #00f0ff;
-    background-color: rgba(10, 15, 30, 0.85);
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px #00f0ff;
-    font-size: 10px;
-    margin-top: 10px;
-    width: 100%;
     height: 17vh;
-}
-.mood-box p {
-    margin-bottom: 0;
-}
-.mood-box ul {
-    margin-top: 0;
-    margin-bottom: 1em;
-    padding-left: 20px;
-}
-.mood-box-content {
-    border: 2px solid #00f0ff;
-    background-color: rgba(10, 15, 30, 0.85);
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px #00f0ff;
-    font-size: 10px;
-    margin-top: 10px;
-    width: 100%;
-    height: auto;
-}
-.mood-box-content p {
-    margin-bottom: 0;
-}
-.mood-box-content ul {
-    margin-top: 0;
-    margin-bottom: 1em;
-    padding-left: 20px;
 }
 div[data-testid="stCameraInput"] > div {
     aspect-ratio: 4 / 5;
@@ -104,7 +84,38 @@ div[data-testid="stCameraInput"] img {
     border-radius: 20px;
 }
 </style>
+
+<canvas id="matrix-canvas"></canvas>
+<script>
+const c = document.getElementById("matrix-canvas");
+const ctx = c.getContext("2d");
+c.height = window.innerHeight;
+c.width = window.innerWidth;
+
+const letters = "01";
+const fontSize = 14;
+const columns = c.width / fontSize;
+const drops = Array(Math.floor(columns)).fill(1);
+
+function draw() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+  ctx.fillRect(0, 0, c.width, c.height);
+  ctx.fillStyle = "#00FF00";
+  ctx.font = fontSize + "px monospace";
+
+  for (let i = 0; i < drops.length; i++) {
+    const text = letters.charAt(Math.floor(Math.random() * letters.length));
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+    if (drops[i] * fontSize > c.height && Math.random() > 0.975) {
+      drops[i] = 0;
+    }
+    drops[i]++;
+  }
+}
+setInterval(draw, 33);
+</script>
 """, unsafe_allow_html=True)
+
 
 genai.configure(api_key= st.secrets["gemini_api"])
 model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
