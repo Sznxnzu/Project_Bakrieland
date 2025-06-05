@@ -11,18 +11,44 @@ st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial
 st.markdown("""
 <style>
 html, body, [data-testid="stAppViewContainer"] {
-        overflow: hidden !important;
-    }
-    ::-webkit-scrollbar {
-        display: none;
-    }
+  overflow: hidden !important;
+  background: black !important;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+}
+::-webkit-scrollbar {
+  display: none;
+}
 .stApp {
-    background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/wallpaper/wallpaper_2.png");
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    font-family: 'Segoe UI', sans-serif;
-    color: white;
+  background: transparent !important;
+}
+.wave {
+  position: fixed;
+  bottom: 0;
+  width: 200%;
+  height: 100px;
+  background: rgba(0, 255, 0, 0.2);
+  border-radius: 40%;
+  animation: waveAnim 4s linear infinite;
+  z-index: -1;
+}
+.wave:nth-child(2) {
+  animation-delay: 2s;
+  opacity: 0.5;
+}
+.wave:nth-child(3) {
+  animation-delay: 1s;
+  opacity: 0.2;
+}
+@keyframes waveAnim {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
 }
 .header-box {
     text-align: center;
