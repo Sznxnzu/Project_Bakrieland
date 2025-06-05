@@ -7,63 +7,20 @@ import requests
 import html
 
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
+with open("resources/wallpaper/background.html", "r") as f:
+    background_html = f.read()
+
+components.html(background_html, height=0)
 st.markdown("""
 <style>
-html, body, [data-testid="stAppViewContainer"] {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,238,226,1) 68%, rgba(255,25,25,1) 98%);
-  animation: gradient 15s ease infinite;
-  background-size: 400% 400%;
-  background-attachment: fixed;
+/* Scrollbar dan layout Streamlit */
+.stApp, [data-testid="stAppViewContainer"] {
+  background: transparent !important;
+  overflow: hidden !important;
 }
-
-@keyframes gradient {
-  0% { background-position: 0% 0%; }
-  50% { background-position: 100% 100%; }
-  100% { background-position: 0% 0%; }
+::-webkit-scrollbar {
+  display: none;
 }
-
-.wave {
-  background: rgb(255 255 255 / 25%);
-  border-radius: 1000% 1000% 0 0;
-  position: fixed;
-  width: 200%;
-  height: 12em;
-  animation: wave 10s -3s linear infinite;
-  transform: translate3d(0, 0, 0);
-  opacity: 0.8;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-}
-.wave:nth-of-type(2) {
-  bottom: -1.25em;
-  animation: wave 18s linear reverse infinite;
-  opacity: 0.8;
-}
-.wave:nth-of-type(3) {
-  bottom: -2.5em;
-  animation: wave 20s -1s reverse infinite;
-  opacity: 0.9;
-}
-
-@keyframes wave {
-  2%   { transform: translateX(1); }
-  25%  { transform: translateX(-25%); }
-  50%  { transform: translateX(-50%); }
-  75%  { transform: translateX(-25%); }
-  100% { transform: translateX(1); }
-}
-</style>
-<div class="wave"></div>
-<div class="wave"></div>
-<div class="wave"></div>
-""", unsafe_allow_html=True)
-st.markdown("""
-<style>
 .header-box {
     text-align: center;
     border: 2px solid #00f0ff;
@@ -169,33 +126,31 @@ with col_header_right:
         """, unsafe_allow_html=True)
 
     components.html(
-        """
-        <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    """
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
-        <model-viewer id="robot"
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <lottie-player 
+            id="robot"
             src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json"
-            alt="Robot Nerinho 3D"
-            camera-controls
-            auto-rotate
+            background="transparent"
+            speed="1"
+            style="width: 300px; height: 300px;"
             autoplay
-            style="width: 100%; height: 400px;"
-            ar
-            shadow-intensity="1"
-            environment-image="neutral"
-            exposure="1"
-            interaction-prompt="none">
-        </model-viewer>
+            loop>
+        </lottie-player>
+    </div>
 
-        <script>
-          const robot = document.querySelector("#robot");
-          robot.addEventListener("click", () => {
-            robot.currentTime = 0;
-            robot.play();
-          });
-        </script>
-        """,
-        height=420
-    )
+    <script>
+        document.getElementById("robot").addEventListener("click", function() {
+            const r = document.getElementById("robot");
+            r.stop();
+            r.play();
+        });
+    </script>
+    """,
+    height=340
+)
     st.markdown("""
           <div class="qr-box">
               <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png" style="width:100%; border-radius: 8px;" />
@@ -347,4 +302,4 @@ with col_header_left:
         else:
           # st.write("no user input")
           st.session_state.has_rerun = True
-            
+    
