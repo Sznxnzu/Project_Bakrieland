@@ -9,82 +9,128 @@ import html
 # ⬇️ WAJIB: Ini harus jadi baris Streamlit pertama
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
-# ⬇️ Tambahkan background gradient + animasi bola mengambang via HTML injection
+import streamlit.components.v1 as components
+
 components.html("""
 <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 html, body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background: #050505;
+    font-family: 'Inter', 'Helvetica Neue', sans-serif;
+    overflow: hidden;
+    background-color: #050505;
+    color: white;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
 }
 .gradient-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -9999;
-  overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -999;
+    overflow: hidden;
 }
 .gradient-sphere {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-  animation-play-state: running !important;
-  will-change: transform;
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
 }
 .sphere-1 {
-  width: 40vw;
-  height: 40vw;
-  background: linear-gradient(40deg, rgba(255, 0, 128, 0.8), rgba(255, 102, 0, 0.4));
-  top: -10%;
-  left: -10%;
-  animation: float-1 15s ease-in-out infinite alternate;
+    width: 40vw;
+    height: 40vw;
+    background: linear-gradient(40deg, rgba(255, 0, 128, 0.8), rgba(255, 102, 0, 0.4));
+    top: -10%;
+    left: -10%;
+    animation: float-1 15s ease-in-out infinite alternate;
 }
 .sphere-2 {
-  width: 45vw;
-  height: 45vw;
-  background: linear-gradient(240deg, rgba(72, 0, 255, 0.8), rgba(0, 183, 255, 0.4));
-  bottom: -20%;
-  right: -10%;
-  animation: float-2 18s ease-in-out infinite alternate;
+    width: 45vw;
+    height: 45vw;
+    background: linear-gradient(240deg, rgba(72, 0, 255, 0.8), rgba(0, 183, 255, 0.4));
+    bottom: -20%;
+    right: -10%;
+    animation: float-2 18s ease-in-out infinite alternate;
 }
 .sphere-3 {
-  width: 30vw;
-  height: 30vw;
-  background: linear-gradient(120deg, rgba(133, 89, 255, 0.5), rgba(98, 216, 249, 0.3));
-  top: 60%;
-  left: 20%;
-  animation: float-3 20s ease-in-out infinite alternate;
+    width: 30vw;
+    height: 30vw;
+    background: linear-gradient(120deg, rgba(133, 89, 255, 0.5), rgba(98, 216, 249, 0.3));
+    top: 60%;
+    left: 20%;
+    animation: float-3 20s ease-in-out infinite alternate;
 }
 @keyframes float-1 {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(10%, 10%) scale(1.1); }
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(10%, 10%) scale(1.1); }
 }
 @keyframes float-2 {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(-10%, -5%) scale(1.15); }
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-10%, -5%) scale(1.15); }
 }
 @keyframes float-3 {
-  0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
-  100% { transform: translate(-5%, 10%) scale(1.05); opacity: 0.6; }
+    0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+    100% { transform: translate(-5%, 10%) scale(1.05); opacity: 0.6; }
+}
+.grid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 40px 40px;
+    background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    z-index: 1;
+}
+.glow {
+    position: absolute;
+    width: 40vw;
+    height: 40vh;
+    background: radial-gradient(circle, rgba(72, 0, 255, 0.15), transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    animation: pulse 8s infinite alternate;
+    filter: blur(30px);
+}
+@keyframes pulse {
+    0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.9); }
+    100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.1); }
+}
+.noise-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.05;
+    z-index: 5;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 </style>
 
 <div class="gradient-background">
-  <div class="gradient-sphere sphere-1"></div>
-  <div class="gradient-sphere sphere-2"></div>
-  <div class="gradient-sphere sphere-3"></div>
+    <div class="gradient-sphere sphere-1"></div>
+    <div class="gradient-sphere sphere-2"></div>
+    <div class="gradient-sphere sphere-3"></div>
+    <div class="glow"></div>
+    <div class="grid-overlay"></div>
+    <div class="noise-overlay"></div>
 </div>
 """, height=0)
+
 st.markdown("""
 <style>
-.stApp {
-  background: transparent !important;
-}
-[data-testid="stAppViewContainer"] {
-  background: transparent !important;
+.stApp, [data-testid="stAppViewContainer"] {
+    background: transparent !important;
 }
 .header-box {
     text-align: center;
