@@ -7,60 +7,133 @@ import requests
 import html
 
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
+# ✅ Modern Gradient Sphere Background
 st.markdown("""
 <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 html, body, [data-testid="stAppViewContainer"] {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,238,226,1) 68%, rgba(255,25,25,1) 98%);
-  animation: gradient 15s ease infinite;
-  background-size: 400% 400%;
-  background-attachment: fixed;
+    font-family: 'Inter', 'Helvetica Neue', sans-serif;
+    overflow: hidden;
+    background-color: #050505;
+    height: 100vh;
+    position: relative;
+    z-index: 0;
 }
 
-@keyframes gradient {
-  0% { background-position: 0% 0%; }
-  50% { background-position: 100% 100%; }
-  100% { background-position: 0% 0%; }
+.gradient-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
 }
 
-.wave {
-  background: rgb(255 255 255 / 25%);
-  border-radius: 1000% 1000% 0 0;
-  position: fixed;
-  width: 200%;
-  height: 12em;
-  animation: wave 10s -3s linear infinite;
-  transform: translate3d(0, 0, 0);
-  opacity: 0.8;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-}
-.wave:nth-of-type(2) {
-  bottom: -1.25em;
-  animation: wave 18s linear reverse infinite;
-  opacity: 0.8;
-}
-.wave:nth-of-type(3) {
-  bottom: -2.5em;
-  animation: wave 20s -1s reverse infinite;
-  opacity: 0.9;
+.gradient-sphere {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
 }
 
-@keyframes wave {
-  2%   { transform: translateX(1); }
-  25%  { transform: translateX(-25%); }
-  50%  { transform: translateX(-50%); }
-  75%  { transform: translateX(-25%); }
-  100% { transform: translateX(1); }
+.sphere-1 {
+    width: 40vw;
+    height: 40vw;
+    background: linear-gradient(40deg, rgba(255, 0, 128, 0.8), rgba(255, 102, 0, 0.4));
+    top: -10%;
+    left: -10%;
+    animation: float-1 15s ease-in-out infinite alternate;
+}
+
+.sphere-2 {
+    width: 45vw;
+    height: 45vw;
+    background: linear-gradient(240deg, rgba(72, 0, 255, 0.8), rgba(0, 183, 255, 0.4));
+    bottom: -20%;
+    right: -10%;
+    animation: float-2 18s ease-in-out infinite alternate;
+}
+
+.sphere-3 {
+    width: 30vw;
+    height: 30vw;
+    background: linear-gradient(120deg, rgba(133, 89, 255, 0.5), rgba(98, 216, 249, 0.3));
+    top: 60%;
+    left: 20%;
+    animation: float-3 20s ease-in-out infinite alternate;
+}
+
+@keyframes float-1 {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(10%, 10%) scale(1.1); }
+}
+
+@keyframes float-2 {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-10%, -5%) scale(1.15); }
+}
+
+@keyframes float-3 {
+    0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+    100% { transform: translate(-5%, 10%) scale(1.05); opacity: 0.6; }
+}
+
+.noise-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.05;
+    z-index: 5;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.grid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 40px 40px;
+    background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    z-index: 2;
+}
+
+.glow {
+    position: absolute;
+    width: 40vw;
+    height: 40vh;
+    background: radial-gradient(circle, rgba(72, 0, 255, 0.15), transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    animation: pulse 8s infinite alternate;
+    filter: blur(30px);
+}
+
+@keyframes pulse {
+    0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.9); }
+    100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.1); }
 }
 </style>
-<div class="wave"></div>
-<div class="wave"></div>
-<div class="wave"></div>
+
+<div class="gradient-background">
+    <div class="gradient-sphere sphere-1"></div>
+    <div class="gradient-sphere sphere-2"></div>
+    <div class="gradient-sphere sphere-3"></div>
+    <div class="glow"></div>
+    <div class="grid-overlay"></div>
+    <div class="noise-overlay"></div>
+</div>
 """, unsafe_allow_html=True)
 st.markdown("""
 <style>
