@@ -15,21 +15,22 @@ components.html("""
   font-family: "Geist";
   src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
 }
+
 * {
   box-sizing: border-box;
 }
 :root {
   --size: 20px;
 }
-body {
+html, body {
   margin: 0;
   padding: 0;
-  min-height: 100vh;
-  background: hsl(0 0% 6%);
   overflow: hidden;
+  height: 100%;
+  background: hsl(0 0% 6%);
 }
 .el {
-  background: conic-gradient(from 180deg at 50% 70%, hsla(0,0%,98%,1) 0deg, #eec32d 72deg, #ec4b4b 144deg, #709ab9 216deg, #4dffbf 288deg, hsla(0,0%,98%,1) 360deg);
+  background: conic-gradient(from 180deg at 50% 70%,hsla(0,0%,98%,1) 0deg,#eec32d 72deg,#ec4b4b 144deg,#709ab9 216deg,#4dffbf 288deg,hsla(0,0%,98%,1) 360deg);
   width: 100vw;
   height: 100vh;
   mask:
@@ -40,7 +41,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: -999;
+  z-index: -100;
 }
 h1 {
   position: fixed;
@@ -55,7 +56,7 @@ h1 {
   mix-blend-mode: soft-light;
   filter: drop-shadow(0 0 2px white);
   text-shadow: 2px 2px white;
-  z-index: -998;
+  z-index: -99;
 }
 @keyframes flicker {
   to {
@@ -65,7 +66,7 @@ h1 {
 </style>
 
 <div class="el"></div>
-<h1>Geist</h1>
+<h1>Bakrieland</h1>
 """, height=0)
 
 st.markdown("""
