@@ -134,7 +134,7 @@ with col_header_right:
     <div style="display: flex; justify-content: center; align-items: center;">
         <lottie-player 
             id="robot"
-            src="https://lottie.host/8f3015b1-8ab9-4e57-8c44-e92fc3f3a6ef/xtFaGhBXLN.json"
+            src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json"
             background="transparent"
             speed="1"
             style="width: 300px; height: 300px;"
