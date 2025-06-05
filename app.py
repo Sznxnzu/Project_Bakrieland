@@ -151,22 +151,35 @@ model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
 
 col_header_left, col_header_right = st.columns([0.85, 0.15])
 with col_header_right:
-    col_00, col_01 = st.columns([0.3, 0.7])
-    with col_00:
-        st.markdown("""
-        <div style='display: flex; align-items: flex-end; height: 100%; justify-content: flex-start;'>
-            <p style='font-size: 0.6em; color:#aaa; margin: 0;'>POWERED BY</p>
+    st.markdown("""
+    <div style='display: flex; flex-direction: column; align-items: flex-end;'>
+        <p style='font-size: 0.65em; color:#aaa; margin-bottom: 2px;'>POWERED BY</p>
+        <div style='display: flex; gap: 6px; align-items: center;'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png' width='85'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png' width='35'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png' width='35'>
         </div>
-        """, unsafe_allow_html=True)
-
-    with col_01:
-        st.markdown("""
-        <div style='text-align: right;'>
-            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png' width='120' margin: 5px;'>
-            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png' width='50' style='margin: 5px;'>
-            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png' width='50' style='margin: 5px;'>
+        <div style='margin-top: 8px;'>
+            <lottie-player 
+                id="robot"
+                src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json"
+                background="transparent"
+                speed="1"
+                style="width: 130px; height: 130px;"
+                autoplay
+                loop>
+            </lottie-player>
         </div>
-        """, unsafe_allow_html=True)
+    </div>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script>
+        document.getElementById("robot").addEventListener("click", function() {
+            const r = document.getElementById("robot");
+            r.stop();
+            r.play();
+        });
+    </script>
+    """, unsafe_allow_html=True)
 
     components.html(
     """
@@ -256,10 +269,8 @@ with col_header_left:
           </div>
         """, unsafe_allow_html=True)
     with col3:
-        st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>",
-                    unsafe_allow_html=True)
-        user_input = st.camera_input(
-            "Ambil foto wajah Anda", label_visibility="collapsed")
+        st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
+        user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
 
         analysis_list = []
         for analysis in st.session_state.image_analysis:
@@ -283,10 +294,9 @@ with col_header_left:
             if st.button("Process Photo"):
                 st.rerun()
 
-        st.session_state.image_states = [
-            placeholder_url, placeholder_url, placeholder_url, placeholder_url]
-        st.session_state.image_captions = [
-            placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
+        # Reset default state
+        st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
+        st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
         st.session_state.image_analysis = [placeholder_analysis]
 
         if user_input and (st.session_state.first_instance or st.session_state.has_rerun):
@@ -342,35 +352,3 @@ with col_header_left:
             st.session_state.has_rerun = False
         else:
             st.session_state.has_rerun = True
-
-        # Tambahkan robot dan QR code di bawah hasil analisis
-        components.html(
-            """
-            <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-            <div style="display: flex; justify-content: center; align-items: center;">
-                <lottie-player 
-                    id="robot"
-                    src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json"
-                    background="transparent"
-                    speed="1"
-                    style="width: 220px; height: 220px;"
-                    autoplay
-                    loop>
-                </lottie-player>
-            </div>
-            <script>
-                document.getElementById("robot").addEventListener("click", function() {
-                    const r = document.getElementById("robot");
-                    r.stop();
-                    r.play();
-                });
-            </script>
-            """,
-            height=240
-        )
-
-        st.markdown("""
-        <div class="qr-box" style="margin-top: -10px;">
-            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png" style="width:120px; border-radius: 8px; display:block; margin:auto;" />
-        </div>
-        """, unsafe_allow_html=True)
