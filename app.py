@@ -6,32 +6,21 @@ import io
 import requests
 import html
 
-# ✅ HARUS DI ATAS
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
-# ✅ Background Matrix Animation via GIF (for Streamlit Cloud compatibility)
 st.markdown("""
 <style>
-html, body, .stApp {
-    background: url("https://i.gifer.com/7VE.gif") no-repeat center center fixed;
-    background-size: cover;
-    overflow: hidden;
-    font-family: 'Segoe UI', sans-serif;
-    color: white;
-}
-</style>
-""", unsafe_allow_html=True)
-st.markdown("""
-<style>
-html, body {
-    background: black !important;
-    overflow: hidden !important;
-}
-[data-testid="stAppViewContainer"] {
-    overflow: hidden !important;
-}
-::-webkit-scrollbar { display: none; }
+html, body, [data-testid="stAppViewContainer"] {
+        overflow: hidden !important;
+    }
+    ::-webkit-scrollbar {
+        display: none;
+    }
 .stApp {
+    background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/wallpaper/wallpaper_2.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     font-family: 'Segoe UI', sans-serif;
     color: white;
 }
@@ -55,7 +44,7 @@ html, body {
     box-shadow: 0 0 10px #00f0ff;
     text-align: center;
 }
-.mood-box, .mood-box-content {
+.mood-box {
     border: 2px solid #00f0ff;
     background-color: rgba(10, 15, 30, 0.85);
     padding: 15px;
@@ -64,8 +53,35 @@ html, body {
     font-size: 10px;
     margin-top: 10px;
     width: 100%;
+    height: 17vh;
 }
-.mood-box { height: 17vh; }
+.mood-box p {
+    margin-bottom: 0;
+}
+.mood-box ul {
+    margin-top: 0;
+    margin-bottom: 1em;
+    padding-left: 20px;
+}
+.mood-box-content {
+    border: 2px solid #00f0ff;
+    background-color: rgba(10, 15, 30, 0.85);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00f0ff;
+    font-size: 10px;
+    margin-top: 10px;
+    width: 100%;
+    height: auto;
+}
+.mood-box-content p {
+    margin-bottom: 0;
+}
+.mood-box-content ul {
+    margin-top: 0;
+    margin-bottom: 1em;
+    padding-left: 20px;
+}
 div[data-testid="stCameraInput"] > div {
     aspect-ratio: 4 / 5;
     width: 60% !important;
@@ -90,11 +106,9 @@ div[data-testid="stCameraInput"] img {
 </style>
 """, unsafe_allow_html=True)
 
-# --- Gemini model setup ---
-genai.configure(api_key=st.secrets["gemini_api"])
+genai.configure(api_key= st.secrets["gemini_api"])
 model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
 
-# --- UI ---
 col_header_left, col_header_right = st.columns([0.85, 0.15])
 with col_header_right:
     col_00, col_01 = st.columns([0.3, 0.7])
@@ -104,6 +118,7 @@ with col_header_right:
             <p style='font-size: 0.6em; color:#aaa; margin: 0;'>POWERED BY</p>
         </div>
         """, unsafe_allow_html=True)
+
     with col_01:
         st.markdown("""
         <div style='text-align: right;'>
@@ -113,8 +128,10 @@ with col_header_right:
         </div>
         """, unsafe_allow_html=True)
 
-    components.html("""
+    components.html(
+    """
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
     <div style="display: flex; justify-content: center; align-items: center;">
         <lottie-player 
             id="robot"
@@ -126,12 +143,166 @@ with col_header_right:
             loop>
         </lottie-player>
     </div>
-    """, height=340)
 
+    <script>
+        document.getElementById("robot").addEventListener("click", function() {
+            const r = document.getElementById("robot");
+            r.stop();
+            r.play();
+        });
+    </script>
+    """,
+    height=340
+)
     st.markdown("""
           <div class="qr-box">
               <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png" style="width:100%; border-radius: 8px;" />
           </div>
         """, unsafe_allow_html=True)
 
-# -- (lanjutkan bagian rekomendasi, kamera, dan analisa sesuai struktur kamu) --
+with col_header_left:
+    col1, col2, col3 = st.columns([1, 1, 1.4])
+
+    placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/placeholder.png"
+    placeholder_caption = ""
+    placeholder_analysis = ""
+
+    if "image_states" not in st.session_state:
+      st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
+    if "image_captions" not in st.session_state:
+      st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
+    if "image_analysis" not in st.session_state:
+      st.session_state.image_analysis = [placeholder_analysis]
+    
+    if "first_instance" not in st.session_state:
+      st.session_state.first_instance = True
+    if "has_rerun" not in st.session_state:
+      st.session_state.has_rerun = False
+
+    with col1:
+
+        url_list_1 = []
+        for url in st.session_state.image_states[:2]:
+          url_list_1.append(url)
+        cap_list_1 = []
+        for captions in st.session_state.image_captions[:2]:
+          cap_list_1.append(captions)
+
+        st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
+        st.markdown(f"""
+          <div class="portrait-box">
+              <img src="{url_list_1[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_1[0]}</p>
+              <img src="{url_list_1[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_1[1]}</p>
+          </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+        url_list_2 = []
+        for url in st.session_state.image_states[2:]:
+          url_list_2.append(url)
+        cap_list_2 = []
+        for captions in st.session_state.image_captions[2:]:
+          cap_list_2.append(captions)
+
+        st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
+        st.markdown(f"""
+          <div class="portrait-box">
+              <img src="{url_list_2[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_2[0]}</p>
+              <img src="{url_list_2[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_2[1]}</p>
+          </div>
+        """, unsafe_allow_html=True)
+
+    with col3:
+        st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
+        user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
+
+        analysis_list = []
+        for analysis in st.session_state.image_analysis:
+          analysis_list.append(analysis)
+        if len(analysis) < 1:
+          st.markdown(f"""
+          <div class="mood-box">
+          <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
+          </div>
+          """, unsafe_allow_html=True)
+          if st.session_state.first_instance == True or st.session_state.has_rerun == True:
+            if st.button("Process Photo"):
+              st.rerun()
+        else:
+          st.markdown(f"""
+          <div class="mood-box-content">
+          <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
+          </div>
+          """, unsafe_allow_html=True)
+          if st.button("Process Photo"):
+              st.rerun()
+
+        st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
+        st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
+        st.session_state.image_analysis = [placeholder_analysis]
+
+        # st.write("has_rerun:", st.session_state.has_rerun)
+        # st.write("first_instance:", st.session_state.first_instance)
+
+        if user_input and (st.session_state.first_instance == True or st.session_state.has_rerun == True):
+          
+            if st.session_state.first_instance == True:
+              st.session_state.first_instance = False
+            
+            # st.write("has_rerun:", st.session_state.has_rerun)
+            # st.write("first_instance:", st.session_state.first_instance)
+
+            image = Image.open(io.BytesIO(user_input.getvalue()))
+
+            url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
+            response = requests.get(url)
+            prompt = response.text
+            response = model.generate_content([prompt, image])
+            raw_output = response.text
+            escaped_text = html.escape(response.text)
+            url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
+            response_json = requests.get(url_json)
+            prompt_json = response_json.text
+            response_json = model.generate_content([prompt_json, raw_output])
+
+            filenames = response_json.text.strip().split(",")
+            midpoint = len(filenames) // 2
+            first_filenames = filenames[:midpoint]
+            second_filenames = filenames[midpoint:]
+
+            imgpath_property_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[0].strip()}.jpg"
+            imgpath_property_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[1].strip()}.jpg"
+            imgpath_holiday_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[0].strip()}.jpg"
+            imgpath_holiday_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[1].strip()}.jpg"
+            imgcap_property_1 = first_filenames[0].strip()
+            imgcap_property_2 = first_filenames[1].strip()
+            imgcap_holiday_1 = second_filenames[0].strip()
+            imgcap_holiday_2 = second_filenames[1].strip()
+
+            updated_image_urls = [
+                imgpath_property_1,
+                imgpath_property_2,
+                imgpath_holiday_1,
+                imgpath_holiday_2
+            ]
+            updated_image_captions = [
+                imgcap_property_1,
+                imgcap_property_2,
+                imgcap_holiday_1,
+                imgcap_holiday_2
+            ]
+            updated_image_analysis = escaped_text
+
+            st.session_state.image_states = updated_image_urls
+            st.session_state.image_captions = updated_image_captions
+            st.session_state.image_analysis = [updated_image_analysis]
+
+            st.session_state.has_rerun = False
+        else:
+          # st.write("no user input")
+          st.session_state.has_rerun = True
+    
