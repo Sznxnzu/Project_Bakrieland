@@ -242,7 +242,7 @@ with col_header_left:
         st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
         st.session_state.image_analysis = [placeholder_analysis]
 
-        if user_input and (st.session_state.first_instance = True or st.session_state.has_rerun = True):
+        if user_input and (st.session_state.first_instance == True or st.session_state.has_rerun == True):
             image = Image.open(io.BytesIO(user_input.getvalue()))
 
             url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
