@@ -107,7 +107,7 @@ div[data-testid="stCameraInput"] img {
 """, unsafe_allow_html=True)
 
 genai.configure(api_key= st.secrets["gemini_api"])
-model = genai.GenerativeModel("gemini-1.5-flash-latest")
+model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
 
 col_header_left, col_header_right = st.columns([0.85, 0.15])
 with col_header_right:
