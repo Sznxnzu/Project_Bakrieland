@@ -9,8 +9,6 @@ import html
 # ⬇️ WAJIB: Ini harus jadi baris Streamlit pertama
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 # inject efek animasi background + cube sebagai layout terpisah
-import streamlit.components.v1 as components
-
 components.html("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
