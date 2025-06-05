@@ -22,7 +22,11 @@ html, body, [data-testid="stAppViewContainer"] {
   display: none;
 }
 .stApp {
-  background: transparent !important;
+  background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/wallpaper/wallpaper_2.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 .wave {
   position: fixed;
