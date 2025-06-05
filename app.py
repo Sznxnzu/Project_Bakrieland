@@ -6,14 +6,10 @@ import io
 import requests
 import html
 
-st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 <style>
-* {
-    font-family: 'Orbitron', sans-serif;
-}
-
+* { font-family: 'Orbitron', sans-serif; }
 html, body, [data-testid="stAppViewContainer"] {
   margin: 0;
   padding: 0;
@@ -23,110 +19,83 @@ html, body, [data-testid="stAppViewContainer"] {
   background-size: 400% 400%;
   background-attachment: fixed;
 }
-
 @keyframes gradient {
   0% { background-position: 0% 0%; }
   50% { background-position: 100% 100%; }
   100% { background-position: 0% 0%; }
 }
-
-.stApp, [data-testid="stAppViewContainer"] {
-  background: transparent !important;
-  overflow: hidden !important;
-}
-::-webkit-scrollbar {
-  display: none;
-}
-
+::-webkit-scrollbar { display: none; }
 .header-box {
-    text-align: center;
-    border: 2px solid #00f0ff;
-    background-color: rgba(0,0,50,0.5);
-    border-radius: 8px;
-    padding: 6px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 10px #00f0ff;
-    color: #00f0ff;
-    font-size: 18px;
+  text-align: center;
+  border: 2px solid #00f0ff;
+  background-color: rgba(0,0,50,0.5);
+  border-radius: 8px;
+  padding: 6px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 10px #00f0ff;
+  color: #00f0ff;
+  font-size: 18px;
 }
-
 .portrait-box {
-    border: 2px solid #00f0ff;
-    background-color: rgba(0,0,30,0.6);
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 10px #00f0ff;
-    text-align: center;
+  border: 2px solid #00f0ff;
+  background-color: rgba(0,0,30,0.6);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 10px #00f0ff;
+  text-align: center;
 }
 .portrait-box img:hover {
-    transform: scale(1.03);
-    transition: 0.3s ease-in-out;
-    box-shadow: 0 0 20px #00f0ff;
+  transform: scale(1.03);
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 0 20px #00f0ff;
 }
-
 .mood-box, .mood-box-content {
-    border: 2px solid #00f0ff;
-    background-color: rgba(10, 15, 30, 0.85);
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px #00f0ff;
-    font-size: 10px;
-    margin-top: 10px;
-    width: 100%;
+  border: 2px solid #00f0ff;
+  background-color: rgba(10, 15, 30, 0.85);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #00f0ff;
+  font-size: 10px;
+  margin-top: 10px;
+  width: 100%;
 }
-.mood-box p, .mood-box-content p {
-    margin-bottom: 0;
-}
-.mood-box ul, .mood-box-content ul {
-    margin-top: 0;
-    margin-bottom: 1em;
-    padding-left: 20px;
-}
-
 div[data-testid="stCameraInput"] > div {
-    aspect-ratio: 1 / 1;
-    width: 60% !important;
-    height: auto !important;
-    margin: 0 auto;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.1);
-    box-shadow: 0 0 15px #00f0ff;
-    position: relative;
+  aspect-ratio: 1 / 1;
+  width: 60% !important;
+  height: auto !important;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 15px #00f0ff;
+  position: relative;
 }
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 div[data-testid="stCameraInput"] > div::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    border: 2px solid #00f0ff;
-    border-radius: 50%;
-    animation: pulse 2s infinite ease-in-out;
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: 2px solid #00f0ff;
+  border-radius: 50%;
+  animation: pulse 2s infinite ease-in-out;
 }
 @keyframes pulse {
   0% { box-shadow: 0 0 0px #00f0ff; }
   50% { box-shadow: 0 0 15px #00f0ff; }
   100% { box-shadow: 0 0 0px #00f0ff; }
 }
-
-body {
-  animation: fadeIn 1.2s ease-in;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 </style>
 """, unsafe_allow_html=True)
 
+st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 genai.configure(api_key= st.secrets["gemini_api"])
 model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
 
