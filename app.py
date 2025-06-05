@@ -6,6 +6,8 @@ import io
 import requests
 import html
 
+# --- Page layout ---
+st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 # --- Background matrix effect (canvas) ---
 components.html("""
 <canvas id="matrix-canvas" style="
@@ -48,10 +50,6 @@ function draw() {
 setInterval(draw, 33);
 </script>
 """, height=0)
-
-# --- Page layout ---
-st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
-
 # --- Styling ---
 st.markdown("""
 <style>
