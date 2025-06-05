@@ -175,6 +175,9 @@ with col_header_left:
       st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
     if "image_analysis" not in st.session_state:
       st.session_state.image_analysis = [placeholder_analysis]
+    
+    if "first_instace" not in st.session_state:
+      st.session_state.first_instance = True
     if "has_rerun" not in st.session_state:
       st.session_state.has_rerun = False
 
@@ -218,8 +221,8 @@ with col_header_left:
     with col3:
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
-        analysis_list = []
 
+        analysis_list = []
         for analysis in st.session_state.image_analysis:
           analysis_list.append(analysis)
         if len(analysis) < 1:
@@ -239,11 +242,8 @@ with col_header_left:
         st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
         st.session_state.image_analysis = [placeholder_analysis]
 
-        
-
-        if user_input:
+        if user_input and (st.session_state.first_instance = True or st.session_state.has_rerun = True):
             image = Image.open(io.BytesIO(user_input.getvalue()))
-            image_bytes = user_input.getvalue()
 
             url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
             response = requests.get(url)
@@ -269,7 +269,6 @@ with col_header_left:
             imgcap_property_2 = first_filenames[1].strip()
             imgcap_holiday_1 = second_filenames[0].strip()
             imgcap_holiday_2 = second_filenames[1].strip()
-            updated_image_analysis = escaped_text
 
             updated_image_urls = [
                 imgpath_property_1,
@@ -283,10 +282,12 @@ with col_header_left:
                 imgcap_holiday_1,
                 imgcap_holiday_2
             ]
+            updated_image_analysis = escaped_text
 
             st.session_state.image_states = updated_image_urls
             st.session_state.image_captions = updated_image_captions
             st.session_state.image_analysis = [updated_image_analysis]
 
             if st.button("Process Photo"):
+              st.session_state.has_rerun = True
               st.rerun()
