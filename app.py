@@ -7,19 +7,15 @@ import requests
 import html
 
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
-
-st.markdown("""
+components.html("""
 <style>
-html, body, [data-testid="stAppViewContainer"] {
-  overflow: hidden !important;
-  background: black !important;
+html, body {
   margin: 0;
   padding: 0;
+  overflow: hidden;
+  background: black;
   font-family: 'Segoe UI', sans-serif;
   color: white;
-}
-::-webkit-scrollbar {
-  display: none;
 }
 .stApp {
   background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/wallpaper/wallpaper_2.png");
@@ -27,6 +23,7 @@ html, body, [data-testid="stAppViewContainer"] {
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
+  z-index: 0;
 }
 .wave {
   position: fixed;
@@ -36,7 +33,7 @@ html, body, [data-testid="stAppViewContainer"] {
   background: rgba(0, 255, 0, 0.2);
   border-radius: 40%;
   animation: waveAnim 4s linear infinite;
-  z-index: -1;
+  z-index: 0;
 }
 .wave:nth-child(2) {
   animation-delay: 2s;
@@ -54,6 +51,13 @@ html, body, [data-testid="stAppViewContainer"] {
     transform: translateX(-50%) translateY(0);
   }
 }
+</style>
+<div class="wave"></div>
+<div class="wave"></div>
+<div class="wave"></div>
+""", height=0)
+st.markdown("""
+<style>
 .header-box {
     text-align: center;
     border: 2px solid #00f0ff;
