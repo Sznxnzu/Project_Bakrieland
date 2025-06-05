@@ -127,32 +127,35 @@ with col_header_right:
             <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png' width='50' style='margin: 5px;'>
         </div>
         """, unsafe_allow_html=True)
+
     components.html(
-    """
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+        """
+        <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
-    <div style="display: flex; justify-content: center; align-items: center;">
-        <lottie-player 
-            id="robot"
-            src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json"
-            background="transparent"
-            speed="1"
-            style="width: 300px; height: 300px;"
+        <model-viewer id="robot"
+            src="https://cdn.jsdelivr.net/gh/husnanali05/FP_Datmin@main/nerinho_-_mascote_da_neomind.glb"
+            alt="Robot Nerinho 3D"
+            camera-controls
+            auto-rotate
             autoplay
-            loop>
-        </lottie-player>
-    </div>
+            style="width: 100%; height: 400px;"
+            ar
+            shadow-intensity="1"
+            environment-image="neutral"
+            exposure="1"
+            interaction-prompt="none">
+        </model-viewer>
 
-    <script>
-        document.getElementById("robot").addEventListener("click", function() {
-            const r = document.getElementById("robot");
-            r.stop();
-            r.play();
-        });
-    </script>
-    """,
-    height=340
-)
+        <script>
+          const robot = document.querySelector("#robot");
+          robot.addEventListener("click", () => {
+            robot.currentTime = 0;
+            robot.play();
+          });
+        </script>
+        """,
+        height=420
+    )
     st.markdown("""
           <div class="qr-box">
               <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png" style="width:100%; border-radius: 8px;" />
@@ -304,4 +307,4 @@ with col_header_left:
         else:
           # st.write("no user input")
           st.session_state.has_rerun = True
-            
+    
