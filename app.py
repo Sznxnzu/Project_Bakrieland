@@ -149,28 +149,28 @@ div[data-testid="stCameraInput"] img {
 genai.configure(api_key= st.secrets["gemini_api"])
 model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
 
-col_header_left, col_header_right = st.columns([0.85, 0.15])
-with col_header_right:
+col_header_left, col_robot = st.columns([0.75, 0.25])
+
+with col_robot:
     st.markdown("""
-    <div style='display: flex; flex-direction: column; align-items: flex-end;'>
-        <p style='font-size: 0.65em; color:#aaa; margin-bottom: 2px;'>POWERED BY</p>
-        <div style='display: flex; gap: 6px; align-items: center;'>
-            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png' width='85'>
-            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png' width='35'>
-            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png' width='35'>
+    <div style='display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 30px;'>
+        <p style='font-size: 0.7em; color:#aaa; margin-bottom: 4px;'>POWERED BY</p>
+        <div style='display: flex; gap: 6px; align-items: center; justify-content: center; margin-bottom: 12px;'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png' width='90'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png' width='40'>
+            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png' width='40'>
         </div>
-        <div style='margin-top: 8px;'>
-            <lottie-player 
-                id="robot"
-                src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json"
-                background="transparent"
-                speed="1"
-                style="width: 130px; height: 130px;"
-                autoplay
-                loop>
-            </lottie-player>
-        </div>
+        <lottie-player 
+            id="robot"
+            src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json"
+            background="transparent"
+            speed="1"
+            style="width: 250px; height: 250px;"
+            autoplay
+            loop>
+        </lottie-player>
     </div>
+
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script>
         document.getElementById("robot").addEventListener("click", function() {
@@ -181,38 +181,6 @@ with col_header_right:
     </script>
     """, unsafe_allow_html=True)
 
-    components.html(
-    """
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-
-    <div style="display: flex; justify-content: center; align-items: center;">
-        <lottie-player 
-            id="robot"
-            src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json"
-            background="transparent"
-            speed="1"
-            style="width: 300px; height: 300px;"
-            autoplay
-            loop>
-        </lottie-player>
-    </div>
-
-    <script>
-        document.getElementById("robot").addEventListener("click", function() {
-            const r = document.getElementById("robot");
-            r.stop();
-            r.play();
-        });
-    </script>
-    """,
-    height=340
-)
-    st.markdown("""
-          <div class="qr-box">
-              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png" style="width:100%; border-radius: 8px;" />
-          </div>
-        """, unsafe_allow_html=True)
-
 with col_header_left:
     col1, col2, col3 = st.columns([1, 1, 1.4])
 
@@ -221,53 +189,45 @@ with col_header_left:
     placeholder_analysis = ""
 
     if "image_states" not in st.session_state:
-      st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
+        st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
     if "image_captions" not in st.session_state:
-      st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
+        st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
     if "image_analysis" not in st.session_state:
-      st.session_state.image_analysis = [placeholder_analysis]
-    
+        st.session_state.image_analysis = [placeholder_analysis]
+
     if "first_instance" not in st.session_state:
-      st.session_state.first_instance = True
+        st.session_state.first_instance = True
     if "has_rerun" not in st.session_state:
-      st.session_state.has_rerun = False
+        st.session_state.has_rerun = False
 
     with col1:
-
-        url_list_1 = []
-        for url in st.session_state.image_states[:2]:
-          url_list_1.append(url)
-        cap_list_1 = []
-        for captions in st.session_state.image_captions[:2]:
-          cap_list_1.append(captions)
+        url_list_1 = st.session_state.image_states[:2]
+        cap_list_1 = st.session_state.image_captions[:2]
 
         st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.markdown(f"""
-          <div class="portrait-box">
-              <img src="{url_list_1[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_1[0]}</p>
-              <img src="{url_list_1[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_1[1]}</p>
-          </div>
+        <div class="portrait-box">
+            <img src="{url_list_1[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+            <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_1[0]}</p>
+            <img src="{url_list_1[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+            <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_1[1]}</p>
+        </div>
         """, unsafe_allow_html=True)
 
     with col2:
-        url_list_2 = []
-        for url in st.session_state.image_states[2:]:
-          url_list_2.append(url)
-        cap_list_2 = []
-        for captions in st.session_state.image_captions[2:]:
-          cap_list_2.append(captions)
+        url_list_2 = st.session_state.image_states[2:]
+        cap_list_2 = st.session_state.image_captions[2:]
 
         st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.markdown(f"""
-          <div class="portrait-box">
-              <img src="{url_list_2[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_2[0]}</p>
-              <img src="{url_list_2[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_2[1]}</p>
-          </div>
+        <div class="portrait-box">
+            <img src="{url_list_2[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+            <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_2[0]}</p>
+            <img src="{url_list_2[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+            <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_2[1]}</p>
+        </div>
         """, unsafe_allow_html=True)
+
     with col3:
         st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
@@ -294,7 +254,6 @@ with col_header_left:
             if st.button("Process Photo"):
                 st.rerun()
 
-        # Reset default state
         st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
         st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
         st.session_state.image_analysis = [placeholder_analysis]
