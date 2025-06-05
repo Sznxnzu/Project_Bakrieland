@@ -255,8 +255,8 @@ with col_header_left:
             if st.session_state.first_instance == True:
               st.session_state.first_instance = False
             
-            st.write("has_rerun:", st.session_state.has_rerun)
-            st.write("first_instance:", st.session_state.first_instance)
+            # st.write("has_rerun:", st.session_state.has_rerun)
+            # st.write("first_instance:", st.session_state.first_instance)
 
             image = Image.open(io.BytesIO(user_input.getvalue()))
 
@@ -305,6 +305,6 @@ with col_header_left:
 
             st.session_state.has_rerun = False
         else:
-          st.write("no user input")
+          # st.write("no user input")
           st.session_state.has_rerun = True
             
