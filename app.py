@@ -6,17 +6,9 @@ import io
 import requests
 import html
 
-st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
-
-st.markdown("""
-<style>
-html, body, [data-testid="stAppViewContainer"] {
-    overflow: hidden !important;
-    background: black !important;
-    font-family: 'Segoe UI', sans-serif;
-    color: white;
-}
-canvas#matrix-canvas {
+# --- Background matrix effect (canvas) ---
+components.html("""
+<canvas id="matrix-canvas" style="
     position: fixed;
     top: 0;
     left: 0;
@@ -24,10 +16,56 @@ canvas#matrix-canvas {
     width: 100vw;
     height: 100vh;
     opacity: 0.25;
-    pointer-events: none;
+    background: black;
+    pointer-events: none;"></canvas>
+
+<script>
+const c = document.getElementById("matrix-canvas");
+const ctx = c.getContext("2d");
+c.height = window.innerHeight;
+c.width = window.innerWidth;
+
+const letters = "01";
+const fontSize = 14;
+const columns = c.width / fontSize;
+const drops = Array(Math.floor(columns)).fill(1);
+
+function draw() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+  ctx.fillRect(0, 0, c.width, c.height);
+  ctx.fillStyle = "#00FF00";
+  ctx.font = fontSize + "px monospace";
+
+  for (let i = 0; i < drops.length; i++) {
+    const text = letters.charAt(Math.floor(Math.random() * letters.length));
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+    if (drops[i] * fontSize > c.height && Math.random() > 0.975) {
+      drops[i] = 0;
+    }
+    drops[i]++;
+  }
 }
-::-webkit-scrollbar {
-    display: none;
+setInterval(draw, 33);
+</script>
+""", height=0)
+
+# --- Page layout ---
+st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
+
+# --- Styling ---
+st.markdown("""
+<style>
+html, body {
+    background: black !important;
+    overflow: hidden !important;
+}
+[data-testid="stAppViewContainer"] {
+    overflow: hidden !important;
+}
+::-webkit-scrollbar { display: none; }
+.stApp {
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
 }
 .header-box {
     text-align: center;
@@ -59,9 +97,7 @@ canvas#matrix-canvas {
     margin-top: 10px;
     width: 100%;
 }
-.mood-box {
-    height: 17vh;
-}
+.mood-box { height: 17vh; }
 div[data-testid="stCameraInput"] > div {
     aspect-ratio: 4 / 5;
     width: 60% !important;
@@ -84,42 +120,13 @@ div[data-testid="stCameraInput"] img {
     border-radius: 20px;
 }
 </style>
-
-<canvas id="matrix-canvas"></canvas>
-<script>
-const c = document.getElementById("matrix-canvas");
-const ctx = c.getContext("2d");
-c.height = window.innerHeight;
-c.width = window.innerWidth;
-
-const letters = "01";
-const fontSize = 14;
-const columns = c.width / fontSize;
-const drops = Array(Math.floor(columns)).fill(1);
-
-function draw() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-  ctx.fillRect(0, 0, c.width, c.height);
-  ctx.fillStyle = "#00FF00";
-  ctx.font = fontSize + "px monospace";
-
-  for (let i = 0; i < drops.length; i++) {
-    const text = letters.charAt(Math.floor(Math.random() * letters.length));
-    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-    if (drops[i] * fontSize > c.height && Math.random() > 0.975) {
-      drops[i] = 0;
-    }
-    drops[i]++;
-  }
-}
-setInterval(draw, 33);
-</script>
 """, unsafe_allow_html=True)
 
-
-genai.configure(api_key= st.secrets["gemini_api"])
+# --- Gemini model setup ---
+genai.configure(api_key=st.secrets["gemini_api"])
 model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
 
+# --- UI ---
 col_header_left, col_header_right = st.columns([0.85, 0.15])
 with col_header_right:
     col_00, col_01 = st.columns([0.3, 0.7])
@@ -129,7 +136,6 @@ with col_header_right:
             <p style='font-size: 0.6em; color:#aaa; margin: 0;'>POWERED BY</p>
         </div>
         """, unsafe_allow_html=True)
-
     with col_01:
         st.markdown("""
         <div style='text-align: right;'>
@@ -139,10 +145,8 @@ with col_header_right:
         </div>
         """, unsafe_allow_html=True)
 
-    components.html(
-    """
+    components.html("""
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-
     <div style="display: flex; justify-content: center; align-items: center;">
         <lottie-player 
             id="robot"
@@ -154,166 +158,12 @@ with col_header_right:
             loop>
         </lottie-player>
     </div>
+    """, height=340)
 
-    <script>
-        document.getElementById("robot").addEventListener("click", function() {
-            const r = document.getElementById("robot");
-            r.stop();
-            r.play();
-        });
-    </script>
-    """,
-    height=340
-)
     st.markdown("""
           <div class="qr-box">
               <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png" style="width:100%; border-radius: 8px;" />
           </div>
         """, unsafe_allow_html=True)
 
-with col_header_left:
-    col1, col2, col3 = st.columns([1, 1, 1.4])
-
-    placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/placeholder.png"
-    placeholder_caption = ""
-    placeholder_analysis = ""
-
-    if "image_states" not in st.session_state:
-      st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
-    if "image_captions" not in st.session_state:
-      st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
-    if "image_analysis" not in st.session_state:
-      st.session_state.image_analysis = [placeholder_analysis]
-    
-    if "first_instance" not in st.session_state:
-      st.session_state.first_instance = True
-    if "has_rerun" not in st.session_state:
-      st.session_state.has_rerun = False
-
-    with col1:
-
-        url_list_1 = []
-        for url in st.session_state.image_states[:2]:
-          url_list_1.append(url)
-        cap_list_1 = []
-        for captions in st.session_state.image_captions[:2]:
-          cap_list_1.append(captions)
-
-        st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
-        st.markdown(f"""
-          <div class="portrait-box">
-              <img src="{url_list_1[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_1[0]}</p>
-              <img src="{url_list_1[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_1[1]}</p>
-          </div>
-        """, unsafe_allow_html=True)
-
-    with col2:
-        url_list_2 = []
-        for url in st.session_state.image_states[2:]:
-          url_list_2.append(url)
-        cap_list_2 = []
-        for captions in st.session_state.image_captions[2:]:
-          cap_list_2.append(captions)
-
-        st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
-        st.markdown(f"""
-          <div class="portrait-box">
-              <img src="{url_list_2[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_2[0]}</p>
-              <img src="{url_list_2[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_2[1]}</p>
-          </div>
-        """, unsafe_allow_html=True)
-
-    with col3:
-        st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
-        user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
-
-        analysis_list = []
-        for analysis in st.session_state.image_analysis:
-          analysis_list.append(analysis)
-        if len(analysis) < 1:
-          st.markdown(f"""
-          <div class="mood-box">
-          <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
-          </div>
-          """, unsafe_allow_html=True)
-          if st.session_state.first_instance == True or st.session_state.has_rerun == True:
-            if st.button("Process Photo"):
-              st.rerun()
-        else:
-          st.markdown(f"""
-          <div class="mood-box-content">
-          <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
-          </div>
-          """, unsafe_allow_html=True)
-          if st.button("Process Photo"):
-              st.rerun()
-
-        st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
-        st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
-        st.session_state.image_analysis = [placeholder_analysis]
-
-        # st.write("has_rerun:", st.session_state.has_rerun)
-        # st.write("first_instance:", st.session_state.first_instance)
-
-        if user_input and (st.session_state.first_instance == True or st.session_state.has_rerun == True):
-          
-            if st.session_state.first_instance == True:
-              st.session_state.first_instance = False
-            
-            # st.write("has_rerun:", st.session_state.has_rerun)
-            # st.write("first_instance:", st.session_state.first_instance)
-
-            image = Image.open(io.BytesIO(user_input.getvalue()))
-
-            url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
-            response = requests.get(url)
-            prompt = response.text
-            response = model.generate_content([prompt, image])
-            raw_output = response.text
-            escaped_text = html.escape(response.text)
-            url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
-            response_json = requests.get(url_json)
-            prompt_json = response_json.text
-            response_json = model.generate_content([prompt_json, raw_output])
-
-            filenames = response_json.text.strip().split(",")
-            midpoint = len(filenames) // 2
-            first_filenames = filenames[:midpoint]
-            second_filenames = filenames[midpoint:]
-
-            imgpath_property_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[0].strip()}.jpg"
-            imgpath_property_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[1].strip()}.jpg"
-            imgpath_holiday_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[0].strip()}.jpg"
-            imgpath_holiday_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[1].strip()}.jpg"
-            imgcap_property_1 = first_filenames[0].strip()
-            imgcap_property_2 = first_filenames[1].strip()
-            imgcap_holiday_1 = second_filenames[0].strip()
-            imgcap_holiday_2 = second_filenames[1].strip()
-
-            updated_image_urls = [
-                imgpath_property_1,
-                imgpath_property_2,
-                imgpath_holiday_1,
-                imgpath_holiday_2
-            ]
-            updated_image_captions = [
-                imgcap_property_1,
-                imgcap_property_2,
-                imgcap_holiday_1,
-                imgcap_holiday_2
-            ]
-            updated_image_analysis = escaped_text
-
-            st.session_state.image_states = updated_image_urls
-            st.session_state.image_captions = updated_image_captions
-            st.session_state.image_analysis = [updated_image_analysis]
-
-            st.session_state.has_rerun = False
-        else:
-          # st.write("no user input")
-          st.session_state.has_rerun = True
-    
+# -- (lanjutkan bagian rekomendasi, kamera, dan analisa sesuai struktur kamu) --
