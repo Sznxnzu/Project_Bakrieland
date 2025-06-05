@@ -6,9 +6,8 @@ import io
 import requests
 import html
 
-# ⬇️ WAJIB: Ini harus jadi baris Streamlit pertama
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
-# inject efek animasi background + cube sebagai layout terpisah
+
 bg_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/wallpaper/background.html"
 response = requests.get(bg_url)
 components.html(response.text, height=0)
