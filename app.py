@@ -71,9 +71,6 @@ h1 {
 
 st.markdown("""
 <style>
-.stApp, [data-testid="stAppViewContainer"] {
-    background: transparent !important;
-}
 .header-box {
     text-align: center;
     border: 2px solid #00f0ff;
