@@ -8,12 +8,18 @@ import html
 
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 st.markdown("""
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 <style>
+* {
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* Background Gradient */
 html, body, [data-testid="stAppViewContainer"] {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Orbitron', sans-serif;
   background: linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,238,226,1) 68%, rgba(255,25,25,1) 98%);
   animation: gradient 15s ease infinite;
   background-size: 400% 400%;
@@ -26,45 +32,7 @@ html, body, [data-testid="stAppViewContainer"] {
   100% { background-position: 0% 0%; }
 }
 
-.wave {
-  background: rgb(255 255 255 / 25%);
-  border-radius: 1000% 1000% 0 0;
-  position: fixed;
-  width: 200%;
-  height: 12em;
-  animation: wave 10s -3s linear infinite;
-  transform: translate3d(0, 0, 0);
-  opacity: 0.8;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-}
-.wave:nth-of-type(2) {
-  bottom: -1.25em;
-  animation: wave 18s linear reverse infinite;
-  opacity: 0.8;
-}
-.wave:nth-of-type(3) {
-  bottom: -2.5em;
-  animation: wave 20s -1s reverse infinite;
-  opacity: 0.9;
-}
-
-@keyframes wave {
-  2%   { transform: translateX(1); }
-  25%  { transform: translateX(-25%); }
-  50%  { transform: translateX(-50%); }
-  75%  { transform: translateX(-25%); }
-  100% { transform: translateX(1); }
-}
-</style>
-<div class="wave"></div>
-<div class="wave"></div>
-<div class="wave"></div>
-""", unsafe_allow_html=True)
-st.markdown("""
-<style>
-/* Scrollbar dan layout Streamlit */
+/* Custom scroll + hide */
 .stApp, [data-testid="stAppViewContainer"] {
   background: transparent !important;
   overflow: hidden !important;
@@ -72,6 +40,8 @@ st.markdown("""
 ::-webkit-scrollbar {
   display: none;
 }
+
+/* Section Header Box */
 .header-box {
     text-align: center;
     border: 2px solid #00f0ff;
@@ -83,6 +53,8 @@ st.markdown("""
     color: #00f0ff;
     font-size: 18px;
 }
+
+/* Image box */
 .portrait-box {
     border: 2px solid #00f0ff;
     background-color: rgba(0,0,30,0.6);
@@ -92,7 +64,14 @@ st.markdown("""
     box-shadow: 0 0 10px #00f0ff;
     text-align: center;
 }
-.mood-box {
+.portrait-box img:hover {
+    transform: scale(1.03);
+    transition: 0.3s ease-in-out;
+    box-shadow: 0 0 20px #00f0ff;
+}
+
+/* Mood Analysis Box */
+.mood-box, .mood-box-content {
     border: 2px solid #00f0ff;
     background-color: rgba(10, 15, 30, 0.85);
     padding: 15px;
@@ -101,35 +80,17 @@ st.markdown("""
     font-size: 10px;
     margin-top: 10px;
     width: 100%;
-    height: 17vh;
 }
-.mood-box p {
+.mood-box p, .mood-box-content p {
     margin-bottom: 0;
 }
-.mood-box ul {
+.mood-box ul, .mood-box-content ul {
     margin-top: 0;
     margin-bottom: 1em;
     padding-left: 20px;
 }
-.mood-box-content {
-    border: 2px solid #00f0ff;
-    background-color: rgba(10, 15, 30, 0.85);
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px #00f0ff;
-    font-size: 10px;
-    margin-top: 10px;
-    width: 100%;
-    height: auto;
-}
-.mood-box-content p {
-    margin-bottom: 0;
-}
-.mood-box-content ul {
-    margin-top: 0;
-    margin-bottom: 1em;
-    padding-left: 20px;
-}
+
+/* Webcam Circle Style */
 div[data-testid="stCameraInput"] > div {
     aspect-ratio: 1 / 1;
     width: 60% !important;
@@ -139,14 +100,45 @@ div[data-testid="stCameraInput"] > div {
     overflow: hidden;
     background-color: rgba(0, 0, 0, 0.1);
     box-shadow: 0 0 15px #00f0ff;
+    position: relative;
 }
-
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     object-fit: cover;
     width: 100%;
     height: 100%;
     border-radius: 50%;
+}
+
+/* Webcam glow animation */
+div[data-testid="stCameraInput"] > div::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: 2px solid #00f0ff;
+    border-radius: 50%;
+    animation: pulse 2s infinite ease-in-out;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0px #00f0ff; }
+  50% { box-shadow: 0 0 15px #00f0ff; }
+  100% { box-shadow: 0 0 0px #00f0ff; }
+}
+
+/* QR box styling */
+.qr-box img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+/* Page fade-in on load */
+body {
+  animation: fadeIn 1.2s ease-in;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
 """, unsafe_allow_html=True)
