@@ -7,23 +7,10 @@ import requests
 import html
 
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
+with open("resources/wallpaper/background.html", "r") as f:
+    background_html = f.read()
 
-url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/wallpaper/background.html"
-response = requests.get(url)
-# Inject background animation outside iframe using JavaScript
-if response.status_code == 200:
-    components.html(f"""
-    <script>
-      const styleTag = document.createElement('style');
-      styleTag.innerHTML = `{response.text}`;
-      document.head.appendChild(styleTag);
-      const bgDiv = document.createElement('div');
-      bgDiv.innerHTML = `{response.text.split("</style>")[1]}`;
-      document.body.appendChild(bgDiv);
-    </script>
-    """, height=0)
-else:
-    st.error("❌ Gagal mengambil background.html dari GitHub.")
+components.html(background_html, height=0)
 st.markdown("""
 <style>
 /* Scrollbar dan layout Streamlit */
