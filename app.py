@@ -168,9 +168,7 @@ with col_header_left:
     placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/placeholder.png"
     placeholder_caption = ""
     placeholder_analysis = ""
-    
-    if "allow_display" not in st.session_state:
-      st.session_state.allow_display = True
+
     if "image_states" not in st.session_state:
       st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
     if "image_captions" not in st.session_state:
@@ -179,7 +177,6 @@ with col_header_left:
       st.session_state.image_analysis = [placeholder_analysis]
     if "has_rerun" not in st.session_state:
       st.session_state.has_rerun = False
-
 
     with col1:
 
@@ -237,14 +234,18 @@ with col_header_left:
           <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
           </div>
           """, unsafe_allow_html=True)
-        
+
         st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
         st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
         st.session_state.image_analysis = [placeholder_analysis]
+
         
+
         if user_input:
             image = Image.open(io.BytesIO(user_input.getvalue()))
-            if st.session_state.allow_display:
+            image_bytes = user_input.getvalue()
+
+            if len(image_bytes) < 0:
               url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
               response = requests.get(url)
               prompt = response.text
@@ -287,8 +288,6 @@ with col_header_left:
               st.session_state.image_states = updated_image_urls
               st.session_state.image_captions = updated_image_captions
               st.session_state.image_analysis = [updated_image_analysis]
-              # st.session_state.process_triggered = False 
 
               if st.button("Process Photo"):
-                # st.session_state.allow_display = True
                 st.rerun()
