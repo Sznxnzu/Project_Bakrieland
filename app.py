@@ -6,16 +6,6 @@ import io
 import requests
 import html
 
-st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
-# ✅ Modern Gradient Sphere Background
-import streamlit as st
-import streamlit.components.v1 as components
-import google.generativeai as genai
-from PIL import Image
-import io
-import requests
-import html
-
 # ⬇️ WAJIB: Ini harus jadi baris Streamlit pertama
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
