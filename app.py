@@ -237,6 +237,8 @@ with col_header_left:
           <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
           </div>
           """, unsafe_allow_html=True)
+          if st.button("Process Photo"):
+              st.rerun()
 
         st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
         st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
@@ -249,7 +251,6 @@ with col_header_left:
           
             if st.session_state.first_instance == True:
               st.session_state.first_instance = False
-              st.session_state.has_rerun = True
             
             st.write("has_rerun:", st.session_state.has_rerun)
             st.write("first_instance:", st.session_state.first_instance)
@@ -299,5 +300,7 @@ with col_header_left:
             st.session_state.image_captions = updated_image_captions
             st.session_state.image_analysis = [updated_image_analysis]
 
-            if st.button("Process Photo"):
-              st.rerun()
+            st.session_state.has_rerun = False
+        else:
+          st.session_state.has_rerun = True
+            
