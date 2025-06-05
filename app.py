@@ -11,118 +11,61 @@ st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial
 
 components.html("""
 <style>
+@font-face {
+  font-family: "Geist";
+  src: url("https://assets.codepen.io/605876/GeistVF.ttf") format("truetype");
+}
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
-html, body {
-    font-family: 'Inter', 'Helvetica Neue', sans-serif;
-    overflow: hidden;
-    background-color: #050505;
-    color: white;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
+:root {
+  --size: 20px;
 }
-.gradient-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -999;
-    overflow: hidden;
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: hsl(0 0% 6%);
+  overflow: hidden;
 }
-.gradient-sphere {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(60px);
+.el {
+  background: conic-gradient(from 180deg at 50% 70%, hsla(0,0%,98%,1) 0deg, #eec32d 72deg, #ec4b4b 144deg, #709ab9 216deg, #4dffbf 288deg, hsla(0,0%,98%,1) 360deg);
+  width: 100vw;
+  height: 100vh;
+  mask:
+    radial-gradient(circle at 50% 50%, white 2px, transparent 2.5px) 50% 50% / var(--size) var(--size),
+    url("https://assets.codepen.io/605876/noise-mask.png") 256px 50% / 256px 256px;
+  mask-composite: intersect;
+  animation: flicker 20s infinite linear;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -999;
 }
-.sphere-1 {
-    width: 40vw;
-    height: 40vw;
-    background: linear-gradient(40deg, rgba(255, 0, 128, 0.8), rgba(255, 102, 0, 0.4));
-    top: -10%;
-    left: -10%;
-    animation: float-1 15s ease-in-out infinite alternate;
+h1 {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  font-size: clamp(6rem, 8vw + 1rem, 14rem);
+  font-family: "Geist", sans-serif;
+  font-weight: 140;
+  color: hsl(0 0% 2%);
+  mix-blend-mode: soft-light;
+  filter: drop-shadow(0 0 2px white);
+  text-shadow: 2px 2px white;
+  z-index: -998;
 }
-.sphere-2 {
-    width: 45vw;
-    height: 45vw;
-    background: linear-gradient(240deg, rgba(72, 0, 255, 0.8), rgba(0, 183, 255, 0.4));
-    bottom: -20%;
-    right: -10%;
-    animation: float-2 18s ease-in-out infinite alternate;
-}
-.sphere-3 {
-    width: 30vw;
-    height: 30vw;
-    background: linear-gradient(120deg, rgba(133, 89, 255, 0.5), rgba(98, 216, 249, 0.3));
-    top: 60%;
-    left: 20%;
-    animation: float-3 20s ease-in-out infinite alternate;
-}
-@keyframes float-1 {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(10%, 10%) scale(1.1); }
-}
-@keyframes float-2 {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(-10%, -5%) scale(1.15); }
-}
-@keyframes float-3 {
-    0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
-    100% { transform: translate(-5%, 10%) scale(1.05); opacity: 0.6; }
-}
-.grid-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: 40px 40px;
-    background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    z-index: 1;
-}
-.glow {
-    position: absolute;
-    width: 40vw;
-    height: 40vh;
-    background: radial-gradient(circle, rgba(72, 0, 255, 0.15), transparent 70%);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    animation: pulse 8s infinite alternate;
-    filter: blur(30px);
-}
-@keyframes pulse {
-    0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.9); }
-    100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.1); }
-}
-.noise-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.05;
-    z-index: 5;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+@keyframes flicker {
+  to {
+    mask-position: 50% 50%, 0 50%;
+  }
 }
 </style>
 
-<div class="gradient-background">
-    <div class="gradient-sphere sphere-1"></div>
-    <div class="gradient-sphere sphere-2"></div>
-    <div class="gradient-sphere sphere-3"></div>
-    <div class="glow"></div>
-    <div class="grid-overlay"></div>
-    <div class="noise-overlay"></div>
-</div>
+<div class="el"></div>
+<h1>Geist</h1>
 """, height=0)
 
 st.markdown("""
