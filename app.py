@@ -12,88 +12,79 @@ st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial
 # ⬇️ Tambahkan background gradient + animasi bola mengambang via HTML injection
 components.html("""
 <style>
-body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background: #050505;
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #050505;
 }
 .gradient-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -9999;
-    overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -9999;
+  overflow: hidden;
 }
 .gradient-sphere {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(60px);
-    animation-play-state: running !important;
-    will-change: transform;
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  animation-play-state: running !important;
+  will-change: transform;
 }
 .sphere-1 {
-    width: 40vw;
-    height: 40vw;
-    background: linear-gradient(40deg, rgba(255, 0, 128, 0.8), rgba(255, 102, 0, 0.4));
-    top: -10%;
-    left: -10%;
-    animation: float-1 15s ease-in-out infinite alternate;
+  width: 40vw;
+  height: 40vw;
+  background: linear-gradient(40deg, rgba(255, 0, 128, 0.8), rgba(255, 102, 0, 0.4));
+  top: -10%;
+  left: -10%;
+  animation: float-1 15s ease-in-out infinite alternate;
 }
 .sphere-2 {
-    width: 45vw;
-    height: 45vw;
-    background: linear-gradient(240deg, rgba(72, 0, 255, 0.8), rgba(0, 183, 255, 0.4));
-    bottom: -20%;
-    right: -10%;
-    animation: float-2 18s ease-in-out infinite alternate;
+  width: 45vw;
+  height: 45vw;
+  background: linear-gradient(240deg, rgba(72, 0, 255, 0.8), rgba(0, 183, 255, 0.4));
+  bottom: -20%;
+  right: -10%;
+  animation: float-2 18s ease-in-out infinite alternate;
 }
 .sphere-3 {
-    width: 30vw;
-    height: 30vw;
-    background: linear-gradient(120deg, rgba(133, 89, 255, 0.5), rgba(98, 216, 249, 0.3));
-    top: 60%;
-    left: 20%;
-    animation: float-3 20s ease-in-out infinite alternate;
+  width: 30vw;
+  height: 30vw;
+  background: linear-gradient(120deg, rgba(133, 89, 255, 0.5), rgba(98, 216, 249, 0.3));
+  top: 60%;
+  left: 20%;
+  animation: float-3 20s ease-in-out infinite alternate;
 }
 @keyframes float-1 {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(10%, 10%) scale(1.1); }
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(10%, 10%) scale(1.1); }
 }
 @keyframes float-2 {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(-10%, -5%) scale(1.15); }
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-10%, -5%) scale(1.15); }
 }
 @keyframes float-3 {
-    0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
-    100% { transform: translate(-5%, 10%) scale(1.05); opacity: 0.6; }
+  0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+  100% { transform: translate(-5%, 10%) scale(1.05); opacity: 0.6; }
 }
 </style>
 
 <div class="gradient-background">
-    <div class="gradient-sphere sphere-1"></div>
-    <div class="gradient-sphere sphere-2"></div>
-    <div class="gradient-sphere sphere-3"></div>
+  <div class="gradient-sphere sphere-1"></div>
+  <div class="gradient-sphere sphere-2"></div>
+  <div class="gradient-sphere sphere-3"></div>
 </div>
 """, height=0)
-
 st.markdown("""
 <style>
-            html, body, [data-testid="stAppViewContainer"] {
-    overflow: hidden !important;
-    background: transparent !important;
-}
-
-::-webkit-scrollbar {
-    display: none;
-}
-
 .stApp {
-    background: transparent !important;
-    font-family: 'Segoe UI', sans-serif;
-    color: white;
+  background: transparent !important;
+}
+[data-testid="stAppViewContainer"] {
+  background: transparent !important;
 }
 .header-box {
     text-align: center;
