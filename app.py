@@ -14,12 +14,10 @@ st.markdown("""
     font-family: 'Orbitron', sans-serif;
 }
 
-/* Background Gradient */
 html, body, [data-testid="stAppViewContainer"] {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  font-family: 'Orbitron', sans-serif;
   background: linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,238,226,1) 68%, rgba(255,25,25,1) 98%);
   animation: gradient 15s ease infinite;
   background-size: 400% 400%;
@@ -32,7 +30,6 @@ html, body, [data-testid="stAppViewContainer"] {
   100% { background-position: 0% 0%; }
 }
 
-/* Custom scroll + hide */
 .stApp, [data-testid="stAppViewContainer"] {
   background: transparent !important;
   overflow: hidden !important;
@@ -41,7 +38,6 @@ html, body, [data-testid="stAppViewContainer"] {
   display: none;
 }
 
-/* Section Header Box */
 .header-box {
     text-align: center;
     border: 2px solid #00f0ff;
@@ -54,7 +50,6 @@ html, body, [data-testid="stAppViewContainer"] {
     font-size: 18px;
 }
 
-/* Image box */
 .portrait-box {
     border: 2px solid #00f0ff;
     background-color: rgba(0,0,30,0.6);
@@ -70,7 +65,6 @@ html, body, [data-testid="stAppViewContainer"] {
     box-shadow: 0 0 20px #00f0ff;
 }
 
-/* Mood Analysis Box */
 .mood-box, .mood-box-content {
     border: 2px solid #00f0ff;
     background-color: rgba(10, 15, 30, 0.85);
@@ -90,7 +84,6 @@ html, body, [data-testid="stAppViewContainer"] {
     padding-left: 20px;
 }
 
-/* Webcam Circle Style */
 div[data-testid="stCameraInput"] > div {
     aspect-ratio: 1 / 1;
     width: 60% !important;
@@ -109,8 +102,6 @@ div[data-testid="stCameraInput"] img {
     height: 100%;
     border-radius: 50%;
 }
-
-/* Webcam glow animation */
 div[data-testid="stCameraInput"] > div::after {
     content: '';
     position: absolute;
@@ -126,13 +117,6 @@ div[data-testid="stCameraInput"] > div::after {
   100% { box-shadow: 0 0 0px #00f0ff; }
 }
 
-/* QR box styling */
-.qr-box img {
-    max-width: 100%;
-    border-radius: 10px;
-}
-
-/* Page fade-in on load */
 body {
   animation: fadeIn 1.2s ease-in;
 }
