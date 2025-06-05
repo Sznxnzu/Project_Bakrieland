@@ -131,25 +131,22 @@ st.markdown("""
     padding-left: 20px;
 }
 div[data-testid="stCameraInput"] > div {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 1 / 1;
     width: 60% !important;
     height: auto !important;
-    margin: 0;
-    border-radius: 20px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
     background-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px #00f0ff;
 }
-div[data-testid="stCameraInput"] button {
-    display: inline-block !important;
-    visibility: visible !important;
-    position: relative !important;
-    z-index: 10 !important;
-}
+
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     object-fit: cover;
     width: 100%;
     height: 100%;
-    border-radius: 20px;
+    border-radius: 50%;
 }
 </style>
 """, unsafe_allow_html=True)
