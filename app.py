@@ -62,7 +62,6 @@ html, body, [data-testid="stAppViewContainer"] {
 <div class="wave"></div>
 <div class="wave"></div>
 """, unsafe_allow_html=True)
-
 st.markdown("""
 <style>
 .stApp, [data-testid="stAppViewContainer"] {
@@ -117,8 +116,6 @@ st.markdown("""
     margin-bottom: 1em;
     padding-left: 20px;
 }
-
-/* CAMERA SQUARE DEFAULT */
 div[data-testid="stCameraInput"] > div {
     aspect-ratio: 4 / 5;
     width: 60% !important;
@@ -141,13 +138,6 @@ div[data-testid="stCameraInput"] img {
 }
 </style>
 """, unsafe_allow_html=True)
-
-col1, col2, col3 = st.columns([1, 1, 1.4])
-with col3:
-    st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
-    user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="circle_camera")
-    if user_input:
-        st.success("Foto berhasil diambil!")
 
 genai.configure(api_key= st.secrets["gemini_api"])
 model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
