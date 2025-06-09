@@ -129,12 +129,14 @@ div[data-testid="stCameraInput"] > div {
 div[data-testid="stCameraInput"] > div:hover {
     transform: scale(1.02);
 }
-div[data-testid="stCameraInput"] video,
-div[data-testid="stCameraInput"] img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    border-radius: 20px;
+div[data-testid="stCameraInput"] > div {
+    aspect-ratio: 1 / 1;
+    width: 60% !important;
+    height: auto !important;
+    margin: 0;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px rgba(0,240,255,0.5);
 }
 </style>
 """, unsafe_allow_html=True)
