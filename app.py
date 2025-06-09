@@ -148,7 +148,7 @@ with col_header_right:
     <div style="position: absolute; top: -30px; right: 20px;">
         <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 8px;" />
         <div style="display: flex; align-items: center; font-size: 12px; color: #ccc;">
-            <span style="margin-right: 6px;">POWERED BY:</span>
+            <span style="margin-right: 2px;">POWERED BY:</span>
             <span style="display: inline-flex; align-items: center;">
                 <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 36px; margin-right: 2px;" />
                 <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height: 36px;" />
