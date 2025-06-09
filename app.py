@@ -136,10 +136,7 @@ div[data-testid="stCameraInput"] img {
     height: 100%;
     border-radius: 50%;
 }
-
-/* Ganti tombol Take Photo jadi ikon kamera */
 div[data-testid="stCameraInput"] button {
-    font-size: 0 !important;
     background-color: black;
     color: white;
     padding: 10px 14px;
@@ -149,10 +146,19 @@ div[data-testid="stCameraInput"] button {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    font-size: 14px;
+    opacity: 0; /* sembunyikan teks tombol */
 }
+
 div[data-testid="stCameraInput"] button::before {
     content: "📷";
-    font-size: 20px;
+    font-size: 22px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
 }
 </style>
 """, unsafe_allow_html=True)
