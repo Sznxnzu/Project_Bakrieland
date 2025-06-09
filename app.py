@@ -154,7 +154,7 @@ with col_header_right:
 
     with col_01:
         st.markdown("""
-        <div style='text-align: right;'>
+        <div style='display: flex; justify-content: flex-end; align-items: center; gap: 12px; opacity: 1;'>
             <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png' width='120' margin: 5px;'>
             <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png' width='50' style='margin: 5px;'>
             <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png' width='50' style='margin: 5px;'>
