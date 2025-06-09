@@ -127,7 +127,7 @@ div[data-testid="stCameraInput"] > div {
     background-color: rgba(0, 0, 0, 0.1);
     box-shadow: 0 0 30px rgba(0,240,255,0.6);
 }
-/* CAMERA BULAT DENGAN TOMBOL DI LUAR LINGKARAN */
+/* CAMERA BULAT SAJA */
 div[data-testid="stCameraInput"] > div {
     width: 280px !important;
     height: 280px !important;
@@ -137,8 +137,8 @@ div[data-testid="stCameraInput"] > div {
     position: relative;
     background-color: rgba(0, 0, 0, 0.1);
     box-shadow: 0 0 30px rgba(0,240,255,0.6);
-    margin-bottom: 40px; /* Tambahkan jarak agar tombol di luar */
 }
+
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     object-fit: cover;
@@ -146,33 +146,13 @@ div[data-testid="stCameraInput"] img {
     height: 100%;
     border-radius: 50%;
 }
-
-div[data-testid="stCameraInput"] button {
-    background-color: black;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 0;
-    position: absolute;
-    bottom: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    box-shadow: 0 0 10px #00f0ff;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-}
-
-div[data-testid="stCameraInput"] button::before {
-    content: "📷";
-    font-size: 22px;
-    color: white;
-}
 </style>
 """, unsafe_allow_html=True)
+
+# Trigger kamera lewat Streamlit
+user_input = st.camera_input("Ambil foto wajah Anda")
+if user_input:
+    st.success("Foto berhasil diambil!")
 
 genai.configure(api_key= st.secrets["gemini_api"])
 model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
