@@ -127,7 +127,18 @@ div[data-testid="stCameraInput"] > div {
     background-color: rgba(0, 0, 0, 0.1);
     box-shadow: 0 0 30px rgba(0,240,255,0.6);
 }
-
+/* CAMERA BULAT DENGAN TOMBOL DI LUAR LINGKARAN */
+div[data-testid="stCameraInput"] > div {
+    width: 280px !important;
+    height: 280px !important;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 30px rgba(0,240,255,0.6);
+    margin-bottom: 40px; /* Tambahkan jarak agar tombol di luar */
+}
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     object-fit: cover;
@@ -142,13 +153,17 @@ div[data-testid="stCameraInput"] button {
     width: 50px;
     height: 50px;
     font-size: 0;
-    margin: 10px auto 0 auto;
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
     box-shadow: 0 0 10px #00f0ff;
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 2;
 }
 
 div[data-testid="stCameraInput"] button::before {
