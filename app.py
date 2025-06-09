@@ -116,32 +116,35 @@ st.markdown("""
     margin-bottom: 1em;
     padding-left: 20px;
 }
-/* Container kamera */
+/* CAMERA BULAT + TOMBOL DI BAWAHNYA */
 div[data-testid="stCameraInput"] > div {
     aspect-ratio: 1 / 1;
     width: 60% !important;
     height: auto !important;
     margin: 0 auto;
     border-radius: 50%;
-    overflow: visible;
+    overflow: hidden;
     position: relative;
-    padding-bottom: 60px; /* tambahkan ruang untuk tombol */
     background-color: rgba(0, 0, 0, 0.1);
     box-shadow: 0 0 30px rgba(0,240,255,0.6);
-    transition: transform 0.3s ease;
 }
 
-/* Tombol kamera */
+div[data-testid="stCameraInput"] video,
+div[data-testid="stCameraInput"] img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
 div[data-testid="stCameraInput"] button {
     background-color: black;
     border-radius: 50%;
     width: 50px;
     height: 50px;
     font-size: 0;
-    position: absolute;
-    bottom: -40px; /* turunkan lebih jauh */
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
+    margin-top: 12px;
     box-shadow: 0 0 10px #00f0ff;
     border: none;
     cursor: pointer;
