@@ -144,9 +144,9 @@ div[data-testid="stCameraInput"] img {
     border-radius: 0;
 }
 
-/* --- NEW: Camera Button Styling --- */
+/* --- UPDATED: Camera Button Styling --- */
 
-/* Style the "Take Photo" button (the one over the video) to be an icon */
+/* Style the "Take Photo" button to be a custom icon */
 div[data-testid="stCameraInput"] button:not(:has(span)) { /* Target button without span (Take Photo) */
     font-size: 0 !important; /* Hide original text */
     width: 60px !important;
@@ -154,20 +154,16 @@ div[data-testid="stCameraInput"] button:not(:has(span)) { /* Target button witho
     border-radius: 50% !important;
     background-color: rgba(255, 255, 255, 0.3) !important;
     border: 2px solid white !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: absolute;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-}
 
-div[data-testid="stCameraInput"] button:not(:has(span))::after {
-    content: '�'; /* Camera emoji icon */
-    font-size: 28px;
-    color: white;
-    line-height: 1;
+    /* Use the custom image as the background */
+    background-image: url('https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/camera_11149913.png');
+    background-size: 55%; /* Make the icon slightly smaller than the button */
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 /* Style the "Clear photo" button to be smaller */
