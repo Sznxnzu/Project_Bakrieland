@@ -116,9 +116,10 @@ st.markdown("""
     margin-bottom: 1em;
     padding-left: 20px;
 }
+/* CAMERA BULAT UTUH + TOMBOL DI BAWAH */
 div[data-testid="stCameraInput"] > div {
-    width: 250px !important;
-    height: 250px !important;
+    width: 280px !important;
+    height: 280px !important;
     margin: 0 auto;
     border-radius: 50%;
     overflow: hidden;
@@ -141,8 +142,7 @@ div[data-testid="stCameraInput"] button {
     width: 50px;
     height: 50px;
     font-size: 0;
-    position: relative;
-    margin-top: 12px;
+    margin: 10px auto 0 auto;
     box-shadow: 0 0 10px #00f0ff;
     border: none;
     cursor: pointer;
@@ -158,7 +158,6 @@ div[data-testid="stCameraInput"] button::before {
 }
 </style>
 """, unsafe_allow_html=True)
-
 
 genai.configure(api_key= st.secrets["gemini_api"])
 model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
