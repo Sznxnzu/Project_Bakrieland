@@ -120,15 +120,19 @@ div[data-testid="stCameraInput"] > div {
     aspect-ratio: 1 / 1;
     width: 60% !important;
     height: auto !important;
-    margin: 0;
+    margin: 0 auto;
     border-radius: 50%;
+    overflow: hidden;
+    position: relative;
     background-color: rgba(0, 0, 0, 0.1);
-    box-shadow: 0 0 20px rgba(0,240,255,0.5);
+    box-shadow: 0 0 30px rgba(0,240,255,0.6);
     transition: transform 0.3s ease;
 }
 div[data-testid="stCameraInput"] > div:hover {
     transform: scale(1.02);
 }
+
+/* Video & hasil gambar tetap bulat */
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     object-fit: cover;
@@ -136,32 +140,34 @@ div[data-testid="stCameraInput"] img {
     height: 100%;
     border-radius: 50%;
 }
+
+/* Tombol kamera: bulat, glow, ikon 📷 */
 div[data-testid="stCameraInput"] button {
     background-color: black;
-    color: white;
-    padding: 10px 14px;
-    border-radius: 8px;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    font-size: 0;
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 10px #00f0ff;
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    font-size: 14px;
-    opacity: 0; /* sembunyikan teks tombol */
 }
 
 div[data-testid="stCameraInput"] button::before {
     content: "📷";
     font-size: 22px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 1;
+    color: white;
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 genai.configure(api_key= st.secrets["gemini_api"])
 model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
