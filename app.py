@@ -64,7 +64,6 @@ html, body, [data-testid="stAppViewContainer"] {
 """, unsafe_allow_html=True)
 st.markdown("""
 <style>
-/* Scrollbar dan layout Streamlit */
 .stApp, [data-testid="stAppViewContainer"] {
   background: transparent !important;
   overflow: hidden !important;
@@ -82,6 +81,8 @@ st.markdown("""
     box-shadow: 0 0 10px #00f0ff;
     color: #00f0ff;
     font-size: 18px;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
 }
 .portrait-box {
     border: 2px solid #00f0ff;
@@ -92,26 +93,7 @@ st.markdown("""
     box-shadow: 0 0 10px #00f0ff;
     text-align: center;
 }
-.mood-box {
-    border: 2px solid #00f0ff;
-    background-color: rgba(10, 15, 30, 0.85);
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px #00f0ff;
-    font-size: 10px;
-    margin-top: 10px;
-    width: 100%;
-    height: 17vh;
-}
-.mood-box p {
-    margin-bottom: 0;
-}
-.mood-box ul {
-    margin-top: 0;
-    margin-bottom: 1em;
-    padding-left: 20px;
-}
-.mood-box-content {
+.mood-box, .mood-box-content {
     border: 2px solid #00f0ff;
     background-color: rgba(10, 15, 30, 0.85);
     padding: 15px;
@@ -121,11 +103,15 @@ st.markdown("""
     margin-top: 10px;
     width: 100%;
     height: auto;
+    transition: all 0.3s ease-in-out;
 }
-.mood-box-content p {
+.mood-box:hover, .mood-box-content:hover {
+    box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
+}
+.mood-box p, .mood-box-content p {
     margin-bottom: 0;
 }
-.mood-box-content ul {
+.mood-box ul, .mood-box-content ul {
     margin-top: 0;
     margin-bottom: 1em;
     padding-left: 20px;
@@ -137,12 +123,11 @@ div[data-testid="stCameraInput"] > div {
     margin: 0;
     border-radius: 20px;
     background-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px rgba(0,240,255,0.5);
+    transition: transform 0.3s ease;
 }
-div[data-testid="stCameraInput"] button {
-    display: inline-block !important;
-    visibility: visible !important;
-    position: relative !important;
-    z-index: 10 !important;
+div[data-testid="stCameraInput"] > div:hover {
+    transform: scale(1.02);
 }
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
