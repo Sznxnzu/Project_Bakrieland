@@ -62,6 +62,7 @@ html, body, [data-testid="stAppViewContainer"] {
 <div class="wave"></div>
 <div class="wave"></div>
 """, unsafe_allow_html=True)
+
 st.markdown("""
 <style>
 .stApp, [data-testid="stAppViewContainer"] {
@@ -121,7 +122,8 @@ div[data-testid="stCameraInput"] > div {
     width: 60% !important;
     height: auto !important;
     margin: 0;
-    border-radius: 20px;
+    border-radius: 50%;
+    overflow: hidden;
     background-color: rgba(0, 0, 0, 0.1);
     box-shadow: 0 0 20px rgba(0,240,255,0.5);
     transition: transform 0.3s ease;
@@ -134,10 +136,26 @@ div[data-testid="stCameraInput"] img {
     object-fit: cover;
     width: 100%;
     height: 100%;
-    border-radius: 20px;
+    border-radius: 0;
 }
 </style>
 """, unsafe_allow_html=True)
+
+col1, col2, col3 = st.columns([1, 1, 1.4])
+with col3:
+    st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
+
+    col_cam, col_btn = st.columns([0.75, 0.25])
+    with col_cam:
+        user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="main_camera")
+
+    with col_btn:
+        st.markdown("""
+        <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px; align-items: center;">
+            <button onclick="document.querySelector('input[type=file]').click()" style="background-color: #000; color: white; border: none; border-radius: 50%; padding: 12px; width: 50px; height: 50px; cursor: pointer; font-size: 18px;">📸</button>
+            <button onclick="window.location.reload()" style="background-color: #000; color: white; border: none; border-radius: 50%; padding: 12px; width: 50px; height: 50px; cursor: pointer; font-size: 18px;">🔄</button>
+        </div>
+        """, unsafe_allow_html=True)
 
 genai.configure(api_key= st.secrets["gemini_api"])
 model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
