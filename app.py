@@ -118,47 +118,36 @@ st.markdown("""
     padding-left: 20px;
 }
 
-/* CAMERA BULAT SAJA */
+/* CAMERA SQUARE DEFAULT */
 div[data-testid="stCameraInput"] > div {
-    width: 280px !important;
-    height: 280px !important;
-    margin: 0 auto;
-    border-radius: 50%;
-    overflow: hidden;
-    position: relative;
+    aspect-ratio: 4 / 5;
+    width: 60% !important;
+    height: auto !important;
+    margin: 0;
+    border-radius: 20px;
     background-color: rgba(0, 0, 0, 0.1);
-    box-shadow: 0 0 30px rgba(0,240,255,0.6);
-    z-index: 5;
+    box-shadow: 0 0 20px rgba(0,240,255,0.5);
+    transition: transform 0.3s ease;
 }
-
+div[data-testid="stCameraInput"] > div:hover {
+    transform: scale(1.02);
+}
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     object-fit: cover;
     width: 100%;
     height: 100%;
-    border-radius: 50%;
-    z-index: 5;
+    border-radius: 20px;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# Tombol terpisah untuk trigger kamera
-with st.container():
-    col_left, col_center, col_right = st.columns([2, 1, 2])
-    with col_center:
-        if st.button("📷 Ambil Foto", use_container_width=True):
-            st.session_state.trigger_camera = True
-
-# Kamera input dengan key unik dan conditional
-if st.session_state.get("trigger_camera"):
-    with st.container():
-        col_left, col_center, col_right = st.columns([2, 1, 2])
-        with col_center:
-            user_input = st.camera_input("Ambil foto wajah Anda", key="circle_camera")
-            if user_input:
-                st.success("Foto berhasil diambil!")
-                st.session_state.trigger_camera = False
-
+col1, col2, col3 = st.columns([1, 1, 1.4])
+with col3:
+    st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
+    user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="circle_camera")
+    if user_input:
+        st.success("Foto berhasil diambil!")
 
 genai.configure(api_key= st.secrets["gemini_api"])
 model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
