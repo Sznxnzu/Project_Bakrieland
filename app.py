@@ -146,7 +146,7 @@ col_header_left, col_header_right = st.columns([0.85, 0.15])
 with col_header_right:
     st.markdown("""
     <div style="position: absolute; top: -10px; right: 20px;">
-        <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" />
+        <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 100px; margin-bottom: 4px;" />
         <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
             <span style="font-size: 14px; color: #ccc;">POWERED BY:</span>
             <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 40px;" />
