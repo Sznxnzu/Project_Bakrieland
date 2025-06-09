@@ -360,4 +360,3 @@ with col_header_left:
             <pre style="white-space: pre-wrap; font-family: inherit; font-size: 1.2em;">{escaped_analysis}</pre>
         </div>
         """, unsafe_allow_html=True)
-�
