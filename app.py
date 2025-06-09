@@ -146,9 +146,9 @@ col_header_left, col_header_right = st.columns([0.85, 0.15])
 with col_header_right:
     st.markdown("""
     <div style='display: flex; align-items: center; justify-content: flex-end; gap: 14px;'>
-        <p style='font-size: 0.75em; color: #ccc; margin: 0;'>POWERED BY</p>
-        <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png' style='height: 32px; opacity: 1; margin-right: 4px;'>
-        <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png' style='height: 28px; opacity: 1; margin-right: 4px;'>
+        <span style='font-size: 0.75em; color: #ccc;'>POWERED BY</span>
+        <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png' style='height: 32px; opacity: 1;'>
+        <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png' style='height: 28px; opacity: 1;'>
         <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png' style='height: 28px; opacity: 1;'>
     </div>
     """, unsafe_allow_html=True)
