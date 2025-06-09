@@ -116,11 +116,9 @@ st.markdown("""
     margin-bottom: 1em;
     padding-left: 20px;
 }
-/* CAMERA BULAT + TOMBOL DI BAWAHNYA */
 div[data-testid="stCameraInput"] > div {
-    aspect-ratio: 1 / 1;
-    width: 60% !important;
-    height: auto !important;
+    width: 250px !important;
+    height: 250px !important;
     margin: 0 auto;
     border-radius: 50%;
     overflow: hidden;
