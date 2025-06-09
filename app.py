@@ -146,11 +146,16 @@ col_header_left, col_header_right = st.columns([0.85, 0.15])
 with col_header_right:
     st.markdown("""
     <div style="position: absolute; top: 10px; right: 20px;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 60px;" />
-            <span style="font-size: 14px; color: #ccc;">POWERED BY:</span>
-            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 34px;" />
-            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height: 34px;" />
+        <!-- Logo Bakrieland -->
+        <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 8px;" />
+
+        <!-- Teks dan logo sejajar -->
+        <div style="display: flex; align-items: center; font-size: 14px; color: #ccc;">
+            <span style="margin-right: 6px;">POWERED BY:</span>
+            <span style="display: inline-flex; align-items: center;">
+                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 36px; margin-right: 2px;" />
+                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height: 36px;" />
+            </span>
         </div>
     </div>
     """, unsafe_allow_html=True)
