@@ -145,7 +145,7 @@ model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
 col_header_left, col_header_right = st.columns([0.85, 0.15])
 with col_header_right:
     st.markdown("""
-    <div style="position: absolute; top: 10px; right: 20px;">
+    <div style="position: absolute; top: 0px; right: 20px;">
         <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 50px; margin-bottom: 4px;" />
         <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
             <span style="font-size: 12px; color: #ccc;">POWERED BY:</span>
