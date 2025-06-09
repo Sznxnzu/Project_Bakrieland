@@ -119,33 +119,75 @@ html, body, [data-testid="stAppViewContainer"] {
 }
 
 /* --- MODIFIED: Circular Camera Input --- */
-/* Center the entire camera input block */
 div[data-testid="stCameraInput"] {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-/* Style the main container for the video feed */
 div[data-testid="stCameraInput"] > div {
-    border-radius: 50% !important; /* Make it a circle */
-    width: 250px !important;       /* Force width */
-    height: 250px !important;      /* Force height */
-    margin: 0 auto !important;     /* Center horizontally */
-    overflow: hidden;              /* Hide the parts of the video outside the circle */
+    border-radius: 50% !important; 
+    width: 250px !important;       
+    height: 250px !important;      
+    margin: 0 auto !important;     
+    overflow: hidden;              
     box-shadow: 0 0 20px rgba(0,240,255,0.5);
     transition: transform 0.3s ease;
 }
 div[data-testid="stCameraInput"] > div:hover {
     transform: scale(1.02);
 }
-/* Ensure the video or image fills the circular frame without distortion */
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     object-fit: cover;
     width: 100%;
     height: 100%;
-    border-radius: 0; /* Remove any radius from the element itself */
+    border-radius: 0;
 }
+
+/* --- NEW: Camera Button Styling --- */
+
+/* Style the "Take Photo" button (the one over the video) to be an icon */
+div[data-testid="stCameraInput"] button:not(:has(span)) { /* Target button without span (Take Photo) */
+    font-size: 0 !important; /* Hide original text */
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50% !important;
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    border: 2px solid white !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+div[data-testid="stCameraInput"] button:not(:has(span))::after {
+    content: '�'; /* Camera emoji icon */
+    font-size: 28px;
+    color: white;
+    line-height: 1;
+}
+
+/* Style the "Clear photo" button to be smaller */
+div[data-testid="stCameraInput"] button:has(span) { /* Target button with span (Clear photo) */
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    border: 1px solid #00f0ff !important;
+    color: #00f0ff !important;
+    padding: 4px 12px !important; /* Smaller padding */
+    width: auto !important; /* Auto width */
+    min-height: auto !important;
+    line-height: 1.5 !important;
+    border-radius: 8px !important;
+    margin-top: 10px;
+}
+
+div[data-testid="stCameraInput"] button:has(span):hover {
+    box-shadow: 0 0 8px #00f0ff !important;
+    background-color: rgba(0, 240, 255, 0.2) !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 # Add waves to the background
