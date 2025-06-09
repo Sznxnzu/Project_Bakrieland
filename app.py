@@ -6,14 +6,11 @@ import io
 import requests
 import html
 
-# Konfigurasi Halaman
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
-# --- CSS Styling ---
-# Menambahkan style untuk background, waves, dan custom boxes
+# CSS styling
 st.markdown("""
 <style>
-/* Background Gradient Animation */
 html, body, [data-testid="stAppViewContainer"] {
   margin: 0;
   padding: 0;
@@ -24,14 +21,11 @@ html, body, [data-testid="stAppViewContainer"] {
   background-size: 400% 400%;
   background-attachment: fixed;
 }
-
 @keyframes gradient {
   0% { background-position: 0% 0%; }
   50% { background-position: 100% 100%; }
   100% { background-position: 0% 0%; }
 }
-
-/* Animated Waves */
 .wave {
   background: rgb(255 255 255 / 25%);
   border-radius: 1000% 1000% 0 0;
@@ -55,7 +49,6 @@ html, body, [data-testid="stAppViewContainer"] {
   animation: wave 20s -1s reverse infinite;
   opacity: 0.9;
 }
-
 @keyframes wave {
   2%   { transform: translateX(1); }
   25%  { transform: translateX(-25%); }
@@ -63,109 +56,76 @@ html, body, [data-testid="stAppViewContainer"] {
   75%  { transform: translateX(-25%); }
   100% { transform: translateX(1); }
 }
-
-/* Custom Component Styling */
-.stApp, [data-testid="stAppViewContainer"] {
-  background: transparent !important;
-  overflow: hidden !important;
-}
-::-webkit-scrollbar {
-  display: none;
-}
-.header-box {
-    text-align: center;
-    border: 2px solid #00f0ff;
-    background-color: rgba(0,0,50,0.5);
-    border-radius: 8px;
-    padding: 6px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 10px #00f0ff;
-    color: #00f0ff;
-    font-size: 18px;
-    font-family: 'Orbitron', sans-serif;
-    letter-spacing: 1px;
-}
-.portrait-box {
-    border: 2px solid #00f0ff;
-    background-color: rgba(0,0,30,0.6);
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 10px #00f0ff;
-    text-align: center;
-}
-.mood-box-content {
-    border: 2px solid #00f0ff;
-    background-color: rgba(10, 15, 30, 0.85);
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px #00f0ff;
-    font-size: 10px;
-    margin-top: 10px;
-    width: 100%;
-    height: auto;
-    transition: all 0.3s ease-in-out;
-}
-.mood-box-content:hover {
-    box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
-}
-.mood-box-content p {
-    margin-bottom: 0;
-}
-.mood-box-content ul {
-    margin-top: 0;
-    margin-bottom: 1em;
-    padding-left: 20px;
-}
-
-/* --- MODIFIED: Circular Camera Input --- */
-/* Center the entire camera input block */
+/* Custom circular camera styling */
 div[data-testid="stCameraInput"] {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-/* Style the main container for the video feed */
 div[data-testid="stCameraInput"] > div {
-    border-radius: 50% !important; /* Make it a circle */
-    width: 250px !important;       /* Force width */
-    height: 250px !important;      /* Force height */
-    margin: 0 auto !important;     /* Center horizontally */
-    overflow: hidden;              /* Hide the parts of the video outside the circle */
+    border-radius: 50% !important;
+    width: 250px !important;
+    height: 250px !important;
+    margin: 0 auto !important;
+    overflow: hidden;
     box-shadow: 0 0 20px rgba(0,240,255,0.5);
     transition: transform 0.3s ease;
+    background: #222;
 }
 div[data-testid="stCameraInput"] > div:hover {
     transform: scale(1.02);
 }
-/* Ensure the video or image fills the circular frame without distortion */
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     object-fit: cover;
     width: 100%;
     height: 100%;
-    border-radius: 0; /* Remove any radius from the element itself */
+    border-radius: 0;
 }
+/* Tombol horizontal */
+.button-row {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 16px;
+    margin-bottom: 12px;
+}
+.icon-btn {
+    background: #181c2b;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 12px #00f0ff33;
+    font-size: 22px;
+    cursor: pointer;
+    transition: box-shadow .15s;
+    margin: 0 2px;
+}
+.icon-btn:hover { box-shadow: 0 0 24px #00f0ff88; background: #222; }
 </style>
+<div class="wave"></div><div class="wave"></div><div class="wave"></div>
 """, unsafe_allow_html=True)
-# Add waves to the background
-st.markdown('<div class="wave"></div><div class="wave"></div><div class="wave"></div>', unsafe_allow_html=True)
 
+# Initial placeholders
+placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/placeholder.png"
+placeholder_caption = ""
+placeholder_analysis = "Arahkan kamera ke wajah Anda dan ambil foto untuk memulai analisis suasana hati dan mendapatkan rekomendasi yang dipersonalisasi."
 
-# --- Backend and Model Setup ---
-try:
-    genai.configure(api_key=st.secrets["gemini_api"])
-    model = genai.GenerativeModel("gemini-1.5-flash")
-except Exception as e:
-    st.error(f"Error configuring Generative AI: {e}")
-    st.stop()
+# Session state init
+if "analysis_result" not in st.session_state:
+    st.session_state.analysis_result = placeholder_analysis
+    st.session_state.image_urls = [placeholder_url] * 4
+    st.session_state.image_captions = [placeholder_caption] * 4
+    st.session_state.last_photo = None
+    st.session_state.ready_to_analyze = False
 
-
-# --- Main Layout ---
+# Header & Layout
 col_header_left, col_header_right = st.columns([0.85, 0.15])
-
 with col_header_right:
-    # Company Logos and Lottie Animation
     st.markdown("""
     <div style="position: absolute; top: -30px; right: -70px;">
         <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" />
@@ -176,7 +136,6 @@ with col_header_right:
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
     components.html("""
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <div style="display: flex; justify-content: center; align-items: center;">
@@ -195,30 +154,14 @@ with col_header_right:
         });
     </script>
     """, height=340)
-
     st.markdown("""
         <div class="qr-box">
             <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png" style="width:100%; border-radius: 8px;" />
         </div>
     """, unsafe_allow_html=True)
 
-
 with col_header_left:
     col1, col2, col3 = st.columns([1, 1, 1.4])
-
-    # --- State Management Initialization ---
-    placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/placeholder.png"
-    placeholder_caption = ""
-    placeholder_analysis = "Arahkan kamera ke wajah Anda dan ambil foto untuk memulai analisis suasana hati dan mendapatkan rekomendasi yang dipersonalisasi."
-
-    # Initialize session state if it doesn't exist
-    if "analysis_result" not in st.session_state:
-        st.session_state.analysis_result = placeholder_analysis
-        st.session_state.image_urls = [placeholder_url] * 4
-        st.session_state.image_captions = [placeholder_caption] * 4
-        st.session_state.last_photo = None
-    
-    # --- Recommendation Columns ---
     with col1:
         st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.markdown(f"""
@@ -229,7 +172,6 @@ with col_header_left:
             <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{st.session_state.image_captions[1]}</p>
         </div>
         """, unsafe_allow_html=True)
-
     with col2:
         st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.markdown(f"""
@@ -240,45 +182,59 @@ with col_header_left:
             <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{st.session_state.image_captions[3]}</p>
         </div>
         """, unsafe_allow_html=True)
-
-    # --- Camera and Analysis Column ---
     with col3:
+        # Kamera lingkaran
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
-        
-        # --- REVISED LOGIC ---
-        # This block executes if a new photo is taken.
-        if user_input is not None and user_input != st.session_state.last_photo:
-            st.session_state.last_photo = user_input
-            
+        # Tampilkan tombol proses (kamera) & clear photo (refresh) horizontal
+        st.markdown(
+            """
+            <div class="button-row">
+                <form method="post">
+                    <button class="icon-btn" name="process" type="submit" style="margin-right:2px;" title="Process Photo">&#128247;</button>
+                    <button class="icon-btn" name="clear" type="submit" style="margin-left:2px;" title="Clear Photo">&#x21bb;</button>
+                </form>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        # Button logic (dengan workaround)
+        # Gunakan query_params agar event tetap stateful walau pakai HTML form
+        query_params = st.experimental_get_query_params()
+        process_clicked = "process" in query_params
+        clear_clicked = "clear" in query_params
+
+        # Logic tombol process photo
+        if process_clicked and user_input is not None:
+            st.experimental_set_query_params()  # reset param supaya ga repeat
+            try:
+                genai.configure(api_key=st.secrets["gemini_api"])
+                model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
+            except Exception as e:
+                st.error(f"Error configuring Generative AI: {e}")
+                st.stop()
             with st.spinner("Menganalisis suasana hati Anda..."):
                 try:
                     image = Image.open(io.BytesIO(user_input.getvalue()))
-
-                    # Fetch prompts from GitHub
+                    # Fetch prompt
                     prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
                     prompt_response = requests.get(prompt_url)
                     prompt_response.raise_for_status()
                     analysis_prompt = prompt_response.text
-
                     json_prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
                     json_prompt_response = requests.get(json_prompt_url)
                     json_prompt_response.raise_for_status()
                     json_prompt = json_prompt_response.text
-
                     # Generate mood analysis
                     analysis_response = model.generate_content([analysis_prompt, image])
                     raw_output = analysis_response.text
-                    
                     # Generate JSON for image filenames
                     json_response = model.generate_content([json_prompt, raw_output])
-                    
                     filenames = json_response.text.strip().split(",")
                     if len(filenames) >= 4:
                         midpoint = len(filenames) // 2
                         first_filenames = filenames[:midpoint]
                         second_filenames = filenames[midpoint:]
-
-                        # Update state with new results
                         st.session_state.image_urls = [
                             f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[0].strip()}.jpg",
                             f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[1].strip()}.jpg",
@@ -292,26 +248,21 @@ with col_header_left:
                         st.session_state.analysis_result = raw_output
                     else:
                         st.session_state.analysis_result = "Gagal memproses rekomendasi gambar. Silakan coba lagi."
-
-                except requests.exceptions.RequestException as http_err:
-                    st.error(f"Gagal mengambil prompt: {http_err}")
-                    st.session_state.analysis_result = "Terjadi kesalahan jaringan. Tidak dapat memuat model."
                 except Exception as e:
                     st.error(f"Terjadi kesalahan saat pemrosesan: {e}")
                     st.session_state.analysis_result = "Gagal menganalisis gambar. Silakan coba lagi."
+            st.experimental_rerun()
 
-            st.rerun()
-
-        # This block executes if the user clicks "Clear photo"
-        elif user_input is None and st.session_state.last_photo is not None:
-            # Reset to placeholders
+        # Logic tombol clear photo
+        elif clear_clicked:
+            st.experimental_set_query_params()
             st.session_state.analysis_result = placeholder_analysis
             st.session_state.image_urls = [placeholder_url] * 4
             st.session_state.image_captions = [placeholder_caption] * 4
             st.session_state.last_photo = None
-            st.rerun()
-            
-        # Display the analysis box with the current state
+            st.experimental_rerun()
+
+        # Tampilkan hasil analisis (box)
         escaped_analysis = html.escape(st.session_state.analysis_result)
         st.markdown(f"""
         <div class="mood-box-content">
