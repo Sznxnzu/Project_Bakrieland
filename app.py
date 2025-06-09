@@ -144,22 +144,14 @@ model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
 
 col_header_left, col_header_right = st.columns([0.85, 0.15])
 with col_header_right:
-    col_00, col_01 = st.columns([0.3, 0.7])
-    with col_00:
-        st.markdown("""
-        <div style='display: flex; align-items: flex-end; height: 100%; justify-content: flex-start;'>
-            <p style='font-size: 0.6em; color:#aaa; margin: 0;'>POWERED BY</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with col_01:
-        st.markdown("""
-        <div style='display: flex; justify-content: flex-end; align-items: center; gap: 12px; opacity: 1;'>
-            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png' width='120' margin: 5px;'>
-            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png' width='50' style='margin: 5px;'>
-            <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png' width='50' style='margin: 5px;'>
-        </div>
-        """, unsafe_allow_html=True)
+    st.markdown("""
+    <div style='display: flex; align-items: center; justify-content: flex-end; gap: 14px;'>
+        <p style='font-size: 0.75em; color: #ccc; margin: 0;'>POWERED BY</p>
+        <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png' style='height: 32px; opacity: 1; margin-right: 4px;'>
+        <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png' style='height: 28px; opacity: 1; margin-right: 4px;'>
+        <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png' style='height: 28px; opacity: 1;'>
+    </div>
+    """, unsafe_allow_html=True)
 
     components.html(
     """
