@@ -6,9 +6,14 @@ import io
 import requests
 import html
 
+# Konfigurasi Halaman
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
+
+# --- CSS Styling ---
+# Menambahkan style untuk background, waves, dan custom boxes
 st.markdown("""
 <style>
+/* Background Gradient Animation */
 html, body, [data-testid="stAppViewContainer"] {
   margin: 0;
   padding: 0;
@@ -26,6 +31,7 @@ html, body, [data-testid="stAppViewContainer"] {
   100% { background-position: 0% 0%; }
 }
 
+/* Animated Waves */
 .wave {
   background: rgb(255 255 255 / 25%);
   border-radius: 1000% 1000% 0 0;
@@ -57,13 +63,8 @@ html, body, [data-testid="stAppViewContainer"] {
   75%  { transform: translateX(-25%); }
   100% { transform: translateX(1); }
 }
-</style>
-<div class="wave"></div>
-<div class="wave"></div>
-<div class="wave"></div>
-""", unsafe_allow_html=True)
-st.markdown("""
-<style>
+
+/* Custom Component Styling */
 .stApp, [data-testid="stAppViewContainer"] {
   background: transparent !important;
   overflow: hidden !important;
@@ -93,7 +94,7 @@ st.markdown("""
     box-shadow: 0 0 10px #00f0ff;
     text-align: center;
 }
-.mood-box, .mood-box-content {
+.mood-box-content {
     border: 2px solid #00f0ff;
     background-color: rgba(10, 15, 30, 0.85);
     padding: 15px;
@@ -105,44 +106,66 @@ st.markdown("""
     height: auto;
     transition: all 0.3s ease-in-out;
 }
-.mood-box:hover, .mood-box-content:hover {
+.mood-box-content:hover {
     box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
 }
-.mood-box p, .mood-box-content p {
+.mood-box-content p {
     margin-bottom: 0;
 }
-.mood-box ul, .mood-box-content ul {
+.mood-box-content ul {
     margin-top: 0;
     margin-bottom: 1em;
     padding-left: 20px;
 }
+
+/* --- MODIFIED: Circular Camera Input --- */
+/* Center the entire camera input block */
+div[data-testid="stCameraInput"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/* Style the main container for the video feed */
 div[data-testid="stCameraInput"] > div {
-    aspect-ratio: 4 / 5;
-    width: 60% !important;
-    height: auto !important;
-    margin: 0;
-    border-radius: 20px;
-    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 50% !important; /* Make it a circle */
+    width: 250px !important;       /* Force width */
+    height: 250px !important;      /* Force height */
+    margin: 0 auto !important;     /* Center horizontally */
+    overflow: hidden;              /* Hide the parts of the video outside the circle */
     box-shadow: 0 0 20px rgba(0,240,255,0.5);
     transition: transform 0.3s ease;
 }
 div[data-testid="stCameraInput"] > div:hover {
     transform: scale(1.02);
 }
+/* Ensure the video or image fills the circular frame without distortion */
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     object-fit: cover;
     width: 100%;
     height: 100%;
-    border-radius: 20px;
+    border-radius: 0; /* Remove any radius from the element itself */
 }
 </style>
 """, unsafe_allow_html=True)
-genai.configure(api_key= st.secrets["gemini_api"])
-model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
+# Add waves to the background
+st.markdown('<div class="wave"></div><div class="wave"></div><div class="wave"></div>', unsafe_allow_html=True)
 
+
+# --- Backend and Model Setup ---
+try:
+    genai.configure(api_key=st.secrets["gemini_api"])
+    model = genai.GenerativeModel("gemini-1.5-flash")
+except Exception as e:
+    st.error(f"Error configuring Generative AI: {e}")
+    st.stop()
+
+
+# --- Main Layout ---
 col_header_left, col_header_right = st.columns([0.85, 0.15])
+
 with col_header_right:
+    # Company Logos and Lottie Animation
     st.markdown("""
     <div style="position: absolute; top: -30px; right: -70px;">
         <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" />
@@ -153,23 +176,17 @@ with col_header_right:
         </div>
     </div>
     """, unsafe_allow_html=True)
-
-    components.html(
-    """
+    
+    components.html("""
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-
     <div style="display: flex; justify-content: center; align-items: center;">
         <lottie-player 
             id="robot"
             src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json"
-            background="transparent"
-            speed="1"
-            style="width: 300px; height: 300px;"
-            autoplay
-            loop>
+            background="transparent" speed="1" style="width: 300px; height: 300px;"
+            autoplay loop>
         </lottie-player>
     </div>
-
     <script>
         document.getElementById("robot").addEventListener("click", function() {
             const r = document.getElementById("robot");
@@ -177,158 +194,127 @@ with col_header_right:
             r.play();
         });
     </script>
-    """,
-    height=340
-)
+    """, height=340)
+
     st.markdown("""
-          <div class="qr-box">
-              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png" style="width:100%; border-radius: 8px;" />
-          </div>
-        """, unsafe_allow_html=True)
+        <div class="qr-box">
+            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png" style="width:100%; border-radius: 8px;" />
+        </div>
+    """, unsafe_allow_html=True)
+
 
 with col_header_left:
     col1, col2, col3 = st.columns([1, 1, 1.4])
 
+    # --- State Management Initialization ---
     placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/placeholder.png"
     placeholder_caption = ""
-    placeholder_analysis = ""
+    placeholder_analysis = "Arahkan kamera ke wajah Anda dan ambil foto untuk memulai analisis suasana hati dan mendapatkan rekomendasi yang dipersonalisasi."
 
-    if "image_states" not in st.session_state:
-      st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
-    if "image_captions" not in st.session_state:
-      st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
-    if "image_analysis" not in st.session_state:
-      st.session_state.image_analysis = [placeholder_analysis]
+    # Initialize session state if it doesn't exist
+    if "analysis_result" not in st.session_state:
+        st.session_state.analysis_result = placeholder_analysis
+        st.session_state.image_urls = [placeholder_url] * 4
+        st.session_state.image_captions = [placeholder_caption] * 4
+        st.session_state.last_photo = None
     
-    if "first_instance" not in st.session_state:
-      st.session_state.first_instance = True
-    if "has_rerun" not in st.session_state:
-      st.session_state.has_rerun = False
-
+    # --- Recommendation Columns ---
     with col1:
-
-        url_list_1 = []
-        for url in st.session_state.image_states[:2]:
-          url_list_1.append(url)
-        cap_list_1 = []
-        for captions in st.session_state.image_captions[:2]:
-          cap_list_1.append(captions)
-
         st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.markdown(f"""
-          <div class="portrait-box">
-              <img src="{url_list_1[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_1[0]}</p>
-              <img src="{url_list_1[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_1[1]}</p>
-          </div>
+        <div class="portrait-box">
+            <img src="{st.session_state.image_urls[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+            <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{st.session_state.image_captions[0]}</p>
+            <img src="{st.session_state.image_urls[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+            <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{st.session_state.image_captions[1]}</p>
+        </div>
         """, unsafe_allow_html=True)
 
     with col2:
-        url_list_2 = []
-        for url in st.session_state.image_states[2:]:
-          url_list_2.append(url)
-        cap_list_2 = []
-        for captions in st.session_state.image_captions[2:]:
-          cap_list_2.append(captions)
-
         st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.markdown(f"""
-          <div class="portrait-box">
-              <img src="{url_list_2[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_2[0]}</p>
-              <img src="{url_list_2[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-              <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{cap_list_2[1]}</p>
-          </div>
+        <div class="portrait-box">
+            <img src="{st.session_state.image_urls[2]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+            <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{st.session_state.image_captions[2]}</p>
+            <img src="{st.session_state.image_urls[3]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+            <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{st.session_state.image_captions[3]}</p>
+        </div>
         """, unsafe_allow_html=True)
 
+    # --- Camera and Analysis Column ---
     with col3:
-        st.markdown("<p style='text-align: center; font-size:0.9em; color:#bbb;'></p>", unsafe_allow_html=True)
-        user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed")
-
-        analysis_list = []
-        for analysis in st.session_state.image_analysis:
-          analysis_list.append(analysis)
-        if len(analysis) < 1:
-          st.markdown(f"""
-          <div class="mood-box">
-          <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
-          </div>
-          """, unsafe_allow_html=True)
-          if st.session_state.first_instance == True or st.session_state.has_rerun == True:
-            if st.button("Process Photo"):
-              st.rerun()
-        else:
-          st.markdown(f"""
-          <div class="mood-box-content">
-          <pre style="white-space: pre-wrap;">{analysis_list[0]}</pre>
-          </div>
-          """, unsafe_allow_html=True)
-          if st.button("Process Photo"):
-              st.rerun()
-
-        st.session_state.image_states = [placeholder_url, placeholder_url, placeholder_url, placeholder_url]
-        st.session_state.image_captions = [placeholder_caption, placeholder_caption, placeholder_caption, placeholder_caption]
-        st.session_state.image_analysis = [placeholder_analysis]
-
-        # st.write("has_rerun:", st.session_state.has_rerun)
-        # st.write("first_instance:", st.session_state.first_instance)
-
-        if user_input and (st.session_state.first_instance == True or st.session_state.has_rerun == True):
-          
-            if st.session_state.first_instance == True:
-              st.session_state.first_instance = False
+        user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
+        
+        # --- REVISED LOGIC ---
+        # This block executes if a new photo is taken.
+        if user_input is not None and user_input != st.session_state.last_photo:
+            st.session_state.last_photo = user_input
             
-            # st.write("has_rerun:", st.session_state.has_rerun)
-            # st.write("first_instance:", st.session_state.first_instance)
+            with st.spinner("Menganalisis suasana hati Anda..."):
+                try:
+                    image = Image.open(io.BytesIO(user_input.getvalue()))
 
-            image = Image.open(io.BytesIO(user_input.getvalue()))
+                    # Fetch prompts from GitHub
+                    prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
+                    prompt_response = requests.get(prompt_url)
+                    prompt_response.raise_for_status()
+                    analysis_prompt = prompt_response.text
 
-            url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
-            response = requests.get(url)
-            prompt = response.text
-            response = model.generate_content([prompt, image])
-            raw_output = response.text
-            escaped_text = html.escape(response.text)
-            url_json = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
-            response_json = requests.get(url_json)
-            prompt_json = response_json.text
-            response_json = model.generate_content([prompt_json, raw_output])
+                    json_prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
+                    json_prompt_response = requests.get(json_prompt_url)
+                    json_prompt_response.raise_for_status()
+                    json_prompt = json_prompt_response.text
 
-            filenames = response_json.text.strip().split(",")
-            midpoint = len(filenames) // 2
-            first_filenames = filenames[:midpoint]
-            second_filenames = filenames[midpoint:]
+                    # Generate mood analysis
+                    analysis_response = model.generate_content([analysis_prompt, image])
+                    raw_output = analysis_response.text
+                    
+                    # Generate JSON for image filenames
+                    json_response = model.generate_content([json_prompt, raw_output])
+                    
+                    filenames = json_response.text.strip().split(",")
+                    if len(filenames) >= 4:
+                        midpoint = len(filenames) // 2
+                        first_filenames = filenames[:midpoint]
+                        second_filenames = filenames[midpoint:]
 
-            imgpath_property_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[0].strip()}.jpg"
-            imgpath_property_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[1].strip()}.jpg"
-            imgpath_holiday_1 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[0].strip()}.jpg"
-            imgpath_holiday_2 = f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[1].strip()}.jpg"
-            imgcap_property_1 = first_filenames[0].strip()
-            imgcap_property_2 = first_filenames[1].strip()
-            imgcap_holiday_1 = second_filenames[0].strip()
-            imgcap_holiday_2 = second_filenames[1].strip()
+                        # Update state with new results
+                        st.session_state.image_urls = [
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[0].strip()}.jpg",
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[1].strip()}.jpg",
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[0].strip()}.jpg",
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[1].strip()}.jpg"
+                        ]
+                        st.session_state.image_captions = [
+                            first_filenames[0].strip(), first_filenames[1].strip(),
+                            second_filenames[0].strip(), second_filenames[1].strip()
+                        ]
+                        st.session_state.analysis_result = raw_output
+                    else:
+                        st.session_state.analysis_result = "Gagal memproses rekomendasi gambar. Silakan coba lagi."
 
-            updated_image_urls = [
-                imgpath_property_1,
-                imgpath_property_2,
-                imgpath_holiday_1,
-                imgpath_holiday_2
-            ]
-            updated_image_captions = [
-                imgcap_property_1,
-                imgcap_property_2,
-                imgcap_holiday_1,
-                imgcap_holiday_2
-            ]
-            updated_image_analysis = escaped_text
+                except requests.exceptions.RequestException as http_err:
+                    st.error(f"Gagal mengambil prompt: {http_err}")
+                    st.session_state.analysis_result = "Terjadi kesalahan jaringan. Tidak dapat memuat model."
+                except Exception as e:
+                    st.error(f"Terjadi kesalahan saat pemrosesan: {e}")
+                    st.session_state.analysis_result = "Gagal menganalisis gambar. Silakan coba lagi."
 
-            st.session_state.image_states = updated_image_urls
-            st.session_state.image_captions = updated_image_captions
-            st.session_state.image_analysis = [updated_image_analysis]
+            st.rerun()
 
-            st.session_state.has_rerun = False
-        else:
-          # st.write("no user input")
-          st.session_state.has_rerun = True
-    
+        # This block executes if the user clicks "Clear photo"
+        elif user_input is None and st.session_state.last_photo is not None:
+            # Reset to placeholders
+            st.session_state.analysis_result = placeholder_analysis
+            st.session_state.image_urls = [placeholder_url] * 4
+            st.session_state.image_captions = [placeholder_caption] * 4
+            st.session_state.last_photo = None
+            st.rerun()
+            
+        # Display the analysis box with the current state
+        escaped_analysis = html.escape(st.session_state.analysis_result)
+        st.markdown(f"""
+        <div class="mood-box-content">
+            <pre style="white-space: pre-wrap; font-family: inherit; font-size: 1.2em;">{escaped_analysis}</pre>
+        </div>
+        """, unsafe_allow_html=True)
