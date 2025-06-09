@@ -149,10 +149,11 @@ div[data-testid="stCameraInput"] img {
 </style>
 """, unsafe_allow_html=True)
 
-# Trigger kamera lewat Streamlit
-user_input = st.camera_input("Ambil foto wajah Anda")
+# Trigger kamera lewat Streamlit dengan unique key
+user_input = st.camera_input("Ambil foto wajah Anda", key="circle_camera")
 if user_input:
     st.success("Foto berhasil diambil!")
+
 
 genai.configure(api_key= st.secrets["gemini_api"])
 model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
