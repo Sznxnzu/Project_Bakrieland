@@ -62,6 +62,7 @@ html, body, [data-testid="stAppViewContainer"] {
 <div class="wave"></div>
 <div class="wave"></div>
 """, unsafe_allow_html=True)
+
 st.markdown("""
 <style>
 .stApp, [data-testid="stAppViewContainer"] {
@@ -116,6 +117,7 @@ st.markdown("""
     margin-bottom: 1em;
     padding-left: 20px;
 }
+
 /* CAMERA BULAT SAJA */
 div[data-testid="stCameraInput"] > div {
     width: 280px !important;
@@ -126,6 +128,7 @@ div[data-testid="stCameraInput"] > div {
     position: relative;
     background-color: rgba(0, 0, 0, 0.1);
     box-shadow: 0 0 30px rgba(0,240,255,0.6);
+    z-index: 5;
 }
 
 div[data-testid="stCameraInput"] video,
@@ -134,20 +137,27 @@ div[data-testid="stCameraInput"] img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
+    z-index: 5;
 }
 </style>
 """, unsafe_allow_html=True)
 
 # Tombol terpisah untuk trigger kamera
-if st.button("📷 Ambil Foto", use_container_width=True):
-    st.session_state.trigger_camera = True
+with st.container():
+    col_left, col_center, col_right = st.columns([2, 1, 2])
+    with col_center:
+        if st.button("📷 Ambil Foto", use_container_width=True):
+            st.session_state.trigger_camera = True
 
 # Kamera input dengan key unik dan conditional
 if st.session_state.get("trigger_camera"):
-    user_input = st.camera_input("Ambil foto wajah Anda", key="circle_camera")
-    if user_input:
-        st.success("Foto berhasil diambil!")
-        st.session_state.trigger_camera = False
+    with st.container():
+        col_left, col_center, col_right = st.columns([2, 1, 2])
+        with col_center:
+            user_input = st.camera_input("Ambil foto wajah Anda", key="circle_camera")
+            if user_input:
+                st.success("Foto berhasil diambil!")
+                st.session_state.trigger_camera = False
 
 
 genai.configure(api_key= st.secrets["gemini_api"])
