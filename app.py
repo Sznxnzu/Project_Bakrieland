@@ -117,11 +117,11 @@ st.markdown("""
     padding-left: 20px;
 }
 div[data-testid="stCameraInput"] > div {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 1 / 1;
     width: 60% !important;
     height: auto !important;
     margin: 0;
-    border-radius: 20px;
+    border-radius: 50%;
     background-color: rgba(0, 0, 0, 0.1);
     box-shadow: 0 0 20px rgba(0,240,255,0.5);
     transition: transform 0.3s ease;
@@ -129,25 +129,31 @@ div[data-testid="stCameraInput"] > div {
 div[data-testid="stCameraInput"] > div:hover {
     transform: scale(1.02);
 }
+div[data-testid="stCameraInput"] video,
+div[data-testid="stCameraInput"] img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+/* Ganti tombol Take Photo jadi ikon kamera */
 div[data-testid="stCameraInput"] button {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
     font-size: 0 !important;
-    padding: 8px 12px;
     background-color: black;
+    color: white;
+    padding: 10px 14px;
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-
 div[data-testid="stCameraInput"] button::before {
-    content: url("https://www.svgrepo.com/show/512317/camera.svg");
-    display: inline-block;
-    width: 20px;
-    height: 20px;
+    content: "📷";
+    font-size: 20px;
 }
-
 </style>
 """, unsafe_allow_html=True)
 
