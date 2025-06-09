@@ -129,12 +129,21 @@ div[data-testid="stCameraInput"] > div {
 div[data-testid="stCameraInput"] > div:hover {
     transform: scale(1.02);
 }
+div[data-testid="stCameraInput"] button {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    font-size: 0 !important;
+    padding: 8px 12px;
+    background-color: black;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
 div[data-testid="stCameraInput"] button::before {
-    content: "";
+    content: url("https://www.svgrepo.com/show/512317/camera.svg");
     display: inline-block;
-    background-image: url('https://www.svgrepo.com/show/512317/camera.svg');
-    background-size: contain;
-    background-repeat: no-repeat;
     width: 20px;
     height: 20px;
 }
