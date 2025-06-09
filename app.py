@@ -116,17 +116,6 @@ st.markdown("""
     margin-bottom: 1em;
     padding-left: 20px;
 }
-/* CAMERA BULAT UTUH + TOMBOL DI BAWAH */
-div[data-testid="stCameraInput"] > div {
-    width: 280px !important;
-    height: 280px !important;
-    margin: 0 auto;
-    border-radius: 50%;
-    overflow: hidden;
-    position: relative;
-    background-color: rgba(0, 0, 0, 0.1);
-    box-shadow: 0 0 30px rgba(0,240,255,0.6);
-}
 /* CAMERA BULAT SAJA */
 div[data-testid="stCameraInput"] > div {
     width: 280px !important;
@@ -149,10 +138,16 @@ div[data-testid="stCameraInput"] img {
 </style>
 """, unsafe_allow_html=True)
 
-# Trigger kamera lewat Streamlit dengan unique key
-user_input = st.camera_input("Ambil foto wajah Anda", key="circle_camera")
-if user_input:
-    st.success("Foto berhasil diambil!")
+# Tombol terpisah untuk trigger kamera
+if st.button("📷 Ambil Foto", use_container_width=True):
+    st.session_state.trigger_camera = True
+
+# Kamera input dengan key unik dan conditional
+if st.session_state.get("trigger_camera"):
+    user_input = st.camera_input("Ambil foto wajah Anda", key="circle_camera")
+    if user_input:
+        st.success("Foto berhasil diambil!")
+        st.session_state.trigger_camera = False
 
 
 genai.configure(api_key= st.secrets["gemini_api"])
