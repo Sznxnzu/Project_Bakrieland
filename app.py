@@ -145,11 +145,13 @@ model = genai.GenerativeModel("models/gemini-2.5-flash-preview-04-17-thinking")
 col_header_left, col_header_right = st.columns([0.85, 0.15])
 with col_header_right:
     st.markdown("""
-    <div style='display: flex; align-items: center; justify-content: flex-end; gap: 14px;'>
-        <span style='font-size: 0.75em; color: #ccc;'>POWERED BY</span>
-        <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png' style='height: 32px; opacity: 1;'>
-        <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png' style='height: 28px; opacity: 1;'>
-        <img src='https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png' style='height: 28px; opacity: 1;'>
+    <div style="position: absolute; top: 20px; left: 20px;">
+        <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 50px; margin-bottom: 4px;" />
+        <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+            <span style="font-size: 12px; color: #ccc;">POWERED BY:</span>
+            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 28px;" />
+            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height: 28px;" />
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
