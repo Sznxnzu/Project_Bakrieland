@@ -118,78 +118,34 @@ html, body, [data-testid="stAppViewContainer"] {
     padding-left: 20px;
 }
 
-/* --- REVISED: Rectangular Camera & External Button --- */
+/* --- MODIFIED: Circular Camera Input --- */
+/* Center the entire camera input block */
 div[data-testid="stCameraInput"] {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 70px; /* Add space for the button below */
 }
-/* This is the container for the video/image itself */
+/* Style the main container for the video feed */
 div[data-testid="stCameraInput"] > div {
-    border-radius: 8px !important; /* Make it a rounded rectangle */
-    width: 100% !important;        /* Full width */
-    height: auto !important;       
-    aspect-ratio: 4 / 5;           /* Maintain aspect ratio */
-    margin: 0 auto !important;     
-    overflow: visible !important;  /* ALLOW THE BUTTON TO APPEAR OUTSIDE */
+    border-radius: 50% !important; /* Make it a circle */
+    width: 250px !important;       /* Force width */
+    height: 250px !important;      /* Force height */
+    margin: 0 auto !important;     /* Center horizontally */
+    overflow: hidden;              /* Hide the parts of the video outside the circle */
     box-shadow: 0 0 20px rgba(0,240,255,0.5);
     transition: transform 0.3s ease;
-    position: relative; /* Needed for the absolute positioning of the button */
 }
 div[data-testid="stCameraInput"] > div:hover {
     transform: scale(1.02);
 }
+/* Ensure the video or image fills the circular frame without distortion */
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     object-fit: cover;
     width: 100%;
     height: 100%;
-    border-radius: 8px !important; /* Match the container's radius */
+    border-radius: 0; /* Remove any radius from the element itself */
 }
-
-/* Style the "Take Photo" button to be a custom icon BELOW the camera */
-div[data-testid="stCameraInput"] button:not(:has(span)) {
-    font-size: 0 !important;
-    width: 60px !important;
-    height: 60px !important;
-    border-radius: 50% !important;
-    background-color: rgba(255, 255, 255, 0.3) !important;
-    border: 2px solid white !important;
-    position: absolute;
-    bottom: -75px; /* POSITION IT BELOW THE FRAME */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10; /* Ensure it's clickable */
-
-    /* Use the custom image as the background */
-    background-image: url('https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/camera_11149913.png');
-    background-size: 55%;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-div[data-testid="stCameraInput"] button:not(:has(span)):hover {
-    background-color: rgba(255, 255, 255, 0.5) !important;
-}
-
-/* Style the "Clear photo" button to be smaller */
-div[data-testid="stCameraInput"] button:has(span) {
-    background-color: rgba(0, 0, 0, 0.5) !important;
-    border: 1px solid #00f0ff !important;
-    color: #00f0ff !important;
-    padding: 4px 12px !important;
-    width: auto !important;
-    min-height: auto !important;
-    line-height: 1.5 !important;
-    border-radius: 8px !important;
-    margin-top: 10px;
-}
-
-div[data-testid="stCameraInput"] button:has(span):hover {
-    box-shadow: 0 0 8px #00f0ff !important;
-    background-color: rgba(0, 240, 255, 0.2) !important;
-}
-
 </style>
 """, unsafe_allow_html=True)
 # Add waves to the background
