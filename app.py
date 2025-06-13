@@ -74,22 +74,16 @@ div[data-testid="stCameraInput"] {
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
-    z-index: 1;
+    gap: 10px;
 }
 
 div[data-testid="stCameraInput"] > div {
-    width: 500px !important;
-    height: 500px !important;
+    width: 250px !important;
+    height: 250px !important;
     border-radius: 50% !important;
     overflow: hidden !important;
-    box-shadow: 0 0 20px rgba(0,240,255,0.5);
-    transition: transform 0.3s ease;
     position: relative;
-}
-
-div[data-testid="stCameraInput"] > div:hover {
-    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(0,240,255,0.5);
 }
 
 div[data-testid="stCameraInput"] video,
@@ -98,11 +92,12 @@ div[data-testid="stCameraInput"] img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
+    display: block;
 }
 
 div[data-testid="stCameraInput"] button {
     position: relative;
-    z-index: 9999;
+    z-index: 1;
 }
 </style>
 """, unsafe_allow_html=True)
