@@ -72,11 +72,9 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 
 /* Grid layout: video left, button right */
 div[data-testid="stCameraInput"] {
-    display: grid;
-    grid-template-columns: auto auto;
+    display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 20px;
+    gap: 0px;
 }
 
 /* Make the preview circular */
