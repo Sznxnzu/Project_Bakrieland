@@ -73,7 +73,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 div[data-testid="stCameraInput"] {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     gap: 10px;
 }
 
