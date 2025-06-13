@@ -13,7 +13,7 @@ st.markdown("""
 
 html, body, [data-testid="stAppViewContainer"], .stApp {
     background: none !important;
-    background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/wallpaper_2.png") !important;
+    background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/wallpaper/wallpaper_2.png") !important;
     background-size: cover !important;
     background-position: center !important;
     background-attachment: fixed !important;
