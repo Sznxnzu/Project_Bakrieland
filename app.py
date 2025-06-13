@@ -77,7 +77,7 @@ div[data-testid="stCameraInput"] {
     gap: 12px;
 }
 
-div[data-testid="stCameraInput"] > div{
+div[data-testid="stCameraInput"] > div:nth-child(1) {
     width: 300px !important;
     height: 300px !important;
     border-radius: 50% !important;
