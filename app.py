@@ -90,6 +90,22 @@ div[data-testid="stCameraInput"] button {
   margin-top: 12px;
   z-index: 10;
   position: relative;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #00f0ff, #00c0cc);
+  color: #000;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+div[data-testid="stCameraInput"] button:hover {
+  background: linear-gradient(135deg, #00c0cc, #00aabb);
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 240, 255, 0.8);
 }
 
 </style>
