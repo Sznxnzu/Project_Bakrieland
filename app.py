@@ -77,8 +77,8 @@ div[data-testid="stCameraInput"] {
 }
 div[data-testid="stCameraInput"] > div {
     border-radius: 50% !important;
-    width: 250px !important;      
-    height: 250px !important;     
+    width: 500px !important;      
+    height: 500px !important;     
     margin: 0 auto !important;        
     box-shadow: 0 0 20px rgba(0,240,255,0.5);
     transition: transform 0.3s ease;
@@ -94,7 +94,7 @@ div[data-testid="stCameraInput"] img {
     border-radius: 0;
 }
 div[data-testid="stCameraInput"] button {
-    position: relative; /* or absolute if needed */
+    position: relative;
     z-index: 9999;
 }
 </style>
