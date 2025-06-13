@@ -70,6 +70,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding-left: 20px;
 }
 
+/* Style container to center elements */
 div[data-testid="stCameraInput"] {
     display: flex;
     flex-direction: column;
@@ -77,27 +78,30 @@ div[data-testid="stCameraInput"] {
     gap: 10px;
 }
 
-div[data-testid="stCameraInput"] > div {
+/* Style the preview (video/image) circle */
+div[data-testid="stCameraInput"] > div:first-child {
     width: 250px !important;
     height: 250px !important;
     border-radius: 50% !important;
     overflow: hidden !important;
-    position: relative;
     box-shadow: 0 0 20px rgba(0,240,255,0.5);
 }
 
+/* Clip and fit the video/image to the circle */
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
-    object-fit: cover;
     width: 100%;
     height: 100%;
+    object-fit: cover;
     border-radius: 50%;
     display: block;
 }
 
+/* Ensure the button is visible and styled */
 div[data-testid="stCameraInput"] button {
-    position: relative;
-    z-index: 1;
+    position: static;
+    z-index: auto;
+    margin-top: 10px;
 }
 </style>
 """, unsafe_allow_html=True)
