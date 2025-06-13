@@ -70,24 +70,25 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding-left: 20px;
 }
 
-/* Grid layout: video left, button right */
+/* Container remains normal */
 div[data-testid="stCameraInput"] {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0px;
+    gap: 12px;
 }
 
-/* Make the preview circular */
-div[data-testid="stCameraInput"] > div {
+/* Only make the camera preview circular */
+div[data-testid="stCameraInput"] > div:nth-child(1) {
     width: 300px !important;
     height: 300px !important;
     border-radius: 50% !important;
-    overflow: visible;
-    position: relative;
+    overflow: hidden;
     box-shadow: 0 0 20px rgba(0,240,255,0.5);
+    position: relative;
 }
 
-/* Keep image/video circular */
+/* Target video and image inside the preview */
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     width: 100%;
@@ -96,25 +97,23 @@ div[data-testid="stCameraInput"] img {
     border-radius: 50%;
 }
 
-/* Style the button as a rectangle */
+/* Leave the button untouched */
 div[data-testid="stCameraInput"] button {
     all: unset;
-    padding: 12px 20px;
+    padding: 8px 16px;
     background-color: #00f0ff;
     color: black;
     font-weight: bold;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
     text-align: center;
+    margin-top: 8px;
     box-shadow: 0 0 10px rgba(0,240,255,0.7);
-    white-space: nowrap;
-    position: relative;  /* Required for z-index to take effect */
-    z-index: 10;         /* Ensures button appears on top */
 }
-
 div[data-testid="stCameraInput"] button:hover {
     background-color: #00c0cc;
 }
+
 
 </style>
 """, unsafe_allow_html=True)
