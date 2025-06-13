@@ -11,7 +11,7 @@ st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial
 st.markdown("""
 <style>
 
-.stApp, [data-testid="stAppViewContainer"] {
+.stApp{
   background: transparent !important;
   overflow: hidden !important;
   background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/wallpaper_2.png");
