@@ -185,7 +185,7 @@ with row1:
       colA3row12 = st.container()
       with colA3row12:
         st.markdown("""
-        <div">
+        <div>
                 <span style="display: inline-block; vertical-align: middle;"><div>POWERED BY:</div></span>
                 <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 40px; vertical-align: middle; margin-left: -10px; margin-right: -30px;" />
                 <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height: 40px; vertical-align: middle;" />
