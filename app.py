@@ -91,8 +91,9 @@ div[data-testid="stCameraInput"] button {
   margin-top: 12px;
   z-index: 10;
   position: relative;
+
   padding: 10px 20px;
-  background-color: #091224;
+  background-color: #00c0cc;
   color: #000;
   font-weight: 600;
   font-size: 16px;
@@ -104,7 +105,7 @@ div[data-testid="stCameraInput"] button {
 }
 
 div[data-testid="stCameraInput"] button:hover {
-  background-color: #091224;
+  background-color: #00aabb;
   transform: scale(1.05);
   box-shadow: 0 6px 16px rgba(0, 240, 255, 0.8);
 }
