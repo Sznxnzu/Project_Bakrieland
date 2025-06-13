@@ -65,29 +65,6 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     margin-bottom: 1em;
     padding-left: 20px;
 }
-div[data-testid="stCameraInput"] {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-div[data-testid="stCameraInput"] > div {
-    border-radius: 50% !important;
-    width: 250px !important;      
-    height: 250px !important;     
-    margin: 0 auto !important;        
-    box-shadow: 0 0 20px rgba(0,240,255,0.5);
-    transition: transform 0.3s ease;
-}
-div[data-testid="stCameraInput"] > div:hover {
-    transform: scale(1.02);
-}
-div[data-testid="stCameraInput"] video,
-div[data-testid="stCameraInput"] img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-}
 </style>
 """, unsafe_allow_html=True)
 
