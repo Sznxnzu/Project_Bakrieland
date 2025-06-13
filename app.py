@@ -86,7 +86,7 @@ div[data-testid="stCameraInput"] video{
     border-radius: 0;
 }
 
-div[data-testid="stCameraInput"] img {
+div[data-testid="stCameraInput"] div {
   display: block;
   object-fit: cover;
   width: 500px !important;
