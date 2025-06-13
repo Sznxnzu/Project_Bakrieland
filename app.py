@@ -87,13 +87,13 @@ div[data-testid="stCameraInput"] video{
 }
 
 div[data-testid="stCameraInput"] img {
+  display: block;
   object-fit: cover;
   width: 500px !important;
   height: 500px !important;
   border-radius: 50% !important;
-  overflow: hidden;
-  margin: auto;
   box-shadow: 0 0 20px rgba(0,240,255,0.5);
+  margin: auto;
 }
 
 div[data-testid="stCameraInput"] button {
