@@ -179,7 +179,7 @@ with row2:
     escaped_analysis = html.escape(st.session_state.analysis_result)
     st.markdown(f"""
     <div class="mood-box-content">
-      <pre style="white-space: pre-wrap; font-family: inherit; font-size: 4.8em;">{escaped_analysis}</pre>
+      <pre style="white-space: pre-wrap; font-family: inherit; font-size: 36px;">{escaped_analysis}</pre>
     </div>
     """, unsafe_allow_html=True)
 
