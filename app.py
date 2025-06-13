@@ -10,7 +10,91 @@ st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial
 
 st.markdown("""
 <style>
-...
+.stApp{
+  background: transparent !important;
+  overflow-y: auto;
+  background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/wallpaper/wallpaper_2.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+.header-box {
+    text-align: center;
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,50,0.5);
+    border-radius: 8px;
+    padding: 6px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff;
+    color: #00f0ff;
+    font-size: 18px;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+}
+.portrait-box {
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,30,0.6);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff;
+    text-align: center;
+}
+.mood-box-content {
+    border: 2px solid #00f0ff;
+    background-color: rgba(10, 15, 30, 0.85);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00f0ff;
+    font-size: 10px;
+    margin-top: 10px;
+    width: 100%;
+    height: auto;
+    transition: all 0.3s ease-in-out;
+}
+.mood-box-content:hover {
+    box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
+}
+.mood-box-content p {
+    margin-bottom: 0;
+}
+.mood-box-content ul {
+    margin-top: 0;
+    margin-bottom: 1em;
+    padding-left: 20px;
+}
+
+/* --- MODIFIED: Circular Camera Input --- */
+/* Center the entire camera input block */
+div[data-testid="stCameraInput"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/* Style the main container for the video feed */
+div[data-testid="stCameraInput"] > div {
+    border-radius: 50% !important; /* Make it a circle */
+    width: 250px !important;       /* Force width */
+    height: 250px !important;      /* Force height */
+    margin: 0 auto !important;     /* Center horizontally */
+    overflow: hidden;              /* Hide the parts of the video outside the circle */
+    box-shadow: 0 0 20px rgba(0,240,255,0.5);
+    transition: transform 0.3s ease;
+}
+div[data-testid="stCameraInput"] > div:hover {
+    transform: scale(1.02);
+}
+/* Ensure the video or image fills the circular frame without distortion */
+div[data-testid="stCameraInput"] video,
+div[data-testid="stCameraInput"] img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 0; /* Remove any radius from the element itself */
+}
 </style>
 """, unsafe_allow_html=True)
 
