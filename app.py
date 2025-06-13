@@ -73,9 +73,9 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 /* Align the camera input content */
 div[data-testid="stCameraInput"] {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 0px;
 }
 
 /* Make only the video/image circular */
