@@ -102,7 +102,6 @@ div[data-testid="stCameraInput"] img {
 
 div[data-testid="stCameraInput"] button {
     position: relative;
-    margin-top: 10px;
     z-index: 9999;
 }
 </style>
