@@ -175,10 +175,17 @@ with row1:
             st.session_state.last_photo = None
             st.rerun()
     with colA3:
+      colA3row11 = st.container()
+      with colA3row11:
         st.markdown("""
         <div style="position: absolute; top: -30px; right: -70px;">
             <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" />
             <div style="font-size: 11px; color: #ccc;">
+        """, unsafe_allow_html=True)
+      colA3row12 = st.container()
+      with colA3row12:
+        st.markdown("""
+        <div style="position: absolute; top: -30px; right: -70px;">
                 <span style="display: inline-block; vertical-align: middle;">POWERED BY:</span>
                 <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 40px; vertical-align: middle; margin-left: -10px; margin-right: -30px;" />
                 <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height: 40px; vertical-align: middle;" />
