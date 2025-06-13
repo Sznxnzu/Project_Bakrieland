@@ -69,49 +69,6 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     margin-bottom: 1em;
     padding-left: 20px;
 }
-
-div[data-testid="stCameraInput"] {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-}
-
-div[data-testid="stCameraInput"] > div:nth-child(1) {
-    width: 300px !important;
-    height: 300px !important;
-    border-radius: 50% !important;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgba(0,240,255,0.5);
-    position: relative;
-}
-
-
-div[data-testid="stCameraInput"] video,
-div[data-testid="stCameraInput"] img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-div[data-testid="stCameraInput"] button {
-    all: unset;
-    padding: 8px 16px;
-    background-color: #00f0ff;
-    color: black;
-    font-weight: bold;
-    border-radius: 6px;
-    cursor: pointer;
-    text-align: center;
-    margin-top: 8px;
-    box-shadow: 0 0 10px rgba(0,240,255,0.7);
-}
-div[data-testid="stCameraInput"] button:hover {
-    background-color: #00c0cc;
-}
-
-
 </style>
 """, unsafe_allow_html=True)
 
