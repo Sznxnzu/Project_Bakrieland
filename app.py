@@ -78,8 +78,8 @@ div[data-testid="stCameraInput"] {
 }
 
 div[data-testid="stCameraInput"] > div {
-    width: 500px !important;
-    height: 500px !important;
+    width: 300px !important;
+    height: 300px !important;
     border-radius: 50% !important;
     overflow: hidden !important;
     position: relative;
@@ -89,8 +89,8 @@ div[data-testid="stCameraInput"] > div {
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     object-fit: cover;
-    width: 500px;
-    height: 500px;
+    width: 300px;
+    height: 300px;
     border-radius: 50%;
     display: block;
 }
