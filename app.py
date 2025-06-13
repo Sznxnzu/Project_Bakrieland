@@ -114,6 +114,7 @@ row1 = st.container()
 with row1:
     colA1, colA2, colA3 = st.columns([0.1, 0.8, 0.1])
     with colA1:
+      st.write("")
     with colA2:
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
         if user_input is not None and user_input != st.session_state.last_photo:
