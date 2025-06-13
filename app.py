@@ -70,26 +70,23 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding-left: 20px;
 }
 
-/* 1. Make only the preview circular */
-div[data-testid="stCameraInput"] > div:nth-child(1) {
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
+div[data-testid="stCameraInputWebcamStyledBox"] {
+  width: 300px !important;
+  height: 300px !important;
+  border-radius: 50% !important;
   overflow: hidden;
-  box-shadow: 0 0 20px rgba(0,240,255,0.5);
   margin: auto;
+  box-shadow: 0 0 20px rgba(0,240,255,0.5);
 }
 
-/* 2. Ensure the video or image inside fits nicely */
-div[data-testid="stCameraInput"] video,
-div[data-testid="stCameraInput"] img {
+/* 2. Ensure the video inside fits properly */
+div[data-testid="stCameraInputWebcamStyledBox"] > video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
 }
 
-/* 3. Leave the button alone */
 div[data-testid="stCameraInput"] button {
   margin-top: 12px;
   z-index: 10;
