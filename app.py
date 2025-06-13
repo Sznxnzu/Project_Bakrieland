@@ -128,7 +128,7 @@ with row1:
         st.markdown("""
         <div style='height: 400px; overflow: auto;'>
         """, unsafe_allow_html=True)
-          user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
+        user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
 
         if user_input is not None and user_input != st.session_state.last_photo:
             st.session_state.last_photo = user_input
