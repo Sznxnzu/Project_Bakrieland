@@ -96,7 +96,7 @@ div[data-testid="stCameraInput"] img {
 }
 
 div[data-testid="stCameraInput"] button {
-    position: relative;
+    position: static;
     z-index: 1;
     margin-top: 100px;
 }
