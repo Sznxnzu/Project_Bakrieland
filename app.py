@@ -74,27 +74,24 @@ div[data-testid="stCameraInput"] {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative; /* Required for z-index to apply */
+    z-index: 1;
 }
+
 div[data-testid="stCameraInput"] > div {
+    position: relative;
     border-radius: 50% !important;
-    width: 500px !important;      
-    height: 500px !important;     
-    margin: 0 auto !important;        
+    width: 250px !important;
+    height: 250px !important;
+    margin: 0 auto !important;
     box-shadow: 0 0 20px rgba(0,240,255,0.5);
     transition: transform 0.3s ease;
+    overflow: visible !important; /* Prevents clipping of buttons */
 }
-div[data-testid="stCameraInput"] > div:hover {
-    transform: scale(1.02);
-}
-div[data-testid="stCameraInput"] video,
-div[data-testid="stCameraInput"] img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-}
+
 div[data-testid="stCameraInput"] button {
-    position: relative;
+    position: absolute !important;
+    bottom: -50px; /* Push the button below the circle */
     z-index: 9999;
 }
 </style>
