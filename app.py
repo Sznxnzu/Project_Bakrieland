@@ -54,6 +54,25 @@ class VideoProcessor(VideoTransformerBase):
         self.frame = img.copy()
         return img
 
+rtc_config = {
+    "iceServers": [
+        {"urls": ["stun:stun.l.google.com:19302"]},
+        {
+            "urls": ["turn:your.turn.server:3478"],
+            "username": "your-username",
+            "credential": "your-password"
+        }
+    ]
+}
+
+webrtc_streamer(
+    key="camera",
+    video_processor_factory=VideoProcessor,
+    media_stream_constraints={"video": True, "audio": False},
+    rtc_configuration=rtc_config,
+    async_processing=True,
+)
+
 # --- Streamlit WebRTC Camera ---
 ctx = webrtc_streamer(
     key="camera",
