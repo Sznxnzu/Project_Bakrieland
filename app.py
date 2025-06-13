@@ -1,81 +1,30 @@
 import streamlit as st
-import streamlit.components.v1 as components
-import google.generativeai as genai
-from PIL import Image
-import io
-import requests
-import html
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
 import cv2
-import av
 import numpy as np
+from PIL import Image
+import requests
+import io
+import html
+import google.generativeai as genai
 
+# --- Streamlit UI Config ---
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
-
 st.markdown("""
 <style>
-html, body, [data-testid="stAppViewContainer"], .stApp {
-    background: none !important;
-    background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/wallpaper/wallpaper_2.png") !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-attachment: fixed !important;
+.stApp {
+  background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/wallpaper/wallpaper_2.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 ::-webkit-scrollbar {
   display: none;
 }
-.header-box {
-    text-align: center;
-    border: 2px solid #00f0ff;
-    background-color: rgba(0,0,50,0.5);
-    border-radius: 8px;
-    padding: 6px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 10px #00f0ff;
-    color: #00f0ff;
-    font-size: 18px;
-    font-family: 'Orbitron', sans-serif;
-    letter-spacing: 1px;
-}
-.portrait-box {
-    border: 2px solid #00f0ff;
-    background-color: rgba(0,0,30,0.6);
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 10px #00f0ff;
-    text-align: center;
-}
-.mood-box-content {
-    border: 2px solid #00f0ff;
-    background-color: rgba(10, 15, 30, 0.85);
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px #00f0ff;
-    font-size: 15px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: 100%;
-    height: auto;
-    transition: all 0.3s ease-in-out;
-}
-.mood-box-content:hover {
-    box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
-}
-.mood-box-content p {
-    margin-bottom: 0;
-}
-.mood-box-content h2{
-    font-size: 45px
-}
-.mood-box-content ul {
-    margin-top: 0;
-    margin-bottom: 1em;
-    padding-left: 20px;
-}
 </style>
 """, unsafe_allow_html=True)
 
+# --- Gemini Setup ---
 try:
     genai.configure(api_key=st.secrets["gemini_api"])
     model = genai.GenerativeModel("gemini-1.5-flash")
@@ -83,6 +32,19 @@ except Exception as e:
     st.error(f"Error configuring Generative AI: {e}")
     st.stop()
 
+# --- Defaults ---
+placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/placeholder.png"
+placeholder_analysis = "Arahkan kamera ke wajah Anda dan ambil foto untuk memulai analisis suasana hati."
+
+# --- Session State ---
+if "analysis_result" not in st.session_state:
+    st.session_state.analysis_result = placeholder_analysis
+    st.session_state.image_urls = [placeholder_url] * 4
+    st.session_state.image_captions = [""] * 4
+    st.session_state.last_photo = None
+    st.session_state["captured_frame"] = None
+
+# --- Video Processor ---
 class VideoProcessor(VideoTransformerBase):
     def __init__(self):
         self.frame = None
@@ -92,9 +54,7 @@ class VideoProcessor(VideoTransformerBase):
         self.frame = img.copy()
         return img
 
-st.session_state["capture"] = st.session_state.get("capture", False)
-st.session_state["captured_frame"] = st.session_state.get("captured_frame", None)
-
+# --- Streamlit WebRTC Camera ---
 ctx = webrtc_streamer(
     key="camera",
     video_processor_factory=VideoProcessor,
@@ -102,145 +62,73 @@ ctx = webrtc_streamer(
     async_processing=True,
 )
 
-placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/placeholder.png"
-placeholder_caption = ""
-placeholder_analysis = "Arahkan kamera ke wajah Anda dan ambil foto untuk memulai analisis suasana hati dan mendapatkan rekomendasi yang dipersonalisasi."
+# --- Photo Capture Button ---
+if st.button("📸 Ambil Foto"):
+    if ctx.video_processor and ctx.video_processor.frame is not None:
+        st.session_state["captured_frame"] = ctx.video_processor.frame.copy()
+        st.rerun()
 
-if "analysis_result" not in st.session_state:
-    st.session_state.analysis_result = placeholder_analysis
-    st.session_state.image_urls = [placeholder_url] * 4
-    st.session_state.image_captions = [placeholder_caption] * 4
-    st.session_state.last_photo = None
+# --- Process Captured Frame ---
+user_input = st.session_state["captured_frame"]
+if user_input is not None and not np.array_equal(user_input, st.session_state.last_photo):
+    st.session_state.last_photo = user_input
+    image_pil = Image.fromarray(cv2.cvtColor(user_input, cv2.COLOR_BGR2RGB))
+    st.image(image_pil, caption="Captured Face", use_column_width=True)
 
-row1 = st.container()
-with row1:
-    colA1, colA2, colA3 = st.columns([0.2, 0.6, 0.2])
-    with colA1:
-      st.write("")
-    with colA2:
+    # --- Analysis ---
+    with st.spinner("Menganalisis suasana hati Anda..."):
+        try:
+            # Load prompts
+            prompt_response = requests.get("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt")
+            prompt_response.raise_for_status()
+            analysis_prompt = prompt_response.text
 
-        # user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
+            json_prompt_response = requests.get("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt")
+            json_prompt_response.raise_for_status()
+            json_prompt = json_prompt_response.text
 
-        if st.button("📸 Ambil Foto"):
-          if ctx.video_processor and ctx.video_processor.frame is not None:
-              st.session_state["captured_frame"] = ctx.video_processor.frame.copy()
-        
-        if st.session_state["captured_frame"] is not None:
-          st.session_state.last_photo = st.session_state["captured_frame"]
-          image_pil = Image.fromarray(cv2.cvtColor(st.session_state["last_photo"], cv2.COLOR_BGR2RGB))
-          st.image(image_pil, caption="Captured Face", use_column_width=True)
+            # Gemini image analysis
+            analysis_response = model.generate_content([analysis_prompt, image_pil])
+            raw_output = analysis_response.text
 
-        if user_input is not None and user_input != st.session_state.last_photo:
-            st.session_state.last_photo = user_input
+            json_response = model.generate_content([json_prompt, raw_output])
+            filenames = json_response.text.strip().split(",")
 
-            with st.spinner("Menganalisis suasana hati Anda..."):
-                try:
-                    image = Image.open(io.BytesIO(user_input.getvalue()))
+            if len(filenames) >= 4:
+                midpoint = len(filenames) // 2
+                first_filenames = filenames[:midpoint]
+                second_filenames = filenames[midpoint:]
 
-                    prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
-                    prompt_response = requests.get(prompt_url)
-                    prompt_response.raise_for_status()
-                    analysis_prompt = prompt_response.text
+                st.session_state.image_urls = [
+                    f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[0].strip()}.jpg",
+                    f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[1].strip()}.jpg",
+                    f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[0].strip()}.jpg",
+                    f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[1].strip()}.jpg"
+                ]
+                st.session_state.image_captions = [f.strip() for f in filenames]
+                st.session_state.analysis_result = raw_output
+            else:
+                st.session_state.analysis_result = "Gagal memproses rekomendasi gambar."
 
-                    json_prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
-                    json_prompt_response = requests.get(json_prompt_url)
-                    json_prompt_response.raise_for_status()
-                    json_prompt = json_prompt_response.text
+        except Exception as e:
+            st.error(f"Terjadi kesalahan: {e}")
+            st.session_state.analysis_result = "Gagal menganalisis gambar."
 
-                    analysis_response = model.generate_content([analysis_prompt, image])
-                    raw_output = analysis_response.text
+# --- Display Result ---
+escaped_analysis = html.escape(st.session_state.analysis_result)
+st.markdown(f"""
+<div class="mood-box-content">
+  <pre style="white-space: pre-wrap; font-family: inherit; font-size: 1.2em;">{escaped_analysis}</pre>
+</div>
+""", unsafe_allow_html=True)
 
-                    json_response = model.generate_content([json_prompt, raw_output])
-
-                    filenames = json_response.text.strip().split(",")
-                    if len(filenames) >= 4:
-                        midpoint = len(filenames) // 2
-                        first_filenames = filenames[:midpoint]
-                        second_filenames = filenames[midpoint:]
-
-                        st.session_state.image_urls = [
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[0].strip()}.jpg",
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[1].strip()}.jpg",
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[0].strip()}.jpg",
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[1].strip()}.jpg"
-                        ]
-                        st.session_state.image_captions = [
-                            first_filenames[0].strip(), first_filenames[1].strip(),
-                            second_filenames[0].strip(), second_filenames[1].strip()
-                        ]
-                        st.session_state.analysis_result = raw_output
-                    else:
-                        st.session_state.analysis_result = "Gagal memproses rekomendasi gambar. Silakan coba lagi."
-
-                except requests.exceptions.RequestException as http_err:
-                    st.error(f"Gagal mengambil prompt: {http_err}")
-                    st.session_state.analysis_result = "Terjadi kesalahan jaringan. Tidak dapat memuat model."
-                except Exception as e:
-                    st.error(f"Terjadi kesalahan saat pemrosesan: {e}")
-                    st.session_state.analysis_result = "Gagal menganalisis gambar. Silakan coba lagi."
-
-            st.rerun()
-
-        elif user_input is None and st.session_state.last_photo is not None:
-            st.session_state.analysis_result = placeholder_analysis
-            st.session_state.image_urls = [placeholder_url] * 4
-            st.session_state.image_captions = [placeholder_caption] * 4
-            st.session_state.last_photo = None
-            st.rerun()
-    with colA3:
-      colA3row11 = st.container()
-      with colA3row11:
-        st.markdown("""
-        <div>
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" />
-        </div>
-        """, unsafe_allow_html=True)
-      colA3row12 = st.container()
-      with colA3row12:
-        st.markdown("""
-        <div>
-          <span style="display: inline-block; vertical-align: middle;"><div>POWERED BY:</div></span>
-        </div>
-        """, unsafe_allow_html=True)
-      colA3row13 = st.container()
-      with colA3row13:
-        st.markdown("""
-        <div>
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 40px; vertical-align: middle; margin-left: -10px; margin-right: -30px;" />
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height: 40px; vertical-align: middle;" />
-        </div>
-        """, unsafe_allow_html=True)
-
-row2 = st.container()
-with row2:
-    escaped_analysis = html.escape(st.session_state.analysis_result)
-    st.markdown(f"""
-    <div class="mood-box-content">
-      <h2>Mood Analytic</h2>
-      <pre style="white-space: pre-wrap; font-family: inherit;">{escaped_analysis}</pre>
-    </div>
-    """, unsafe_allow_html=True)
-
-row3 = st.container()
-with row3:
-    colC1, colC2 = st.columns(2)
-    with colC1:
-        st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
-        st.markdown(f"""
-        <div class="portrait-box">
-          <img src="{st.session_state.image_urls[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-          <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{st.session_state.image_captions[0]}</p>
-          <img src="{st.session_state.image_urls[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-          <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{st.session_state.image_captions[1]}</p>
-        </div>
-        """, unsafe_allow_html=True)
-    with colC2:
-        st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
-        st.markdown(f"""
-        <div class="portrait-box">
-          <img src="{st.session_state.image_urls[2]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-          <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{st.session_state.image_captions[2]}</p>
-          <img src="{st.session_state.image_urls[3]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-          <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{st.session_state.image_captions[3]}</p>
-        </div>
-        """, unsafe_allow_html=True)
+# --- Recommendations Display ---
+colC1, colC2 = st.columns(2)
+with colC1:
+    st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
+    for i in range(2):
+        st.image(st.session_state.image_urls[i], caption=st.session_state.image_captions[i], use_column_width=True)
+with colC2:
+    st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
+    for i in range(2, 4):
+        st.image(st.session_state.image_urls[i], caption=st.session_state.image_captions[i], use_column_width=True)
