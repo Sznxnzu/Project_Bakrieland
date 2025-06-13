@@ -70,7 +70,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding-left: 20px;
 }
 
-/* Target the whole camera input block */
+/* Align the camera input content */
 div[data-testid="stCameraInput"] {
     display: flex;
     flex-direction: column;
@@ -78,7 +78,7 @@ div[data-testid="stCameraInput"] {
     gap: 12px;
 }
 
-/* Style the inner video feed container */
+/* Make only the video/image circular */
 div[data-testid="stCameraInput"] > div {
     width: 300px !important;
     height: 300px !important;
@@ -89,7 +89,7 @@ div[data-testid="stCameraInput"] > div {
     margin-bottom: 10px;
 }
 
-/* Style the video and captured image */
+/* Apply circle to video/image content only */
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     width: 100%;
@@ -98,12 +98,22 @@ div[data-testid="stCameraInput"] img {
     border-radius: 50%;
 }
 
-/* Ensure the button stays visible */
+/* Leave button default (not circular) */
 div[data-testid="stCameraInput"] button {
-    position: static !important;
-    z-index: 2 !important;
-    display: block !important;
-    margin: 0 auto;
+    all: unset;
+    display: block;
+    padding: 8px 16px;
+    background-color: #00f0ff;
+    color: black;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 8px;
+    box-shadow: 0 0 10px rgba(0,240,255,0.7);
+}
+div[data-testid="stCameraInput"] button:hover {
+    background-color: #00c0cc;
 }
 
 </style>
