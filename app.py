@@ -6,68 +6,18 @@ import io
 import requests
 import html
 
-# Konfigurasi Halaman
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
-# --- CSS Styling ---
-# Menambahkan style untuk background, waves, dan custom boxes
 st.markdown("""
 <style>
-/* Background Gradient Animation */
-html, body, [data-testid="stAppViewContainer"] {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,238,226,1) 68%, rgba(255,25,25,1) 98%);
-  animation: gradient 15s ease infinite;
-  background-size: 400% 400%;
-  background-attachment: fixed;
-}
 
-@keyframes gradient {
-  0% { background-position: 0% 0%; }
-  50% { background-position: 100% 100%; }
-  100% { background-position: 0% 0%; }
-}
-
-/* Animated Waves */
-.wave {
-  background: rgb(255 255 255 / 25%);
-  border-radius: 1000% 1000% 0 0;
-  position: fixed;
-  width: 200%;
-  height: 12em;
-  animation: wave 10s -3s linear infinite;
-  transform: translate3d(0, 0, 0);
-  opacity: 0.8;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-}
-.wave:nth-of-type(2) {
-  bottom: -1.25em;
-  animation: wave 18s linear reverse infinite;
-  opacity: 0.8;
-}
-.wave:nth-of-type(3) {
-  bottom: -2.5em;
-  animation: wave 20s -1s reverse infinite;
-  opacity: 0.9;
-}
-
-@keyframes wave {
-  2%   { transform: translateX(1); }
-  25%  { transform: translateX(-25%); }
-  50%  { transform: translateX(-50%); }
-  75%  { transform: translateX(-25%); }
-  100% { transform: translateX(1); }
-}
-
-/* Custom Component Styling */
 .stApp, [data-testid="stAppViewContainer"] {
   background: transparent !important;
   overflow: hidden !important;
+  background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/wallpaper_2.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 ::-webkit-scrollbar {
   display: none;
@@ -148,11 +98,7 @@ div[data-testid="stCameraInput"] img {
 }
 </style>
 """, unsafe_allow_html=True)
-# Add waves to the background
-st.markdown('<div class="wave"></div><div class="wave"></div><div class="wave"></div>', unsafe_allow_html=True)
 
-
-# --- Backend and Model Setup ---
 try:
     genai.configure(api_key=st.secrets["gemini_api"])
     model = genai.GenerativeModel("gemini-1.5-flash")
@@ -161,11 +107,10 @@ except Exception as e:
     st.stop()
 
 
-# --- Main Layout ---
+
 col_header_left, col_header_right = st.columns([0.85, 0.15])
 
 with col_header_right:
-    # Company Logos and Lottie Animation
     st.markdown("""
     <div style="position: absolute; top: -30px; right: -70px;">
         <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" />
@@ -176,11 +121,11 @@ with col_header_right:
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
+
     components.html("""
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <div style="display: flex; justify-content: center; align-items: center;">
-        <lottie-player 
+        <lottie-player
             id="robot"
             src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json"
             background="transparent" speed="1" style="width: 300px; height: 300px;"
@@ -206,19 +151,16 @@ with col_header_right:
 with col_header_left:
     col1, col2, col3 = st.columns([1, 1, 1.4])
 
-    # --- State Management Initialization ---
     placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/placeholder.png"
     placeholder_caption = ""
     placeholder_analysis = "Arahkan kamera ke wajah Anda dan ambil foto untuk memulai analisis suasana hati dan mendapatkan rekomendasi yang dipersonalisasi."
 
-    # Initialize session state if it doesn't exist
     if "analysis_result" not in st.session_state:
         st.session_state.analysis_result = placeholder_analysis
         st.session_state.image_urls = [placeholder_url] * 4
         st.session_state.image_captions = [placeholder_caption] * 4
         st.session_state.last_photo = None
-    
-    # --- Recommendation Columns ---
+
     with col1:
         st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.markdown(f"""
@@ -241,20 +183,16 @@ with col_header_left:
         </div>
         """, unsafe_allow_html=True)
 
-    # --- Camera and Analysis Column ---
     with col3:
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
-        
-        # --- REVISED LOGIC ---
-        # This block executes if a new photo is taken.
+
         if user_input is not None and user_input != st.session_state.last_photo:
             st.session_state.last_photo = user_input
-            
+
             with st.spinner("Menganalisis suasana hati Anda..."):
                 try:
                     image = Image.open(io.BytesIO(user_input.getvalue()))
 
-                    # Fetch prompts from GitHub
                     prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
                     prompt_response = requests.get(prompt_url)
                     prompt_response.raise_for_status()
@@ -265,20 +203,17 @@ with col_header_left:
                     json_prompt_response.raise_for_status()
                     json_prompt = json_prompt_response.text
 
-                    # Generate mood analysis
                     analysis_response = model.generate_content([analysis_prompt, image])
                     raw_output = analysis_response.text
-                    
-                    # Generate JSON for image filenames
+
                     json_response = model.generate_content([json_prompt, raw_output])
-                    
+
                     filenames = json_response.text.strip().split(",")
                     if len(filenames) >= 4:
                         midpoint = len(filenames) // 2
                         first_filenames = filenames[:midpoint]
                         second_filenames = filenames[midpoint:]
 
-                        # Update state with new results
                         st.session_state.image_urls = [
                             f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[0].strip()}.jpg",
                             f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[1].strip()}.jpg",
@@ -302,16 +237,13 @@ with col_header_left:
 
             st.rerun()
 
-        # This block executes if the user clicks "Clear photo"
         elif user_input is None and st.session_state.last_photo is not None:
-            # Reset to placeholders
             st.session_state.analysis_result = placeholder_analysis
             st.session_state.image_urls = [placeholder_url] * 4
             st.session_state.image_captions = [placeholder_caption] * 4
             st.session_state.last_photo = None
             st.rerun()
-            
-        # Display the analysis box with the current state
+
         escaped_analysis = html.escape(st.session_state.analysis_result)
         st.markdown(f"""
         <div class="mood-box-content">
