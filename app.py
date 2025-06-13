@@ -10,20 +10,15 @@ st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial
 
 st.markdown("""
 <style>
-html, body, [data-testid="stAppViewContainer"] {
-        overflow: hidden !important;
-    }
-    ::-webkit-scrollbar {
-        display: none;
-    }
-.stApp {
-    background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/wallpaper_2.png");
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    font-family: 'Segoe UI', sans-serif;
-    color: white;
+
+html, body, [data-testid="stAppViewContainer"], .stApp {
+    background: none !important;
+    background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/wallpaper_2.png") !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
 }
+
 .header-box {
     text-align: center;
     border: 2px solid #00f0ff;
