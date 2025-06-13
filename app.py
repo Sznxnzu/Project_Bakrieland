@@ -29,7 +29,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     margin-bottom: 10px;
     box-shadow: 0 0 10px #00f0ff;
     color: #00f0ff;
-    font-size: 18px;
+    font-size: 45px;
     font-family: 'Orbitron', sans-serif;
     letter-spacing: 1px;
 }
@@ -92,7 +92,7 @@ div[data-testid="stCameraInput"] button {
   z-index: 10;
   position: relative;
   padding: 10px 20px;
-  background: linear-gradient(135deg, #00f0ff, #00c0cc);
+  background-color: #091224;
   color: #000;
   font-weight: 600;
   font-size: 16px;
@@ -104,7 +104,7 @@ div[data-testid="stCameraInput"] button {
 }
 
 div[data-testid="stCameraInput"] button:hover {
-  background: linear-gradient(135deg, #00c0cc, #00aabb);
+  background-color: #091224;
   transform: scale(1.05);
   box-shadow: 0 6px 16px rgba(0, 240, 255, 0.8);
 }
