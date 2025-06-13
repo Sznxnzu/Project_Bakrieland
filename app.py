@@ -48,7 +48,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 0 20px #00f0ff;
-    font-size: 20px;
+    font-size: 15px;
     margin-top: 10px;
     margin-bottom: 10px;
     width: 100%;
@@ -60,6 +60,9 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 }
 .mood-box-content p {
     margin-bottom: 0;
+}
+.mood-box-content h2{
+    font-size: 45px
 }
 .mood-box-content ul {
     margin-top: 0;
@@ -179,7 +182,7 @@ with row2:
     escaped_analysis = html.escape(st.session_state.analysis_result)
     st.markdown(f"""
     <div class="mood-box-content">
-      <p>Mood Analytic</p>
+      <h2>Mood Analytic</h2>
       <pre style="white-space: pre-wrap; font-family: inherit;">{escaped_analysis}</pre>
     </div>
     """, unsafe_allow_html=True)
