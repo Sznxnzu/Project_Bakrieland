@@ -79,7 +79,8 @@ div[data-testid="stCameraInputWebcamStyledBox"] {
   box-shadow: 0 0 20px rgba(0,240,255,0.5);
 }
 
-div[data-testid="stCameraInputWebcamStyledBox"] > video {
+div[data-testid="stCameraInputWebcamStyledBox"] > video,
+div[data-testid="stCameraInput"] > img {
   width: 100%;
   height: 100%;
   object-fit: cover;
