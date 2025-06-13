@@ -66,7 +66,7 @@ rtc_config = {
 }
 
 webrtc_streamer(
-    key="camera",
+    key="camera_stream",
     video_processor_factory=VideoProcessor,
     media_stream_constraints={"video": True, "audio": False},
     rtc_configuration=rtc_config,
