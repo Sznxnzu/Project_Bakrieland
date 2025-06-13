@@ -48,7 +48,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 0 20px #00f0ff;
-    font-size: 10px;
+    font-size: 20px;
     margin-top: 10px;
     margin-bottom: 10px;
     width: 100%;
