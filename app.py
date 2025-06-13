@@ -73,7 +73,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 /* Align the camera input content */
 div[data-testid="stCameraInput"] {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     gap: 12px;
 }
@@ -90,6 +90,7 @@ div[data-testid="stCameraInput"] > div {
 }
 
 /* Apply circle to video/image content only */
+div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     width: 100%;
     height: 100%;
