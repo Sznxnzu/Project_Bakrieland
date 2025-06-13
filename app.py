@@ -70,6 +70,10 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding-left: 20px;
 }
 
+div[data-testid="stCameraInput"] div {
+  background-color: transparent !important;
+}
+
 div[data-testid="stCameraInputWebcamStyledBox"] {
   width: 500px !important;
   height: 500px !important;
