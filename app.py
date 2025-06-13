@@ -93,8 +93,8 @@ div[data-testid="stCameraInput"] video{
 div[data-testid="stCameraInput"] img {
   display: block;
   object-fit: cover;
-  width: 500px !important;
-  height: 500px !important;
+  width: 300px !important;
+  height: 300px !important;
   border-radius: 50% !important;
   box-shadow: 0 0 20px rgba(0,240,255,0.5);
   margin: auto;
