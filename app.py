@@ -70,7 +70,6 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding-left: 20px;
 }
 
-/* Container remains normal */
 div[data-testid="stCameraInput"] {
     display: flex;
     flex-direction: column;
@@ -78,8 +77,7 @@ div[data-testid="stCameraInput"] {
     gap: 12px;
 }
 
-/* Only make the camera preview circular */
-div[data-testid="stCameraInput"] > div:nth-child(1) {
+div[data-testid="stCameraInput"] > div{
     width: 300px !important;
     height: 300px !important;
     border-radius: 50% !important;
@@ -88,7 +86,7 @@ div[data-testid="stCameraInput"] > div:nth-child(1) {
     position: relative;
 }
 
-/* Target video and image inside the preview */
+
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     width: 100%;
@@ -97,7 +95,6 @@ div[data-testid="stCameraInput"] img {
     border-radius: 50%;
 }
 
-/* Leave the button untouched */
 div[data-testid="stCameraInput"] button {
     all: unset;
     padding: 8px 16px;
