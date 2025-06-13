@@ -67,33 +67,28 @@ st.markdown("""
     padding-left: 20px;
 }
 
-/* --- MODIFIED: Circular Camera Input --- */
-/* Center the entire camera input block */
 div[data-testid="stCameraInput"] {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-/* Style the main container for the video feed */
 div[data-testid="stCameraInput"] > div {
-    border-radius: 50% !important; /* Make it a circle */
-    width: 250px !important;       /* Force width */
-    height: 250px !important;      /* Force height */
-    margin: 0 auto !important;     /* Center horizontally */
-    overflow: hidden;              /* Hide the parts of the video outside the circle */
+    border-radius: 50% !important;
+    width: 250px !important;      
+    height: 250px !important;     
+    margin: 0 auto !important;        
     box-shadow: 0 0 20px rgba(0,240,255,0.5);
     transition: transform 0.3s ease;
 }
 div[data-testid="stCameraInput"] > div:hover {
     transform: scale(1.02);
 }
-/* Ensure the video or image fills the circular frame without distortion */
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     object-fit: cover;
     width: 100%;
     height: 100%;
-    border-radius: 0; /* Remove any radius from the element itself */
+    border-radius: 0;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -119,9 +114,7 @@ row1 = st.container()
 with row1:
     colA1, colA2, colA3 = st.columns([0.1, 0.8, 0.1])
     with colA1:
-        st.write("ContainerA Column1")
     with colA2:
-        st.write("ContainerA Column2")
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
         if user_input is not None and user_input != st.session_state.last_photo:
             st.session_state.last_photo = user_input
@@ -181,7 +174,6 @@ with row1:
             st.session_state.last_photo = None
             st.rerun()
     with colA3:
-        st.write("ContainerA Column3")
         st.markdown("""
         <div style="position: absolute; top: -30px; right: -70px;">
             <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" />
@@ -195,7 +187,6 @@ with row1:
 
 row2 = st.container()
 with row2:
-    st.write("ContainerB")
     escaped_analysis = html.escape(st.session_state.analysis_result)
     st.markdown(f"""
     <div class="mood-box-content">
@@ -207,7 +198,6 @@ row3 = st.container()
 with row3:
     colC1, colC2 = st.columns(2)
     with colC1:
-        st.write("ContainerC Column1")
         st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.markdown(f"""
         <div class="portrait-box">
@@ -218,7 +208,6 @@ with row3:
         </div>
         """, unsafe_allow_html=True)
     with colC2:
-        st.write("ContainerC Column2")
         st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.markdown(f"""
         <div class="portrait-box">
