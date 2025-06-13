@@ -71,11 +71,6 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 }
 
 div[data-testid="stCameraInput"] div {
-  width: 500px !important;
-  height: 500px !important;
-  border-radius: 50% !important;
-  overflow: hidden;
-  margin: auto;
   background-color: transparent !important;
 }
 
