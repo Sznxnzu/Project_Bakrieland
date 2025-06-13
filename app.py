@@ -79,7 +79,7 @@ div[data-testid="stCameraInput"] {
 
 div[data-testid="stCameraInput"] > div {
     width: auto !important;
-    height: auto !important;
+    height: 50% !important;
     border-radius: 50% !important;
     overflow: hidden !important;
     position: relative;
@@ -90,7 +90,7 @@ div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     object-fit: cover;
     width: auto;
-    height: auto;
+    height: 50%;
     border-radius: 50%;
     display: block;
 }
@@ -125,9 +125,6 @@ with row1:
     with colA1:
       st.write("")
     with colA2:
-        st.markdown("""
-        <div style='height: 400px; overflow: auto;'>
-        """, unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
 
         if user_input is not None and user_input != st.session_state.last_photo:
@@ -187,7 +184,6 @@ with row1:
             st.session_state.image_captions = [placeholder_caption] * 4
             st.session_state.last_photo = None
             st.rerun()
-        st.markdown("</div>", unsafe_allow_html=True)
     with colA3:
       colA3row11 = st.container()
       with colA3row11:
