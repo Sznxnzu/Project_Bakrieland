@@ -70,15 +70,16 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding-left: 20px;
 }
 
-/* Align the camera input content */
+/* Grid layout: video left, button right */
 div[data-testid="stCameraInput"] {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: auto auto;
     align-items: center;
-    gap: 0px;
+    justify-content: center;
+    gap: 20px;
 }
 
-/* Make only the video/image circular */
+/* Make the preview circular */
 div[data-testid="stCameraInput"] > div {
     width: 300px !important;
     height: 300px !important;
@@ -86,10 +87,9 @@ div[data-testid="stCameraInput"] > div {
     overflow: hidden;
     position: relative;
     box-shadow: 0 0 20px rgba(0,240,255,0.5);
-    margin-bottom: 10px;
 }
 
-/* Apply circle to video/image content only */
+/* Keep image/video circular */
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     width: 100%;
@@ -98,20 +98,20 @@ div[data-testid="stCameraInput"] img {
     border-radius: 50%;
 }
 
-/* Leave button default (not circular) */
+/* Style the button as a rectangle */
 div[data-testid="stCameraInput"] button {
     all: unset;
-    display: block;
-    padding: 8px 16px;
+    padding: 12px 20px;
     background-color: #00f0ff;
     color: black;
     font-weight: bold;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     text-align: center;
-    margin-top: 8px;
     box-shadow: 0 0 10px rgba(0,240,255,0.7);
+    white-space: nowrap;
 }
+
 div[data-testid="stCameraInput"] button:hover {
     background-color: #00c0cc;
 }
