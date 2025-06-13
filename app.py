@@ -83,14 +83,13 @@ div[data-testid="stCameraInput"] > div {
     width: 300px !important;
     height: 300px !important;
     border-radius: 50% !important;
-    overflow: show;
+    overflow: hidden;
     position: relative;
     box-shadow: 0 0 20px rgba(0,240,255,0.5);
     margin-bottom: 10px;
 }
 
 /* Apply circle to video/image content only */
-div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     width: 100%;
     height: 100%;
