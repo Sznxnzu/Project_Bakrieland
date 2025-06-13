@@ -91,7 +91,6 @@ div[data-testid="stCameraInput"] video{
 }
 
 div[data-testid="stCameraInput"] img {
-  display: block;
   width: 500px !important;
   height: 500px !important;
   border-radius: 50% !important;
