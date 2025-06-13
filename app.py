@@ -71,15 +71,14 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 }
 
 div[data-testid="stCameraInputWebcamStyledBox"] {
-  width: 300px !important;
-  height: 300px !important;
+  width: 500px !important;
+  height: 500px !important;
   border-radius: 50% !important;
   overflow: hidden;
   margin: auto;
   box-shadow: 0 0 20px rgba(0,240,255,0.5);
 }
 
-/* 2. Ensure the video inside fits properly */
 div[data-testid="stCameraInputWebcamStyledBox"] > video {
   width: 100%;
   height: 100%;
