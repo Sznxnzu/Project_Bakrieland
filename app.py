@@ -69,6 +69,43 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     margin-bottom: 1em;
     padding-left: 20px;
 }
+
+/* Target the whole camera input block */
+div[data-testid="stCameraInput"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Style the inner video feed container */
+div[data-testid="stCameraInput"] > div {
+    width: 300px !important;
+    height: 300px !important;
+    border-radius: 50% !important;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0,240,255,0.5);
+    margin-bottom: 10px;
+}
+
+/* Style the video and captured image */
+div[data-testid="stCameraInput"] video,
+div[data-testid="stCameraInput"] img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Ensure the button stays visible */
+div[data-testid="stCameraInput"] button {
+    position: static !important;
+    z-index: 2 !important;
+    display: block !important;
+    margin: 0 auto;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
