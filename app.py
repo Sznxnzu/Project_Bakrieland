@@ -29,7 +29,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     margin-bottom: 10px;
     box-shadow: 0 0 10px #00f0ff;
     color: #00f0ff;
-    font-size: 18px;
+    font-size: 25px;
     font-family: 'Orbitron', sans-serif;
     letter-spacing: 1px;
 }
