@@ -10,7 +10,6 @@ st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial
 
 st.markdown("""
 <style>
-
 html, body, [data-testid="stAppViewContainer"], .stApp {
     background: none !important;
     background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/wallpaper/wallpaper_2.png") !important;
@@ -18,7 +17,9 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     background-position: center !important;
     background-attachment: fixed !important;
 }
-
+::-webkit-scrollbar {
+  display: none;
+}
 .header-box {
     text-align: center;
     border: 2px solid #00f0ff;
@@ -29,6 +30,8 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     box-shadow: 0 0 10px #00f0ff;
     color: #00f0ff;
     font-size: 18px;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
 }
 .portrait-box {
     border: 2px solid #00f0ff;
@@ -39,7 +42,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     box-shadow: 0 0 10px #00f0ff;
     text-align: center;
 }
-.mood-box {
+.mood-box-content {
     border: 2px solid #00f0ff;
     background-color: rgba(10, 15, 30, 0.85);
     padding: 15px;
@@ -48,36 +51,42 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     font-size: 10px;
     margin-top: 10px;
     width: 100%;
-    height: 40vh;
+    height: auto;
+    transition: all 0.3s ease-in-out;
 }
-.mood-box p {
+.mood-box-content:hover {
+    box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
+}
+.mood-box-content p {
     margin-bottom: 0;
 }
-.mood-box ul {
+.mood-box-content ul {
     margin-top: 0;
     margin-bottom: 1em;
     padding-left: 20px;
 }
-div[data-testid="stCameraInput"] > div {
-    aspect-ratio: 4 / 5;
-    width: 60% !important;
-    height: auto !important;
-    margin: 0;
-    border-radius: 20px;
-    background-color: rgba(0, 0, 0, 0.1);
+div[data-testid="stCameraInput"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-div[data-testid="stCameraInput"] button {
-    display: inline-block !important;
-    visibility: visible !important;
-    position: relative !important;
-    z-index: 10 !important;
+div[data-testid="stCameraInput"] > div {
+    border-radius: 50% !important;
+    width: 250px !important;      
+    height: 250px !important;     
+    margin: 0 auto !important;        
+    box-shadow: 0 0 20px rgba(0,240,255,0.5);
+    transition: transform 0.3s ease;
+}
+div[data-testid="stCameraInput"] > div:hover {
+    transform: scale(1.02);
 }
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
     object-fit: cover;
     width: 100%;
     height: 100%;
-    border-radius: 20px;
+    border-radius: 0;
 }
 </style>
 """, unsafe_allow_html=True)
