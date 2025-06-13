@@ -93,6 +93,12 @@ div[data-testid="stCameraInput"] img {
     height: 100%;
     border-radius: 0;
 }
+div[data-testid="stCameraInput"] button {
+    position: static !important;  /* Don't let it float or hide */
+    z-index: 2 !important;        /* Ensure it's above the preview */
+    margin-top: 10px !important;  /* Add spacing if needed */
+    display: block !important;    /* Force it to appear */
+}
 
 </style>
 """, unsafe_allow_html=True)
