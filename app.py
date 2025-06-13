@@ -86,14 +86,20 @@ div[data-testid="stCameraInput"] video{
     border-radius: 0;
 }
 
-div[data-testid="stCameraInput"] img {
-  display: block;
-  object-fit: cover;
+div[data-testid="stWidgetLabel"] {
   width: 500px !important;
   height: 500px !important;
   border-radius: 50% !important;
-  box-shadow: 0 0 20px rgba(0,240,255,0.5);
+  overflow: hidden;
   margin: auto;
+  box-shadow: 0 0 20px rgba(0,240,255,0.5);
+}
+
+div[data-testid="stCameraInput"] img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
 }
 
 div[data-testid="stCameraInput"] button {
