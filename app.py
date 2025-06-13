@@ -110,6 +110,8 @@ div[data-testid="stCameraInput"] button {
     text-align: center;
     box-shadow: 0 0 10px rgba(0,240,255,0.7);
     white-space: nowrap;
+    position: relative;  /* Required for z-index to take effect */
+    z-index: 10;         /* Ensures button appears on top */
 }
 
 div[data-testid="stCameraInput"] button:hover {
