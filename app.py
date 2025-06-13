@@ -79,8 +79,8 @@ div[data-testid="stCameraInput"] {
 }
 
 div[data-testid="stCameraInput"] > div {
-    width: 250px !important;
-    height: 250px !important;
+    width: 500px !important;
+    height: 500px !important;
     border-radius: 50% !important;
     overflow: hidden !important;
     box-shadow: 0 0 20px rgba(0,240,255,0.5);
