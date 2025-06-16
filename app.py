@@ -321,11 +321,12 @@ with row2:
       <pre style="white-space: pre-wrap; font-family: inherit;">{escaped_analysis}</pre>
     </div>
     """, unsafe_allow_html=True)
-    st.markdown("""
+    if(len(escaped_analysis) > 100):
+      st.markdown("""
         <div class="qr-box">
             <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png" style="width:100%; border-radius: 8px;" />
         </div>
-    """, unsafe_allow_html=True)
+      """, unsafe_allow_html=True)
 
 row3 = st.container()
 with row3:
