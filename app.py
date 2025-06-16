@@ -193,10 +193,17 @@ except Exception as e:
     st.error(f"Error configuring Generative AI: {e}")
     st.stop()
 # --- Firebase Setup & Functions ---
+import json
+
 firebase_config = {
-    "projectId": "bakrieland-mood-app",
-    "storageBucket": "bakrieland-mood-app.appspot.com",
-    "serviceAccount": json.loads(st.secrets["firebase_service_account"])
+  "apiKey": "AIzaSyBd7y7fGY7UAtyQKle1slS97kb_SfWr3WE",  # kamu udah punya ini
+  "authDomain": "bakrieland-mood-app.firebaseapp.com",
+  "databaseURL": "https://bakrieland-mood-app-default-rtdb.firebaseio.com",
+  "projectId": "bakrieland-mood-app",
+  "storageBucket": "bakrieland-mood-app.appspot.com",
+  "messagingSenderId": "YOUR_SENDER_ID",  # opsional, bisa kosong
+  "appId": "YOUR_APP_ID",                 # opsional, bisa kosong
+  "serviceAccount": json.loads(st.secrets["firebase_service_account"])
 }
 
 firebase = pyrebase.initialize_app(firebase_config)
