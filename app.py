@@ -73,6 +73,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  margin-bottom: 20px;
 }
 
 .mascot-box img {
