@@ -4,3 +4,4 @@ pillow
 requests
 streamlit-webrtc
 opencv-python-headless
+qrcode 
