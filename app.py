@@ -190,7 +190,7 @@ with row1:
 
                         st.write(first_filenames)
 
-                        first_filenames = [
+                        first_filenames_edited = [
                             name.strip() + " " + str(random.randint(1, 2)) if name.strip() in first_target_names else name.strip()
                             for name in first_filenames
                         ]
@@ -200,7 +200,7 @@ with row1:
                         second_target_names = [
                             "Aston Bogor",
                             "Bagus Beach Walk",
-                            "Grand Elty Krakatoa",
+                            "Grand ELTY Krakatoa",
                             "Hotel Aston Sidoarjo",
                             "Jungleland",
                             "Junglesea Kalianda",
@@ -213,7 +213,7 @@ with row1:
 
                         st.write(second_filenames)
 
-                        second_filenames = [
+                        second_filenames_edited = [
                             name.strip() + " " + str(random.randint(1, 2)) if name.strip() in second_target_names else name.strip()
                             for name in second_filenames
                         ]
@@ -221,10 +221,10 @@ with row1:
                         st.write(second_filenames)
 
                         st.session_state.image_urls = [
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[0].strip()}.jpg",
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[1].strip()}.jpg",
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[0].strip()}.jpg",
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames[1].strip()}.jpg"
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[0].strip()}.jpg",
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[1].strip()}.jpg",
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[0].strip()}.jpg",
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[1].strip()}.jpg"
                         ]
                         st.session_state.image_captions = [
                             first_filenames[0].strip(), first_filenames[1].strip(),
