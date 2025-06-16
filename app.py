@@ -8,7 +8,7 @@ import html
 import random
 import qrcode
 import base64
-import urllib.parse # Untuk encode URL parameter
+import urllib.parse
 
 # --- Konfigurasi Halaman ---
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
@@ -374,12 +374,26 @@ with row1:
         </div>
         """, unsafe_allow_html=True)
 
-        base_url = "https://xxgwueozt6kgv6d8fzin5y.streamlit.app/?download_mood=true" 
+        # --- Bagian QR Code untuk Unduh Otomatis ---
+        # GANTI URL INI dengan URL aplikasi Streamlit Anda yang sebenarnya saat di-deploy!
+        # Contoh: "https://nama-aplikasi-anda.streamlit.app"
+        base_url = "https://xxgwueozt6kgv6d8fzin5y.streamlit.app/" # PASTIKAN INI URL YANG BENAR!
 
-        # Ambil query parameters saat ini
+        # Ambil query parameters saat ini untuk memastikan URL QR code unik setiap kali
         query_params = st.query_params.to_dict()
         
-        # Tambahkan parameter 'download_mood=true' ke URL untuk memicu unduhan
+        # Tambahkan parameter unik untuk memicu unduhan.
+        # Penting: Gunakan timestamp atau ID unik untuk mencegah caching browser yang berlebihan
+        # dan memastikan URL QR code selalu mengarah ke "sesi unduhan baru".
+        # Untuk kasus ini, kita akan menambahkan parameter 'action=download_mood' saja.
+        # Jika Anda ingin mengunduh hasil *spesifik* dari sesi sebelumnya, Anda perlu menyimpan
+        # hasil analisis di backend dan menyertakan ID hasil di QR code URL.
+        
+        # Contoh: qr_download_params = {"action": "download_mood", "timestamp": str(datetime.now().timestamp())}
+        # Atau, jika Anda ingin unduhan dipicu *setiap kali* tanpa masalah caching:
+        # Gunakan parameter yang sama, tapi pastikan logika JavaScript kuat.
+        
+        # Untuk saat ini, kita tetap menggunakan "download_mood=true"
         download_url_params = query_params.copy()
         download_url_params["download_mood"] = "true" 
         
@@ -422,59 +436,94 @@ with row2:
 
     # Jika parameter 'download_mood' ada dan bernilai 'true'
     if "download_mood" in query_params and query_params["download_mood"] == "true":
+        st.success("Memicu unduhan hasil analisis mood...") # Memberi feedback visual sementara
+        
         # Hapus parameter 'download_mood' dari URL setelah dipicu
         # Ini penting agar unduhan tidak terjadi berulang kali setiap kali halaman direfresh
+        # dan juga untuk menjaga URL tetap bersih.
+        # Gunakan `st.experimental_rerun()` setelah perubahan query params jika Anda ingin
+        # aplikasi langsung di-render ulang dengan URL baru (tanpa parameter download).
         new_query_params = query_params.to_dict()
         if "download_mood" in new_query_params:
             del new_query_params["download_mood"]
-        st.query_params.clear() # Bersihkan semua query params yang ada
-        st.query_params.update(**new_query_params) # Muat kembali query params tanpa 'download_mood'
+        # Ini akan memperbarui URL di browser tanpa reload penuh (pushState)
+        st.query_params.clear() 
+        st.query_params.update(**new_query_params) 
         
         # Suntikkan JavaScript untuk mengambil screenshot dan memicu unduhan
         components.html(
             f"""
             <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
             <script>
+                console.log("Download script loaded.");
+
                 // Fungsi untuk mengambil screenshot dan mengunduh
                 function downloadMoodAnalysis() {{
+                    console.log("downloadMoodAnalysis function called.");
                     const element = document.getElementById('mood-analysis-section');
                     if (!element) {{
-                        console.error("Element with ID 'mood-analysis-section' not found for screenshot.");
+                        console.error("Element with ID 'mood-analysis-section' not found for screenshot. Aborting download.");
                         return;
                     }}
+                    console.log("Element for screenshot found:", element);
                     html2canvas(element, {{ 
-                        scale: 2, // Meningkatkan resolusi gambar untuk kualitas yang lebih baik
-                        backgroundColor: 'rgba(10, 15, 30, 0.85)', // Sesuaikan dengan warna latar belakang elemen
-                        useCORS: true, // Penting jika ada gambar eksternal (misal, dari GitHub)
-                        logging: false // Matikan logging konsol html2canvas
+                        scale: 2, 
+                        backgroundColor: 'rgba(10, 15, 30, 0.85)', 
+                        useCORS: true, 
+                        logging: true // Aktifkan logging html2canvas untuk debugging
                     }}).then(canvas => {{
+                        console.log("Canvas generated:", canvas);
                         const link = document.createElement('a');
-                        link.download = 'hasil_analisis_mood.png'; // Nama file unduhan
-                        link.href = canvas.toDataURL('image/png'); // Data gambar Base64
+                        link.download = 'hasil_analisis_mood.png'; 
+                        link.href = canvas.toDataURL('image/png'); 
                         document.body.appendChild(link);
-                        link.click(); // Memicu klik link untuk unduh
-                        document.body.removeChild(link); // Hapus link sementara
+                        link.click(); 
+                        document.body.removeChild(link); 
                         console.log("Screenshot download initiated.");
+                        // Optional: Beri feedback di UI Streamlit bahwa download terpicu
+                        // Ini akan muncul setelah JS selesai
+                        // Streamlit.setComponentValue("download_triggered", true); // Requires Streamlit.setComponentValue
                     }}).catch(error => {{
                         console.error("Error during html2canvas capture:", error);
                     }});
                 }}
                 
-                // Pastikan html2canvas sudah dimuat sebelum memanggil fungsi
-                // Memberikan sedikit delay untuk memastikan DOM dan script dimuat penuh
-                setTimeout(function() {{
-                    if (typeof html2canvas === 'undefined') {{
-                        console.error("html2canvas not loaded after timeout.");
-                    }} else {{
+                // --- PENTING: Penanganan Timing Eksekusi JavaScript ---
+                // Pastikan html2canvas dan DOM sudah dimuat sepenuhnya sebelum memanggil fungsi
+                // Ada beberapa strategi:
+                // 1. setTimeout (paling sederhana, tapi tidak selalu ideal)
+                // 2. DOMContentLoaded event listener (lebih baik, tapi butuh sedikit struktur HTML tambahan jika tidak di body)
+                // 3. Cek keberadaan html2canvas berulang kali
+
+                // Kita gunakan kombinasi setTimeout dengan cek keberadaan html2canvas
+                let attempts = 0;
+                const maxAttempts = 10;
+                const interval = 200; // milliseconds
+
+                function tryDownload() {{
+                    if (typeof html2canvas !== 'undefined') {{
+                        console.log("html2canvas is loaded. Initiating download.");
                         downloadMoodAnalysis();
+                    }} else if (attempts < maxAttempts) {{
+                        attempts++;
+                        console.log(`html2canvas not loaded yet. Attempt ${attempts}/${maxAttempts}. Retrying in ${interval}ms.`);
+                        setTimeout(tryDownload, interval);
+                    }} else {{
+                        console.error("html2canvas did not load within expected time. Cannot initiate download.");
                     }}
-                }}, 500); // Delay 500ms
+                }}
+
+                // Mulai mencoba unduh setelah sedikit delay awal
+                setTimeout(tryDownload, 100); 
+
             </script>
             """,
-            height=0, # Atur tinggi dan lebar ke 0 agar komponen HTML tidak terlihat
+            height=0, 
             width=0,
         )
-        # st.toast("Download will start shortly!") # Opsional: berikan feedback ke pengguna
+    # else:
+    #     st.info("Scan QR Code di samping untuk mengunduh hasil analisis.") # Pesan jika belum ada unduhan terpicu
+
 
 row3 = st.container()
 with row3:
