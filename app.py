@@ -188,10 +188,14 @@ with row1:
                             "The Masterpiece & The Empyreal"
                         ]
 
+                        st.write(first_filenames)
+
                         first_filenames = [
                             name + " " + str(random.randint(1, 2)) if name in first_target_names else name
                             for name in first_filenames
                         ]
+
+                        st.write(first_filenames)
 
                         second_target_names = [
                             "Aston Bogor",
@@ -207,11 +211,14 @@ with row1:
                             "The Jungle Waterpark"
                         ]
 
+                        st.write(second_filenames)
+
                         second_filenames = [
                             name + " " + str(random.randint(1, 2)) if name in second_target_names else name
                             for name in second_filenames
                         ]
 
+                        st.write(second_filenames)
 
                         st.session_state.image_urls = [
                             f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[0].strip()}.jpg",
