@@ -6,11 +6,11 @@ import io
 import requests
 import html
 import random
-import qrcode # <-- Tambahan baru
-import uuid   # <-- Tambahan baru
-import json   # <-- Tambahan baru
-import os     # <-- Tambahan baru
-import base64 # <-- Tambahan baru
+import qrcode
+import uuid
+import json
+import os
+import base64
 
 # --- Konfigurasi Awal dan Fungsi Bantuan ---
 
@@ -20,13 +20,8 @@ st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial
 if not os.path.exists("temp_results"):
     os.makedirs("temp_results")
 
-def get_image_as_base64(path):
-    """Membaca gambar dari path dan mengonversinya ke base64."""
-    with open(path, "rb") as img_file:
-        return base64.b64encode(img_file.read()).decode('utf-8')
-
 def display_mobile_results(session_id):
-    """Fungsi untuk menampilkan halaman hasil di perangkat mobile."""
+    """Fungsi untuk menampilkan halaman hasil di perangkat mobile dengan opsi download PDF."""
     st.markdown("""
     <style>
         html, body, [data-testid="stAppViewContainer"], .stApp {
@@ -64,7 +59,7 @@ def display_mobile_results(session_id):
         with open(result_path, 'r') as f:
             results = json.load(f)
 
-        # Area yang akan di-screenshot
+        # Area yang akan diubah menjadi PDF
         st.markdown('<div id="capture-area" class="result-container">', unsafe_allow_html=True)
         
         st.image(base64.b64decode(results['user_photo_b64']), use_column_width=True, caption="Foto Anda")
@@ -87,22 +82,46 @@ def display_mobile_results(session_id):
 
         st.markdown('</div>', unsafe_allow_html=True) # Tutup capture-area
 
-        # JavaScript untuk html2canvas dan tombol download
+        # <-- INI BAGIAN YANG DIUBAH UNTUK DOWNLOAD PDF -->
         components.html(f"""
             <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-            <a id="downloadButton" class="download-button">Download Hasil Analisis</a>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+            <a id="downloadButton" class="download-button">Download Hasil sebagai PDF</a>
+
             <script>
+                // Ambil fungsi jsPDF dari object window
+                const {{ jsPDF }} = window.jspdf;
+
                 document.getElementById('downloadButton').addEventListener('click', function() {{
+                    // 2. Tentukan elemen yang kontennya akan diubah menjadi PDF
                     const captureElement = document.getElementById('capture-area');
+                    
+                    // 3. Gunakan html2canvas untuk "menggambar" elemen HTML menjadi canvas (gambar)
                     html2canvas(captureElement, {{
-                        backgroundColor: '#19307f', // Samakan dengan background
-                        useCORS: true, // Untuk memuat gambar dari domain lain
-                        scale: 2 // Tingkatkan resolusi gambar
+                        backgroundColor: '#19307f', // Samakan dengan background aplikasi Anda
+                        useCORS: true, // Diperlukan untuk memuat gambar dari domain lain
+                        scale: 1.5 // Skala untuk resolusi yang lebih baik
                     }}).then(canvas => {{
-                        var link = document.createElement('a');
-                        link.download = 'hasil-analisis-bakrieland.png';
-                        link.href = canvas.toDataURL('image/png');
-                        link.click();
+                        // 4. Setelah canvas (gambar) berhasil dibuat
+                        const imgData = canvas.toDataURL('image/png');
+                        const imgWidth = canvas.width;
+                        const imgHeight = canvas.height;
+
+                        // 5. Buat dokumen PDF baru dengan ukuran yang sesuai dengan gambar
+                        const pdfWidth = 210; // Lebar PDF (A4 = 210mm)
+                        const pdfHeight = (imgHeight * pdfWidth) / imgWidth; // Hitung tinggi proporsional
+                        const pdf = new jsPDF({{
+                            orientation: 'portrait',
+                            unit: 'mm',
+                            format: [pdfWidth, pdfHeight]
+                        }});
+                        
+                        // 6. Tambahkan gambar ke dalam dokumen PDF
+                        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                        
+                        // 7. Simpan dan picu download file PDF
+                        pdf.save('hasil-analisis-bakrieland.pdf');
                     }});
                 }});
             </script>
@@ -115,20 +134,14 @@ def display_mobile_results(session_id):
 
 def run_main_app():
     """Fungsi untuk menjalankan aplikasi utama (kamera) di laptop."""
-    # CSS Anda (tidak diubah, hanya dipindahkan ke dalam fungsi)
+    # CSS Anda
     st.markdown("""
     <style>
-    html, body, [data-testid="stAppViewContainer"], .stApp {
-        background: none !important;
-        background-color: #19307f !important;
-        background-size: cover !important;
-        background-position: center !important;
-        background-attachment: fixed !important;
-    }
+    html, body, [data-testid="stAppViewContainer"], .stApp { background: none !important; background-color: #19307f !important; background-size: cover !important; background-position: center !important; background-attachment: fixed !important; }
     ::-webkit-scrollbar { display: none; }
     .header-box { text-align: center; border: 2px solid #00f0ff; background-color: rgba(0,0,50,0.5); border-radius: 8px; padding: 6px; margin-bottom: 10px; box-shadow: 0 0 10px #00f0ff; color: #00f0ff; font-size: 25px; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
     .portrait-box { border: 2px solid #00f0ff; background-color: rgba(0,0,30,0.6); border-radius: 8px; padding: 10px; margin-bottom: 10px; box-shadow: 0 0 10px #00f0ff; text-align: center; }
-    .column-wrapper { display: flex; flex-direction: column; justify-content: space-between; height: 400px; /* Adjust based on your layout */ }
+    .column-wrapper { display: flex; flex-direction: column; justify-content: space-between; height: 400px; }
     .35thn-box { width: 150px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start; }
     .35thn-box img { width: 100%; border-radius: 8px; vertical-align: top; }
     .mascot-box { width: 150px; height: 200px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-end; margin-bottom: 20px; }
@@ -152,7 +165,6 @@ def run_main_app():
         st.error(f"Error configuring Generative AI: {e}")
         st.stop()
     
-    # Inisialisasi session_state jika belum ada
     if "analysis_done" not in st.session_state:
         st.session_state.analysis_done = False
         st.session_state.last_photo = None
@@ -166,12 +178,7 @@ def run_main_app():
     with row1:
         colA1, colA2, colA3 = st.columns([0.2, 0.6, 0.2])
         with colA1:
-            st.markdown("""
-            <div class="column-wrapper">
-              <div class="35thn-box"><img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" /></div>
-              <div class="mascot-box"><img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png" /></div>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown("""<div class="column-wrapper"><div class="35thn-box"><img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" /></div><div class="mascot-box"><img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png" /></div></div>""", unsafe_allow_html=True)
         with colA2:
             user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
 
@@ -180,12 +187,10 @@ def run_main_app():
                 with st.spinner("Menganalisis suasana hati Anda..."):
                     try:
                         image = Image.open(io.BytesIO(user_input.getvalue()))
-                        
-                        # Simpan gambar yang diambil untuk disimpan nanti
                         user_photo_bytes = user_input.getvalue()
-
-                        # --- (Logika analisis Gemini Anda, tidak diubah) ---
+                        
                         prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
+                        # ... (sisa logika analisis Anda tetap sama)
                         prompt_response = requests.get(prompt_url)
                         prompt_response.raise_for_status()
                         analysis_prompt = prompt_response.text
@@ -203,30 +208,22 @@ def run_main_app():
                         
                         if len(filenames) >= 4:
                             midpoint = len(filenames) // 2
-                            first_filenames = filenames[:midpoint]
-                            second_filenames = filenames[midpoint:]
-
-                            # ... (Logika randomisasi nama file Anda tidak diubah) ...
+                            first_filenames, second_filenames = filenames[:midpoint], filenames[midpoint:]
+                            
                             first_target_names = ["Bogor Nirwana Residence", "Kahuripan Nirwana", "Sayana Bogor", "Taman Rasuna Epicentrum", "The Masterpiece & The Empyreal"]
-                            first_filenames_edited = [name.strip() + " " + str(random.randint(1, 2)) if name.strip() in first_target_names else name.strip() for name in first_filenames]
+                            first_filenames_edited = [f"{name.strip()} {random.randint(1, 2)}" if name.strip() in first_target_names else name.strip() for name in first_filenames]
 
                             second_target_names = ["Aston Bogor", "Bagus Beach Walk", "Grand ELTY Krakatoa", "Hotel Aston Sidoarjo", "Jungleland", "Junglesea Kalianda", "Rivera", "Swiss Belresidences Rasuna Epicentrum", "The Alana Malioboro", "The Grove Suites", "The Jungle Waterpark"]
-                            second_filenames_edited = [name.strip() + " " + str(random.randint(1, 2)) if name.strip() in second_target_names else name.strip() for name in second_filenames]
+                            second_filenames_edited = [f"{name.strip()} {random.randint(1, 2)}" if name.strip() in second_target_names else name.strip() for name in second_filenames]
 
-                            image_urls = [
-                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[0].strip()}.jpg",
-                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[1].strip()}.jpg",
-                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[0].strip()}.jpg",
-                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[1].strip()}.jpg"
-                            ]
-                            image_captions = [first_filenames[0].strip(), first_filenames[1].strip(), second_filenames[0].strip(), second_filenames[1].strip()]
-                            analysis_result = raw_output
+                            image_urls = [f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{edited_name.strip()}.jpg" for edited_name in first_filenames_edited[:2]] + \
+                                         [f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{edited_name.strip()}.jpg" for edited_name in second_filenames_edited[:2]]
+                            image_captions = [name.strip() for name in first_filenames[:2]] + [name.strip() for name in second_filenames[:2]]
                             
-                            # <-- PERUBAHAN UTAMA: Simpan hasil ke file -->
                             session_id = str(uuid.uuid4())
                             results_data = {
                                 "user_photo_b64": base64.b64encode(user_photo_bytes).decode('utf-8'),
-                                "analysis_result": analysis_result,
+                                "analysis_result": raw_output,
                                 "image_urls": image_urls,
                                 "image_captions": image_captions
                             }
@@ -234,33 +231,29 @@ def run_main_app():
                                 json.dump(results_data, f)
                             
                             st.session_state.analysis_done = True
-                            st.session_state.session_id = session_id # Simpan ID sesi
-                            st.session_state.results_data = results_data # Simpan juga di state untuk tampilan langsung
+                            st.session_state.session_id = session_id
+                            st.session_state.results_data = results_data
                         else:
                             st.session_state.analysis_result = "Gagal memproses rekomendasi gambar."
                             st.session_state.analysis_done = False
 
                     except Exception as e:
                         st.error(f"Terjadi kesalahan saat pemrosesan: {e}")
-                        st.session_state.analysis_result = "Gagal menganalisis gambar. Silakan coba lagi."
+                        st.session_state.analysis_result = "Gagal menganalisis gambar."
                         st.session_state.analysis_done = False
-                
                 st.rerun()
 
             elif user_input is None and st.session_state.last_photo is not None:
-                # Reset jika kamera dibersihkan
                 st.session_state.analysis_done = False
                 st.session_state.last_photo = None
                 st.session_state.session_id = None
                 st.rerun()
         
         with colA3:
-            # Kolom kanan Anda (tidak diubah)
             st.markdown("""<div><img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" /></div>""", unsafe_allow_html=True)
             st.markdown("""<div><span style="display: inline-block; vertical-align: middle;"><div>POWERED BY:</div></span></div>""", unsafe_allow_html=True)
             st.markdown("""<div><img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 40px; vertical-align: middle; margin-left: -10px; margin-right: -30px;" /><img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height: 40px; vertical-align: middle;" /></div>""", unsafe_allow_html=True)
 
-    # Menampilkan hasil di halaman utama (laptop)
     if not st.session_state.analysis_done:
         analysis_to_show = placeholder_analysis
         urls_to_show = [placeholder_url] * 4
@@ -271,61 +264,41 @@ def run_main_app():
         captions_to_show = st.session_state.results_data['image_captions']
 
     escaped_analysis = html.escape(analysis_to_show)
-    st.markdown(f"""<div class="mood-box-content"><h2 style="font-size: 45px;">Mood Analytic</h2><pre style="white-space: pre-wrap; font-family: inherit;">{escaped_analysis}</pre></div>""", unsafe_allow_html=True)
+    st.markdown(f"""<div class="mood-box-content"><h2>Mood Analytic</h2><pre style="white-space: pre-wrap; font-family: inherit;">{escaped_analysis}</pre></div>""", unsafe_allow_html=True)
     
     colC1, colC2 = st.columns(2)
     with colC1:
         st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
-        st.markdown(f"""<div class="portrait-box"><img src="{urls_to_show[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" /><p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{captions_to_show[0]}</p><img src="{urls_to_show[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" /><p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{captions_to_show[1]}</p></div>""", unsafe_allow_html=True)
+        st.markdown(f"""<div class="portrait-box"><img src="{urls_to_show[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" /><p>{captions_to_show[0]}</p><img src="{urls_to_show[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" /><p>{captions_to_show[1]}</p></div>""", unsafe_allow_html=True)
     with colC2:
         st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
-        st.markdown(f"""<div class="portrait-box"><img src="{urls_to_show[2]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" /><p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{captions_to_show[2]}</p><img src="{urls_to_show[3]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" /><p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{captions_to_show[3]}</p></div>""", unsafe_allow_html=True)
+        st.markdown(f"""<div class="portrait-box"><img src="{urls_to_show[2]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" /><p>{captions_to_show[2]}</p><img src="{urls_to_show[3]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" /><p>{captions_to_show[3]}</p></div>""", unsafe_allow_html=True)
 
-    # <-- PERUBAHAN UTAMA: Tampilkan QR Code setelah analisis selesai -->
     if st.session_state.analysis_done:
         st.markdown("---")
         qr_col, mascot_col = st.columns([0.4, 0.6])
         with qr_col:
-            st.markdown('<div class="header-box" style="font-size: 18px;">Scan untuk Melihat di HP & Download</div>', unsafe_allow_html=True)
+            st.markdown('<div class="header-box" style="font-size: 18px;">Scan untuk Melihat & Download PDF</div>', unsafe_allow_html=True)
             
-            # PENTING: Ganti URL ini dengan URL publik aplikasi Streamlit Anda saat di-deploy
-            # Untuk testing di lokal, biasanya: http://localhost:8501
-            # Contoh di Streamlit Cloud: https://namaanda-aplikasianda-abcdef.streamlit.app/
-            base_url = "http://localhost:8501" # <-- GANTI INI SAAT DEPLOY
+            # !!! PENTING SEKALI !!!
+            # Ganti URL ini dengan Alamat IP Lokal laptop Anda agar bisa diakses dari HP.
+            # Jangan gunakan "localhost".
+            # Contoh: base_url = "http://192.168.1.10:8501"
+            base_url = "http://192.168.1.10:8501" # <-- GANTI DENGAN IP ANDA
             
             full_url = f"{base_url}?session_id={st.session_state.session_id}"
 
-            qr = qrcode.QRCode(
-                version=1,
-                error_correction=qrcode.constants.ERROR_CORRECT_L,
-                box_size=10,
-                border=4,
-            )
+            qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
             qr.add_data(full_url)
             qr.make(fit=True)
-
             img = qr.make_image(fill_color="cyan", back_color="#19307f")
             
-            # Simpan gambar QR ke buffer
             buf = io.BytesIO()
             img.save(buf, format="PNG")
-            byte_im = buf.getvalue()
-
-            st.image(byte_im, width=250)
+            st.image(buf, width=250)
         
         with mascot_col:
-            # Animasi Lottie Anda tidak berubah
-            components.html("""
-            <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-            <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-              <lottie-player
-                id="robot"
-                src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json"
-                background="transparent" speed="1" style="width: 300px; height: 300px;"
-                autoplay loop>
-              </lottie-player>
-            </div>
-            """, height=320)
+            components.html("""<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script><div style="display: flex; justify-content: center; align-items: center; height: 100%;"><lottie-player id="robot" src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json" background="transparent" speed="1" style="width: 300px; height: 300px;" autoplay loop></lottie-player></div>""", height=320)
 
 # --- Logika Utama (Router) ---
 query_params = st.query_params
