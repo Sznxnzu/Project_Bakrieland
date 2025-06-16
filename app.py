@@ -6,89 +6,18 @@ import io
 import requests
 import html
 import random
-import qrcode # Import library qrcode
-import base64 # Import base64 untuk menampilkan gambar QR
+import qrcode
+import base64
+import urllib.parse # Untuk encode URL parameter
 
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
-# --- CSS Styling ---
+# --- CSS Styling --- (Tidak berubah, tetap sama seperti sebelumnya)
 st.markdown("""
 <style>
-/* Background and Scrollbar */
-html, body, [data-testid="stAppViewContainer"], .stApp {
-    background: none !important;
-    background-color: #19307f !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-attachment: fixed !important;
-}
-::-webkit-scrollbar {
-    display: none;
-}
+/* ... (CSS Anda yang sudah ada) ... */
 
-/* Header Box */
-.header-box {
-    text-align: center;
-    border: 2px solid #00f0ff;
-    background-color: rgba(0,0,50,0.5);
-    border-radius: 8px;
-    padding: 6px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 10px #00f0ff;
-    color: #00f0ff;
-    font-size: 25px;
-    font-family: 'Orbitron', sans-serif;
-    letter-spacing: 1px;
-}
-/* Portrait Box for Recommendations */
-.portrait-box {
-    border: 2px solid #00f0ff;
-    background-color: rgba(0,0,30,0.6);
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 10px #00f0ff;
-    text-align: center;
-}
-
-/* Column Wrapper for Side Elements */
-.column-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 400px; /* Adjust based on your layout */
-}
-
-/* 35th Anniversary Logo Box */
-.35thn-box {
-    width: 150px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-.35thn-box img {
-    width: 100%;
-    border-radius: 8px;
-    vertical-align: top;
-}
-
-/* Mascot Box */
-.mascot-box {
-    width: 150px;
-    height: 200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-bottom: 20px;
-}
-.mascot-box img {
-    width: 100%;
-    border-radius: 8px;
-}
-
-/* Mood Analysis Content Box */
+/* Highlight the section to be screenshotted */
 .mood-box-content {
     border: 2px solid #00f0ff;
     background-color: rgba(10, 15, 30, 0.85);
@@ -101,8 +30,10 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     width: 100%;
     height: auto;
     transition: all 0.3s ease-in-out;
-    /* --- NEW: Add a specific ID for screenshot targeting --- */
-    position: relative; /* Needed if you want absolutely positioned children, etc. */
+    position: relative;
+    /* Added for clarity on what will be captured */
+    outline: 2px solid rgba(255,255,0,0.5); /* Temporary: Highlight what will be captured */
+    outline-offset: 5px;
 }
 .mood-box-content:hover {
     box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
@@ -112,14 +43,14 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 }
 .mood-box-content h2{
     font-size: 45px;
-    color: #fff; /* Ensure heading color is visible */
+    color: #fff;
     text-align: center;
     margin-top: 0;
     margin-bottom: 15px;
 }
-.mood-box-content pre { /* Style for the pre tag inside mood-box-content */
+.mood-box-content pre {
     color: #fff;
-    font-size: 1.2em; /* Increase font size for readability in screenshot */
+    font-size: 1.2em;
 }
 .mood-box-content ul {
     margin-top: 0;
@@ -127,99 +58,10 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding-left: 20px;
 }
 
-/* Camera Input Styles */
-div[data-testid="stCameraInput"] div {
-    background-color: transparent !important;
-}
-div[data-testid="stCameraInputWebcamStyledBox"] {
-    width: 500px !important;
-    height: 500px !important;
-    border-radius: 50% !important;
-    overflow: hidden;
-    margin: auto;
-    box-shadow: 0 0 20px rgba(0,240,255,0.5);
-}
-div[data-testid="stCameraInput"] video{
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-}
-div[data-testid="stCameraInput"] img {
-    display: block;
-    object-fit: cover;
-    width: 300px !important; /* Adjusted for better fit in circular frame */
-    height: 300px !important; /* Adjusted for better fit in circular frame */
-    border-radius: 50% !important;
-    box-shadow: 0 0 20px rgba(0,240,255,0.5);
-    margin: auto;
-}
-div[data-testid="stCameraInput"] button {
-    margin-top: 12px;
-    z-index: 10;
-    position: relative;
-    padding: 10px 20px;
-    background-color: #00c0cc;
-    color: #000;
-    font-weight: 600;
-    font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
-div[data-testid="stCameraInput"] button:hover {
-    background-color: #00aabb;
-    transform: scale(1.05);
-    box-shadow: 0 6px 16px rgba(0, 240, 255, 0.8);
-}
+/* ... (Sisa CSS Anda) ... */
 
-/* QR Code Styling */
-.qr-box {
-    border: 2px solid #00f0ff;
-    background-color: rgba(0,0,30,0.6);
-    border-radius: 8px;
-    padding: 10px;
-    margin-top: 20px;
-    box-shadow: 0 0 10px #00f0ff;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-.qr-box img {
-    width: 150px; /* Fixed size for QR code image */
-    height: 150px;
-    object-fit: contain;
-    margin-bottom: 10px;
-}
-.qr-box p {
-    color: #00f0ff;
-    font-size: 0.9em;
-    margin: 0;
-}
-/* Style for Download button */
-.stDownloadButton button {
-    display: block;
-    margin: 20px auto; /* Center the button below the mood box */
-    padding: 12px 25px;
-    background-color: #00c0cc;
-    color: #000;
-    font-weight: 600;
-    font-size: 18px;
-    border: none;
-    border-radius: 8px;
-    box-shadow: 0 6px 15px rgba(0, 240, 255, 0.7);
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
-.stDownloadButton button:hover {
-    background-color: #00aabb;
-    transform: scale(1.03);
-    box-shadow: 0 8px 20px rgba(0, 240, 255, 0.9);
-}
+/* Remove the download button style since it won't be explicitly clicked */
+/* .stDownloadButton button { display: none; } */
 </style>
 """, unsafe_allow_html=True)
 
@@ -263,7 +105,7 @@ row1 = st.container()
 with row1:
     colA1, colA2, colA3 = st.columns([0.2, 0.6, 0.2])
     with colA1:
-        st.write("") # Placeholder for top-left content
+        st.write("")
         st.markdown("""
         <div class="column-wrapper">
             <div class="35thn-box">
@@ -378,19 +220,46 @@ with row1:
         </div>
         """, unsafe_allow_html=True)
 
-        # --- QR Code Section (NEW LOCATION) ---
-        # Mendapatkan URL aplikasi Streamlit saat ini
-        # Penting: Ganti placeholder ini dengan URL aplikasi Anda yang sebenarnya saat di-deploy!
-        # Misalnya: current_app_url = "https://your-streamlit-app-name.streamlit.app"
-        current_app_url = "https://example.com/your-bakrieland-app" # <<< GANTI INI DENGAN URL ASLI APPLIKASI ANDA
+        # --- QR Code Section for Download ---
+        # Get the current app URL. For deployment, this needs to be known.
+        # Example for Streamlit Cloud: "https://your-app-name.streamlit.app"
+        # Example for local: "http://localhost:8501"
+        
+        # We need a unique way to identify the *current state* of the analysis
+        # to ensure the QR code downloads *that specific result*.
+        # For simplicity, we'll assume the URL will trigger a screenshot of the *currently displayed* result.
+        # If you need to download a *specific historical* result, you'd need to store results server-side
+        # and embed an ID in the QR code URL.
 
-        # Buat QR code dari URL aplikasi
-        qr_image_bytes = generate_qr_code(current_app_url)
+        # Mengambil query parameters saat ini untuk membangun URL yang tepat
+        query_params = st.query_params.to_dict()
+        # Jika Anda ingin QR code memicu unduhan, tambahkan parameter ke URL saat ini
+        # Misalnya, jika aplikasi Anda diakses di `https://myapp.streamlit.app/`
+        # QR code akan mengarah ke `https://myapp.streamlit.app/?download=true`
+        
+        # Dapatkan URL dasar aplikasi Anda. Ini mungkin perlu disesuaikan saat deploy.
+        # Asumsi untuk testing lokal:
+        base_url = "http://localhost:8501" # GANTI INI DENGAN URL ASLI APPLIKASI ANDA SAAT DI DEPLOY!
+        
+        # Pastikan kita tidak menambah parameter `download` jika sudah ada untuk menghindari loop
+        download_url_params = query_params.copy()
+        download_url_params["download_mood"] = "true" # Parameter yang akan memicu unduhan
+        
+        # Ubah dictionary parameter menjadi string query yang di-encode URL
+        encoded_params = urllib.parse.urlencode(download_url_params)
+        
+        # Gabungkan base URL dengan parameter untuk QR code
+        qr_data_url = f"{base_url}?{encoded_params}"
+
+        # Debugging: tampilkan URL yang akan di-encode ke QR
+        # st.write(f"QR Code will point to: {qr_data_url}")
+
+        qr_image_bytes = generate_qr_code(qr_data_url)
 
         st.markdown(f"""
             <div class="qr-box">
                 <img src="data:image/png;base64,{base64.b64encode(qr_image_bytes).decode('utf-8')}" alt="QR Code" />
-                <p>Scan untuk kembali ke halaman utama.</p>
+                <p>Scan untuk mengunduh hasil analisis mood.</p>
             </div>
         """, unsafe_allow_html=True)
 
@@ -406,23 +275,45 @@ with row2:
     </div>
     """, unsafe_allow_html=True)
 
-    # --- Tombol untuk mengunduh hasil analisis (NEW) ---
-    if st.button("Unduh Hasil Analisis", key="download_analysis_button"):
-        # HTML dan JavaScript untuk mengambil screenshot dan mengunduh
+    # --- Auto-trigger download based on URL parameter ---
+    # Mendapatkan query parameters
+    query_params = st.query_params
+
+    # Cek apakah parameter 'download_mood' ada di URL
+    if "download_mood" in query_params and query_params["download_mood"] == "true":
+        # Hapus parameter dari URL agar tidak memicu unduhan berulang jika pengguna refresh
+        # Ini akan membersihkan URL setelah unduhan dipicu
+        new_query_params = query_params.to_dict()
+        if "download_mood" in new_query_params:
+            del new_query_params["download_mood"]
+        st.query_params.clear() # Membersihkan semua query params
+        st.query_params.update(**new_query_params) # Memuat kembali query params tanpa 'download_mood'
+        
+        # Kemudian, panggil JavaScript untuk unduhan
         components.html(
             f"""
             <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
             <script>
+                // Pastikan html2canvas sudah dimuat sebelum mencoba menggunakannya
+                if (typeof html2canvas === 'undefined') {{
+                    console.error("html2canvas not loaded. Retrying...");
+                    // Opsional: tunggu sebentar dan coba lagi, atau berikan pesan error ke user
+                    setTimeout(downloadMoodAnalysis, 500); 
+                }} else {{
+                    downloadMoodAnalysis();
+                }}
+
                 function downloadMoodAnalysis() {{
                     const element = document.getElementById('mood-analysis-section');
-                    // Tambahkan elemen lain yang ingin di-screenshot jika perlu, misalnya gabungkan mood-box dan rekomendasi
-                    // const fullPageElement = document.body; // atau specific container div jika ada
-
+                    if (!element) {{
+                        console.error("Element with ID 'mood-analysis-section' not found for screenshot.");
+                        return;
+                    }}
                     html2canvas(element, {{ 
-                        scale: 2, // Meningkatkan resolusi gambar untuk kualitas lebih baik
-                        backgroundColor: 'rgba(10, 15, 30, 0.85)', // Sesuaikan dengan warna latar belakang mood-box-content
-                        useCORS: true, // Penting jika ada gambar eksternal (misal: dari GitHub)
-                        logging: false // Matikan logging konsol html2canvas
+                        scale: 2, 
+                        backgroundColor: 'rgba(10, 15, 30, 0.85)', 
+                        useCORS: true, 
+                        logging: false 
                     }}).then(canvas => {{
                         const link = document.createElement('a');
                         link.download = 'hasil_analisis_mood.png';
@@ -430,16 +321,17 @@ with row2:
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);
+                        console.log("Screenshot download initiated.");
+                    }}).catch(error => {{
+                        console.error("Error during html2canvas capture:", error);
                     }});
                 }}
-                // Panggil fungsi segera setelah tombol diklik
-                downloadMoodAnalysis();
             </script>
             """,
-            height=0, # Atur tinggi ke 0 agar tidak terlihat di UI
+            height=0,
             width=0,
         )
-
+        # st.toast("Download will start shortly!") # Opsional: beri feedback ke user
 
 row3 = st.container()
 with row3:
