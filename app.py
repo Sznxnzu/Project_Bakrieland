@@ -13,7 +13,7 @@ st.markdown("""
 <style>
 html, body, [data-testid="stAppViewContainer"], .stApp {
     background: none !important;
-    background-image: url("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/wallpaper/wallpaper_2.png") !important;
+    background-color: #19307f !important;
     background-size: cover !important;
     background-position: center !important;
     background-attachment: fixed !important;
@@ -21,6 +21,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 ::-webkit-scrollbar {
   display: none;
 }
+
 .header-box {
     text-align: center;
     border: 2px solid #00f0ff;
@@ -310,7 +311,7 @@ with row4:
             <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png" style="width:100%; border-radius: 8px;" />
         </div>
     """, unsafe_allow_html=True)
-    
+
   with colD2:
     st.write("Mascots here")
     components.html("""
