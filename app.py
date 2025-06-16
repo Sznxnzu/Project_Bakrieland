@@ -284,7 +284,7 @@ def run_main_app():
             # Ganti URL ini dengan Alamat IP Lokal laptop Anda agar bisa diakses dari HP.
             # Jangan gunakan "localhost".
             # Contoh: base_url = "http://192.168.1.10:8501"
-            base_url = "http://192.168.1.10:8501" # <-- GANTI DENGAN IP ANDA
+            base_url = "http://192.168.1.8:8501"# <-- GANTI DENGAN IP ANDA
             
             full_url = f"{base_url}?session_id={st.session_state.session_id}"
 
