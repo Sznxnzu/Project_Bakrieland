@@ -191,7 +191,7 @@ with row1:
                         st.write(first_filenames)
 
                         first_filenames = [
-                            name + " " + str(random.randint(1, 2)) if name in first_target_names else name
+                            name.strip() + " " + str(random.randint(1, 2)) if name.strip() in first_target_names else name.strip()
                             for name in first_filenames
                         ]
 
@@ -214,7 +214,7 @@ with row1:
                         st.write(second_filenames)
 
                         second_filenames = [
-                            name + " " + str(random.randint(1, 2)) if name in second_target_names else name
+                            name.strip() + " " + str(random.randint(1, 2)) if name.strip() in second_target_names else name.strip()
                             for name in second_filenames
                         ]
 
