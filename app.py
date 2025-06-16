@@ -1,60 +1,81 @@
-# Import yang diperlukan
 import streamlit as st
 import streamlit.components.v1 as components
 import google.generativeai as genai
 from PIL import Image
-import io, os, html, random, uuid, base64, json
+import io
+import requests
+import html
+import random
+import qrcode
+import uuid
+import json
+import os
+import base64
 
 # Import dan konfigurasi Firebase
 import firebase_admin
 from firebase_admin import credentials, db
 
 # --- Fungsi Inisialisasi Firebase ---
-# Menggunakan @st.cache_resource agar koneksi hanya dibuat sekali.
+# Menggunakan @st.cache_resource agar koneksi hanya dibuat sekali per proses.
 @st.cache_resource
 def initialize_firebase():
+    """
+    Menginisialisasi koneksi ke Firebase menggunakan credentials dari Streamlit Secrets.
+    Mengembalikan True jika berhasil, False jika gagal.
+    """
     try:
-        # Cek apakah aplikasi sudah diinisialisasi
+        # Cek apakah aplikasi sudah diinisialisasi untuk menghindari error
         if not firebase_admin._apps:
-            # Ambil credentials dari Streamlit Secrets
             service_account_info = json.loads(st.secrets["FIREBASE_SERVICE_ACCOUNT"])
             cred = credentials.Certificate(service_account_info)
             
-            # Inisialisasi aplikasi Firebase
             firebase_admin.initialize_app(cred, {
                 'databaseURL': st.secrets["FIREBASE_URL"]
             })
         return True
     except Exception as e:
-        st.error(f"Gagal menginisialisasi Firebase: {e}")
+        # Menampilkan error jika inisialisasi gagal
+        st.error(f"Gagal menginisialisasi Firebase. Pastikan Streamlit Secrets sudah dikonfigurasi dengan benar. Error: {e}")
         return False
 
-# Panggil fungsi inisialisasi di awal
+# Panggil fungsi inisialisasi di awal script
 FIREBASE_INITIALIZED = initialize_firebase()
 
-# --- Fungsi untuk halaman mobile ---
 def display_mobile_results(session_id):
+    """
+    Fungsi untuk menampilkan halaman hasil di perangkat mobile dengan data dari Firebase.
+    """
     if not FIREBASE_INITIALIZED:
-        st.error("Koneksi ke database gagal. Tidak dapat memuat hasil.")
-        return
+        return # Hentikan jika Firebase tidak siap
 
-    st.markdown("""<style>...</style>""", unsafe_allow_html=True) # CSS Anda di sini untuk mempersingkat
+    # --- CSS untuk Halaman Mobile ---
+    st.markdown("""
+    <style>
+        html, body, [data-testid="stAppViewContainer"], .stApp { background-color: #19307f !important; }
+        .result-container { padding: 20px; background-color: #19307f; color: white; border-radius: 10px; }
+        .mood-box-content { border: 2px solid #00f0ff; background-color: rgba(10, 15, 30, 0.85); padding: 15px; border-radius: 10px; box-shadow: 0 0 20px #00f0ff; font-size: 15px; margin-top: 10px; margin-bottom: 20px; }
+        .header-box { text-align: center; border: 2px solid #00f0ff; background-color: rgba(0,0,50,0.5); border-radius: 8px; padding: 10px; margin-bottom: 10px; box-shadow: 0 0 10px #00f0ff; color: #00f0ff; font-size: 20px; }
+        img { max-width: 100%; border-radius: 8px; }
+        .download-button { display: block; width: 100%; padding: 15px; margin-top: 20px; background-color: #00c0cc; color: #000; font-weight: bold; text-align: center; border: none; border-radius: 8px; cursor: pointer; text-decoration: none; font-size: 18px; }
+    </style>
+    """, unsafe_allow_html=True)
 
     try:
-        # Muat data dari Firebase Realtime Database
+        # Muat data dari Firebase Realtime Database menggunakan session_id sebagai key
         ref = db.reference(f'/{session_id}')
         results = ref.get()
         
         if not results:
             st.error("Hasil tidak ditemukan atau sudah kedaluwarsa.")
-            st.info("Sesi ini mungkin sudah lama. Silakan pindai ulang QR code yang baru.")
+            st.info("Sesi ini mungkin sudah lama. Silakan pindai ulang QR code yang baru dari aplikasi utama.")
             return
 
         # Area yang akan diubah menjadi PDF
         st.markdown('<div id="capture-area" class="result-container">', unsafe_allow_html=True)
         st.image(base64.b64decode(results['user_photo_b64']), use_column_width=True, caption="Foto Anda")
         escaped_analysis = html.escape(results['analysis_result'])
-        st.markdown(f"""...""", unsafe_allow_html=True) # HTML Mood Box Anda di sini
+        st.markdown(f"""<div class="mood-box-content"><h2 style="font-size: 28px;">Mood Analytic</h2><pre style="white-space: pre-wrap; font-family: inherit;">{escaped_analysis}</pre></div>""", unsafe_allow_html=True)
         st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.image(results['image_urls'][0], caption=results['image_captions'][0])
         st.image(results['image_urls'][1], caption=results['image_captions'][1])
@@ -63,67 +84,163 @@ def display_mobile_results(session_id):
         st.image(results['image_urls'][3], caption=results['image_captions'][3])
         st.markdown('</div>', unsafe_allow_html=True)
 
-        # Komponen HTML untuk download PDF (tidak berubah)
-        components.html(f"""...""", height=100) # Kode HTML/JS Anda untuk PDF di sini
+        # Komponen HTML untuk download PDF
+        components.html(f"""
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+            <a id="downloadButton" class="download-button">Download Hasil sebagai PDF</a>
+            <script>
+                const {{ jsPDF }} = window.jspdf;
+                document.getElementById('downloadButton').addEventListener('click', function() {{
+                    const captureElement = document.getElementById('capture-area');
+                    html2canvas(captureElement, {{ backgroundColor: '#19307f', useCORS: true, scale: 1.5 }}).then(canvas => {{
+                        const imgData = canvas.toDataURL('image/png');
+                        const pdfWidth = 210;
+                        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                        const pdf = new jsPDF({{ orientation: 'portrait', unit: 'mm', format: [pdfWidth, pdfHeight] }});
+                        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                        pdf.save('hasil-analisis-bakrieland.pdf');
+                    }});
+                }});
+            </script>
+        """, height=100)
     
     except Exception as e:
         st.error(f"Terjadi kesalahan saat memuat hasil dari Firebase: {e}")
 
-# --- Fungsi untuk aplikasi utama ---
 def run_main_app():
+    """
+    Fungsi untuk menjalankan aplikasi utama (kamera) di laptop.
+    """
     if not FIREBASE_INITIALIZED:
-        st.error("Koneksi ke database gagal. Aplikasi tidak dapat berfungsi.")
-        return
-        
-    # CSS Anda, Konfigurasi Gemini, session_state, dll. (tidak berubah)
-    # ...
-    # ...
+        return # Hentikan jika Firebase tidak siap
 
-    # Di dalam blok 'if user_input is not None':
-    # ...
-    # Setelah Anda mendapatkan semua hasil analisis:
+    st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
+    st.markdown("""<style>...</style>""", unsafe_allow_html=True) # Seluruh CSS Anda di sini
+
     try:
-        # ... (logika analisis Anda)
-        if len(filenames) >= 4:
-            # ... (logika pemrosesan nama file Anda)
-
-            session_id = str(uuid.uuid4())
-            results_data = {
-                "user_photo_b64": base64.b64encode(user_photo_bytes).decode('utf-8'),
-                "analysis_result": raw_output,
-                "image_urls": image_urls,
-                "image_captions": image_captions
-            }
-            
-            # <<< PERUBAHAN UTAMA: Simpan hasil ke Firebase, bukan file lokal >>>
-            ref = db.reference(f'/{session_id}')
-            ref.set(results_data)
-            
-            st.session_state.analysis_done = True
-            st.session_state.session_id = session_id
-            st.session_state.results_data = results_data
-        else:
-            # ...
+        genai.configure(api_key=st.secrets["gemini_api"])
+        model = genai.GenerativeModel("gemini-1.5-flash")
     except Exception as e:
-        # ...
-    # ... sisa kode Anda ...
+        st.error(f"Error configuring Generative AI: {e}")
+        st.stop()
     
-    # Di bagian pembuatan QR Code:
+    if "analysis_done" not in st.session_state:
+        st.session_state.analysis_done = False
+        st.session_state.last_photo = None
+        st.session_state.session_id = None
+
+    placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/placeholder.png"
+    placeholder_caption = ""
+    placeholder_analysis = "Arahkan kamera ke wajah Anda dan ambil foto untuk memulai analisis suasana hati dan mendapatkan rekomendasi yang dipersonalisasi."
+
+    # --- Layout Utama ---
+    row1 = st.container()
+    with row1:
+        colA1, colA2, colA3 = st.columns([0.2, 0.6, 0.2])
+        # ... (Kode untuk colA1 dan colA3 - logo, dll)
+        with colA2:
+            user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
+
+            if user_input is not None and user_input != st.session_state.last_photo:
+                st.session_state.last_photo = user_input
+                with st.spinner("Menganalisis suasana hati Anda..."):
+                    try:
+                        image = Image.open(io.BytesIO(user_input.getvalue()))
+                        user_photo_bytes = user_input.getvalue()
+                        
+                        prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
+                        prompt_response = requests.get(prompt_url)
+                        prompt_response.raise_for_status()
+                        analysis_prompt = prompt_response.text
+
+                        json_prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
+                        json_prompt_response = requests.get(json_prompt_url)
+                        json_prompt_response.raise_for_status()
+                        json_prompt = json_prompt_response.text
+
+                        analysis_response = model.generate_content([analysis_prompt, image])
+                        raw_output = analysis_response.text
+
+                        json_response = model.generate_content([json_prompt, raw_output])
+                        filenames = json_response.text.strip().split(",")
+                        
+                        if len(filenames) >= 4:
+                            midpoint = len(filenames) // 2
+                            first_filenames, second_filenames = filenames[:midpoint], filenames[midpoint:]
+                            
+                            first_target_names = ["Bogor Nirwana Residence", "Kahuripan Nirwana", "Sayana Bogor", "Taman Rasuna Epicentrum", "The Masterpiece & The Empyreal"]
+                            first_filenames_edited = [f"{name.strip()} {random.randint(1, 2)}" if name.strip() in first_target_names else name.strip() for name in first_filenames]
+
+                            second_target_names = ["Aston Bogor", "Bagus Beach Walk", "Grand ELTY Krakatoa", "Hotel Aston Sidoarjo", "Jungleland", "Junglesea Kalianda", "Rivera", "Swiss Belresidences Rasuna Epicentrum", "The Alana Malioboro", "The Grove Suites", "The Jungle Waterpark"]
+                            second_filenames_edited = [f"{name.strip()} {random.randint(1, 2)}" if name.strip() in second_target_names else name.strip() for name in second_filenames]
+
+                            image_urls = [f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{edited_name.strip()}.jpg" for edited_name in first_filenames_edited[:2]] + \
+                                         [f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{edited_name.strip()}.jpg" for edited_name in second_filenames_edited[:2]]
+                            image_captions = [name.strip() for name in first_filenames[:2]] + [name.strip() for name in second_filenames[:2]]
+                            
+                            session_id = str(uuid.uuid4())
+                            results_data = {
+                                "user_photo_b64": base64.b64encode(user_photo_bytes).decode('utf-8'),
+                                "analysis_result": raw_output,
+                                "image_urls": image_urls,
+                                "image_captions": image_captions
+                            }
+                            
+                            ref = db.reference(f'/{session_id}')
+                            ref.set(results_data)
+                            
+                            st.session_state.analysis_done = True
+                            st.session_state.session_id = session_id
+                            st.session_state.results_data = results_data
+                        else:
+                            # BLOK INI SUDAH DIPERBAIKI INDENTASINYA
+                            st.session_state.analysis_result = "Gagal memproses rekomendasi gambar. Silakan coba lagi."
+                            st.session_state.analysis_done = False
+
+                    except Exception as e:
+                        st.error(f"Terjadi kesalahan saat pemrosesan: {e}")
+                        st.session_state.analysis_result = "Gagal menganalisis gambar. Silakan coba lagi."
+                        st.session_state.analysis_done = False
+                
+                st.rerun()
+
+            elif user_input is None and st.session_state.last_photo is not None:
+                st.session_state.analysis_done = False
+                st.session_state.last_photo = None
+                st.session_state.session_id = None
+                st.rerun()
+
+    # ... (Sisa kode untuk menampilkan hasil di halaman utama, tidak berubah) ...
+
+    # --- Logika Pembuatan QR Code ---
     if st.session_state.analysis_done:
-        # ...
-        # Pastikan base_url menggunakan URL publik Streamlit Anda
-        base_url = "https://xxgwueozt6kgv6d8fzin5y.streamlit.app"
-        full_url = f"{base_url}?session_id={st.session_state.session_id}"
-        # ... (sisa logika QR code)
+        st.markdown("---")
+        qr_col, mascot_col = st.columns([0.4, 0.6])
+        with qr_col:
+            st.markdown('<div class="header-box" style="font-size: 18px;">Scan untuk Melihat & Download PDF</div>', unsafe_allow_html=True)
+            
+            # GUNAKAN URL PUBLIK STREAMLIT ANDA DI SINI
+            base_url = "https://xxgwueozt6kgv6d8fzin5y.streamlit.app"
+            full_url = f"{base_url}?session_id={st.session_state.session_id}"
 
-# --- Router Utama ---
-# Kode debug sementara bisa dihapus atau diberi komentar
-# st.write("Parameter URL yang diterima:", st.query_params)
+            qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
+            qr.add_data(full_url)
+            qr.make(fit=True)
+            img = qr.make_image(fill_color="cyan", back_color="#19307f")
+            
+            buf = io.BytesIO()
+            img.save(buf, format="PNG")
+            st.image(buf, width=250)
+        
+        with mascot_col:
+            components.html("""...""", height=320) # Lottie player Anda
 
+# --- Router Utama Aplikasi ---
 query_params = st.query_params
 if "session_id" in query_params:
-    session_id_from_url = query_params["session_id"]
-    # Periksa apakah session_id adalah string tunggal, bukan list
+    session_id_from_url = query_params.get("session_id")
+    # Penanganan jika parameter berupa list (terkadang terjadi)
     if isinstance(session_id_from_url, list):
         session_id_from_url = session_id_from_url[0]
     display_mobile_results(session_id_from_url)
