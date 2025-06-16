@@ -315,19 +315,10 @@ with row1:
 row2 = st.container()
 with row2:
     escaped_analysis = html.escape(st.session_state.analysis_result)
-    qr_html = ""
-    if len(escaped_analysis) > 100:
-        qr_html = """
-          <div class="qr-box">
-            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png" style="width:100%; border-radius: 8px;" />
-          </div>
-        """
-
     st.markdown(f"""
     <div class="mood-box-content">
       <h2>Mood Analytic</h2>
       <pre style="white-space: pre-wrap; font-family: inherit;">{escaped_analysis}</pre>
-      {qr_html}
     </div>
     """, unsafe_allow_html=True)
 
