@@ -6,8 +6,29 @@ import io
 import requests
 import html
 import random
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+import pyrebase
+import qrcode
+import uuid
+import time
+import json
 
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
+# --- Fungsi Screenshot Halaman Streamlit
+def screenshot_streamlit(url="http://localhost:8501", output_path="screenshot.png", delay=3):
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--window-size=1400,1000")
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+    driver.get(url)
+    time.sleep(delay)  # beri waktu halaman load
+    driver.save_screenshot(output_path)
+    driver.quit()
+    return output_path
 
 st.markdown("""
 <style>
@@ -171,6 +192,31 @@ try:
 except Exception as e:
     st.error(f"Error configuring Generative AI: {e}")
     st.stop()
+# --- Firebase Setup & Functions ---
+firebase_config = {
+  "apiKey": "",  # boleh dikosongkan kalau tidak perlu
+  "authDomain": "",
+  "projectId": "bakrieland-mood-app",
+  "storageBucket": "bakrieland-mood-app.appspot.com",
+  "databaseURL": "",
+  "serviceAccount": json.loads(st.secrets["firebase_service_account"])
+}
+
+firebase = pyrebase.initialize_app(firebase_config)
+storage = firebase.storage()
+def upload_to_firebase(local_file_path):
+    import uuid
+    filename = f"mood_screenshot_{uuid.uuid4().hex}.png"
+    storage_path = f"screenshots/{filename}"
+    storage.child(storage_path).put(local_file_path)
+    url = storage.child(storage_path).get_url(None)
+    return url
+
+def generate_qr_from_url(url, output_path="qr_generated.png"):
+    import qrcode
+    qr_img = qrcode.make(url)
+    qr_img.save(output_path)
+    return output_path
 
 placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/placeholder.png"
 placeholder_caption = ""
@@ -346,3 +392,12 @@ with row3:
           <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{st.session_state.image_captions[3]}</p>
         </div>
         """, unsafe_allow_html=True)
+row4 = st.container()
+with row4:
+    st.markdown('<div class="header-box">DOWNLOAD RESULT</div>', unsafe_allow_html=True)
+    if st.button("🎯 Generate Screenshot + QR Code"):
+        with st.spinner("📸 Mengambil screenshot dan mengupload..."):
+            screenshot_path = screenshot_streamlit()
+            firebase_url = upload_to_firebase(screenshot_path)
+            qr_path = generate_qr_from_url(firebase_url)
+            st.image(Image.open(qr_path), caption="Scan untuk download hasil analisis")
