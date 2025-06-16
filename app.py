@@ -32,13 +32,12 @@ def upload_to_firebase(local_file_path):
     return blob.public_url
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 # --- Fungsi Screenshot Halaman Streamlit
-def screenshot_streamlit(url="http://localhost:8501", output_path="screenshot.png", delay=3):
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--window-size=1400,1000")
+from html2image import Html2Image
 
+def screenshot_streamlit(output_path="screenshot.png"):
+    hti = Html2Image()
+    hti.screenshot(url="http://localhost:8501", save_as=output_path)
+    return output_path
     # Gunakan Service wrapper
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
