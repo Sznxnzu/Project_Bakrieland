@@ -9,12 +9,27 @@ import random
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-import pyrebase
 import qrcode
 import uuid
 import time
 import json
+import firebase_admin
+from firebase_admin import credentials, storage
+import json
 
+if not firebase_admin._apps:
+    cred = credentials.Certificate(json.loads(st.secrets["firebase_service_account"]))
+    firebase_admin.initialize_app(cred, {
+        'storageBucket': 'bakrieland-mood-app.appspot.com'
+    })
+def upload_to_firebase(local_file_path):
+    import uuid
+    bucket = storage.bucket()
+    filename = f"mood_screenshot_{uuid.uuid4().hex}.png"
+    blob = bucket.blob(filename)
+    blob.upload_from_filename(local_file_path)
+    blob.make_public()
+    return blob.public_url
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 # --- Fungsi Screenshot Halaman Streamlit
 def screenshot_streamlit(url="http://localhost:8501", output_path="screenshot.png", delay=3):
@@ -192,22 +207,6 @@ try:
 except Exception as e:
     st.error(f"Error configuring Generative AI: {e}")
     st.stop()
-# --- Firebase Setup & Functions ---
-import json
-
-firebase_config = {
-  "apiKey": "AIzaSyBd7y7fGY7UAtyQKle1slS97kb_SfWr3WE",  # kamu udah punya ini
-  "authDomain": "bakrieland-mood-app.firebaseapp.com",
-  "databaseURL": "https://bakrieland-mood-app-default-rtdb.firebaseio.com",
-  "projectId": "bakrieland-mood-app",
-  "storageBucket": "bakrieland-mood-app.appspot.com",
-  "messagingSenderId": "YOUR_SENDER_ID",  # opsional, bisa kosong
-  "appId": "YOUR_APP_ID",                 # opsional, bisa kosong
-  "serviceAccount": json.loads(st.secrets["firebase_service_account"])
-}
-
-firebase = pyrebase.initialize_app(firebase_config)
-storage = firebase.storage()
 def upload_to_firebase(local_file_path):
     import uuid
     filename = f"mood_screenshot_{uuid.uuid4().hex}.png"

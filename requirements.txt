@@ -1,12 +1,8 @@
 streamlit
-google-generativeai
-pillow
-requests
 streamlit-webrtc
 opencv-python-headless
+pillow
+requests
 qrcode[pil]
-pyrebase4
-selenium
-webdriver-manager
 firebase-admin
-setuptools
+google-generativeai
