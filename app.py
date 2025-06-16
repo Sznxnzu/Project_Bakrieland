@@ -188,14 +188,10 @@ with row1:
                             "The Masterpiece & The Empyreal"
                         ]
 
-                        st.write(first_filenames)
-
                         first_filenames_edited = [
                             name.strip() + " " + str(random.randint(1, 2)) if name.strip() in first_target_names else name.strip()
                             for name in first_filenames
                         ]
-
-                        st.write(first_filenames)
 
                         second_target_names = [
                             "Aston Bogor",
@@ -211,14 +207,10 @@ with row1:
                             "The Jungle Waterpark"
                         ]
 
-                        st.write(second_filenames)
-
                         second_filenames_edited = [
                             name.strip() + " " + str(random.randint(1, 2)) if name.strip() in second_target_names else name.strip()
                             for name in second_filenames
                         ]
-
-                        st.write(second_filenames)
 
                         st.session_state.image_urls = [
                             f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[0].strip()}.jpg",
@@ -313,5 +305,29 @@ with row4:
   colD1, colD2 = st.columns(2)
   with colD1:
     st.write("QR here")
+    st.markdown("""
+        <div class="qr-box">
+            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png" style="width:100%; border-radius: 8px;" />
+        </div>
+    """, unsafe_allow_html=True)
+    
   with colD2:
     st.write("Mascots here")
+    components.html("""
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <lottie-player
+            id="robot"
+            src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json"
+            background="transparent" speed="1" style="width: 300px; height: 300px;"
+            autoplay loop>
+        </lottie-player>
+    </div>
+    <script>
+        document.getElementById("robot").addEventListener("click", function() {
+            const r = document.getElementById("robot");
+            r.stop();
+            r.play();
+        });
+    </script>
+    """, height=340)
