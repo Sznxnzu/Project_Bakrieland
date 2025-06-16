@@ -61,8 +61,12 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 
 .mascot-box {
   width: 150px;
+  height: 200px; /* Set a fixed height to allow vertical alignment */
   margin: 0 auto 16px auto;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;  /* Align to bottom */
 }
 .mascot-box img {
   width: 100%;
