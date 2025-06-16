@@ -374,11 +374,7 @@ with row1:
         </div>
         """, unsafe_allow_html=True)
 
-        # --- Bagian QR Code untuk Unduh Otomatis ---
-        # Dapatkan URL dasar aplikasi Anda. Ini SANGAT PENTING untuk deployment.
-        # GANTI "http://localhost:8501" dengan URL aplikasi Streamlit Anda yang sebenarnya saat di-deploy.
-        # Contoh: "https://nama-aplikasi-anda.streamlit.app"
-        base_url = "http://localhost:8501" # <<< GANTI INI!
+        base_url = "https://xxgwueozt6kgv6d8fzin5y.streamlit.app/" 
 
         # Ambil query parameters saat ini
         query_params = st.query_params.to_dict()
