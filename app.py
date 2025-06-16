@@ -16,10 +16,8 @@ import base64
 import firebase_admin
 from firebase_admin import credentials, db
 
-# =============================================================================
-# PERINTAH INI DIPINDAHKAN KE ATAS (LOKASI YANG BENAR)
+# Konfigurasi halaman diletakkan di bagian paling atas
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
-# =============================================================================
 
 @st.cache_resource
 def initialize_firebase():
@@ -36,6 +34,7 @@ def initialize_firebase():
         st.error(f"Gagal menginisialisasi Firebase. Pastikan Streamlit Secrets sudah dikonfigurasi. Error: {e}")
         return False
 
+# Inisialisasi Firebase saat aplikasi dimuat
 FIREBASE_INITIALIZED = initialize_firebase()
 
 def display_mobile_results(session_id):
@@ -98,12 +97,9 @@ def display_mobile_results(session_id):
         st.error(f"Terjadi kesalahan saat memuat hasil dari Firebase: {e}")
 
 def run_main_app():
-    """
-    Fungsi untuk menjalankan aplikasi utama (kamera) di laptop.
-    """
-    if not FIREBASE_INITIALIZED: return
-
-    # st.set_page_config SUDAH DIPINDAHKAN KELUAR DARI FUNGSI INI
+    if not FIREBASE_INITIALIZED:
+        st.warning("Menunggu koneksi ke database...")
+        return
     
     st.markdown("""
     <style>
@@ -135,6 +131,135 @@ def run_main_app():
         st.error(f"Error configuring Generative AI: {e}")
         st.stop()
     
+    # --- PENTING: Masukkan isi prompt Anda di sini ---
+    analysis_prompt = """
+You are an agent meant to assist with detecting a persons mood, and choosing a suitable property and holiday location simply based on 2 things: the mood of the person in the photo, and the name of the property and holiday location.
+When you are generating responses, use Indonesian, and answer in this format:
+
+Analisa Mood:
+/NEWLINE/
+- *insert mood_1 here* : *insert reasoning of why you said mood_1 is detected here (use only a single sentence)*
+/NEWLINE/
+- *insert mood_2 here* : *insert reasoning of why you said mood_2 is detected here (use only a single sentence)*
+/NEWLINE/
+- *insert mood_3 here* : *insert reasoning of why you said mood_3 is detected here (use only a single sentence)*
+/NEWLINE/
+/NEWLINE/
+Property:
+/NEWLINE/
+- *insert property_name_1 here* : *insert description of property here (use only a single sentence)*
+/NEWLINE/
+- *insert property_name_2 here* : *insert description of property here (use only a single sentence)*
+/NEWLINE/
+- *insert property_name_3 here* : *insert description of property here (use only a single sentence)*
+/NEWLINE/
+/NEWLINE/
+Rekomendasi Liburan yang Cocok:
+/NEWLINE/
+- *insert holiday_location_1 here* : *insert possible activities in the holiday location here (use only a single sentence)*
+/NEWLINE/
+- *insert holiday_location_2 here* : *insert possible activities in the holiday location here (use only a single sentence)*
+/NEWLINE/
+- *insert holiday_location_3 here* : *insert possible activities in the holiday location here (use only a single sentence)*
+/NEWLINE/
+
+Below is the Database of Property Names:
+**where the format is Property Name - Property Type
+Awana Townhouse Yogyakarta - Townhouse
+Bogor Nirwana Residence - Rumah
+Bumi Pakuan - Cluster
+Cluster Veranda Tipe Mirage - Perumahan
+Kahuripan Nirwana - Rumah
+OCEA Condotel - Condominium
+Sand & Coral - Apartemen
+Sayana Bogor - Cluster
+Taman Rasuna Epicentrum - Apartemen
+The Masterpiece & The Empyreal - Apartemen
+
+Below is the Database of Holiday Locations
+**where the format is Holiday Location Name - Holiday Location Type
+Aston Bogor - Hotel
+Bagus Beach Walk - Pantai
+Grand ELTY Krakatoa - Villa
+Hotel Aston Sidoarjo - Hotel
+Jungleland - Themepark
+Junglesea Kalianda - Themepark
+Rivera - Outbond
+Swiss Belresidences Rasuna Epicentrum - Hotel
+The Alana Malioboro - Hotel
+The Grove Suites - Hotel
+The Jungle Waterpark - Waterpark
+
+EXAMPLE : 
+
+Analisa Mood:
+/NEWLINE/
+- Percaya Diri: Terlihat dari sorot matanya dan posisi wajahnya.
+/NEWLINE/
+- Elegan/Glamor: Penampilannya secara keseluruhan memberikan kesan ini.
+/NEWLINE/
+- Tenang/Terkontrol: Tidak ada tanda-tanda kegelisahan atau kekacauan.
+/NEWLINE/
+/NEWLINE/
+Property :
+- Apartemen Mewah di Pusat Kota: Dengan fasilitas lengkap seperti kolam renang pribadi, gym, dan pemandangan kota yang menakjubkan. Ini akan cocok dengan gaya hidup selebriti yang dinamis namun tetap menginginkan privasi.
+/NEWLINE/
+- Rumah Bergaya Klasik Modern dengan Interior Glamor: Rumah dengan desain arsitektur yang kuat namun dilengkapi dengan sentuhan modern dan interior yang didominasi material mewah seperti marmer, kristal, dan furnitur berkelas.
+/NEWLINE/
+- Villa Eksklusif dengan Pemandangan Alam: Jika mencari ketenangan dan privasi lebih, villa di daerah pegunungan atau pantai dengan pemandangan indah dan fasilitas pribadi seperti infinity pool akan sangat cocok.
+/NEWLINE/
+/NEWLINE/
+Rekomendasi Liburan yang Cocok:
+/NEWLINE/
+- Liburan Santai di Resort Mewah di Kalianda: Menikmati ketenangan pantai pribadi, spa, dan layanan premium tanpa gangguan. Ini cocok untuk melepas penat dari kesibukan.
+/NEWLINE/
+- Perjalanan Belanja dan Kuliner di Kota Bogor: Menggabungkan minat pada fashion dan eksplorasi kuliner di kota-kota yang identik dengan kemewahan dan gaya hidup berkelas.
+/NEWLINE/
+- Pelayaran Kapal Pesiar Mewah: Menjelajahi berbagai destinasi dengan fasilitas bintang lima di kapal pesiar, menawarkan kombinasi relaksasi, hiburan, dan pengalaman baru.
+/NEWLINE/
+
+Notes:
+1. Add spacing at every /NEWLINE/; which is at the end of every sentence, and add double spacing between each new category where the categories are (Analisa Mood, Property, and Rekomendasi Liburan yang Cocok)
+2. Use bullet points at every *insert*, where the symbol '-' in the example and format above denotes bullets
+3. DO NOT print /NEWLINE/; it simply denotes where the spacing is. 
+4. DO NOT include debug
+5. property and holiday location MUST BE FROM THE DATABASE, DO NOT HALLUCINATE FROM OUTSIDE THE DATABASE
+6. property recommendation MUST BE ONLY from the property database (Database of Property Names), DO NOT MIX UP WITH HOLIDAY PLACES
+7. holiday recommendation MUST BE ONLY from the holiday database (Database of Holiday Locations), DO NOT MIX UP WITH PROPERTY NAMES
+8. REMEMBER: "Jungleland 1" and "The Jungle Waterpark 1" is NOT a property. DO NOT recommend it as a property, it is a HOLIDAY LOCATION.
+"""
+    json_prompt = """
+you are an agent meant to help me identify and isolate property and holiday location names from a text.
+Please help me identify and isolate the names, then format them.
+
+here is an example of what i want you to do
+Input:
+
+Analisa Mood:
+Lelah: Ekspresi wajah dan rambut yang sedikit acak-acakan menunjukkan kelelahan.
+Santai: Posisi tubuh yang rileks menunjukkan suasana hati yang tenang dan santai.
+Introvert: Ekspresi wajah yang datar dan minim ekspresi menunjukkan sifat introvert.
+Property:
+
+Awana Townhouse Yogyakarta: Townhouse yang nyaman dan tenang di Yogyakarta, cocok untuk relaksasi.
+Kahuripan Nirwana 1: Rumah yang memberikan suasana tenang dan nyaman untuk beristirahat.
+Bogor Nirwana Residence 1: Rumah yang cocok untuk bersantai dan menikmati waktu sendiri.
+Rekomendasi Liburan yang Cocok:
+
+Hotel Aston Sidoarjo: Menikmati fasilitas hotel yang nyaman dan tenang di kota Sidoarjo.
+The Grove Suites: Menikmati ketenangan dan kenyamanan di hotel yang nyaman.
+Rivera: Berpartisipasi dalam kegiatan outbound yang menyenangkan untuk melepas penat.
+
+
+Output:
+Awana Townhouse Yogyakarta, Kahuripan Nirwana 1, Bogor Nirwana Residence 1, Hotel Aston Sidoarjo, The Grove Suites, Rivera
+
+Notes:
+1. do not use bullet points for the output
+2. there can only exist 6 values in the output
+3. this is only the instructions, the actual prompt for you to analyze is separate from this part above
+"""
+
     if "analysis_done" not in st.session_state:
         st.session_state.analysis_done = False
         st.session_state.last_photo = None
@@ -157,12 +282,7 @@ def run_main_app():
                     try:
                         image = Image.open(io.BytesIO(user_input.getvalue()))
                         user_photo_bytes = user_input.getvalue()
-                        prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
-                        prompt_response = requests.get(prompt_url); prompt_response.raise_for_status()
-                        analysis_prompt = prompt_response.text
-                        json_prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
-                        json_prompt_response = requests.get(json_prompt_url); json_prompt_response.raise_for_status()
-                        json_prompt = json_prompt_response.text
+                        
                         analysis_response = model.generate_content([analysis_prompt, image])
                         raw_output = analysis_response.text
                         json_response = model.generate_content([json_prompt, raw_output])
