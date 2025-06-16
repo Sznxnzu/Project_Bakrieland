@@ -4,4 +4,5 @@ pillow
 requests
 streamlit-webrtc
 opencv-python-headless
-qrcode 
+qrcode[pil]
+firebase-admin
