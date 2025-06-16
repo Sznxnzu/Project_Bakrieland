@@ -5,6 +5,7 @@ from PIL import Image
 import io
 import requests
 import html
+import random
 
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
@@ -179,6 +180,38 @@ with row1:
                         first_filenames = filenames[:midpoint]
                         second_filenames = filenames[midpoint:]
 
+                        first_target_names = [
+                            "Bogor Nirwana Residence",
+                            "Kahuripan Nirwana",
+                            "Sayana Bogor",
+                            "Taman Rasuna Epicentrum",
+                            "The Masterpiece & The Empyreal"
+                        ]
+
+                        first_filenames = [
+                            name + " " + str(random.randint(1, 2)) if name in target_names else name
+                            for name in first_filenames
+                        ]
+
+                        second_target_names = [
+                            "Aston Bogor",
+                            "Bagus Beach Walk",
+                            "Grand Elty Krakatoa",
+                            "Hotel Aston Sidoarjo",
+                            "Jungleland",
+                            "Junglesea Kalianda",
+                            "Rivera",
+                            "Swiss Belresidences Rasuna Epicentrum",
+                            "The Alana Malioboro",
+                            "The Grove Suites",
+                            "The Jungle Waterpark"
+                        ]
+
+                        second_filenames = [
+                            name + " " + str(random.randint(1, 2)) if name in target_names else name
+                            for name in second_filenames
+                        ]
+
                         st.session_state.image_urls = [
                             f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[0].strip()}.jpg",
                             f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames[1].strip()}.jpg",
@@ -265,3 +298,12 @@ with row3:
           <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{st.session_state.image_captions[3]}</p>
         </div>
         """, unsafe_allow_html=True)
+
+
+row4 = st.container()
+with row4:
+  colD1, colD2 = st.columns(2)
+  with colD1:
+    st.write("QR here")
+  with coldD2:
+    st.write("Mascots here")
