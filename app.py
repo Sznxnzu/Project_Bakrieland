@@ -44,6 +44,31 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     box-shadow: 0 0 10px #00f0ff;
     text-align: center;
 }
+
+.35thn-box {
+  width: 150px;
+  margin: 0 auto 16px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.35thn-box img {
+  width: 100%;
+  border-radius: 8px;
+  vertical-align: top;
+}
+
+.mascot-box {
+  width: 150px;
+  margin: 0 auto 16px auto;
+  text-align: center;
+}
+.mascot-box img {
+  width: 100%;
+  border-radius: 8px;
+}
+
 .mood-box-content {
     border: 2px solid #00f0ff;
     background-color: rgba(10, 15, 30, 0.85);
@@ -151,12 +176,12 @@ with row1:
     with colA1:
       st.write("")
       st.markdown("""
-        <div class="qr-box">
+        <div class="35thn-box">
             <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" style="width:100%; border-radius: 8px;" />
         </div>
     """, unsafe_allow_html=True)
       st.markdown("""
-        <div class="qr-box">
+        <div class="mascot-box">
             <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png" style="width:100%; border-radius: 8px;" />
         </div>
     """, unsafe_allow_html=True)
