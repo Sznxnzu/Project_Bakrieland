@@ -10,14 +10,87 @@ import qrcode
 import base64
 import urllib.parse # Untuk encode URL parameter
 
+# --- Konfigurasi Halaman ---
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
-# --- CSS Styling --- (Tidak berubah, tetap sama seperti sebelumnya)
+# --- CSS Styling ---
 st.markdown("""
 <style>
-/* ... (CSS Anda yang sudah ada) ... */
+/* Background and Scrollbar */
+html, body, [data-testid="stAppViewContainer"], .stApp {
+    background: none !important;
+    background-color: #19307f !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+}
+::-webkit-scrollbar {
+    display: none;
+}
 
-/* Highlight the section to be screenshotted */
+/* Header Box */
+.header-box {
+    text-align: center;
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,50,0.5);
+    border-radius: 8px;
+    padding: 6px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff;
+    color: #00f0ff;
+    font-size: 25px;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+}
+/* Portrait Box for Recommendations */
+.portrait-box {
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,30,0.6);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff;
+    text-align: center;
+}
+
+/* Column Wrapper for Side Elements */
+.column-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 400px; /* Adjust based on your layout */
+}
+
+/* 35th Anniversary Logo Box */
+.35thn-box {
+    width: 150px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.35thn-box img {
+    width: 100%;
+    border-radius: 8px;
+    vertical-align: top;
+}
+
+/* Mascot Box */
+.mascot-box {
+    width: 150px;
+    height: 200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+.mascot-box img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+/* Mood Analysis Content Box - TARGETED FOR SCREENSHOT */
 .mood-box-content {
     border: 2px solid #00f0ff;
     background-color: rgba(10, 15, 30, 0.85);
@@ -31,9 +104,9 @@ st.markdown("""
     height: auto;
     transition: all 0.3s ease-in-out;
     position: relative;
-    /* Added for clarity on what will be captured */
-    outline: 2px solid rgba(255,255,0,0.5); /* Temporary: Highlight what will be captured */
-    outline-offset: 5px;
+    /* Optional: Highlight for debugging what's captured */
+    /* outline: 2px solid rgba(255,255,0,0.5); */
+    /* outline-offset: 5px; */
 }
 .mood-box-content:hover {
     box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
@@ -58,15 +131,84 @@ st.markdown("""
     padding-left: 20px;
 }
 
-/* ... (Sisa CSS Anda) ... */
+/* Camera Input Styles */
+div[data-testid="stCameraInput"] div {
+    background-color: transparent !important;
+}
+div[data-testid="stCameraInputWebcamStyledBox"] {
+    width: 500px !important;
+    height: 500px !important;
+    border-radius: 50% !important;
+    overflow: hidden;
+    margin: auto;
+    box-shadow: 0 0 20px rgba(0,240,255,0.5);
+}
+div[data-testid="stCameraInput"] video{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+}
+div[data-testid="stCameraInput"] img {
+    display: block;
+    object-fit: cover;
+    width: 300px !important;
+    height: 300px !important;
+    border-radius: 50% !important;
+    box-shadow: 0 0 20px rgba(0,240,255,0.5);
+    margin: auto;
+}
+div[data-testid="stCameraInput"] button {
+    margin-top: 12px;
+    z-index: 10;
+    position: relative;
+    padding: 10px 20px;
+    background-color: #00c0cc;
+    color: #000;
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+div[data-testid="stCameraInput"] button:hover {
+    background-color: #00aabb;
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 240, 255, 0.8);
+}
 
-/* Remove the download button style since it won't be explicitly clicked */
-/* .stDownloadButton button { display: none; } */
+/* QR Code Styling */
+.qr-box {
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,30,0.6);
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px #00f0ff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.qr-box img {
+    width: 150px; /* Fixed size for QR code image */
+    height: 150px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+.qr-box p {
+    color: #00f0ff;
+    font-size: 0.9em;
+    margin: 0;
+}
 </style>
 """, unsafe_allow_html=True)
 
 
-# --- Backend and Model Setup ---
+# --- Backend dan Setup Model Gemini ---
 try:
     genai.configure(api_key=st.secrets["gemini_api"])
     model = genai.GenerativeModel("gemini-1.5-flash")
@@ -76,6 +218,10 @@ except Exception as e:
 
 # --- Fungsi untuk membuat QR Code ---
 def generate_qr_code(data):
+    """
+    Membuat QR Code dari data string yang diberikan.
+    Mengembalikan gambar QR dalam format byte PNG.
+    """
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -89,7 +235,7 @@ def generate_qr_code(data):
     img.save(buf, format="PNG")
     return buf.getvalue()
 
-# --- State Management Initialization ---
+# --- Inisialisasi State Management ---
 placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/placeholder.png"
 placeholder_caption = ""
 placeholder_analysis = "Arahkan kamera ke wajah Anda dan ambil foto untuk memulai analisis suasana hati dan mendapatkan rekomendasi yang dipersonalisasi."
@@ -105,7 +251,7 @@ row1 = st.container()
 with row1:
     colA1, colA2, colA3 = st.columns([0.2, 0.6, 0.2])
     with colA1:
-        st.write("")
+        st.write("") # Placeholder untuk menjaga layout
         st.markdown("""
         <div class="column-wrapper">
             <div class="35thn-box">
@@ -116,16 +262,19 @@ with row1:
             </div>
         </div>
         """, unsafe_allow_html=True)
-    with colA2:
+    
+    with colA2: # Kolom tengah untuk input kamera
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
 
+        # Logika analisis mood saat foto diambil
         if user_input is not None and user_input != st.session_state.last_photo:
             st.session_state.last_photo = user_input
-
+            
             with st.spinner("Menganalisis suasana hati Anda..."):
                 try:
                     image = Image.open(io.BytesIO(user_input.getvalue()))
 
+                    # Mengambil prompt dari GitHub
                     prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
                     prompt_response = requests.get(prompt_url)
                     prompt_response.raise_for_status()
@@ -136,11 +285,13 @@ with row1:
                     json_prompt_response.raise_for_status()
                     json_prompt = json_prompt_response.text
 
+                    # Menghasilkan analisis mood
                     analysis_response = model.generate_content([analysis_prompt, image])
                     raw_output = analysis_response.text
-
+                    
+                    # Menghasilkan nama file gambar rekomendasi
                     json_response = model.generate_content([json_prompt, raw_output])
-
+                    
                     filenames = json_response.text.strip().split(",")
                     if len(filenames) >= 4:
                         midpoint = len(filenames) // 2
@@ -190,29 +341,32 @@ with row1:
                     st.error(f"Terjadi kesalahan saat pemrosesan: {e}")
                     st.session_state.analysis_result = "Gagal menganalisis gambar. Silakan coba lagi."
 
-            st.rerun()
+            st.rerun() # Refresh aplikasi untuk menampilkan hasil baru
 
+        # Logika reset state jika foto dihapus
         elif user_input is None and st.session_state.last_photo is not None:
             st.session_state.analysis_result = placeholder_analysis
             st.session_state.image_urls = [placeholder_url] * 4
             st.session_state.image_captions = [placeholder_caption] * 4
             st.session_state.last_photo = None
-            st.rerun()
+            st.rerun() # Refresh aplikasi untuk menampilkan placeholder
             
-    with colA3:
-        # Company Logos
+    with colA3: # Kolom kanan untuk logo dan QR Code
+        # Logo Bakrieland
         st.markdown("""
         <div>
             <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" />
         </div>
         """, unsafe_allow_html=True)
         
+        # Teks "POWERED BY"
         st.markdown("""
         <div>
             <span style="display: inline-block; vertical-align: middle;"><div>POWERED BY:</div></span>
         </div>
         """, unsafe_allow_html=True)
         
+        # Logo Google dan Metrodata
         st.markdown("""
         <div>
             <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 40px; vertical-align: middle; margin-left: -10px; margin-right: -30px;" />
@@ -220,42 +374,32 @@ with row1:
         </div>
         """, unsafe_allow_html=True)
 
-        # --- QR Code Section for Download ---
-        # Get the current app URL. For deployment, this needs to be known.
-        # Example for Streamlit Cloud: "https://your-app-name.streamlit.app"
-        # Example for local: "http://localhost:8501"
-        
-        # We need a unique way to identify the *current state* of the analysis
-        # to ensure the QR code downloads *that specific result*.
-        # For simplicity, we'll assume the URL will trigger a screenshot of the *currently displayed* result.
-        # If you need to download a *specific historical* result, you'd need to store results server-side
-        # and embed an ID in the QR code URL.
+        # --- Bagian QR Code untuk Unduh Otomatis ---
+        # Dapatkan URL dasar aplikasi Anda. Ini SANGAT PENTING untuk deployment.
+        # GANTI "http://localhost:8501" dengan URL aplikasi Streamlit Anda yang sebenarnya saat di-deploy.
+        # Contoh: "https://nama-aplikasi-anda.streamlit.app"
+        base_url = "http://localhost:8501" # <<< GANTI INI!
 
-        # Mengambil query parameters saat ini untuk membangun URL yang tepat
+        # Ambil query parameters saat ini
         query_params = st.query_params.to_dict()
-        # Jika Anda ingin QR code memicu unduhan, tambahkan parameter ke URL saat ini
-        # Misalnya, jika aplikasi Anda diakses di `https://myapp.streamlit.app/`
-        # QR code akan mengarah ke `https://myapp.streamlit.app/?download=true`
         
-        # Dapatkan URL dasar aplikasi Anda. Ini mungkin perlu disesuaikan saat deploy.
-        # Asumsi untuk testing lokal:
-        base_url = "http://localhost:8501" # GANTI INI DENGAN URL ASLI APPLIKASI ANDA SAAT DI DEPLOY!
-        
-        # Pastikan kita tidak menambah parameter `download` jika sudah ada untuk menghindari loop
+        # Tambahkan parameter 'download_mood=true' ke URL untuk memicu unduhan
         download_url_params = query_params.copy()
-        download_url_params["download_mood"] = "true" # Parameter yang akan memicu unduhan
+        download_url_params["download_mood"] = "true" 
         
-        # Ubah dictionary parameter menjadi string query yang di-encode URL
+        # Encode parameter ke format URL
         encoded_params = urllib.parse.urlencode(download_url_params)
         
-        # Gabungkan base URL dengan parameter untuk QR code
+        # Gabungkan base URL dengan parameter untuk membuat URL QR code
         qr_data_url = f"{base_url}?{encoded_params}"
 
-        # Debugging: tampilkan URL yang akan di-encode ke QR
+        # Debugging: bisa diaktifkan untuk melihat URL yang di-encode
         # st.write(f"QR Code will point to: {qr_data_url}")
 
+        # Buat gambar QR code
         qr_image_bytes = generate_qr_code(qr_data_url)
 
+        # Tampilkan QR code
         st.markdown(f"""
             <div class="qr-box">
                 <img src="data:image/png;base64,{base64.b64encode(qr_image_bytes).decode('utf-8')}" alt="QR Code" />
@@ -266,7 +410,8 @@ with row1:
 
 row2 = st.container()
 with row2:
-    # --- Tambahkan ID ke elemen mood-box-content untuk screenshot ---
+    # --- Elemen Hasil Analisis Mood (Target Screenshot) ---
+    # Memberikan ID unik agar JavaScript dapat menargetkannya
     escaped_analysis = html.escape(st.session_state.analysis_result)
     st.markdown(f"""
     <div id="mood-analysis-section" class="mood-box-content">
@@ -275,34 +420,26 @@ with row2:
     </div>
     """, unsafe_allow_html=True)
 
-    # --- Auto-trigger download based on URL parameter ---
-    # Mendapatkan query parameters
+    # --- Logika Pemicu Unduhan Otomatis Berdasarkan Parameter URL ---
+    # Mendapatkan query parameters dari URL saat ini
     query_params = st.query_params
 
-    # Cek apakah parameter 'download_mood' ada di URL
+    # Jika parameter 'download_mood' ada dan bernilai 'true'
     if "download_mood" in query_params and query_params["download_mood"] == "true":
-        # Hapus parameter dari URL agar tidak memicu unduhan berulang jika pengguna refresh
-        # Ini akan membersihkan URL setelah unduhan dipicu
+        # Hapus parameter 'download_mood' dari URL setelah dipicu
+        # Ini penting agar unduhan tidak terjadi berulang kali setiap kali halaman direfresh
         new_query_params = query_params.to_dict()
         if "download_mood" in new_query_params:
             del new_query_params["download_mood"]
-        st.query_params.clear() # Membersihkan semua query params
-        st.query_params.update(**new_query_params) # Memuat kembali query params tanpa 'download_mood'
+        st.query_params.clear() # Bersihkan semua query params yang ada
+        st.query_params.update(**new_query_params) # Muat kembali query params tanpa 'download_mood'
         
-        # Kemudian, panggil JavaScript untuk unduhan
+        # Suntikkan JavaScript untuk mengambil screenshot dan memicu unduhan
         components.html(
             f"""
             <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
             <script>
-                // Pastikan html2canvas sudah dimuat sebelum mencoba menggunakannya
-                if (typeof html2canvas === 'undefined') {{
-                    console.error("html2canvas not loaded. Retrying...");
-                    // Opsional: tunggu sebentar dan coba lagi, atau berikan pesan error ke user
-                    setTimeout(downloadMoodAnalysis, 500); 
-                }} else {{
-                    downloadMoodAnalysis();
-                }}
-
+                // Fungsi untuk mengambil screenshot dan mengunduh
                 function downloadMoodAnalysis() {{
                     const element = document.getElementById('mood-analysis-section');
                     if (!element) {{
@@ -310,28 +447,38 @@ with row2:
                         return;
                     }}
                     html2canvas(element, {{ 
-                        scale: 2, 
-                        backgroundColor: 'rgba(10, 15, 30, 0.85)', 
-                        useCORS: true, 
-                        logging: false 
+                        scale: 2, // Meningkatkan resolusi gambar untuk kualitas yang lebih baik
+                        backgroundColor: 'rgba(10, 15, 30, 0.85)', // Sesuaikan dengan warna latar belakang elemen
+                        useCORS: true, // Penting jika ada gambar eksternal (misal, dari GitHub)
+                        logging: false // Matikan logging konsol html2canvas
                     }}).then(canvas => {{
                         const link = document.createElement('a');
-                        link.download = 'hasil_analisis_mood.png';
-                        link.href = canvas.toDataURL('image/png');
+                        link.download = 'hasil_analisis_mood.png'; // Nama file unduhan
+                        link.href = canvas.toDataURL('image/png'); // Data gambar Base64
                         document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
+                        link.click(); // Memicu klik link untuk unduh
+                        document.body.removeChild(link); // Hapus link sementara
                         console.log("Screenshot download initiated.");
                     }}).catch(error => {{
                         console.error("Error during html2canvas capture:", error);
                     }});
                 }}
+                
+                // Pastikan html2canvas sudah dimuat sebelum memanggil fungsi
+                // Memberikan sedikit delay untuk memastikan DOM dan script dimuat penuh
+                setTimeout(function() {{
+                    if (typeof html2canvas === 'undefined') {{
+                        console.error("html2canvas not loaded after timeout.");
+                    }} else {{
+                        downloadMoodAnalysis();
+                    }}
+                }}, 500); // Delay 500ms
             </script>
             """,
-            height=0,
+            height=0, # Atur tinggi dan lebar ke 0 agar komponen HTML tidak terlihat
             width=0,
         )
-        # st.toast("Download will start shortly!") # Opsional: beri feedback ke user
+        # st.toast("Download will start shortly!") # Opsional: berikan feedback ke pengguna
 
 row3 = st.container()
 with row3:
