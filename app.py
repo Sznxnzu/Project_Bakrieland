@@ -6,16 +6,12 @@ import io
 import requests
 import html
 import random
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 import qrcode
 import uuid
 import time
 import json
 import firebase_admin
 from firebase_admin import credentials, storage
-from selenium.webdriver.chrome.service import Service
 
 if not firebase_admin._apps:
     cred = credentials.Certificate(json.loads(st.secrets["firebase_service_account"]))
@@ -34,18 +30,9 @@ st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial
 # --- Fungsi Screenshot Halaman Streamlit
 from html2image import Html2Image
 
-def screenshot_streamlit(output_path="screenshot.png"):
+def screenshot_streamlit(url="http://localhost:8501", output_path="screenshot.png"):
     hti = Html2Image()
-    hti.screenshot(url="http://localhost:8501", save_as=output_path)
-    return output_path
-    # Gunakan Service wrapper
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-
-    driver.get(url)
-    time.sleep(delay)
-    driver.save_screenshot(output_path)
-    driver.quit()
+    hti.screenshot(url=url, save_as=output_path)
     return output_path
 st.markdown("""
 <style>
