@@ -305,5 +305,5 @@ with row4:
   colD1, colD2 = st.columns(2)
   with colD1:
     st.write("QR here")
-  with coldD2:
+  with colD2:
     st.write("Mascots here")
