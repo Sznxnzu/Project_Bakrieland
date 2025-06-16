@@ -15,7 +15,6 @@ import time
 import json
 import firebase_admin
 from firebase_admin import credentials, storage
-import json
 
 if not firebase_admin._apps:
     cred = credentials.Certificate(json.loads(st.secrets["firebase_service_account"]))
@@ -207,14 +206,6 @@ try:
 except Exception as e:
     st.error(f"Error configuring Generative AI: {e}")
     st.stop()
-def upload_to_firebase(local_file_path):
-    import uuid
-    filename = f"mood_screenshot_{uuid.uuid4().hex}.png"
-    storage_path = f"screenshots/{filename}"
-    storage.child(storage_path).put(local_file_path)
-    url = storage.child(storage_path).get_url(None)
-    return url
-
 def generate_qr_from_url(url, output_path="qr_generated.png"):
     import qrcode
     qr_img = qrcode.make(url)
