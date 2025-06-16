@@ -194,12 +194,9 @@ except Exception as e:
     st.stop()
 # --- Firebase Setup & Functions ---
 firebase_config = {
-  "apiKey": "",  # boleh dikosongkan kalau tidak perlu
-  "authDomain": "",
-  "projectId": "bakrieland-mood-app",
-  "storageBucket": "bakrieland-mood-app.appspot.com",
-  "databaseURL": "",
-  "serviceAccount": json.loads(st.secrets["firebase_service_account"])
+    "projectId": "bakrieland-mood-app",
+    "storageBucket": "bakrieland-mood-app.appspot.com",
+    "serviceAccount": json.loads(st.secrets["firebase_service_account"])
 }
 
 firebase = pyrebase.initialize_app(firebase_config)
