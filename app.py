@@ -150,6 +150,16 @@ with row1:
     colA1, colA2, colA3 = st.columns([0.2, 0.6, 0.2])
     with colA1:
       st.write("")
+      st.markdown("""
+        <div class="qr-box">
+            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" style="width:100%; border-radius: 8px;" />
+        </div>
+    """, unsafe_allow_html=True)
+      st.markdown("""
+        <div class="qr-box">
+            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png" style="width:100%; border-radius: 8px;" />
+        </div>
+    """, unsafe_allow_html=True)
     with colA2:
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
 
@@ -275,6 +285,11 @@ with row2:
       <pre style="white-space: pre-wrap; font-family: inherit;">{escaped_analysis}</pre>
     </div>
     """, unsafe_allow_html=True)
+    st.markdown("""
+        <div class="qr-box">
+            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png" style="width:100%; border-radius: 8px;" />
+        </div>
+    """, unsafe_allow_html=True)
 
 row3 = st.container()
 with row3:
@@ -306,11 +321,6 @@ with row4:
   colD1, colD2 = st.columns(2)
   with colD1:
     st.write("QR here")
-    st.markdown("""
-        <div class="qr-box">
-            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/qr_logo.png" style="width:100%; border-radius: 8px;" />
-        </div>
-    """, unsafe_allow_html=True)
 
   with colD2:
     st.write("Mascots here")
