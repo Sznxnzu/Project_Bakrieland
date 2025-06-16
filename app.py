@@ -37,7 +37,7 @@ def screenshot_streamlit(url="http://localhost:8501", output_path="screenshot.pn
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--window-size=1400,1000")
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+    driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=chrome_options)
     driver.get(url)
     time.sleep(delay)  # beri waktu halaman load
     driver.save_screenshot(output_path)
