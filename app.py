@@ -15,6 +15,7 @@ import time
 import json
 import firebase_admin
 from firebase_admin import credentials, storage
+from selenium.webdriver.chrome.service import Service
 
 if not firebase_admin._apps:
     cred = credentials.Certificate(json.loads(st.secrets["firebase_service_account"]))
@@ -37,13 +38,16 @@ def screenshot_streamlit(url="http://localhost:8501", output_path="screenshot.pn
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--window-size=1400,1000")
-    driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=chrome_options)
+
+    # Gunakan Service wrapper
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+
     driver.get(url)
-    time.sleep(delay)  # beri waktu halaman load
+    time.sleep(delay)
     driver.save_screenshot(output_path)
     driver.quit()
     return output_path
-
 st.markdown("""
 <style>
 html, body, [data-testid="stAppViewContainer"], .stApp {
