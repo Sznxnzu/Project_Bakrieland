@@ -374,7 +374,7 @@ with row1:
         </div>
         """, unsafe_allow_html=True)
 
-        base_url = "https://xxgwueozt6kgv6d8fzin5y.streamlit.app/" 
+        base_url = "https://xxgwueozt6kgv6d8fzin5y.streamlit.app/?download_mood=true" 
 
         # Ambil query parameters saat ini
         query_params = st.query_params.to_dict()
