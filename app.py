@@ -45,14 +45,21 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     text-align: center;
 }
 
-.35thn-box {
-  width: 150px;
-  margin: 0 auto 16px auto;
+.column-wrapper {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  height: 400px; /* Adjust based on your layout */
+}
+
+.35thn-box {
+  width: 150px;
+  margin: 0 auto;
+  display: flex;
   align-items: center;
   justify-content: flex-start;
 }
+
 .35thn-box img {
   width: 100%;
   border-radius: 8px;
@@ -61,13 +68,13 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 
 .mascot-box {
   width: 150px;
-  height: 200px; /* Set a fixed height to allow vertical alignment */
-  margin: 0 auto 16px auto;
+  height: 200px;
+  margin: 0 auto;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: flex-end;  /* Align to bottom */
+  justify-content: flex-end;
 }
+
 .mascot-box img {
   width: 100%;
   border-radius: 8px;
@@ -180,15 +187,15 @@ with row1:
     with colA1:
       st.write("")
       st.markdown("""
+      <div class="column-wrapper">
         <div class="35thn-box">
-            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" style="width:100%; border-radius: 8px;" />
+          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" />
         </div>
-    """, unsafe_allow_html=True)
-      st.markdown("""
         <div class="mascot-box">
-            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png" style="width:100%; border-radius: 8px;" />
+          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png" />
         </div>
-    """, unsafe_allow_html=True)
+      </div>
+      """, unsafe_allow_html=True)
     with colA2:
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
 
@@ -345,29 +352,29 @@ with row3:
         """, unsafe_allow_html=True)
 
 
-row4 = st.container()
-with row4:
-  colD1, colD2 = st.columns(2)
-  with colD1:
-    st.write("QR here")
+# row4 = st.container()
+# with row4:
+#   colD1, colD2 = st.columns(2)
+#   with colD1:
+#     st.write("QR here")
 
-  with colD2:
-    st.write("Mascots here")
-    components.html("""
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <div style="display: flex; justify-content: center; align-items: center;">
-        <lottie-player
-            id="robot"
-            src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json"
-            background="transparent" speed="1" style="width: 300px; height: 300px;"
-            autoplay loop>
-        </lottie-player>
-    </div>
-    <script>
-        document.getElementById("robot").addEventListener("click", function() {
-            const r = document.getElementById("robot");
-            r.stop();
-            r.play();
-        });
-    </script>
-    """, height=340)
+#   with colD2:
+#     st.write("Mascots here")
+#     components.html("""
+#     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+#     <div style="display: flex; justify-content: center; align-items: center;">
+#         <lottie-player
+#             id="robot"
+#             src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json"
+#             background="transparent" speed="1" style="width: 300px; height: 300px;"
+#             autoplay loop>
+#         </lottie-player>
+#     </div>
+#     <script>
+#         document.getElementById("robot").addEventListener("click", function() {
+#             const r = document.getElementById("robot");
+#             r.stop();
+#             r.play();
+#         });
+#     </script>
+#     """, height=340)
