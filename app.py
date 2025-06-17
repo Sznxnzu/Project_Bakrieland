@@ -378,7 +378,7 @@ st.markdown("""
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <button id="screenshotBtn" style="
     position: fixed;
-    top: 20px;
+    bottom: 20px;
     right: 20px;
     z-index: 9999;
     background-color: #00c0cc;
