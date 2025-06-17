@@ -92,90 +92,192 @@ div[data-testid="stCameraInput"] button:hover {
   display: none !important;
 }
 
-/* --- PENYESUAIAN FINAL HANYA DI SINI --- */
+/* --- MOBILE RESPONSIVE DESIGN --- */
 @media (max-width: 768px) {
-    /* Jadikan kontainer kolom utama sebagai dasar positioning */
-    div[data-testid="stHorizontalBlock"] {
+    /* Container utama untuk positioning */
+    div[data-testid="stHorizontalBlock"]:first-of-type {
         position: relative !important;
-        min-height: 450px !important; /* Beri ruang vertikal untuk elemen absolute */
+        height: 300px !important;
+        overflow: visible !important;
     }
 
-    /* Biarkan kolomnya ada tapi isinya kita atur ulang */
-    div[data-testid="stHorizontalBlock"] > div {
-        position: static !important;
+    /* Sembunyikan kolom default pada mobile */
+    div[data-testid="stHorizontalBlock"]:first-of-type > div {
+        position: absolute !important;
     }
 
-    /* 1. Atur Logo 35 Tahun di Pojok Kiri Atas */
-    .column-wrapper .35thn-box {
-        position: absolute;
-        top: 5px;
-        left: 5px;
-        width: 100px; /* Ukuran tidak terlalu besar */
-        height: auto;
-        z-index: 10;
+    /* LOGO 35 TAHUN - Pojok kiri atas */
+    div[data-testid="stHorizontalBlock"]:first-of-type > div:nth-child(1) {
+        top: 0 !important;
+        left: 0 !important;
+        width: 80px !important;
+        z-index: 15 !important;
     }
-    .column-wrapper .35thn-box img { width: 100%; }
     
-    /* 2. Atur Kamera di Tengah */
-    .camera-wrapper {
-        padding-top: 60px; /* Beri jarak dari atas untuk logo */
+    .column-wrapper .35thn-box {
+        width: 80px !important;
+        height: auto !important;
+        margin: 0 !important;
     }
+    
+    .column-wrapper .35thn-box img {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* KAMERA - Tengah atas */
+    div[data-testid="stHorizontalBlock"]:first-of-type > div:nth-child(2) {
+        top: 0 !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 200px !important;
+        z-index: 10 !important;
+    }
+    
+    .camera-wrapper {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
     div[data-testid="stCameraInput"],
     div[data-testid="stCameraInput"] div,
     div[data-testid="stCameraInputWebcamStyledBox"],
     div[data-testid="stCameraInput"] img {
-        width: 250px !important;
-        height: 250px !important;
-    }
-    div[data-testid="stCameraInput"] button {
-        width: 120px; font-size: 14px;
-        bottom: 10px; right: 50%;
-        transform: translateX(50%);
-    }
-
-    /* 3. Atur Maskot di Bawah Kamera */
-    .column-wrapper .mascot-box {
-        position: absolute;
-        top: 330px; 
-        left: 15%;  
-        width: 75px; 
-        height: auto;
-        z-index: 10;
-        margin: 0;
-    }
-
-    /* 4. Atur Grup Logo Kanan */
-    div[data-testid="stHorizontalBlock"] > div:nth-child(3) {
-        position: absolute;
-        top: 330px; 
-        right: 10px;
-        z-index: 10;
-        width: auto;
-    }
-    /* Atur isi dari grup logo kanan */
-    div[data-testid="stHorizontalBlock"] > div:nth-child(3) > div > div {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 8px;
-    }
-    div[data-testid="stHorizontalBlock"] > div:nth-child(3) img[src*="bakrieland_logo"] {
-        height: 35px !important;
-        margin-bottom: 0;
-    }
-    div[data-testid="stHorizontalBlock"] > div:nth-child(3) span {
-        font-size: 11px; color: #fff;
-    }
-    div[data-testid="stHorizontalBlock"] > div:nth-child(3) img[src*="google_logo"],
-    div[data-testid="stHorizontalBlock"] > div:nth-child(3) img[src*="metrodata_logo"] {
-        height: 22px !important; margin: 0 !important;
+        width: 200px !important;
+        height: 200px !important;
     }
     
-    /* 5. Atur sisa konten */
-    .st-emotion-cache-z5fcl4 > div:nth-child(3) > div[data-testid="stHorizontalBlock"] {
-        flex-direction: column;
+    div[data-testid="stCameraInput"] button {
+        width: 100px !important;
+        font-size: 12px !important;
+        bottom: 5px !important;
+        right: 50% !important;
+        transform: translateX(50%) !important;
     }
-     .mood-box-content h2 { font-size: 22px; }
+
+    /* LOGO BAKRIELAND & POWERED BY - Pojok kanan atas */
+    div[data-testid="stHorizontalBlock"]:first-of-type > div:nth-child(3) {
+        top: 0 !important;
+        right: 0 !important;
+        width: 120px !important;
+        z-index: 15 !important;
+    }
+    
+    div[data-testid="stHorizontalBlock"]:first-of-type > div:nth-child(3) img[src*="bakrieland_logo"] {
+        height: 30px !important;
+        width: auto !important;
+        margin-bottom: 2px !important;
+    }
+    
+    div[data-testid="stHorizontalBlock"]:first-of-type > div:nth-child(3) span {
+        font-size: 9px !important;
+        color: #fff !important;
+        display: block !important;
+        text-align: center !important;
+        margin-bottom: 2px !important;
+    }
+    
+    div[data-testid="stHorizontalBlock"]:first-of-type > div:nth-child(3) img[src*="google_logo"],
+    div[data-testid="stHorizontalBlock"]:first-of-type > div:nth-child(3) img[src*="metrodata_logo"] {
+        height: 18px !important;
+        width: auto !important;
+        margin: 0 1px !important;
+        vertical-align: middle !important;
+    }
+
+    /* MASKOT RUSA - Bawah kiri */
+    .column-wrapper .mascot-box {
+        position: absolute !important;
+        bottom: -100px !important;
+        left: 0 !important;
+        width: 80px !important;
+        height: auto !important;
+        z-index: 15 !important;
+        margin: 0 !important;
+    }
+    
+    .column-wrapper .mascot-box img {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Mood Analytics Box */
+    .mood-box-content {
+        font-size: 16px !important;
+        padding: 10px !important;
+        margin-top: 20px !important;
+    }
+    
+    .mood-box-content h2 {
+        font-size: 20px !important;
+        margin-bottom: 10px !important;
+    }
+
+    /* Header boxes untuk rekomendasi */
+    .header-box {
+        font-size: 16px !important;
+        padding: 4px !important;
+        margin-bottom: 8px !important;
+    }
+    
+    /* Portrait boxes untuk gambar */
+    .portrait-box {
+        padding: 8px !important;
+    }
+    
+    .portrait-box img {
+        height: 120px !important;
+    }
+    
+    .portrait-box p {
+        font-size: 14px !important;
+        margin-top: 3px !important;
+    }
+
+    /* Kolom rekomendasi */
+    div[data-testid="stHorizontalBlock"]:not(:first-of-type) > div {
+        width: 100% !important;
+        margin-bottom: 15px !important;
+    }
+}
+
+/* Untuk layar yang sangat kecil */
+@media (max-width: 480px) {
+    div[data-testid="stHorizontalBlock"]:first-of-type {
+        height: 250px !important;
+    }
+    
+    /* Logo 35 tahun lebih kecil */
+    div[data-testid="stHorizontalBlock"]:first-of-type > div:nth-child(1) {
+        width: 60px !important;
+    }
+    .column-wrapper .35thn-box {
+        width: 60px !important;
+    }
+    
+    /* Kamera lebih kecil */
+    div[data-testid="stHorizontalBlock"]:first-of-type > div:nth-child(2) {
+        width: 150px !important;
+    }
+    
+    div[data-testid="stCameraInput"],
+    div[data-testid="stCameraInput"] div,
+    div[data-testid="stCameraInputWebcamStyledBox"],
+    div[data-testid="stCameraInput"] img {
+        width: 150px !important;
+        height: 150px !important;
+    }
+    
+    /* Logo kanan lebih kecil */
+    div[data-testid="stHorizontalBlock"]:first-of-type > div:nth-child(3) {
+        width: 100px !important;
+    }
+    
+    /* Maskot posisi disesuaikan */
+    .column-wrapper .mascot-box {
+        bottom: -80px !important;
+        width: 60px !important;
+    }
 }
 </style>
 """, unsafe_allow_html=True)
