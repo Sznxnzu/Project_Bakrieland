@@ -121,7 +121,7 @@ div[data-testid="stCameraInput"] div {
   background-color: transparent !important;
   flex: 0 0 auto;
   width: 100%;
-  height: 90%;
+  height: 100%;
   max-width: 500px;
 }
 
