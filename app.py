@@ -109,6 +109,14 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding-left: 20px;
 }
 
+div[data-testid="stCameraInput"] {
+  height: 550px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+}
+
 div[data-testid="stCameraInput"] div {
   background-color: transparent !important;
 }
