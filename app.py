@@ -92,7 +92,7 @@ div[data-testid="stCameraInput"] button:hover {
   display: none !important;
 }
 
-/* --- PERUBAHAN HANYA DI SINI --- */
+
 /* --- CSS RESPONSIVE YANG DISEMPURNAKAN --- */
 @media (max-width: 768px) {
     /* Jadikan kontainer kolom utama sebagai dasar positioning */
@@ -109,14 +109,14 @@ div[data-testid="stCameraInput"] button:hover {
     /* 1. Atur Logo 35 Tahun di Pojok Kiri Atas */
     .35thn-box {
         position: absolute;
-        top: 5px; /* PENYESUAIAN DI SINI */
-        left: 5px; /* PENYESUAIAN DI SINI */
-        width: 100px; /* PENYESUAIAN DI SINI (lebih kecil) */
+        top: 5px; 
+        left: 5px; 
+        width: 100px; /* Ukuran lebih kecil */
         height: auto;
         z-index: 10;
     }
     .35thn-box img { width: 100%; }
-
+    
     /* 2. Atur Kamera di Tengah (beri ruang dari atas) */
     .camera-wrapper {
         padding-top: 50px; /* Jarak dari atas untuk logo */
@@ -137,9 +137,9 @@ div[data-testid="stCameraInput"] button:hover {
     /* 3. Atur Maskot di Bawah Kamera */
     .mascot-box {
         position: absolute;
-        top: 325px; /* PENYESUAIAN DI SINI (lebih rendah) */
-        left: 15%;  /* PENYESUAIAN DI SINI (lebih ke tengah) */
-        width: 75px; /* PENYESUAIAN DI SINI */
+        top: 325px; 
+        left: 15%;  
+        width: 75px; 
         height: auto;
         z-index: 10;
     }
@@ -147,7 +147,7 @@ div[data-testid="stCameraInput"] button:hover {
     /* 4. Atur Grup Logo Kanan */
     div[data-testid="stHorizontalBlock"] > div:nth-child(3) > div {
         position: absolute;
-        top: 325px; /* PENYESUAIAN DI SINI (sejajar dengan maskot) */
+        top: 325px; 
         right: 10px;
         width: auto;
         display: flex;
@@ -157,7 +157,7 @@ div[data-testid="stCameraInput"] button:hover {
         z-index: 10;
     }
     div[data-testid="stHorizontalBlock"] > div:nth-child(3) img[src*="bakrieland_logo"] {
-        height: 35px !important; /* PENYESUAIAN DI SINI */
+        height: 35px !important;
         margin-bottom: 0;
     }
     div[data-testid="stHorizontalBlock"] > div:nth-child(3) span {
@@ -166,20 +166,22 @@ div[data-testid="stCameraInput"] button:hover {
     }
     div[data-testid="stHorizontalBlock"] > div:nth-child(3) img[src*="google_logo"],
     div[data-testid="stHorizontalBlock"] > div:nth-child(3) img[src*="metrodata_logo"] {
-        height: 22px !important; /* PENYESUAIAN DI SINI (sedikit lebih besar) */
+        height: 22px !important;
     }
-
+    
     /* 5. Atur sisa konten (Analisis & Rekomendasi) */
-    .st-emotion-cache-z5fcl4 > .row-container:nth-of-type(2), /* row2 */
-    .st-emotion-cache-z5fcl4 > .row-container:nth-of-type(3)  /* row3 */
+    /* Menargetkan row2 dan row3 berdasarkan urutannya */
+    .st-emotion-cache-z5fcl4 > div:nth-child(2), /* row2 */
+    .st-emotion-cache-z5fcl4 > div:nth-child(3)  /* row3 */
     {
         margin-top: 20px;
     }
     .mood-box-content h2 { font-size: 22px; }
     .mood-box-content pre { font-size: 14px; }
     
-    /* Mengatur kolom rekomendasi agar menumpuk */
-    .row3 .st-emotion-cache-1b2y69g {
+    /* Mengatur kolom rekomendasi agar menumpuk di mobile */
+    /* Target: kontainer kolom di dalam row3 */
+    .st-emotion-cache-z5fcl4 > div:nth-child(3) > div[data-testid="stHorizontalBlock"] {
         flex-direction: column;
     }
 }
@@ -335,7 +337,8 @@ with row2:
     </div>
     """, unsafe_allow_html=True)
 
-row3 = st.container(class_name="row3") # Menambahkan nama kelas untuk penargetan CSS
+# PERBAIKAN DI SINI: Menghapus class_name yang menyebabkan error
+row3 = st.container() 
 with row3:
     colC1, colC2 = st.columns(2)
     with colC1:
