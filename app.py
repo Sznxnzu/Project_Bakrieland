@@ -9,8 +9,11 @@ import random
 
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
+# --- CSS STYLES ---
+# Penambahan Media Queries untuk responsivitas ada di bagian bawah blok style ini
 st.markdown("""
 <style>
+/* --- Gaya Dasar --- */
 html, body, [data-testid="stAppViewContainer"], .stApp {
     background: none !important;
     background-color: #19307f !important;
@@ -49,7 +52,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 400px; /* Adjust based on your layout */
+  height: 400px;
 }
 
 .35thn-box {
@@ -114,6 +117,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   justify-content: center;
 }
 
+/* --- Gaya Kamera untuk Desktop --- */
 div[data-testid="stCameraInput"] {
   width:500px !important;
   height: 500px !important;
@@ -173,7 +177,6 @@ div[data-testid="stCameraInput"] button {
   box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-
   width: 150px;
 }
 
@@ -187,9 +190,82 @@ div[data-testid="stCameraInput"] button:hover {
   display: none !important;
 }
 
+
+/* --- PENAMBAHAN: ATURAN RESPONSIVE UNTUK MOBILE & TABLET --- */
+@media (max-width: 768px) {
+    /* Mengatur ulang layout kolom utama untuk mobile */
+    .st-emotion-cache-z5fcl4 {
+        flex-direction: column;
+    }
+
+    /* Mengubah ukuran font agar tidak terlalu besar */
+    .header-box {
+        font-size: 18px;
+    }
+    .mood-box-content h2 {
+        font-size: 30px;
+    }
+    .mood-box-content {
+        font-size: 16px;
+    }
+    .portrait-box p {
+        font-size: 18px !important;
+    }
+
+    /* Menyesuaikan ukuran kamera agar pas di layar kecil */
+    div[data-testid="stCameraInput"],
+    div[data-testid="stCameraInput"] div,
+    div[data-testid="stCameraInputWebcamStyledBox"],
+    div[data-testid="stCameraInput"] img {
+        width: 80vw !important; /* Menggunakan viewport width */
+        height: 80vw !important; /* Menggunakan viewport width agar tetap bulat */
+        max-width: 300px !important; /* Batas maksimal ukuran */
+        max-height: 300px !important; /* Batas maksimal ukuran */
+    }
+
+    /* Menyesuaikan posisi tombol kamera */
+    div[data-testid="stCameraInput"] button {
+        width: 120px;
+        font-size: 14px;
+        bottom: 10px; /* Sedikit lebih tinggi */
+        right: 50%;
+        transform: translateX(50%); /* Pusatkan tombol */
+    }
+
+    /* Menyesuaikan kolom samping di mobile */
+    .column-wrapper {
+        flex-direction: row; /* Ubah jadi baris */
+        height: auto; /* Hapus tinggi tetap */
+        align-items: center;
+        justify-content: space-around; /* Beri jarak */
+        margin-bottom: 20px;
+    }
+
+    .35thn-box, .mascot-box {
+        width: 100px; /* Perkecil logo */
+        height: auto;
+        margin: 0;
+    }
+    
+    /* Menyesuaikan logo Bakrieland & powered by */
+    img[src*="bakrieland_logo"] {
+        height: 50px !important;
+    }
+     img[src*="google_logo"], img[src*="metrodata_logo"] {
+        height: 30px !important;
+    }
+
+    /* Membuat kolom rekomendasi menjadi satu kolom */
+    div[data-testid="stHorizontalBlock"] {
+        flex-direction: column;
+    }
+}
+
 </style>
 """, unsafe_allow_html=True)
 
+
+# --- LOGIC & LAYOUT (TIDAK ADA PERUBAHAN DI SINI) ---
 try:
     genai.configure(api_key=st.secrets["gemini_api"])
     model = genai.GenerativeModel("gemini-1.5-flash")
@@ -256,32 +332,19 @@ with row1:
                         second_filenames = filenames[midpoint:]
 
                         first_target_names = [
-                            "Bogor Nirwana Residence",
-                            "Kahuripan Nirwana",
-                            "Sayana Bogor",
-                            "Taman Rasuna Epicentrum",
-                            "The Masterpiece & The Empyreal"
+                            "Bogor Nirwana Residence", "Kahuripan Nirwana", "Sayana Bogor",
+                            "Taman Rasuna Epicentrum", "The Masterpiece & The Empyreal"
                         ]
-
                         first_filenames_edited = [
                             name.strip() + " " + str(random.randint(1, 2)) if name.strip() in first_target_names else name.strip()
                             for name in first_filenames
                         ]
 
                         second_target_names = [
-                            "Aston Bogor",
-                            "Bagus Beach Walk",
-                            "Grand ELTY Krakatoa",
-                            "Hotel Aston Sidoarjo",
-                            "Jungleland",
-                            "Junglesea Kalianda",
-                            "Rivera",
-                            "Swiss Belresidences Rasuna Epicentrum",
-                            "The Alana Malioboro",
-                            "The Grove Suites",
-                            "The Jungle Waterpark"
+                            "Aston Bogor", "Bagus Beach Walk", "Grand ELTY Krakatoa", "Hotel Aston Sidoarjo",
+                            "Jungleland", "Junglesea Kalianda", "Rivera", "Swiss Belresidences Rasuna Epicentrum",
+                            "The Alana Malioboro", "The Grove Suites", "The Jungle Waterpark"
                         ]
-
                         second_filenames_edited = [
                             name.strip() + " " + str(random.randint(1, 2)) if name.strip() in second_target_names else name.strip()
                             for name in second_filenames
