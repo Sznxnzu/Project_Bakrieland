@@ -14,58 +14,109 @@ st.markdown("""
 <style>
 /* Gaya dasar dan tema */
 html, body, [data-testid="stAppViewContainer"], .stApp {
-  background: none !important;
-  background-color: #19307f !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-attachment: fixed !important;
+    background: none !important;
+    background-color: #19307f !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
 }
 ::-webkit-scrollbar {
   display: none;
 }
 
-/* ...existing CSS... */
-
-/* RESPONSIVE KHUSUS MOBILE (MAX WIDTH 768px) */
-@media (max-width: 768px) {
-  .header-box {
-    font-size: 18px;
-  }
-  .mood-box-content h2 {
-    font-size: 30px;
-  }
-  .mood-box-content {
-    font-size: 16px;
-  }
-  .portrait-box p {
-    font-size: 18px !important;
-  }
-
-  div[data-testid="stCameraInput"],
-  div[data-testid="stCameraInput"] div,
-  div[data-testid="stCameraInputWebcamStyledBox"],
-  div[data-testid="stCameraInput"] img {
-    width: 100vw !important;
-    height: 100vw !important;
-    max-width: 100vw !important;
-    max-height: 100vw !important;
-    min-width: 0 !important;
-    min-height: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    box-sizing: border-box !important;
-  }
-
-  .camera-wrapper {
-    width: 100vw !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    position: relative;
-  }
+.header-box {
+    text-align: center;
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,50,0.5);
+    border-radius: 8px;
+    padding: 6px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff;
+    color: #00f0ff;
+    font-size: 25px;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
 }
+
+.portrait-box {
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,30,0.6);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff;
+    text-align: center;
+}
+
+.column-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 400px;
+}
+
+.35thn-box {
+  width: 150px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.35thn-box img {
+  width: 100%;
+  border-radius: 8px;
+  vertical-align: top;
+}
+
+.mascot-box {
+  width: 150px;
+  height: 200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.mascot-box img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.mood-box-content {
+    border: 2px solid #00f0ff;
+    background-color: rgba(10, 15, 30, 0.85);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00f0ff;
+    font-size: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    height: auto;
+    transition: all 0.3s ease-in-out;
+}
+.mood-box-content:hover {
+    box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
+}
+.mood-box-content p {
+    margin-bottom: 0;
+}
+.mood-box-content h2{
+    font-size: 45px
+}
+.mood-box-content ul {
+    margin-top: 0;
+    margin-bottom: 1em;
+    padding-left: 20px;
+}
+
+.camera-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
 /* Kamera style desktop */
 div[data-testid="stCameraInput"] {
   width:500px !important;
@@ -141,164 +192,188 @@ div[data-testid="stCameraInput"] button:hover {
 
 /* RESPONSIVE KHUSUS MOBILE (MAX WIDTH 768px) */
 @media (max-width: 768px) {
+  .st-emotion-cache-z5fcl4 {
+      flex-direction: column;
+  }
+
   .header-box {
-    font-size: 18px;
+      font-size: 18px;
   }
   .mood-box-content h2 {
-    font-size: 30px;
+      font-size: 30px;
   }
   .mood-box-content {
-    font-size: 16px;
+      font-size: 16px;
   }
   .portrait-box p {
-    font-size: 18px !important;
+      font-size: 18px !important;
   }
 
   div[data-testid="stCameraInput"],
   div[data-testid="stCameraInput"] div,
   div[data-testid="stCameraInputWebcamStyledBox"],
   div[data-testid="stCameraInput"] img {
-    width: 80vw !important;
-    height: 80vw !important;
-    max-width: 300px !important;
-    max-height: 300px !important;
+      width: 80vw !important;
+      height: 80vw !important;
+      max-width: 300px !important;
+      max-height: 300px !important;
   }
 
   div[data-testid="stCameraInput"] button {
-    width: 120px;
-    font-size: 14px;
-    bottom: 10px;
-    right: 50%;
-    transform: translateX(50%);
+      width: 120px;
+      font-size: 14px;
+      bottom: 10px;
+      right: 50%;
+      transform: translateX(50%);
   }
 
-  /* Layout utama: flex column */
-  .st-emotion-cache-z5fcl4 {
-    flex-direction: column !important;
-  }
-
-  /* Kolom wrapper: flex row, align center */
   .column-wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    height: auto;
-    width: 100%;
-    padding: 0 8px;
-    position: relative;
-    margin-bottom: 0;
+      flex-direction: row;
+      height: auto;
+      align-items: center;
+      justify-content: space-around;
+      margin-bottom: 20px;
   }
 
-  /* Logo 35 tahun kecil di kiri atas kamera */
+  .35thn-box, .mascot-box {
+      width: 100px;
+      height: auto;
+      margin: 0;
+  }
+
+  img[src*="bakrieland_logo"] {
+      height: 50px !important;
+  }
+  img[src*="google_logo"], img[src*="metrodata_logo"] {
+      height: 30px !important;
+  }
+
+  div[data-testid="stHorizontalBlock"] {
+      flex-direction: column;
+  }
+
+  /* Layout khusus HP: posisi ulang header, maskot, powered by */
+  .st-emotion-cache-z5fcl4 > div:first-child > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    gap: 6px;
+  }
+
+  .column-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding: 0 12px;
+  }
+
   .35thn-box {
-    width: 40px !important;
-    min-width: 40px !important;
-    max-width: 40px !important;
-    height: 40px !important;
-    min-height: 40px !important;
-    max-height: 40px !important;
-    margin: 0;
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 20;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-  .35thn-box img {
-    width: 100% !important;
-    height: 100% !important;
-    border-radius: 8px;
+    width: 70px;
   }
 
-  /* Maskot di kiri bawah kamera */
   .mascot-box {
-    width: 55px !important;
-    height: 55px !important;
-    min-width: 55px !important;
-    min-height: 55px !important;
-    max-width: 55px !important;
-    max-height: 55px !important;
-    margin: 0;
     position: absolute;
+    top: 140px;
     left: 0;
-    bottom: 0;
-    z-index: 20;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
+    width: 80px;
   }
+
   .mascot-box img {
-    width: 100% !important;
-    height: 100% !important;
-    border-radius: 8px;
-  }
-
-  /* Kamera tetap di tengah */
-  .camera-wrapper {
-    margin-top: 0;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    position: relative;
+    height: auto;
   }
 
-  /* Logo Bakrieland tetap di kanan atas */
-  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) {
-    position: absolute !important;
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) > div {
+    position: absolute;
     top: 0;
     right: 0;
     width: auto;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    z-index: 20;
-    padding-right: 8px;
-    background: none !important;
+    padding-right: 12px;
   }
+
   .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) img {
     margin-bottom: 4px;
-    height: 32px !important;
   }
+
   .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) span {
     font-size: 12px;
     color: #fff;
     text-align: right;
   }
 
-  /* Metrodata, Google, Powered by di kanan bawah kamera */
-  .mobile-poweredby-box {
-    position: absolute !important;
-    right: 0;
-    bottom: 0;
-    z-index: 30;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    padding: 8px 8px 0 0;
-    background: none !important;
-  }
-  .mobile-poweredby-box span {
-    font-size: 12px;
-    color: #fff;
-    text-align: right;
-    margin-bottom: 2px;
-  }
-  .mobile-poweredby-box img {
-    height: 28px !important;
-    margin-left: 0;
-    margin-right: 0;
-    margin-bottom: 2px;
-  }
-
-  /* Sembunyikan margin bawah maskot di mobile */
-  .mascot-box {
-    margin-bottom: 0 !important;
+  .camera-wrapper {
+    margin-top: 90px;
   }
 }
+
+/* Tambahan CSS untuk perbaikan posisi di HP */
+@media (max-width: 768px) {
+  .column-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0 12px;
+    gap: 10px;
+  }
+
+  .35thn-box {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 60px;
+    height: auto;
+  }
+
+  .mascot-box {
+    position: relative;
+    width: 80px;
+    margin: 12px auto 0 auto;
+    top: auto;
+    left: auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .mascot-box img {
+    width: 100%;
+    height: auto;
+  }
+
+  .camera-wrapper {
+    margin-top: 30px;
+  }
+
+  /* Pindahkan logo kanan atas */
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) > div {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 0;
+  }
+
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) img {
+    margin-bottom: 6px;
+  }
+
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) span {
+    font-size: 11px;
+    color: #fff;
+    text-align: right;
+  }
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -388,23 +463,16 @@ with row1:
                             for name in second_filenames
                         ]
 
-                        # Ensure there are at least 2 items in each list to avoid IndexError
-                        if len(first_filenames_edited) >= 2 and len(second_filenames_edited) >= 2:
-                            from urllib.parse import quote
-                            
-                            st.session_state.image_urls = [
-                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{quote(first_filenames_edited[0].strip())}.jpg",
-                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{quote(first_filenames_edited[1].strip())}.jpg",
-                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{quote(second_filenames_edited[0].strip())}.jpg",
-                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{quote(second_filenames_edited[1].strip())}.jpg"
-                            ]
-                            st.session_state.image_captions = [
-                                first_filenames[0].strip(), first_filenames[1].strip(),
-                                second_filenames[0].strip(), second_filenames[1].strip()
-                            ]
-                        else:
-                            st.session_state.image_urls = [placeholder_url] * 4
-                            st.session_state.image_captions = [placeholder_caption] * 4
+                        st.session_state.image_urls = [
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[0].strip()}.jpg",
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[1].strip()}.jpg",
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[0].strip()}.jpg",
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[1].strip()}.jpg"
+                        ]
+                        st.session_state.image_captions = [
+                            first_filenames[0].strip(), first_filenames[1].strip(),
+                            second_filenames[0].strip(), second_filenames[1].strip()
+                        ]
                         st.session_state.analysis_result = raw_output
                     else:
                         st.session_state.analysis_result = "Gagal memproses rekomendasi gambar. Silakan coba lagi."
