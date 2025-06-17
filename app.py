@@ -6,34 +6,9 @@ import io
 import requests
 import html
 import random
-import qrcode
-import uuid
-import time
-import json
-import firebase_admin
-from firebase_admin import credentials, storage
 
-if not firebase_admin._apps:
-    cred = credentials.Certificate(json.loads(st.secrets["firebase_service_account"]))
-    firebase_admin.initialize_app(cred, {
-        'storageBucket': 'bakrieland-mood-app.appspot.com'
-    })
-def upload_to_firebase(local_file_path):
-    import uuid
-    bucket = storage.bucket()
-    filename = f"mood_screenshot_{uuid.uuid4().hex}.png"
-    blob = bucket.blob(filename)
-    blob.upload_from_filename(local_file_path)
-    blob.make_public()
-    return blob.public_url
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
-# --- Fungsi Screenshot Halaman Streamlit
-from html2image import Html2Image
 
-def screenshot_streamlit(url="http://localhost:8501", output_path="screenshot.png"):
-    hti = Html2Image()
-    hti.screenshot(url=url, save_as=output_path)
-    return output_path
 st.markdown("""
 <style>
 html, body, [data-testid="stAppViewContainer"], .stApp {
@@ -157,8 +132,8 @@ div[data-testid="stCameraInput"] video{
 div[data-testid="stCameraInput"] img {
   display: block;
   object-fit: cover;
-  width: 300px !important;
-  height: 300px !important;
+  width: 500px !important;
+  height: 500px !important;
   border-radius: 50% !important;
   box-shadow: 0 0 20px rgba(0,240,255,0.5);
   margin: auto;
@@ -196,11 +171,6 @@ try:
 except Exception as e:
     st.error(f"Error configuring Generative AI: {e}")
     st.stop()
-def generate_qr_from_url(url, output_path="qr_generated.png"):
-    import qrcode
-    qr_img = qrcode.make(url)
-    qr_img.save(output_path)
-    return output_path
 
 placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/placeholder.png"
 placeholder_caption = ""
@@ -376,12 +346,31 @@ with row3:
           <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{st.session_state.image_captions[3]}</p>
         </div>
         """, unsafe_allow_html=True)
-row4 = st.container()
-with row4:
-    st.markdown('<div class="header-box">DOWNLOAD RESULT</div>', unsafe_allow_html=True)
-    if st.button("🎯 Generate Screenshot + QR Code"):
-        with st.spinner("📸 Mengambil screenshot dan mengupload..."):
-            screenshot_path = screenshot_streamlit()
-            firebase_url = upload_to_firebase(screenshot_path)
-            qr_path = generate_qr_from_url(firebase_url)
-            st.image(Image.open(qr_path), caption="Scan untuk download hasil analisis")
+
+
+# row4 = st.container()
+# with row4:
+#   colD1, colD2 = st.columns(2)
+#   with colD1:
+#     st.write("QR here")
+
+#   with colD2:
+#     st.write("Mascots here")
+#     components.html("""
+#     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+#     <div style="display: flex; justify-content: center; align-items: center;">
+#         <lottie-player
+#             id="robot"
+#             src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json"
+#             background="transparent" speed="1" style="width: 300px; height: 300px;"
+#             autoplay loop>
+#         </lottie-player>
+#     </div>
+#     <script>
+#         document.getElementById("robot").addEventListener("click", function() {
+#             const r = document.getElementById("robot");
+#             r.stop();
+#             r.play();
+#         });
+#     </script>
+#     """, height=340)
