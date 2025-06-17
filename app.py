@@ -187,14 +187,6 @@ div[data-testid="stCameraInput"] button:hover {
   display: none !important;
 }
 
-[data-testid="stColumn"] {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
 </style>
 """, unsafe_allow_html=True)
 
