@@ -260,6 +260,70 @@ div[data-testid="stCameraInput"] button:hover {
         flex-direction: column;
     }
 }
+/* --- Layout khusus HP: Susun ulang elemen header dan maskot --- */
+@media (max-width: 768px) {
+  /* Bungkus header jadi satu kolom */
+  .st-emotion-cache-z5fcl4 > div:first-child > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    gap: 6px;
+  }
+
+  .column-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding: 0 12px;
+  }
+
+  .35thn-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 70px;
+  }
+
+  .mascot-box {
+    position: absolute;
+    top: 140px;
+    left: 0;
+    width: 80px;
+  }
+
+  .mascot-box img {
+    width: 100%;
+    height: auto;
+  }
+
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) > div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 12px;
+  }
+
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) img {
+    margin-bottom: 4px;
+  }
+
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) span {
+    font-size: 12px;
+    color: #fff;
+    text-align: right;
+  }
+
+  .camera-wrapper {
+    margin-top: 90px;
+  }
+}
 
 </style>
 """, unsafe_allow_html=True)
