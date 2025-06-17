@@ -216,14 +216,13 @@ with row1:
 
         st.markdown("""
         <script>
-        const observer = new MutationObserver(() => {
+        const interval = setInterval(() => {
           const btn = document.querySelector('div[data-testid="stCameraInput"] button');
           if (btn) {
-            btn.innerText = "Wollogong";
-            observer.disconnect();
+            btn.innerText = "Wollongong";
+            clearInterval(interval);
           }
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
+        }, 100);
         </script>
         """, unsafe_allow_html=True)
 
