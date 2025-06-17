@@ -374,38 +374,129 @@ with row3:
         </div>
         """, unsafe_allow_html=True)
 
-components.html("""
-<html>
-  <head>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <style>
-      body { font-family: sans-serif; text-align: center; }
-      #capture-area {
-        padding: 20px;
-        border: 2px solid #ccc;
-        border-radius: 8px;
-        display: inline-block;
-        margin-top: 20px;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="capture-area">
-      <h2>This is inside the iframe</h2>
-      <p>Only this will be captured.</p>
-    </div>
-    <button onclick="takeScreenshot()">📷 Screenshot</button>
+html_code = f"""
+<style>
+  .page-wrapper {{
+    font-family: sans-serif;
+    padding: 20px;
+  }}
+  .row {{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+  }}
+  .logo-column {{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }}
+  .camera-column {{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }}
+  .branding-column {{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }}
+  .analysis-box {{
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+  }}
+  .recommendation-column {{
+    width: 48%;
+  }}
+  .portrait-box img {{
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+  }}
+  .caption {{
+    text-align: center;
+    margin-top: 5px;
+    font-size: 20px;
+    color: #555;
+  }}
+  .screenshot-button {{
+    display: block;
+    margin: 40px auto 0 auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }}
+</style>
 
-    <script>
-      function takeScreenshot() {
-        html2canvas(document.querySelector("#capture-area")).then(canvas => {
-          let link = document.createElement('a');
-          link.download = 'screenshot.png';
-          link.href = canvas.toDataURL();
-          link.click();
-        });
-      }
-    </script>
-  </body>
-</html>
-""", height=400)
+<div class="page-wrapper" id="capture-area">
+  <!-- Row 1: Logos, Camera, Branding -->
+  <div class="row">
+    <div class="logo-column">
+      <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" width="80" />
+      <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png" width="80" />
+    </div>
+    <div class="camera-column">
+      <p style="font-size: 18px; margin-bottom: 0;">Foto wajah telah diambil</p>
+      <p style="color: gray; font-size: 14px;">(Tekan screenshot untuk menyimpan)</p>
+    </div>
+    <div class="branding-column">
+      <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" />
+      <div>POWERED BY:</div>
+      <div>
+        <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 40px; vertical-align: middle; margin-right: 10px;" />
+        <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height: 40px; vertical-align: middle;" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 2: Mood Analysis -->
+  <div class="analysis-box">
+    <h2>Mood Analytic</h2>
+    <pre style="white-space: pre-wrap; font-family: inherit;">{html.escape(st.session_state.analysis_result)}</pre>
+  </div>
+
+  <!-- Row 3: Image Recommendations -->
+  <div class="row">
+    <div class="recommendation-column">
+      <h2 style="text-align: center;">PROPERTY RECOMMENDATION</h2>
+      <div class="portrait-box">
+        <img src="{st.session_state.image_urls[0]}" />
+        <p class="caption">{st.session_state.image_captions[0]}</p>
+        <img src="{st.session_state.image_urls[1]}" />
+        <p class="caption">{st.session_state.image_captions[1]}</p>
+      </div>
+    </div>
+    <div class="recommendation-column">
+      <h2 style="text-align: center;">HOLIDAY RECOMMENDATION</h2>
+      <div class="portrait-box">
+        <img src="{st.session_state.image_urls[2]}" />
+        <p class="caption">{st.session_state.image_captions[2]}</p>
+        <img src="{st.session_state.image_urls[3]}" />
+        <p class="caption">{st.session_state.image_captions[3]}</p>
+      </div>
+    </div>
+  </div>
+
+  <button class="screenshot-button" onclick="takeScreenshot()">Download Screenshot</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+  function takeScreenshot() {{
+    html2canvas(document.getElementById('capture-area')).then(canvas => {{
+      let link = document.createElement('a');
+      link.download = 'mood_recommendation.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }});
+  }}
+</script>
+"""
+
+components.html(html_code, height=1400, scrolling=True)
