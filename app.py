@@ -10,10 +10,9 @@ import random
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
 # --- CSS STYLES ---
-# Penambahan Media Queries untuk responsivitas ada di bagian bawah blok style ini
 st.markdown("""
 <style>
-/* --- Gaya Dasar --- */
+/* Gaya dasar dan tema */
 html, body, [data-testid="stAppViewContainer"], .stApp {
     background: none !important;
     background-color: #19307f !important;
@@ -38,6 +37,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     font-family: 'Orbitron', sans-serif;
     letter-spacing: 1px;
 }
+
 .portrait-box {
     border: 2px solid #00f0ff;
     background-color: rgba(0,0,30,0.6);
@@ -117,7 +117,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   justify-content: center;
 }
 
-/* --- Gaya Kamera untuk Desktop --- */
+/* Kamera style desktop */
 div[data-testid="stCameraInput"] {
   width:500px !important;
   height: 500px !important;
@@ -145,11 +145,11 @@ div[data-testid="stCameraInputWebcamStyledBox"] {
   box-shadow: 0 0 20px rgba(0,240,255,0.5);
 }
 
-div[data-testid="stCameraInput"] video{
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
+div[data-testid="stCameraInput"] video {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
 }
 
 div[data-testid="stCameraInput"] img {
@@ -190,79 +190,69 @@ div[data-testid="stCameraInput"] button:hover {
   display: none !important;
 }
 
-
-/* --- PENAMBAHAN: ATURAN RESPONSIVE UNTUK MOBILE & TABLET --- */
+/* RESPONSIVE KHUSUS MOBILE (MAX WIDTH 768px) */
 @media (max-width: 768px) {
-    /* Mengatur ulang layout kolom utama untuk mobile */
-    .st-emotion-cache-z5fcl4 {
-        flex-direction: column;
-    }
+  .st-emotion-cache-z5fcl4 {
+      flex-direction: column;
+  }
 
-    /* Mengubah ukuran font agar tidak terlalu besar */
-    .header-box {
-        font-size: 18px;
-    }
-    .mood-box-content h2 {
-        font-size: 30px;
-    }
-    .mood-box-content {
-        font-size: 16px;
-    }
-    .portrait-box p {
-        font-size: 18px !important;
-    }
+  .header-box {
+      font-size: 18px;
+  }
+  .mood-box-content h2 {
+      font-size: 30px;
+  }
+  .mood-box-content {
+      font-size: 16px;
+  }
+  .portrait-box p {
+      font-size: 18px !important;
+  }
 
-    /* Menyesuaikan ukuran kamera agar pas di layar kecil */
-    div[data-testid="stCameraInput"],
-    div[data-testid="stCameraInput"] div,
-    div[data-testid="stCameraInputWebcamStyledBox"],
-    div[data-testid="stCameraInput"] img {
-        width: 80vw !important; /* Menggunakan viewport width */
-        height: 80vw !important; /* Menggunakan viewport width agar tetap bulat */
-        max-width: 300px !important; /* Batas maksimal ukuran */
-        max-height: 300px !important; /* Batas maksimal ukuran */
-    }
+  div[data-testid="stCameraInput"],
+  div[data-testid="stCameraInput"] div,
+  div[data-testid="stCameraInputWebcamStyledBox"],
+  div[data-testid="stCameraInput"] img {
+      width: 80vw !important;
+      height: 80vw !important;
+      max-width: 300px !important;
+      max-height: 300px !important;
+  }
 
-    /* Menyesuaikan posisi tombol kamera */
-    div[data-testid="stCameraInput"] button {
-        width: 120px;
-        font-size: 14px;
-        bottom: 10px; /* Sedikit lebih tinggi */
-        right: 50%;
-        transform: translateX(50%); /* Pusatkan tombol */
-    }
+  div[data-testid="stCameraInput"] button {
+      width: 120px;
+      font-size: 14px;
+      bottom: 10px;
+      right: 50%;
+      transform: translateX(50%);
+  }
 
-    /* Menyesuaikan kolom samping di mobile */
-    .column-wrapper {
-        flex-direction: row; /* Ubah jadi baris */
-        height: auto; /* Hapus tinggi tetap */
-        align-items: center;
-        justify-content: space-around; /* Beri jarak */
-        margin-bottom: 20px;
-    }
+  .column-wrapper {
+      flex-direction: row;
+      height: auto;
+      align-items: center;
+      justify-content: space-around;
+      margin-bottom: 20px;
+  }
 
-    .35thn-box, .mascot-box {
-        width: 100px; /* Perkecil logo */
-        height: auto;
-        margin: 0;
-    }
-    
-    /* Menyesuaikan logo Bakrieland & powered by */
-    img[src*="bakrieland_logo"] {
-        height: 50px !important;
-    }
-     img[src*="google_logo"], img[src*="metrodata_logo"] {
-        height: 30px !important;
-    }
+  .35thn-box, .mascot-box {
+      width: 100px;
+      height: auto;
+      margin: 0;
+  }
 
-    /* Membuat kolom rekomendasi menjadi satu kolom */
-    div[data-testid="stHorizontalBlock"] {
-        flex-direction: column;
-    }
-}
-/* --- Layout khusus HP: Susun ulang elemen header dan maskot --- */
-@media (max-width: 768px) {
-  /* Bungkus header jadi satu kolom */
+  img[src*="bakrieland_logo"] {
+      height: 50px !important;
+  }
+  img[src*="google_logo"], img[src*="metrodata_logo"] {
+      height: 30px !important;
+  }
+
+  div[data-testid="stHorizontalBlock"] {
+      flex-direction: column;
+  }
+
+  /* Layout khusus HP: posisi ulang header, maskot, powered by */
   .st-emotion-cache-z5fcl4 > div:first-child > div {
     display: flex;
     flex-direction: column;
@@ -324,7 +314,6 @@ div[data-testid="stCameraInput"] button:hover {
     margin-top: 90px;
   }
 }
-
 </style>
 """, unsafe_allow_html=True)
 
