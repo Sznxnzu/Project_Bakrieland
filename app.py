@@ -49,7 +49,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 400px; /* Adjust based on your layout */
+  height: 400px;
 }
 
 .35thn-box {
@@ -173,7 +173,6 @@ div[data-testid="stCameraInput"] button {
   box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-
   width: 150px;
 }
 
@@ -186,7 +185,6 @@ div[data-testid="stCameraInput"] button:hover {
 [data-testid="stCameraInputSwitchButton"] {
   display: none !important;
 }
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -197,7 +195,7 @@ except Exception as e:
     st.error(f"Error configuring Generative AI: {e}")
     st.stop()
 
-placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/placeholder.png"
+placeholder_url = "./resources/other/placeholder.png"
 placeholder_caption = ""
 placeholder_analysis = "Arahkan kamera ke wajah Anda dan ambil foto untuk memulai analisis suasana hati dan mendapatkan rekomendasi yang dipersonalisasi."
 
@@ -211,17 +209,17 @@ row1 = st.container()
 with row1:
     colA1, colA2, colA3 = st.columns([0.2, 0.6, 0.2])
     with colA1:
-      st.write("")
-      st.markdown("""
-      <div class="column-wrapper">
-        <div class="35thn-box">
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" />
+        st.write("")
+        st.markdown("""
+        <div class="column-wrapper">
+          <div class="35thn-box">
+            <img src="./resources/logo/35thn_logo.png" />
+          </div>
+          <div class="mascot-box">
+            <img src="./resources/logo/mascot_logo.png" />
+          </div>
         </div>
-        <div class="mascot-box">
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png" />
-        </div>
-      </div>
-      """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
     with colA2:
         st.markdown('<div class="camera-wrapper">', unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
@@ -229,18 +227,14 @@ with row1:
 
         if user_input is not None and user_input != st.session_state.last_photo:
             st.session_state.last_photo = user_input
-
             with st.spinner("Menganalisis suasana hati Anda..."):
                 try:
                     image = Image.open(io.BytesIO(user_input.getvalue()))
-
-                    prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
-                    prompt_response = requests.get(prompt_url)
+                    prompt_response = requests.get("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt")
                     prompt_response.raise_for_status()
                     analysis_prompt = prompt_response.text
 
-                    json_prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
-                    json_prompt_response = requests.get(json_prompt_url)
+                    json_prompt_response = requests.get("https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt")
                     json_prompt_response.raise_for_status()
                     json_prompt = json_prompt_response.text
 
@@ -248,50 +242,21 @@ with row1:
                     raw_output = analysis_response.text
 
                     json_response = model.generate_content([json_prompt, raw_output])
-
                     filenames = json_response.text.strip().split(",")
+
                     if len(filenames) >= 4:
                         midpoint = len(filenames) // 2
                         first_filenames = filenames[:midpoint]
                         second_filenames = filenames[midpoint:]
 
-                        first_target_names = [
-                            "Bogor Nirwana Residence",
-                            "Kahuripan Nirwana",
-                            "Sayana Bogor",
-                            "Taman Rasuna Epicentrum",
-                            "The Masterpiece & The Empyreal"
-                        ]
-
-                        first_filenames_edited = [
-                            name.strip() + " " + str(random.randint(1, 2)) if name.strip() in first_target_names else name.strip()
-                            for name in first_filenames
-                        ]
-
-                        second_target_names = [
-                            "Aston Bogor",
-                            "Bagus Beach Walk",
-                            "Grand ELTY Krakatoa",
-                            "Hotel Aston Sidoarjo",
-                            "Jungleland",
-                            "Junglesea Kalianda",
-                            "Rivera",
-                            "Swiss Belresidences Rasuna Epicentrum",
-                            "The Alana Malioboro",
-                            "The Grove Suites",
-                            "The Jungle Waterpark"
-                        ]
-
-                        second_filenames_edited = [
-                            name.strip() + " " + str(random.randint(1, 2)) if name.strip() in second_target_names else name.strip()
-                            for name in second_filenames
-                        ]
+                        first_filenames_edited = [name.strip() + " " + str(random.randint(1, 2)) for name in first_filenames]
+                        second_filenames_edited = [name.strip() + " " + str(random.randint(1, 2)) for name in second_filenames]
 
                         st.session_state.image_urls = [
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[0].strip()}.jpg",
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[1].strip()}.jpg",
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[0].strip()}.jpg",
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[1].strip()}.jpg"
+                            f"./resources/property/{first_filenames_edited[0].strip()}.jpg",
+                            f"./resources/property/{first_filenames_edited[1].strip()}.jpg",
+                            f"./resources/holiday/{second_filenames_edited[0].strip()}.jpg",
+                            f"./resources/holiday/{second_filenames_edited[1].strip()}.jpg"
                         ]
                         st.session_state.image_captions = [
                             first_filenames[0].strip(), first_filenames[1].strip(),
@@ -300,13 +265,8 @@ with row1:
                         st.session_state.analysis_result = raw_output
                     else:
                         st.session_state.analysis_result = "Gagal memproses rekomendasi gambar. Silakan coba lagi."
-
-                except requests.exceptions.RequestException as http_err:
-                    st.error(f"Gagal mengambil prompt: {http_err}")
-                    st.session_state.analysis_result = "Terjadi kesalahan jaringan. Tidak dapat memuat model."
                 except Exception as e:
-                    st.error(f"Terjadi kesalahan saat pemrosesan: {e}")
-                    st.session_state.analysis_result = "Gagal menganalisis gambar. Silakan coba lagi."
+                    st.session_state.analysis_result = f"Gagal menganalisis gambar: {e}"
 
             st.rerun()
 
@@ -317,28 +277,9 @@ with row1:
             st.session_state.last_photo = None
             st.rerun()
     with colA3:
-      colA3row11 = st.container()
-      with colA3row11:
-        st.markdown("""
-        <div>
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" />
-        </div>
-        """, unsafe_allow_html=True)
-      colA3row12 = st.container()
-      with colA3row12:
-        st.markdown("""
-        <div>
-          <span style="display: inline-block; vertical-align: middle;"><div>POWERED BY:</div></span>
-        </div>
-        """, unsafe_allow_html=True)
-      colA3row13 = st.container()
-      with colA3row13:
-        st.markdown("""
-        <div>
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 40px; vertical-align: middle; margin-left: -10px; margin-right: -30px;" />
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height: 40px; vertical-align: middle;" />
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown("""<div><img src="./resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" /></div>""", unsafe_allow_html=True)
+        st.markdown("""<div><span style="display: inline-block; vertical-align: middle;"><div>POWERED BY:</div></span></div>""", unsafe_allow_html=True)
+        st.markdown("""<div><img src="./resources/logo/google_logo.png" style="height: 40px; vertical-align: middle; margin-left: -10px; margin-right: -30px;" /><img src="./resources/logo/metrodata_logo.png" style="height: 40px; vertical-align: middle;" /></div>""", unsafe_allow_html=True)
 
 row2 = st.container()
 with row2:
