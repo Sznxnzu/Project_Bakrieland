@@ -181,7 +181,7 @@ div[data-testid="stCameraInput"] button:hover {
   display: none !important;
 }
 
-div[data-testid="stColumn"] {
+[data-testid="stColumn"] {
   display: flex;
   flex-direction: column;
   align-items: center;
