@@ -162,6 +162,10 @@ except Exception as e:
 def process_image(user_input_bytes):
     with st.spinner("Menganalisis suasana hati Anda..."):
         try:
+            # Ensure user_input_bytes is not None and has getvalue()
+            if user_input_bytes is None or not hasattr(user_input_bytes, "getvalue"):
+                st.error("Foto tidak valid atau belum diambil.")
+                return
             image = Image.open(io.BytesIO(user_input_bytes.getvalue()))
             prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
             analysis_prompt = requests.get(prompt_url).text
