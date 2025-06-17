@@ -155,8 +155,6 @@ div[data-testid="stCameraInput"] img {
 div[data-testid="stCameraInput"] button {
   z-index: 10;
   position: relative;
-
-  padding: 10px 20px;
   background-color: #00c0cc;
   color: #000;
   font-weight: 600;
