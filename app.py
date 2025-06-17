@@ -133,12 +133,22 @@ div[data-testid="stCameraInputWebcamStyledBox"] {
   box-shadow: 0 0 20px rgba(0,240,255,0.5);
 }
 
-div[data-testid="stCameraInput"] video,
-div[data-testid="stCameraInput"] img{
+div[data-testid="stCameraInput"] video{
     object-fit: cover;
     width: 100%;
     height: 100%;
     border-radius: 0;
+}
+
+div[data-testid="stCameraInput"] img {
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  width: 500px !important;
+  height: 500px !important;
+  border-radius: 50% !important;
+  box-shadow: 0 0 20px rgba(0,240,255,0.5);
+  margin: auto;
 }
 
 div[data-testid="stCameraInput"] button {
