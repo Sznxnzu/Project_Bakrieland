@@ -176,6 +176,19 @@ div[data-testid="stCameraInput"] button:hover {
   box-shadow: 0 6px 16px rgba(0, 240, 255, 0.8);
 }
 
+button.stBaseButton.stBaseButton-minimal {
+  all: unset;
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #00f0ff;
+  color: black;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0,240,255,0.7);
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -213,18 +226,6 @@ with row1:
       """, unsafe_allow_html=True)
     with colA2:
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
-
-        st.markdown("""
-        <script>
-        const interval = setInterval(() => {
-          const btn = document.querySelector('div[data-testid="stCameraInput"] button');
-          if (btn) {
-            btn.innerText = "Wollongong";
-            clearInterval(interval);
-          }
-        }, 100);
-        </script>
-        """, unsafe_allow_html=True)
 
         if user_input is not None and user_input != st.session_state.last_photo:
             st.session_state.last_photo = user_input
