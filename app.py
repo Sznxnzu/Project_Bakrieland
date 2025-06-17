@@ -155,7 +155,7 @@ div[data-testid="stCameraInput"] img {
 div[data-testid="stCameraInput"] button {
   z-index: 10;
   position: absolute;
-  top: 0;
+  bottom: 0;
   right: 0;
   background-color: #00c0cc;
   color: #000;
@@ -174,19 +174,6 @@ div[data-testid="stCameraInput"] button:hover {
   background-color: #00aabb;
   transform: scale(1.05);
   box-shadow: 0 6px 16px rgba(0, 240, 255, 0.8);
-}
-
-button.stBaseButton.stBaseButton-minimal {
-  all: unset;
-  display: inline-block;
-  padding: 8px 16px;
-  background-color: #00f0ff;
-  color: black;
-  font-weight: bold;
-  border-radius: 6px;
-  cursor: pointer;
-  text-align: center;
-  box-shadow: 0 0 10px rgba(0,240,255,0.7);
 }
 
 </style>
