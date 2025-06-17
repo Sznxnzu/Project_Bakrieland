@@ -392,13 +392,18 @@ st.markdown("""
 ">📸 Screenshot</button>
 
 <script>
-document.getElementById("screenshotBtn").onclick = function() {
-    html2canvas(document.body).then(function(canvas) {
-        var link = document.createElement('a');
-        link.download = 'streamlit_screenshot.png';
-        link.href = canvas.toDataURL();
-        link.click();
-    });
-}
+document.addEventListener("DOMContentLoaded", function() {
+    const btn = document.getElementById("screenshotBtn");
+    if (btn) {
+        btn.addEventListener("click", function() {
+            html2canvas(document.body).then(function(canvas) {
+                const link = document.createElement('a');
+                link.download = 'screenshot.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        });
+    }
+});
 </script>
 """, unsafe_allow_html=True)
