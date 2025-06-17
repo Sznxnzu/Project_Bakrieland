@@ -380,6 +380,11 @@ components.html("""
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   </head>
   <body>
+    <div id="captureArea">
+      <h1>This area will be captured</h1>
+      <p>Add anything here you want in the screenshot.</p>
+    </div>
+
     <button id="screenshotBtn" style="
         position: fixed;
         bottom: 20px;
@@ -397,14 +402,14 @@ components.html("""
 
     <script>
       document.getElementById("screenshotBtn").addEventListener("click", function () {
-        html2canvas(parent.document.body, { scrollY: -window.scrollY, windowHeight: document.body.scrollHeight }).then(canvas => {
+        html2canvas(document.body).then(canvas => {
           const link = document.createElement("a");
           link.download = "screenshot.png";
-          link.href = canvas.toDataURL();
+          link.href = canvas.toDataURL("image/png");
           link.click();
         });
       });
     </script>
   </body>
 </html>
-""", height=100)
+""", height=400)
