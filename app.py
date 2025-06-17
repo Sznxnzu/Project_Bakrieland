@@ -315,25 +315,62 @@ div[data-testid="stCameraInput"] button:hover {
   }
 }
 
+/* Tambahan CSS untuk perbaikan posisi di HP */
 @media (max-width: 768px) {
-  /* Stack PROPERTY dan HOLIDAY */
-  .st-emotion-cache-13ln4jf,
-  .st-emotion-cache-1wivap2,
-  .st-emotion-cache-1r6slb0 {
-    flex-direction: column !important;
+  .column-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0 12px;
+    gap: 10px;
   }
 
-  #screenshotBtn {
-    bottom: 80px !important;
+  .35thn-box {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 60px;
+    height: auto;
   }
 
-  .portrait-box img {
-    height: auto !important;
-    max-height: 50vw !important;
+  .mascot-box {
+    position: relative;
+    width: 80px;
+    margin: 12px auto 0 auto;
+    top: auto;
+    left: auto;
+    display: flex;
+    justify-content: center;
   }
 
-  .portrait-box p {
-    font-size: 16px !important;
+  .mascot-box img {
+    width: 100%;
+    height: auto;
+  }
+
+  .camera-wrapper {
+    margin-top: 30px;
+  }
+
+  /* Pindahkan logo kanan atas */
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) > div {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 0;
+  }
+
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) img {
+    margin-bottom: 6px;
+  }
+
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) span {
+    font-size: 11px;
+    color: #fff;
+    text-align: right;
   }
 }
 
