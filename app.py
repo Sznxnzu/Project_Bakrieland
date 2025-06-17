@@ -110,6 +110,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 }
 
 div[data-testid="stCameraInput"] {
+  width:500px !important;
   height: 500px !important;
   display: flex;
   flex-direction: column;
