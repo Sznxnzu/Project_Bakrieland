@@ -21,51 +21,16 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 }
 ::-webkit-scrollbar { display: none; }
 
-.responsive-wrapper {
-  position: relative;
+.camera-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
+  margin-top: 150px;
 }
 
-.logo-35 {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 70px;
-}
-
-.maskot-rusa {
-  position: absolute;
-  top: 140px;
-  left: 10px;
-  width: 70px;
-}
-
-.kamera-wrapper {
-  z-index: 1;
-}
-
-.powered-right {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  z-index: 2;
-}
-
-.powered-text {
-  font-size: 12px;
-  color: white;
-  margin-bottom: 2px;
-}
-
-.powered-logo img {
-  height: 28px;
-  margin-left: 4px;
+@media (max-width: 768px) {
+  .camera-wrapper {
+    margin-top: 180px;
+  }
 }
 
 .mood-box-content {
@@ -106,28 +71,29 @@ if "analysis_result" not in st.session_state:
     st.session_state.image_captions = [placeholder_caption] * 4
     st.session_state.last_photo = None
 
-# --- LAYOUT ---
+# --- TOP STATIC LAYOUT ---
 st.markdown("""
-<div class="responsive-wrapper">
-    <img class="logo-35" src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" />
-    <img class="maskot-rusa" src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png" />
-    <div class="kamera-wrapper">
-""", unsafe_allow_html=True)
-
-user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
-
-st.markdown("""
-    </div>
-    <div class="powered-right">
-        <img class="logo-bakrieland" src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" />
-        <div class="powered-text">POWERED BY:</div>
-        <div class="powered-logo">
-            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" />
-            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" />
-        </div>
-    </div>
+<div style="position: relative; width: 100%;">
+  <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png"
+       style="position: absolute; top: 10px; left: 10px; width: 70px;" />
+  <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png"
+       style="position: absolute; top: 140px; left: 10px; width: 70px;" />
+  <div style="position: absolute; top: 10px; right: 10px; text-align: right;">
+    <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png"
+         style="height: 50px;" />
+    <div style="font-size: 12px; color: white;">POWERED BY:</div>
+    <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png"
+         style="height: 28px;" />
+    <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png"
+         style="height: 28px;" />
+  </div>
 </div>
 """, unsafe_allow_html=True)
+
+# --- CAMERA ---
+st.markdown('<div class="camera-wrapper">', unsafe_allow_html=True)
+user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
+st.markdown('</div>', unsafe_allow_html=True)
 
 # --- ANALYSIS RESULT ---
 escaped_analysis = html.escape(st.session_state.analysis_result)
@@ -137,3 +103,5 @@ st.markdown(f"""
   <pre style="white-space: pre-wrap; font-family: inherit; color:white">{escaped_analysis}</pre>
 </div>
 """, unsafe_allow_html=True)
+
+# TODO: Lanjutkan ke bagian rekomendasi dan logika analisis jika diperlukan.
