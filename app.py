@@ -109,7 +109,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding-left: 20px;
 }
 
-[data-testid="column"] > div {
+.camera-wrapper {
   display: flex;
   justify-content: center;
 }
@@ -231,7 +231,9 @@ with row1:
       </div>
       """, unsafe_allow_html=True)
     with colA2:
+        st.markdown('<div class="camera-wrapper">', unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
+        st.markdown('</div>', unsafe_allow_html=True)
 
         if user_input is not None and user_input != st.session_state.last_photo:
             st.session_state.last_photo = user_input
