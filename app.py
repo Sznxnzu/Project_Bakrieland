@@ -24,99 +24,48 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   display: none;
 }
 
-.header-box {
-  text-align: center;
-  border: 2px solid #00f0ff;
-  background-color: rgba(0,0,50,0.5);
-  border-radius: 8px;
-  padding: 6px;
-  margin-bottom: 10px;
-  box-shadow: 0 0 10px #00f0ff;
-  color: #00f0ff;
-  font-size: 25px;
-  font-family: 'Orbitron', sans-serif;
-  letter-spacing: 1px;
-}
+/* ...existing CSS... */
 
-.portrait-box {
-  border: 2px solid #00f0ff;
-  background-color: rgba(0,0,30,0.6);
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 10px;
-  box-shadow: 0 0 10px #00f0ff;
-  text-align: center;
-}
+/* RESPONSIVE KHUSUS MOBILE (MAX WIDTH 768px) */
+@media (max-width: 768px) {
+  .header-box {
+    font-size: 18px;
+  }
+  .mood-box-content h2 {
+    font-size: 30px;
+  }
+  .mood-box-content {
+    font-size: 16px;
+  }
+  .portrait-box p {
+    font-size: 18px !important;
+  }
 
-.column-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 400px;
-}
+  div[data-testid="stCameraInput"],
+  div[data-testid="stCameraInput"] div,
+  div[data-testid="stCameraInputWebcamStyledBox"],
+  div[data-testid="stCameraInput"] img {
+    width: 100vw !important;
+    height: 100vw !important;
+    max-width: 100vw !important;
+    max-height: 100vw !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
 
-.35thn-box {
-  width: 150px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  .camera-wrapper {
+    width: 100vw !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+  }
 }
-
-.35thn-box img {
-  width: 100%;
-  border-radius: 8px;
-  vertical-align: top;
-}
-
-.mascot-box {
-  width: 150px;
-  height: 200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-bottom: 20px;
-}
-
-.mascot-box img {
-  width: 100%;
-  border-radius: 8px;
-}
-
-.mood-box-content {
-  border: 2px solid #00f0ff;
-  background-color: rgba(10, 15, 30, 0.85);
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px #00f0ff;
-  font-size: 25px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 100%;
-  height: auto;
-  transition: all 0.3s ease-in-out;
-}
-.mood-box-content:hover {
-  box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
-}
-.mood-box-content p {
-  margin-bottom: 0;
-}
-.mood-box-content h2{
-  font-size: 45px
-}
-.mood-box-content ul {
-  margin-top: 0;
-  margin-bottom: 1em;
-  padding-left: 20px;
-}
-
-.camera-wrapper {
-  display: flex;
-  justify-content: center;
-}
-
 /* Kamera style desktop */
 div[data-testid="stCameraInput"] {
   width:500px !important;
@@ -441,11 +390,13 @@ with row1:
 
                         # Ensure there are at least 2 items in each list to avoid IndexError
                         if len(first_filenames_edited) >= 2 and len(second_filenames_edited) >= 2:
+                            from urllib.parse import quote
+                            
                             st.session_state.image_urls = [
-                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[0].strip()}.jpg",
-                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[1].strip()}.jpg",
-                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[0].strip()}.jpg",
-                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[1].strip()}.jpg"
+                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{quote(first_filenames_edited[0].strip())}.jpg",
+                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{quote(first_filenames_edited[1].strip())}.jpg",
+                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{quote(second_filenames_edited[0].strip())}.jpg",
+                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{quote(second_filenames_edited[1].strip())}.jpg"
                             ]
                             st.session_state.image_captions = [
                                 first_filenames[0].strip(), first_filenames[1].strip(),
