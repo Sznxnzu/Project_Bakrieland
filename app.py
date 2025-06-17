@@ -167,7 +167,7 @@ div[data-testid="stCameraInput"] button {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 
-  width: 150px;
+  width: 100px;
 }
 
 div[data-testid="stCameraInput"] button:hover {
