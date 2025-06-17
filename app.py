@@ -214,6 +214,19 @@ with row1:
     with colA2:
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
 
+        st.markdown("""
+        <script>
+        const observer = new MutationObserver(() => {
+          const btn = document.querySelector('div[data-testid="stCameraInput"] button');
+          if (btn) {
+            btn.innerText = "Wollogong";
+            observer.disconnect();
+          }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+        </script>
+        """, unsafe_allow_html=True)
+
         if user_input is not None and user_input != st.session_state.last_photo:
             st.session_state.last_photo = user_input
 
