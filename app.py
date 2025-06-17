@@ -110,7 +110,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 }
 
 div[data-testid="stCameraInput"] {
-  height: 600px !important;
+  height: 500px !important;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -156,7 +156,7 @@ div[data-testid="stCameraInput"] button {
   z-index: 10;
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
   background-color: #00c0cc;
   color: #000;
   font-weight: 600;
@@ -166,6 +166,8 @@ div[data-testid="stCameraInput"] button {
   box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+
+  width: 150px;
 }
 
 div[data-testid="stCameraInput"] button:hover {
