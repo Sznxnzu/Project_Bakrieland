@@ -162,28 +162,6 @@ div[data-testid="stCameraInput"] button:hover {
   box-shadow: 0 6px 16px rgba(0, 240, 255, 0.8);
 }
 
-div[data-testid="stElementContainer"] {
-  display: inline-block !important;
-  width: auto !important;
-  height: auto !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  box-sizing: content-box !important;
-}
-
-div[data-testid="stVerticalBlock"],
-div[data-testid="stHorizontalBlock"] {
-  display: inline-flex !important;
-  flex-wrap: nowrap !important;
-  align-items: flex-start !important;
-  justify-content: flex-start !important;
-  width: auto !important;
-  height: auto !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  box-sizing: content-box !important;
-}
-
 </style>
 """, unsafe_allow_html=True)
 
