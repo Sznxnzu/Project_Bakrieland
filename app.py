@@ -93,15 +93,15 @@ div[data-testid="stCameraInput"] button:hover {
 }
 
 /* --- PERUBAHAN HANYA DI SINI --- */
-/* --- CSS RESPONSIVE BARU UNTUK MOBILE --- */
+/* --- CSS RESPONSIVE YANG DISEMPURNAKAN --- */
 @media (max-width: 768px) {
     /* Jadikan kontainer kolom utama sebagai dasar positioning */
     div[data-testid="stHorizontalBlock"] {
         position: relative;
-        min-height: 500px; /* Beri ruang vertikal untuk elemen absolute */
+        min-height: 550px; /* Beri ruang vertikal untuk elemen absolute */
     }
 
-    /* Sembunyikan semua kolom agar kita bisa atur ulang isinya */
+    /* Sembunyikan kolom agar kita bisa atur ulang isinya */
     div[data-testid="stHorizontalBlock"] > div {
         position: static;
     }
@@ -109,17 +109,17 @@ div[data-testid="stCameraInput"] button:hover {
     /* 1. Atur Logo 35 Tahun di Pojok Kiri Atas */
     .35thn-box {
         position: absolute;
-        top: 10px;
-        left: 10px;
-        width: 120px; /* Ukuran sedang */
+        top: 5px; /* PENYESUAIAN DI SINI */
+        left: 5px; /* PENYESUAIAN DI SINI */
+        width: 100px; /* PENYESUAIAN DI SINI (lebih kecil) */
         height: auto;
         z-index: 10;
     }
     .35thn-box img { width: 100%; }
-    
+
     /* 2. Atur Kamera di Tengah (beri ruang dari atas) */
     .camera-wrapper {
-        padding-top: 60px; /* Jarak dari atas untuk logo */
+        padding-top: 50px; /* Jarak dari atas untuk logo */
     }
     div[data-testid="stCameraInput"],
     div[data-testid="stCameraInput"] div,
@@ -137,28 +137,27 @@ div[data-testid="stCameraInput"] button:hover {
     /* 3. Atur Maskot di Bawah Kamera */
     .mascot-box {
         position: absolute;
-        top: 320px; /* Sesuaikan posisi vertikal di bawah kamera */
-        left: 25px; /* Sesuaikan posisi horizontal di sisi kiri */
-        width: 80px;
+        top: 325px; /* PENYESUAIAN DI SINI (lebih rendah) */
+        left: 15%;  /* PENYESUAIAN DI SINI (lebih ke tengah) */
+        width: 75px; /* PENYESUAIAN DI SINI */
         height: auto;
         z-index: 10;
     }
 
     /* 4. Atur Grup Logo Kanan */
-    /* Menargetkan wrapper kolom ke-3 yang berisi logo Bakrieland & Powered By */
     div[data-testid="stHorizontalBlock"] > div:nth-child(3) > div {
         position: absolute;
-        top: 320px; /* Sejajarkan dengan maskot */
+        top: 325px; /* PENYESUAIAN DI SINI (sejajar dengan maskot) */
         right: 10px;
         width: auto;
         display: flex;
         flex-direction: column;
-        align-items: flex-end; /* Ratakan ke kanan */
-        gap: 8px; /* Jarak antar item */
+        align-items: flex-end;
+        gap: 8px;
         z-index: 10;
     }
     div[data-testid="stHorizontalBlock"] > div:nth-child(3) img[src*="bakrieland_logo"] {
-        height: 40px !important;
+        height: 35px !important; /* PENYESUAIAN DI SINI */
         margin-bottom: 0;
     }
     div[data-testid="stHorizontalBlock"] > div:nth-child(3) span {
@@ -167,9 +166,9 @@ div[data-testid="stCameraInput"] button:hover {
     }
     div[data-testid="stHorizontalBlock"] > div:nth-child(3) img[src*="google_logo"],
     div[data-testid="stHorizontalBlock"] > div:nth-child(3) img[src*="metrodata_logo"] {
-        height: 20px !important;
+        height: 22px !important; /* PENYESUAIAN DI SINI (sedikit lebih besar) */
     }
-    
+
     /* 5. Atur sisa konten (Analisis & Rekomendasi) */
     .st-emotion-cache-z5fcl4 > .row-container:nth-of-type(2), /* row2 */
     .st-emotion-cache-z5fcl4 > .row-container:nth-of-type(3)  /* row3 */
@@ -179,8 +178,9 @@ div[data-testid="stCameraInput"] button:hover {
     .mood-box-content h2 { font-size: 22px; }
     .mood-box-content pre { font-size: 14px; }
     
-    div[data-testid="stHorizontalBlock"] > .st-emotion-cache-1b2y69g:nth-of-type(2) { /* colC2 */
-        margin-top: 0; /* Hapus margin atas jika ada */
+    /* Mengatur kolom rekomendasi agar menumpuk */
+    .row3 .st-emotion-cache-1b2y69g {
+        flex-direction: column;
     }
 }
 </style>
@@ -335,7 +335,7 @@ with row2:
     </div>
     """, unsafe_allow_html=True)
 
-row3 = st.container()
+row3 = st.container(class_name="row3") # Menambahkan nama kelas untuk penargetan CSS
 with row3:
     colC1, colC2 = st.columns(2)
     with colC1:
