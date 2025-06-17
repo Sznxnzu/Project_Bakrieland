@@ -374,38 +374,37 @@ with row3:
         </div>
         """, unsafe_allow_html=True)
 
-st.markdown("""
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script>
-  function takeScreenshot() {
-    const btn = document.getElementById("customScreenshotBtn");
-    btn.disabled = true;
-    btn.innerText = "Processing...";
-    setTimeout(() => {
-      html2canvas(document.body).then(canvas => {
-        const link = document.createElement("a");
-        link.download = "screenshot.png";
-        link.href = canvas.toDataURL();
-        link.click();
-        btn.disabled = false;
-        btn.innerText = "📸 Screenshot";
-      });
-    }, 800); // slight delay for images to render if needed
-  }
-</script>
+components.html("""
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  </head>
+  <body>
+    <button id="screenshotBtn" style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 9999;
+        background-color: #00c0cc;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
+    ">📸 Screenshot</button>
 
-<button id="customScreenshotBtn" onclick="takeScreenshot()" style="
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999;
-  background-color: #00c0cc;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
-">📸 Screenshot</button>
-""", unsafe_allow_html=True)
+    <script>
+      document.getElementById("screenshotBtn").addEventListener("click", function () {
+        html2canvas(parent.document.body, { scrollY: -window.scrollY, windowHeight: document.body.scrollHeight }).then(canvas => {
+          const link = document.createElement("a");
+          link.download = "screenshot.png";
+          link.href = canvas.toDataURL();
+          link.click();
+        });
+      });
+    </script>
+  </body>
+</html>
+""", height=100)
