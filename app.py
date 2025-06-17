@@ -225,99 +225,129 @@ div[data-testid="stCameraInput"] button:hover {
 
   /* Layout utama: flex column */
   .st-emotion-cache-z5fcl4 {
-  flex-direction: column !important;
+    flex-direction: column !important;
   }
 
   /* Kolom wrapper: flex row, align center */
   .column-wrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  height: auto;
-  width: 100%;
-  padding: 0 8px;
-  position: relative;
-  margin-bottom: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: auto;
+    width: 100%;
+    padding: 0 8px;
+    position: relative;
+    margin-bottom: 0;
   }
 
-  /* Logo 35 tahun kecil di kiri atas */
+  /* Logo 35 tahun kecil di kiri atas kamera */
   .35thn-box {
-  width: 50px !important;
-  min-width: 50px !important;
-  max-width: 50px !important;
-  height: 50px !important;
-  margin: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
+    width: 40px !important;
+    min-width: 40px !important;
+    max-width: 40px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    max-height: 40px !important;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
   }
   .35thn-box img {
-  width: 100% !important;
-  height: auto !important;
-  border-radius: 8px;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 8px;
   }
 
-  /* Maskot rusa di bawah kamera */
+  /* Maskot di kiri bawah kamera */
   .mascot-box {
-  width: 70px !important;
-  height: 70px !important;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: calc(80vw + 20px); /* di bawah kamera */
-  z-index: 10;
+    width: 55px !important;
+    height: 55px !important;
+    min-width: 55px !important;
+    min-height: 55px !important;
+    max-width: 55px !important;
+    max-height: 55px !important;
+    margin: 0;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 20;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
   }
   .mascot-box img {
-  width: 100% !important;
-  height: auto !important;
-  border-radius: 8px;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 8px;
   }
 
   /* Kamera tetap di tengah */
   .camera-wrapper {
-  margin-top: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  position: relative;
+    margin-top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
   }
 
-  /* Logo Bakrieland, powered by, google, metrodata di kanan atas */
+  /* Logo Bakrieland tetap di kanan atas */
   .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) {
-  position: absolute !important;
-  top: 0;
-  right: 0;
-  width: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  z-index: 20;
-  padding-right: 8px;
-  background: none !important;
+    position: absolute !important;
+    top: 0;
+    right: 0;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 20;
+    padding-right: 8px;
+    background: none !important;
   }
   .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) img {
-  margin-bottom: 4px;
-  height: 32px !important;
+    margin-bottom: 4px;
+    height: 32px !important;
   }
   .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) span {
-  font-size: 12px;
-  color: #fff;
-  text-align: right;
+    font-size: 12px;
+    color: #fff;
+    text-align: right;
+  }
+
+  /* Metrodata, Google, Powered by di kanan bawah kamera */
+  .mobile-poweredby-box {
+    position: absolute !important;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 8px 8px 0 0;
+    background: none !important;
+  }
+  .mobile-poweredby-box span {
+    font-size: 12px;
+    color: #fff;
+    text-align: right;
+    margin-bottom: 2px;
+  }
+  .mobile-poweredby-box img {
+    height: 28px !important;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 2px;
   }
 
   /* Sembunyikan margin bawah maskot di mobile */
   .mascot-box {
-  margin-bottom: 0 !important;
+    margin-bottom: 0 !important;
   }
 }
 </style>
