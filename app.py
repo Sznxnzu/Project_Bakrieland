@@ -374,19 +374,23 @@ with row3:
         </div>
         """, unsafe_allow_html=True)
 
-st.markdown("""
-<p>This captures the full visible app screen when you click the button.</p>
-<button onclick="takeScreenshot()">📷 Screenshot Whole App</button>
-
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-<script>
-function takeScreenshot() {
-    html2canvas(document.querySelector('[data-testid="stAppViewContainer"]')).then(function(canvas) {
-        var link = document.createElement('a');
-        link.download = 'full_screenshot.png';
-        link.href = canvas.toDataURL();
-        link.click();
-    });
-}
-</script>
-""", unsafe_allow_html=True)
+components.html("""
+  <html>
+    <head>
+      <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    </head>
+    <body>
+      <button onclick="takeScreenshot()" style="padding: 10px 20px; font-size: 16px;">📷 Screenshot</button>
+      <script>
+        function takeScreenshot() {
+          html2canvas(document.body).then(function(canvas) {
+            var link = document.createElement('a');
+            link.download = 'screenshot.png';
+            link.href = canvas.toDataURL();
+            link.click();
+          });
+        }
+      </script>
+    </body>
+  </html>
+""", height=200)
