@@ -149,6 +149,7 @@ div[data-testid="stCameraInput"] img {
   height: 500px !important;
   border-radius: 50% !important;
   box-shadow: 0 0 20px rgba(0,240,255,0.5);
+  margin: 0;
 }
 
 div[data-testid="stCameraInput"] button {
