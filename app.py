@@ -315,61 +315,55 @@ div[data-testid="stCameraInput"] button:hover {
   }
 }
 
-/* Tambahan CSS untuk perbaikan posisi di HP */
 @media (max-width: 768px) {
   .column-wrapper {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: flex-start;
+    height: auto;
     padding: 0 12px;
-    gap: 10px;
+    position: relative;
   }
 
   .35thn-box {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 12px;
+    left: 12px;
     width: 60px;
-    height: auto;
   }
 
   .mascot-box {
-    position: relative;
-    width: 80px;
-    margin: 12px auto 0 auto;
-    top: auto;
-    left: auto;
+    margin-top: 12px;
+    width: 70px;
     display: flex;
     justify-content: center;
-  }
-
-  .mascot-box img {
-    width: 100%;
-    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    top: 10px;
   }
 
   .camera-wrapper {
-    margin-top: 30px;
+    margin-top: 40px;
   }
 
-  /* Pindahkan logo kanan atas */
   .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) > div {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 12px;
+    right: 12px;
+    display: flex;
     flex-direction: column;
     align-items: flex-end;
-    padding-right: 0;
   }
 
   .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) img {
-    margin-bottom: 6px;
+    margin-bottom: 4px;
+    height: 24px !important;
   }
 
   .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) span {
-    font-size: 11px;
-    color: #fff;
+    font-size: 10px;
+    color: white;
     text-align: right;
   }
 }
