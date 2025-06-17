@@ -14,38 +14,38 @@ st.markdown("""
 <style>
 /* Gaya dasar dan tema */
 html, body, [data-testid="stAppViewContainer"], .stApp {
-    background: none !important;
-    background-color: #19307f !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-attachment: fixed !important;
+  background: none !important;
+  background-color: #19307f !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-attachment: fixed !important;
 }
 ::-webkit-scrollbar {
   display: none;
 }
 
 .header-box {
-    text-align: center;
-    border: 2px solid #00f0ff;
-    background-color: rgba(0,0,50,0.5);
-    border-radius: 8px;
-    padding: 6px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 10px #00f0ff;
-    color: #00f0ff;
-    font-size: 25px;
-    font-family: 'Orbitron', sans-serif;
-    letter-spacing: 1px;
+  text-align: center;
+  border: 2px solid #00f0ff;
+  background-color: rgba(0,0,50,0.5);
+  border-radius: 8px;
+  padding: 6px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 10px #00f0ff;
+  color: #00f0ff;
+  font-size: 25px;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 1px;
 }
 
 .portrait-box {
-    border: 2px solid #00f0ff;
-    background-color: rgba(0,0,30,0.6);
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 10px #00f0ff;
-    text-align: center;
+  border: 2px solid #00f0ff;
+  background-color: rgba(0,0,30,0.6);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 10px #00f0ff;
+  text-align: center;
 }
 
 .column-wrapper {
@@ -85,31 +85,31 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 }
 
 .mood-box-content {
-    border: 2px solid #00f0ff;
-    background-color: rgba(10, 15, 30, 0.85);
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px #00f0ff;
-    font-size: 25px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: 100%;
-    height: auto;
-    transition: all 0.3s ease-in-out;
+  border: 2px solid #00f0ff;
+  background-color: rgba(10, 15, 30, 0.85);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #00f0ff;
+  font-size: 25px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  height: auto;
+  transition: all 0.3s ease-in-out;
 }
 .mood-box-content:hover {
-    box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
+  box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
 }
 .mood-box-content p {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 .mood-box-content h2{
-    font-size: 45px
+  font-size: 45px
 }
 .mood-box-content ul {
-    margin-top: 0;
-    margin-bottom: 1em;
-    padding-left: 20px;
+  margin-top: 0;
+  margin-bottom: 1em;
+  padding-left: 20px;
 }
 
 .camera-wrapper {
@@ -192,182 +192,134 @@ div[data-testid="stCameraInput"] button:hover {
 
 /* RESPONSIVE KHUSUS MOBILE (MAX WIDTH 768px) */
 @media (max-width: 768px) {
-  .st-emotion-cache-z5fcl4 {
-      flex-direction: column;
-  }
-
   .header-box {
-      font-size: 18px;
+    font-size: 18px;
   }
   .mood-box-content h2 {
-      font-size: 30px;
+    font-size: 30px;
   }
   .mood-box-content {
-      font-size: 16px;
+    font-size: 16px;
   }
   .portrait-box p {
-      font-size: 18px !important;
+    font-size: 18px !important;
   }
 
   div[data-testid="stCameraInput"],
   div[data-testid="stCameraInput"] div,
   div[data-testid="stCameraInputWebcamStyledBox"],
   div[data-testid="stCameraInput"] img {
-      width: 80vw !important;
-      height: 80vw !important;
-      max-width: 300px !important;
-      max-height: 300px !important;
+    width: 80vw !important;
+    height: 80vw !important;
+    max-width: 300px !important;
+    max-height: 300px !important;
   }
 
   div[data-testid="stCameraInput"] button {
-      width: 120px;
-      font-size: 14px;
-      bottom: 10px;
-      right: 50%;
-      transform: translateX(50%);
+    width: 120px;
+    font-size: 14px;
+    bottom: 10px;
+    right: 50%;
+    transform: translateX(50%);
   }
 
+  /* Layout utama: flex column */
+  .st-emotion-cache-z5fcl4 {
+  flex-direction: column !important;
+  }
+
+  /* Kolom wrapper: flex row, align center */
   .column-wrapper {
-      flex-direction: row;
-      height: auto;
-      align-items: center;
-      justify-content: space-around;
-      margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: auto;
+  width: 100%;
+  padding: 0 8px;
+  position: relative;
+  margin-bottom: 0;
   }
 
-  .35thn-box, .mascot-box {
-      width: 100px;
-      height: auto;
-      margin: 0;
-  }
-
-  img[src*="bakrieland_logo"] {
-      height: 50px !important;
-  }
-  img[src*="google_logo"], img[src*="metrodata_logo"] {
-      height: 30px !important;
-  }
-
-  div[data-testid="stHorizontalBlock"] {
-      flex-direction: column;
-  }
-
-  /* Layout khusus HP: posisi ulang header, maskot, powered by */
-  .st-emotion-cache-z5fcl4 > div:first-child > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    gap: 6px;
-  }
-
-  .column-wrapper {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    width: 100%;
-    padding: 0 12px;
-  }
-
+  /* Logo 35 tahun kecil di kiri atas */
   .35thn-box {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 70px;
+  width: 50px !important;
+  min-width: 50px !important;
+  max-width: 50px !important;
+  height: 50px !important;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  }
+  .35thn-box img {
+  width: 100% !important;
+  height: auto !important;
+  border-radius: 8px;
   }
 
+  /* Maskot rusa di bawah kamera */
   .mascot-box {
-    position: absolute;
-    top: 140px;
-    left: 0;
-    width: 80px;
+  width: 70px !important;
+  height: 70px !important;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: calc(80vw + 20px); /* di bawah kamera */
+  z-index: 10;
   }
-
   .mascot-box img {
-    width: 100%;
-    height: auto;
+  width: 100% !important;
+  height: auto !important;
+  border-radius: 8px;
   }
 
-  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) > div {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    padding-right: 12px;
-  }
-
-  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) img {
-    margin-bottom: 4px;
-  }
-
-  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) span {
-    font-size: 12px;
-    color: #fff;
-    text-align: right;
-  }
-
+  /* Kamera tetap di tengah */
   .camera-wrapper {
-    margin-top: 90px;
-  }
-}
-
-@media (max-width: 768px) {
-  .column-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    height: auto;
-    padding: 0 12px;
-    position: relative;
+  margin-top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
   }
 
-  .35thn-box {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    width: 60px;
+  /* Logo Bakrieland, powered by, google, metrodata di kanan atas */
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) {
+  position: absolute !important;
+  top: 0;
+  right: 0;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  z-index: 20;
+  padding-right: 8px;
+  background: none !important;
+  }
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) img {
+  margin-bottom: 4px;
+  height: 32px !important;
+  }
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) span {
+  font-size: 12px;
+  color: #fff;
+  text-align: right;
   }
 
+  /* Sembunyikan margin bawah maskot di mobile */
   .mascot-box {
-    margin-top: 12px;
-    width: 70px;
-    display: flex;
-    justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-    top: 10px;
-  }
-
-  .camera-wrapper {
-    margin-top: 40px;
-  }
-
-  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) > div {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-
-  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) img {
-    margin-bottom: 4px;
-    height: 24px !important;
-  }
-
-  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) span {
-    font-size: 10px;
-    color: white;
-    text-align: right;
+  margin-bottom: 0 !important;
   }
 }
-
 </style>
 """, unsafe_allow_html=True)
 
