@@ -374,23 +374,21 @@ with row3:
         </div>
         """, unsafe_allow_html=True)
 
-components.html("""
+components.html(
+    """
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <button onclick="takeScreenshot()" style="
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1000;
-        background-color: #00c0cc;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        border-radius: 8px;
-        cursor: pointer;
-        box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
-    ">📸 Screenshot</button>
-
+    <div style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
+        <button onclick="takeScreenshot()" style="
+            background-color: #00c0cc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
+        ">📸 Screenshot</button>
+    </div>
     <script>
     function takeScreenshot() {
         html2canvas(document.body).then(function(canvas) {
@@ -401,4 +399,6 @@ components.html("""
         });
     }
     </script>
-""", height=0)
+    """,
+    height=100,  # This must not be 0
+)
