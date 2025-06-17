@@ -350,9 +350,9 @@ with row3:
         st.markdown(f"""
         <div class="portrait-box">
           <img src="{st.session_state.image_urls[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-          <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{st.session_state.image_captions[0]}</p>
+          <p style="text-align:center; margin-top: 5px; font-size: 12px; color: #ccc;">{st.session_state.image_captions[0]}</p>
           <img src="{st.session_state.image_urls[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-          <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{st.session_state.image_captions[1]}</p>
+          <p style="text-align:center; margin-top: 5px; font-size: 12px; color: #ccc;">{st.session_state.image_captions[1]}</p>
         </div>
         """, unsafe_allow_html=True)
     with colC2:
@@ -360,8 +360,8 @@ with row3:
         st.markdown(f"""
         <div class="portrait-box">
           <img src="{st.session_state.image_urls[2]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-          <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{st.session_state.image_captions[2]}</p>
+          <p style="text-align:center; margin-top: 5px; font-size: 12px; color: #ccc;">{st.session_state.image_captions[2]}</p>
           <img src="{st.session_state.image_urls[3]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
-          <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{st.session_state.image_captions[3]}</p>
+          <p style="text-align:center; margin-top: 5px; font-size: 12px; color: #ccc;">{st.session_state.image_captions[3]}</p>
         </div>
         """, unsafe_allow_html=True)
