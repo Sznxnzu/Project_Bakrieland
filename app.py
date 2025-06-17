@@ -407,4 +407,4 @@ components.html("""
     </script>
   </body>
 </html>
-""", height=0)
+""", height=100)
