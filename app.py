@@ -114,7 +114,7 @@ div[data-testid="stCameraInput"] {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-end;
 }
 
 div[data-testid="stCameraInput"] div {
