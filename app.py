@@ -114,6 +114,7 @@ div[data-testid="stCameraInput"] {
   height: 500px !important;
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
   align-items: center;
   justify-content: center;
 }
