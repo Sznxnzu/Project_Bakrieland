@@ -314,6 +314,29 @@ div[data-testid="stCameraInput"] button:hover {
     margin-top: 90px;
   }
 }
+
+@media (max-width: 768px) {
+  /* Stack PROPERTY dan HOLIDAY */
+  .st-emotion-cache-13ln4jf,
+  .st-emotion-cache-1wivap2,
+  .st-emotion-cache-1r6slb0 {
+    flex-direction: column !important;
+  }
+
+  #screenshotBtn {
+    bottom: 80px !important;
+  }
+
+  .portrait-box img {
+    height: auto !important;
+    max-height: 50vw !important;
+  }
+
+  .portrait-box p {
+    font-size: 16px !important;
+  }
+}
+
 </style>
 """, unsafe_allow_html=True)
 
