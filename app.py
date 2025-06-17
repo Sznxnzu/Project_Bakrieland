@@ -7,10 +7,9 @@ import requests
 import html
 import random
 
-# Konfigurasi Halaman
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
-# --- CSS BARU DENGAN STRUKTUR YANG TEPAT ---
+# --- CSS FINAL YANG DISEDERHANAKAN DAN STABIL ---
 st.markdown("""
 <style>
 /* --- Reset & Gaya Dasar --- */
@@ -20,66 +19,28 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 ::-webkit-scrollbar { display: none; }
 .block-container {
     padding: 1rem !important;
-    max-width: 1200px !important; /* Batas lebar di desktop */
 }
 
-/* --- KELAS-KELAS BARU UNTUK KONTROL LAYOUT --- */
-.header-box, .portrait-box {
-    border: 2px solid #00f0ff;
-    background-color: rgba(0,0,50,0.5);
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 10px #00f0ff;
-    color: #00f0ff;
-    text-align: center;
-}
-.portrait-box { background-color: rgba(0,0,30,0.6); }
-
-/* --- TATA LETAK MOBILE (DEFAULT, max-width: 768px) --- */
-/* Menggunakan CSS Grid untuk presisi tata letak */
-.main-container {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 1fr 1fr; /* Dua kolom sama lebar */
-    grid-template-rows: auto; /* Tinggi baris otomatis */
-    gap: 15px 10px;
-    /* Mendefinisikan area untuk setiap elemen */
-    grid-template-areas:
-        "top-logo        top-logo"
-        "camera          camera"
-        "mascot          right-stack"
-        "analysis        analysis"
-        "recommendations recommendations";
+/* --- Kelas Wrapper Utama --- */
+.main-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* Jarak antar elemen utama */
 }
 
-/* Menempatkan setiap wrapper ke dalam areanya */
-.top-logo-wrapper    { grid-area: top-logo; }
-.camera-wrapper      { grid-area: camera; }
-.mascot-wrapper      { grid-area: mascot; }
-.right-stack-wrapper { grid-area: right-stack; }
-.analysis-wrapper    { grid-area: analysis; }
-.recommendations-wrapper { grid-area: recommendations; }
+/* --- TATA LETAK MOBILE (DEFAULT) --- */
+.desktop-sidebar { display: none; } /* Sembunyikan sidebar desktop di mobile */
 
-/* Sembunyikan elemen khusus desktop di mobile */
-.desktop-sidebar {
-    display: none;
-}
-
-/* Menata gaya setiap elemen di mobile */
 .top-logo-wrapper {
-    justify-self: start; /* Posisikan ke kiri */
+    width: 100%;
+    text-align: left;
 }
 .top-logo-wrapper img {
-    width: 100px; /* Ukuran tidak terlalu besar */
+    width: 100px;
     height: auto;
 }
 
-.camera-wrapper {
-    justify-self: center; /* Posisikan di tengah */
-    position: relative;
-    margin-bottom: 10px;
-}
 .camera-wrapper div[data-testid="stCameraInput"],
 .camera-wrapper div[data-testid="stCameraInputWebcamStyledBox"],
 .camera-wrapper div[data-testid="stCameraInput"] video,
@@ -94,83 +55,77 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     bottom: 10px; left: 50%; transform: translateX(-50%);
 }
 
+/* Ini adalah bagian kunci: kontainer untuk maskot dan logo kanan */
+.post-camera-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Sejajarkan bagian atas */
+    width: 100%;
+    max-width: 400px; /* Batasi lebar agar tidak terlalu jauh */
+}
 .mascot-wrapper {
-    justify-self: center; /* Pusatkan di dalam kolom kiri */
-    align-self: start; /* Mulai dari atas */
+    flex-basis: 40%; /* Beri ruang untuk maskot */
+    text-align: center;
 }
 .mascot-wrapper img {
     width: 75px;
     height: auto;
 }
-
 .right-stack-wrapper {
+    flex-basis: 60%; /* Beri ruang untuk logo kanan */
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Ratakan ke kiri di dalam kolom kanan */
-    justify-self: start; /* Posisikan di kiri dalam sel gridnya */
-    align-self: start; /* Mulai dari atas (sejajar maskot) */
+    align-items: flex-start;
     gap: 8px;
 }
-.right-stack-wrapper .bakrieland-logo img {
-    height: 35px;
-    width: auto;
-}
+.right-stack-wrapper .bakrieland-logo img { height: 35px; }
 .right-stack-wrapper .powered-by-text { font-size: 11px; color: #ccc; }
 .right-stack-wrapper .powered-by-logos { display: flex; gap: 5px; }
 .right-stack-wrapper .powered-by-logos img { height: 22px; }
 
+/* Styling untuk sisa konten */
+.analysis-wrapper, .recommendations-wrapper {
+    width: 100%;
+    max-width: 600px;
+}
+.header-box, .portrait-box {
+    border: 2px solid #00f0ff; background-color: rgba(0,0,50,0.5);
+    border-radius: 8px; padding: 10px; margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff; color: #00f0ff; text-align: center;
+}
 .analysis-wrapper .header-box h2 { font-size: 22px; margin: 0; }
 .analysis-wrapper .header-box pre { font-size: 14px; white-space: pre-wrap; font-family: inherit; }
-.recommendations-wrapper { display: flex; flex-direction: column; }
 .recommendations-wrapper .header-box { font-size: 18px; }
-
+.portrait-box { background-color: rgba(0,0,30,0.6); }
 
 /* --- TATA LETAK DESKTOP (min-width: 769px) --- */
 @media (min-width: 769px) {
-    /* Atur ulang grid untuk 3 kolom desktop */
-    .main-container {
+    /* Sembunyikan wrapper mobile */
+    .top-logo-wrapper, .post-camera-row { display: none; }
+    
+    /* Tampilkan wrapper desktop */
+    .desktop-sidebar { display: flex; flex-direction: column; }
+    
+    /* Atur layout utama menjadi 3 kolom */
+    .main-layout {
         display: grid;
-        grid-template-columns: 0.25fr 0.5fr 0.25fr; /* Rasio kolom desktop */
-        grid-template-rows: auto auto 1fr;
-        gap: 20px;
+        grid-template-columns: 0.25fr 0.5fr 0.25fr;
         grid-template-areas:
-            "sidebar-left camera          sidebar-right"
-            "sidebar-left analysis        sidebar-right"
-            "sidebar-left recommendations sidebar-right";
-    }
-
-    /* Sembunyikan elemen khusus mobile di desktop */
-    .top-logo-wrapper, .mascot-wrapper, .right-stack-wrapper {
-        display: none;
-    }
-
-    /* Tampilkan dan posisikan sidebar desktop */
-    .desktop-sidebar {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: 100%;
-    }
-    .desktop-sidebar#left {
-        grid-area: sidebar-left;
-        justify-content: space-around;
-    }
-    .desktop-sidebar#right {
-        grid-area: sidebar-right;
-        justify-content: center;
-        text-align: center;
+            "sidebar-left main-content sidebar-right";
+        align-items: start;
         gap: 20px;
+        width: 100%;
     }
+    
+    /* Tempatkan setiap bagian ke areanya */
+    .desktop-sidebar#left { grid-area: sidebar-left; justify-content: space-around; align-items: center; height: 100%; }
+    .desktop-sidebar#right { grid-area: sidebar-right; justify-content: center; align-items: center; text-align:center; gap: 20px; height: 100%;}
+    .main-content { grid-area: main-content; }
+    
     .desktop-sidebar .logo-box img { width: 150px; }
     .desktop-sidebar .powered-by-text { color: white; }
     .desktop-sidebar .powered-by-logos img { height: 40px; }
 
-    /* Posisikan elemen utama di tengah */
-    .camera-wrapper { grid-area: camera; margin-bottom: 0;}
-    .analysis-wrapper { grid-area: analysis; }
-    .recommendations-wrapper { grid-area: recommendations; }
-    
-    /* Atur kamera untuk desktop */
     .camera-wrapper div[data-testid="stCameraInput"],
     .camera-wrapper div[data-testid="stCameraInputWebcamStyledBox"],
     .camera-wrapper div[data-testid="stCameraInput"] video,
@@ -181,8 +136,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     .camera-wrapper div[data-testid="stCameraInput"] button {
         bottom: 20px; right: 20px; transform: none; left: auto;
     }
-    
-    /* Atur rekomendasi menjadi 2 kolom di desktop */
+
     .recommendations-wrapper { flex-direction: row; gap: 15px; }
     .recommendation-col { flex: 1; }
 }
@@ -196,7 +150,6 @@ if "analysis_result" not in st.session_state:
     st.session_state.image_urls = ["https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/placeholder.png"] * 4
     st.session_state.image_captions = [""] * 4
     st.session_state.last_photo = None
-
 try:
     genai.configure(api_key=st.secrets["gemini_api"])
     MODEL = genai.GenerativeModel("gemini-1.5-flash")
@@ -214,12 +167,10 @@ def process_image(user_input_bytes):
             analysis_prompt = requests.get(prompt_url).text
             json_prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
             json_prompt = requests.get(json_prompt_url).text
-            
             analysis_response = MODEL.generate_content([analysis_prompt, image])
             raw_output = analysis_response.text
             json_response = MODEL.generate_content([json_prompt, raw_output])
             filenames = [name.strip() for name in json_response.text.strip().split(",")]
-
             if len(filenames) >= 4:
                 st.session_state.analysis_result = raw_output
                 st.session_state.image_urls = [
@@ -234,20 +185,14 @@ def process_image(user_input_bytes):
 
 
 # --- STRUKTUR PYTHON BARU YANG BERSIH ---
-# Semua elemen disusun dalam satu kontainer utama untuk kontrol penuh dengan CSS
-st.markdown('<div class="main-container">', unsafe_allow_html=True)
+st.markdown('<div class="main-layout">', unsafe_allow_html=True)
 
-# == Elemen-elemen ini akan ditata ulang oleh CSS untuk mobile & desktop ==
-
-# 1. Sidebar Kiri (Hanya Tampil di Desktop)
+# -- Elemen untuk Desktop --
 st.markdown("""
 <div class="desktop-sidebar" id="left">
     <div class="logo-box"><img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png"></div>
     <div class="logo-box"><img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png"></div>
-</div>""", unsafe_allow_html=True)
-
-# 2. Sidebar Kanan (Hanya Tampil di Desktop)
-st.markdown("""
+</div>
 <div class="desktop-sidebar" id="right">
     <div class="logo-box"><img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png"></div>
     <div>
@@ -257,40 +202,41 @@ st.markdown("""
             <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png">
         </div>
     </div>
-</div>""", unsafe_allow_html=True)
+</div>
+""", unsafe_allow_html=True)
 
-# 3. Logo Atas (Hanya Tampil di Mobile)
+# -- Konten Utama (Untuk Mobile dan Desktop) --
+st.markdown('<div class="main-content">', unsafe_allow_html=True)
+
 st.markdown("""
 <div class="top-logo-wrapper">
     <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png">
-</div>""", unsafe_allow_html=True)
+</div>
+""", unsafe_allow_html=True)
 
-# 4. Kamera (Layout diatur CSS)
 with st.container():
     st.markdown('<div class="camera-wrapper">', unsafe_allow_html=True)
     user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
     st.markdown('</div>', unsafe_allow_html=True)
 
-# 5. Maskot (Hanya Tampil di Mobile)
 st.markdown("""
-<div class="mascot-wrapper">
-    <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png">
-</div>""", unsafe_allow_html=True)
-
-# 6. Grup Logo Kanan (Hanya Tampil di Mobile)
-st.markdown("""
-<div class="right-stack-wrapper">
-    <div class="bakrieland-logo">
-        <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png">
+<div class="post-camera-row">
+    <div class="mascot-wrapper">
+        <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png">
     </div>
-    <div class="powered-by-text">POWERED BY:</div>
-    <div class="powered-by-logos">
-        <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png">
-        <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png">
+    <div class="right-stack-wrapper">
+        <div class="bakrieland-logo">
+            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png">
+        </div>
+        <div class="powered-by-text">POWERED BY:</div>
+        <div class="powered-by-logos">
+            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png">
+            <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png">
+        </div>
     </div>
-</div>""", unsafe_allow_html=True)
+</div>
+""", unsafe_allow_html=True)
 
-# 7. Analisis (Layout diatur CSS)
 with st.container():
     st.markdown('<div class="analysis-wrapper">', unsafe_allow_html=True)
     escaped_analysis = html.escape(st.session_state.analysis_result)
@@ -298,10 +244,10 @@ with st.container():
     <div class="header-box mood-box-content">
       <h2>Mood Analytic</h2>
       <pre>{escaped_analysis}</pre>
-    </div>""", unsafe_allow_html=True)
+    </div>
+    """, unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
-# 8. Rekomendasi (Layout diatur CSS)
 with st.container():
     st.markdown('<div class="recommendations-wrapper">', unsafe_allow_html=True)
     st.markdown('<div class="recommendation-col">', unsafe_allow_html=True)
@@ -310,7 +256,8 @@ with st.container():
     <div class="portrait-box">
         <img src="{st.session_state.image_urls[0]}"><p>{st.session_state.image_captions[0]}</p>
         <img src="{st.session_state.image_urls[1]}"><p>{st.session_state.image_captions[1]}</p>
-    </div>""", unsafe_allow_html=True)
+    </div>
+    """, unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
     st.markdown('<div class="recommendation-col">', unsafe_allow_html=True)
     st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
@@ -318,11 +265,14 @@ with st.container():
     <div class="portrait-box">
         <img src="{st.session_state.image_urls[2]}"><p>{st.session_state.image_captions[2]}</p>
         <img src="{st.session_state.image_urls[3]}"><p>{st.session_state.image_captions[3]}</p>
-    </div>""", unsafe_allow_html=True)
+    </div>
+    """, unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True) # Penutup .main-container
+st.markdown('</div>', unsafe_allow_html=True) # Penutup .main-content
+st.markdown('</div>', unsafe_allow_html=True) # Penutup .main-layout
+
 
 # --- Logika Pemicu Pemrosesan Gambar ---
 if user_input and user_input != st.session_state.get('last_photo'):
@@ -339,7 +289,7 @@ components.html("""
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
   document.getElementById("screenshotBtn").addEventListener("click", function () {
-    const mainContent = parent.document.querySelector('.main-container');
+    const mainContent = parent.document.querySelector('.main-layout');
     html2canvas(mainContent).then(canvas => {
       const link = document.createElement("a");
       link.download = "mood-analytic-bakrieland.png";
