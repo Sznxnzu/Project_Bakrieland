@@ -149,11 +149,9 @@ div[data-testid="stCameraInput"] img {
   height: 500px !important;
   border-radius: 50% !important;
   box-shadow: 0 0 20px rgba(0,240,255,0.5);
-  margin: auto;
 }
 
 div[data-testid="stCameraInput"] button {
-  margin-top: 12px;
   z-index: 10;
   position: relative;
 
