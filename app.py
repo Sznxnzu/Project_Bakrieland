@@ -95,6 +95,9 @@ div[data-testid="stCameraInput"] button:hover {
 
 /* --- CSS RESPONSIVE YANG DISEMPURNAKAN --- */
 @media (max-width: 768px) {
+    .block-container {
+        padding: 5px !important;
+    }
     /* Jadikan kontainer kolom utama sebagai dasar positioning */
     div[data-testid="stHorizontalBlock"] {
         position: relative;
@@ -170,7 +173,6 @@ div[data-testid="stCameraInput"] button:hover {
     }
     
     /* 5. Atur sisa konten (Analisis & Rekomendasi) */
-    /* Menargetkan row2 dan row3 berdasarkan urutannya */
     .st-emotion-cache-z5fcl4 > div:nth-child(2), /* row2 */
     .st-emotion-cache-z5fcl4 > div:nth-child(3)  /* row3 */
     {
@@ -180,7 +182,6 @@ div[data-testid="stCameraInput"] button:hover {
     .mood-box-content pre { font-size: 14px; }
     
     /* Mengatur kolom rekomendasi agar menumpuk di mobile */
-    /* Target: kontainer kolom di dalam row3 */
     .st-emotion-cache-z5fcl4 > div:nth-child(3) > div[data-testid="stHorizontalBlock"] {
         flex-direction: column;
     }
@@ -337,7 +338,6 @@ with row2:
     </div>
     """, unsafe_allow_html=True)
 
-# PERBAIKAN DI SINI: Menghapus class_name yang menyebabkan error
 row3 = st.container() 
 with row3:
     colC1, colC2 = st.columns(2)
