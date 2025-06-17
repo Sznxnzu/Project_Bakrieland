@@ -375,22 +375,37 @@ with row3:
         """, unsafe_allow_html=True)
 
 components.html("""
-  <html>
-    <head>
-      <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    </head>
-    <body>
-      <button onclick="takeScreenshot()" style="padding: 10px 20px; font-size: 16px;">📷 Screenshot</button>
-      <script>
-        function takeScreenshot() {
-          html2canvas(document.body).then(function(canvas) {
-            var link = document.createElement('a');
-            link.download = 'screenshot.png';
-            link.href = canvas.toDataURL();
-            link.click();
-          });
-        }
-      </script>
-    </body>
-  </html>
-""", height=200)
+<html>
+  <head>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+      body { font-family: sans-serif; text-align: center; }
+      #capture-area {
+        padding: 20px;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        display: inline-block;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="capture-area">
+      <h2>This is inside the iframe</h2>
+      <p>Only this will be captured.</p>
+    </div>
+    <button onclick="takeScreenshot()">📷 Screenshot</button>
+
+    <script>
+      function takeScreenshot() {
+        html2canvas(document.querySelector("#capture-area")).then(canvas => {
+          let link = document.createElement('a');
+          link.download = 'screenshot.png';
+          link.href = canvas.toDataURL();
+          link.click();
+        });
+      }
+    </script>
+  </body>
+</html>
+""", height=400)
