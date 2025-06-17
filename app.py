@@ -163,7 +163,12 @@ div[data-testid="stCameraInput"] button:hover {
 }
 
 div[data-testid="stElementContainer"] {
-  height: 500px;
+  display: inline-block !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: content-box !important;
 }
 
 </style>
