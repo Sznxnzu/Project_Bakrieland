@@ -109,6 +109,13 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding-left: 20px;
 }
 
+div[data-testid="stElementContainer"] {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 div[data-testid="stCameraInput"] {
   width:500px !important;
   height: 500px !important;
