@@ -176,7 +176,7 @@ div[data-testid="stCameraInput"] button:hover {
   box-shadow: 0 6px 16px rgba(0, 240, 255, 0.8);
 }
 
-[data-testid="camera-input-switch-button"] {
+[data-testid="stCameraInputSwitchButton"] {
   display: none !important;
 }
 
