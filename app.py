@@ -167,7 +167,7 @@ div[data-testid="stCameraInput"] button {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 
-  width: 120px;
+  width: 150px;
 }
 
 div[data-testid="stCameraInput"] button:hover {
@@ -360,31 +360,3 @@ with row3:
           <p style="text-align:center; margin-top: 5px; font-size: 0.9em; color: #ccc;">{st.session_state.image_captions[3]}</p>
         </div>
         """, unsafe_allow_html=True)
-
-
-# row4 = st.container()
-# with row4:
-#   colD1, colD2 = st.columns(2)
-#   with colD1:
-#     st.write("QR here")
-
-#   with colD2:
-#     st.write("Mascots here")
-#     components.html("""
-#     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-#     <div style="display: flex; justify-content: center; align-items: center;">
-#         <lottie-player
-#             id="robot"
-#             src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/Animation%20-%201749118794076.json"
-#             background="transparent" speed="1" style="width: 300px; height: 300px;"
-#             autoplay loop>
-#         </lottie-player>
-#     </div>
-#     <script>
-#         document.getElementById("robot").addEventListener("click", function() {
-#             const r = document.getElementById("robot");
-#             r.stop();
-#             r.play();
-#         });
-#     </script>
-#     """, height=340)
