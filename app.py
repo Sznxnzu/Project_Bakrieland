@@ -439,16 +439,21 @@ with row1:
                             for name in second_filenames
                         ]
 
-                        st.session_state.image_urls = [
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[0].strip()}.jpg",
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[1].strip()}.jpg",
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[0].strip()}.jpg",
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[1].strip()}.jpg"
-                        ]
-                        st.session_state.image_captions = [
-                            first_filenames[0].strip(), first_filenames[1].strip(),
-                            second_filenames[0].strip(), second_filenames[1].strip()
-                        ]
+                        # Ensure there are at least 2 items in each list to avoid IndexError
+                        if len(first_filenames_edited) >= 2 and len(second_filenames_edited) >= 2:
+                            st.session_state.image_urls = [
+                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[0].strip()}.jpg",
+                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[1].strip()}.jpg",
+                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[0].strip()}.jpg",
+                                f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[1].strip()}.jpg"
+                            ]
+                            st.session_state.image_captions = [
+                                first_filenames[0].strip(), first_filenames[1].strip(),
+                                second_filenames[0].strip(), second_filenames[1].strip()
+                            ]
+                        else:
+                            st.session_state.image_urls = [placeholder_url] * 4
+                            st.session_state.image_captions = [placeholder_caption] * 4
                         st.session_state.analysis_result = raw_output
                     else:
                         st.session_state.analysis_result = "Gagal memproses rekomendasi gambar. Silakan coba lagi."
