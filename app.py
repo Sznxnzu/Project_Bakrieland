@@ -373,3 +373,20 @@ with row3:
           <p style="text-align:center; margin-top: 5px; font-size: 30px; color: #ccc;">{st.session_state.image_captions[3]}</p>
         </div>
         """, unsafe_allow_html=True)
+
+st.markdown("""
+<p>This captures the full visible app screen when you click the button.</p>
+<button onclick="takeScreenshot()">📷 Screenshot Whole App</button>
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script>
+function takeScreenshot() {
+    html2canvas(document.querySelector('[data-testid="stAppViewContainer"]')).then(function(canvas) {
+        var link = document.createElement('a');
+        link.download = 'full_screenshot.png';
+        link.href = canvas.toDataURL();
+        link.click();
+    });
+}
+</script>
+""", unsafe_allow_html=True)
