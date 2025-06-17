@@ -21,16 +21,78 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 }
 ::-webkit-scrollbar { display: none; }
 
+.header-box {
+    text-align: center;
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,50,0.5);
+    border-radius: 8px;
+    padding: 6px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff;
+    color: #00f0ff;
+    font-size: 25px;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+}
+
 .camera-wrapper {
   display: flex;
   justify-content: center;
-  margin-top: 150px;
 }
 
-@media (max-width: 768px) {
-  .camera-wrapper {
-    margin-top: 180px;
-  }
+.column-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 400px;
+}
+
+.35thn-box {
+  width: 150px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.35thn-box img {
+  width: 100%;
+  border-radius: 8px;
+  vertical-align: top;
+}
+
+.mascot-box {
+  width: 150px;
+  height: 200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.mascot-box img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* Kamera dalam lingkaran */
+div[data-testid="stCameraInputWebcamStyledBox"] {
+  width: 500px !important;
+  height: 500px !important;
+  border-radius: 50% !important;
+  overflow: hidden;
+  margin: auto;
+  box-shadow: 0 0 20px rgba(0,240,255,0.5);
+}
+
+div[data-testid="stCameraInput"] img {
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  border-radius: 50% !important;
+  width: 500px !important;
+  height: 500px !important;
+  box-shadow: 0 0 20px rgba(0,240,255,0.5);
 }
 
 .mood-box-content {
@@ -71,29 +133,38 @@ if "analysis_result" not in st.session_state:
     st.session_state.image_captions = [placeholder_caption] * 4
     st.session_state.last_photo = None
 
-# --- TOP STATIC LAYOUT ---
-st.markdown("""
-<div style="position: relative; width: 100%;">
-  <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png"
-       style="position: absolute; top: 10px; left: 10px; width: 70px;" />
-  <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png"
-       style="position: absolute; top: 140px; left: 10px; width: 70px;" />
-  <div style="position: absolute; top: 10px; right: 10px; text-align: right;">
-    <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png"
-         style="height: 50px;" />
-    <div style="font-size: 12px; color: white;">POWERED BY:</div>
-    <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png"
-         style="height: 28px;" />
-    <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png"
-         style="height: 28px;" />
-  </div>
-</div>
-""", unsafe_allow_html=True)
+# --- LAYOUT ---
+colA1, colA2, colA3 = st.columns([0.2, 0.6, 0.2])
 
-# --- CAMERA ---
-st.markdown('<div class="camera-wrapper">', unsafe_allow_html=True)
-user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
-st.markdown('</div>', unsafe_allow_html=True)
+with colA1:
+    st.markdown("""
+    <div class="column-wrapper">
+      <div class="35thn-box">
+        <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" />
+      </div>
+      <div class="mascot-box">
+        <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png" />
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with colA2:
+    st.markdown('<div class="camera-wrapper">', unsafe_allow_html=True)
+    user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
+    st.markdown('</div>', unsafe_allow_html=True)
+
+with colA3:
+    st.markdown("""
+    <div style="text-align: right;">
+      <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png"
+           style="height: 50px;" />
+      <div style="font-size: 12px; color: white;">POWERED BY:</div>
+      <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png"
+           style="height: 28px;" />
+      <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png"
+           style="height: 28px;" />
+    </div>
+    """, unsafe_allow_html=True)
 
 # --- ANALYSIS RESULT ---
 escaped_analysis = html.escape(st.session_state.analysis_result)
@@ -103,5 +174,3 @@ st.markdown(f"""
   <pre style="white-space: pre-wrap; font-family: inherit; color:white">{escaped_analysis}</pre>
 </div>
 """, unsafe_allow_html=True)
-
-# TODO: Lanjutkan ke bagian rekomendasi dan logika analisis jika diperlukan.
