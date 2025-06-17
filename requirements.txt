@@ -7,4 +7,3 @@ qrcode[pil]
 firebase-admin
 google-generativeai
 html2image
-random
