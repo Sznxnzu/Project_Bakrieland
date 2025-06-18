@@ -10,10 +10,9 @@ import random
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
 # --- CSS STYLES ---
-# Perubahan untuk responsivitas logo dan kamera ada di sini
 st.markdown("""
 <style>
-/* --- Gaya Dasar (Desktop) --- */
+/* Gaya dasar dan tema */
 html, body, [data-testid="stAppViewContainer"], .stApp {
     background: none !important;
     background-color: #19307f !important;
@@ -38,6 +37,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     font-family: 'Orbitron', sans-serif;
     letter-spacing: 1px;
 }
+
 .portrait-box {
     border: 2px solid #00f0ff;
     background-color: rgba(0,0,30,0.6);
@@ -52,28 +52,37 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%; /* Dibuat fleksibel */
-  min-height: 450px; /* Jaga tinggi minimal */
+  height: 400px;
 }
 
-/* PERUBAHAN 1: Logo dibuat responsif di desktop */
-.35thn-box, .mascot-box {
-  width: 80%;             /* Gunakan persentase dari kolomnya */
-  max-width: 150px;       /* Batasi ukuran maksimal agar tidak terlalu besar */
+.35thn-box {
+  width: 150px;
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
-.mascot-box {
-    height: auto;
-}
-.35thn-box img, .mascot-box img {
+
+.35thn-box img {
   width: 100%;
   border-radius: 8px;
   vertical-align: top;
 }
 
+.mascot-box {
+  width: 150px;
+  height: 200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.mascot-box img {
+  width: 100%;
+  border-radius: 8px;
+}
 
 .mood-box-content {
     border: 2px solid #00f0ff;
@@ -86,113 +95,230 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     margin-bottom: 10px;
     width: 100%;
     height: auto;
+    transition: all 0.3s ease-in-out;
+}
+.mood-box-content:hover {
+    box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
+}
+.mood-box-content p {
+    margin-bottom: 0;
 }
 .mood-box-content h2{
     font-size: 45px
 }
+.mood-box-content ul {
+    margin-top: 0;
+    margin-bottom: 1em;
+    padding-left: 20px;
+}
 
-/* PERUBAHAN 2: Kamera dibuat responsif di desktop */
 .camera-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
 }
+
+/* Kamera style desktop */
 div[data-testid="stCameraInput"] {
-  width: 100% !important;     /* Gunakan 100% dari kolom tengah */
-  height: auto !important;    /* Tinggi otomatis */
-  max-width: 500px !important;/* Batasi ukuran maksimal */
-  aspect-ratio: 1 / 1;      /* Paksa agar selalu berbentuk persegi */
+  width:500px !important;
+  height: 500px !important;
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
+  align-items: center;
+  justify-content: center;
 }
+
 div[data-testid="stCameraInput"] div {
   background-color: transparent !important;
+  flex: 0 0 auto;
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
 }
-div[data-testid="stCameraInputWebcamStyledBox"], div[data-testid="stCameraInput"] img {
-  width: 100% !important;
-  height: 100% !important;
-  border-radius: 50% !important; /* Membuatnya bulat */
-  object-fit: cover;
+
+div[data-testid="stCameraInputWebcamStyledBox"] {
+  width: 500px !important;
+  height: 500px !important;
+  border-radius: 50% !important;
+  overflow: hidden;
+  margin: auto;
   box-shadow: 0 0 20px rgba(0,240,255,0.5);
 }
+
+div[data-testid="stCameraInput"] video {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+div[data-testid="stCameraInput"] img {
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  width: 500px !important;
+  height: 500px !important;
+  border-radius: 50% !important;
+  box-shadow: 0 0 20px rgba(0,240,255,0.5);
+  margin: 0;
+}
+
 div[data-testid="stCameraInput"] button {
   z-index: 10;
   position: absolute;
-  bottom: 5%; /* Posisi relatif */
-  right: 5%;  /* Posisi relatif */
-  width: 150px;
+  bottom: 0;
+  right: 0;
   background-color: #00c0cc;
   color: #000;
   font-weight: 600;
   font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  width: 150px;
 }
+
+div[data-testid="stCameraInput"] button:hover {
+  background-color: #00aabb;
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 240, 255, 0.8);
+}
+
 [data-testid="stCameraInputSwitchButton"] {
   display: none !important;
 }
 
-
-/* --- PENAMBAHAN: ATURAN RESPONSIVE UNTUK MOBILE & TABLET --- */
+/* RESPONSIVE KHUSUS MOBILE (MAX WIDTH 768px) */
 @media (max-width: 768px) {
-    /* Mengatur ulang layout kolom utama untuk mobile */
-    .st-emotion-cache-z5fcl4 {
-        flex-direction: column;
-    }
+  .st-emotion-cache-z5fcl4 {
+      flex-direction: column;
+  }
 
-    /* Mengubah ukuran font agar tidak terlalu besar */
-    .header-box { font-size: 18px; }
-    .mood-box-content h2 { font-size: 30px; }
-    .mood-box-content { font-size: 16px; }
-    .portrait-box p { font-size: 18px !important; }
+  .header-box {
+      font-size: 18px;
+  }
+  .mood-box-content h2 {
+      font-size: 30px;
+  }
+  .mood-box-content {
+      font-size: 16px;
+  }
+  .portrait-box p {
+      font-size: 18px !important;
+  }
 
-    /* PERUBAHAN 3: Kamera di mobile dibuat lebih dinamis */
-    div[data-testid="stCameraInput"] {
-        width: 80vw !important; /* 80% dari lebar layar */
-        max-width: 300px !important; /* Batas maksimal */
-    }
+  div[data-testid="stCameraInput"],
+  div[data-testid="stCameraInput"] div,
+  div[data-testid="stCameraInputWebcamStyledBox"],
+  div[data-testid="stCameraInput"] img {
+      width: 80vw !important;
+      height: 80vw !important;
+      max-width: 300px !important;
+      max-height: 300px !important;
+  }
 
-    /* Menyesuaikan posisi tombol kamera di mobile */
-    div[data-testid="stCameraInput"] button {
-        width: 120px;
-        font-size: 14px;
-        bottom: 10px;
-        right: 50%;
-        transform: translateX(50%); /* Pusatkan tombol */
-    }
+  div[data-testid="stCameraInput"] button {
+      width: 120px;
+      font-size: 14px;
+      bottom: 10px;
+      right: 50%;
+      transform: translateX(50%);
+  }
 
-    /* Mengatur ulang kolom samping di mobile */
-    .column-wrapper {
-        flex-direction: row;
-        height: auto;
-        min-height: auto;
-        align-items: center;
-        justify-content: space-around;
-        margin-bottom: 20px;
-    }
+  .column-wrapper {
+      flex-direction: row;
+      height: auto;
+      align-items: center;
+      justify-content: space-around;
+      margin-bottom: 20px;
+  }
 
-    /* PERUBAHAN 4: Logo & Maskot dibuat responsif di mobile */
-    .35thn-box, .mascot-box {
-        width: 30%;             /* Ukuran relatif terhadap layar */
-        max-width: 100px;       /* Batas ukuran maksimal */
-        height: auto;
-        margin: 0;
-    }
-    
-    /* Menyesuaikan logo Bakrieland & powered by */
-    img[src*="bakrieland_logo"] { height: 50px !important; }
-    img[src*="google_logo"], img[src*="metrodata_logo"] { height: 30px !important; }
+  .35thn-box, .mascot-box {
+      width: 100px;
+      height: auto;
+      margin: 0;
+  }
 
-    /* Membuat kolom rekomendasi menjadi satu kolom */
-    div[data-testid="stHorizontalBlock"] {
-        flex-direction: column;
-    }
+  img[src*="bakrieland_logo"] {
+      height: 50px !important;
+  }
+  img[src*="google_logo"], img[src*="metrodata_logo"] {
+      height: 30px !important;
+  }
+
+  div[data-testid="stHorizontalBlock"] {
+      flex-direction: column;
+  }
+
+  /* Layout khusus HP: posisi ulang header, maskot, powered by */
+  .st-emotion-cache-z5fcl4 > div:first-child > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    gap: 6px;
+  }
+
+  .column-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding: 0 12px;
+  }
+
+  .35thn-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 70px;
+  }
+
+  .mascot-box {
+    position: absolute;
+    top: 140px;
+    left: 0;
+    width: 80px;
+  }
+
+  .mascot-box img {
+    width: 100%;
+    height: auto;
+  }
+
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) > div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 12px;
+  }
+
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) img {
+    margin-bottom: 4px;
+  }
+
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) span {
+    font-size: 12px;
+    color: #fff;
+    text-align: right;
+  }
+
+  .camera-wrapper {
+    margin-top: 90px;
+  }
 }
-
 </style>
 """, unsafe_allow_html=True)
 
 
-# --- BAGIAN LOGIC & LAYOUT PYTHON (TETAP SAMA) ---
+# --- LOGIC & LAYOUT (TIDAK ADA PERUBAHAN DI SINI) ---
 try:
     genai.configure(api_key=st.secrets["gemini_api"])
     model = genai.GenerativeModel("gemini-1.5-flash")
@@ -214,6 +340,7 @@ row1 = st.container()
 with row1:
     colA1, colA2, colA3 = st.columns([0.2, 0.6, 0.2])
     with colA1:
+      st.write("")
       st.markdown("""
       <div class="column-wrapper">
         <div class="35thn-box">
