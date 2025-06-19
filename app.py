@@ -314,6 +314,45 @@ div[data-testid="stCameraInput"] button:hover {
     margin-top: 90px;
   }
 }
+/* 1. Wrapper untuk overlay ring */
+.camera-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* 2. Ring luar: conic-gradient + glow */
+.camera-wrapper::before {
+  content: "";
+  position: absolute;
+  top: -8px; left: -8px;
+  width: calc(100% + 16px);
+  height: calc(100% + 16px);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+  background: conic-gradient(
+    from 90deg,
+    transparent 0deg 40deg,
+    #00ffff 40deg 55deg,
+    transparent 55deg 120deg,
+    #00ffff 120deg 135deg,
+    transparent 135deg 360deg
+  );
+  box-shadow: 0 0 20px rgba(0,255,255,0.6);
+}
+
+/* 3. Ring dalam: border tipis cyan */
+.camera-wrapper::after {
+  content: "";
+  position: absolute;
+  top: -4px; left: -4px;
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  border-radius: 50%;
+  border: 2px solid rgba(0,255,255,0.8);
+  pointer-events: none;
+  z-index: 3;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -352,8 +391,15 @@ with row1:
       </div>
       """, unsafe_allow_html=True)
     with colA2:
+        # buka wrapper
         st.markdown('<div class="camera-wrapper">', unsafe_allow_html=True)
-        user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
+        # komponen kamera
+        user_input = st.camera_input(
+            "Ambil foto wajah Anda",
+            label_visibility="collapsed",
+            key="camera"
+        )
+        # tutup wrapper
         st.markdown('</div>', unsafe_allow_html=True)
 
         if user_input is not None and user_input != st.session_state.last_photo:
