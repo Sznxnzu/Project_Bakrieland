@@ -267,27 +267,27 @@ with row1:
       """, unsafe_allow_html=True)
     with colA2:
         st.markdown("""
-<div class="camera-wrapper">
-  <div style="z-index: 10;">
-""", unsafe_allow_html=True)
+        <div class="camera-wrapper">
+            <div style="z-index: 10;">
+        """, unsafe_allow_html=True)
 
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
+
         st.markdown("""
-            
-  </div>
-  <div class="svg-overlay">
-    <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="400" cy="400" r="290" fill="none" stroke="#00F0FF" stroke-width="4"/>
-      <circle cx="400" cy="400" r="310" fill="none" stroke="#00F0FF" stroke-width="2"/>
-      <circle cx="400" cy="400" r="350" fill="none" stroke="#00F0FF" stroke-width="6"/>
-      <path d="M670 210 A350 350 0 0 1 750 400" stroke="#00F0FF" stroke-width="18" fill="none"/>
-      <path d="M570 670 A350 350 0 0 1 670 700" stroke="#00F0FF" stroke-width="18" fill="none"/>
-      <path d="M130 590 A350 350 0 0 1 100 500" stroke="#00F0FF" stroke-width="14" fill="none"/>
-      <path d="M100 320 A350 350 0 0 1 120 270" stroke="#00F0FF" stroke-width="16" fill="none"/>
-    </svg>
-  </div>
-</div>
-""", unsafe_allow_html=True)
+            </div>
+            <div class="svg-overlay">
+                <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="400" cy="400" r="290" fill="none" stroke="#00F0FF" stroke-width="4"/>
+                    <circle cx="400" cy="400" r="310" fill="none" stroke="#00F0FF" stroke-width="2"/>
+                    <circle cx="400" cy="400" r="350" fill="none" stroke="#00F0FF" stroke-width="6"/>
+                    <path d="M670 210 A350 350 0 0 1 750 400" stroke="#00F0FF" stroke-width="18" fill="none"/>
+                    <path d="M570 670 A350 350 0 0 1 670 700" stroke="#00F0FF" stroke-width="18" fill="none"/>
+                    <path d="M130 590 A350 350 0 0 1 100 500" stroke="#00F0FF" stroke-width="14" fill="none"/>
+                    <path d="M100 320 A350 350 0 0 1 120 270" stroke="#00F0FF" stroke-width="16" fill="none"/>
+                </svg>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
         if user_input is not None and user_input != st.session_state.last_photo:
             st.session_state.last_photo = user_input
 
