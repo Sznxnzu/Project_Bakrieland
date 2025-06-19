@@ -140,7 +140,7 @@ div[data-testid="stCameraInput"] div {
 div[data-testid="stCameraInputWebcamStyledBox"] {
   position: relative !important;
   overflow: hidden !important;
-  border-radius: 0 !important;
+  border-radius: 50% !important;
   width: 500px !important;
   height: 500px !important;
 }
@@ -174,7 +174,7 @@ div[data-testid="stCameraInput"] img {
   aspect-ratio: 1 / 1;
   width: 500px !important;
   height: 500px !important;
-  border-radius: 0 !important;
+  border-radius: 50% !important;
   box-shadow: 0 0 20px rgba(0,240,255,0.5);
   margin: 0;
 }
