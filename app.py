@@ -29,7 +29,7 @@ st.markdown("""
   .header-box {
     text-align: center;
     border: 2px solid var(--cyan);
-    background-color: rgba(0,0,50,0.5);
+    background: rgba(0,0,50,0.5);
     border-radius: 8px;
     padding: 6px;
     margin-bottom: 10px;
@@ -43,7 +43,7 @@ st.markdown("""
   /*―――――― PORTRAIT BOX ――――――*/
   .portrait-box {
     border: 2px solid var(--cyan);
-    background-color: rgba(0,0,30,0.6);
+    background: rgba(0,0,30,0.6);
     border-radius: 8px;
     padding: 10px;
     margin-bottom: 10px;
@@ -51,68 +51,66 @@ st.markdown("""
     text-align: center;
   }
   .portrait-box img {
-    width: 100%;
-    height: 200px;
-    border-radius: 8px;
-    object-fit: cover;
+    width:100%; height:200px;
+    border-radius:8px; object-fit:cover;
   }
   .portrait-box p {
-    margin-top: 5px;
-    font-size: 30px;
-    color: #ccc;
-    text-align: center;
+    margin-top:5px; font-size:30px;
+    color:#ccc; text-align:center;
   }
 
   /*―――――― MOOD CONTENT ――――――*/
   .mood-box-content {
-    border: 2px solid var(--cyan);
-    background-color: rgba(10,15,30,0.85);
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px var(--cyan);
-    font-size: 25px;
-    margin: 10px 0;
-    transition: all 0.3s ease-in-out;
+    border:2px solid var(--cyan);
+    background:rgba(10,15,30,0.85);
+    padding:15px; border-radius:10px;
+    box-shadow:0 0 20px var(--cyan);
+    font-size:25px; margin:10px 0;
+    transition:all .3s ease-in-out;
   }
   .mood-box-content:hover {
-    box-shadow: 0 0 25px var(--cyan), 0 0 50px var(--cyan);
+    box-shadow:0 0 25px var(--cyan),0 0 50px var(--cyan);
   }
   .mood-box-content h2 {
-    font-size: 45px;
-    margin-bottom: 0.5em;
+    font-size:45px; margin-bottom:.5em;
   }
   .mood-box-content pre {
-    margin: 0;
-    white-space: pre-wrap;
-    font-family: inherit;
+    margin:0; white-space:pre-wrap; font-family:inherit;
   }
 
   /*―――――― SIDEBAR LOGOS ――――――*/
   .column-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 400px;
+    display:flex; flex-direction:column;
+    justify-content:space-between; height:400px;
   }
   .logo-box {
-    width: 150px;
-    margin: 0 auto;
+    width:150px; margin:0 auto;
   }
   .logo-box img {
-    width: 100%;
-    border-radius: 8px;
+    width:100%; border-radius:8px;
   }
   .mascot-box {
-    width: 150px;
-    height: 200px;
-    margin: 0 auto 20px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    width:150px; height:200px;
+    margin:0 auto 20px;
+    display:flex; align-items:center;
+    justify-content:flex-end;
   }
   .mascot-box img {
-    width: 100%;
-    border-radius: 8px;
+    width:100%; border-radius:8px;
+  }
+
+  /*―――――― OVERRIDE CONTAINER CAMERA ――――――*/
+  /* buang background/card default Streamlit */
+  div[data-testid="stCameraInput"] {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  /* jika ada div children lain, juga transparan */
+  div[data-testid="stCameraInput"] > div {
+    background: transparent !important;
+    box-shadow: none !important;
   }
 
   /*―――――― CAMERA FRAME & OVERLAY ――――――*/
@@ -122,6 +120,7 @@ st.markdown("""
     height: var(--frame-size) !important;
     margin: auto;
   }
+  /* outer ring */
   div[data-testid="stCameraInputWebcamStyledBox"]::before {
     content: "";
     position: absolute;
@@ -138,6 +137,7 @@ st.markdown("""
     pointer-events: none;
     z-index: 2;
   }
+  /* inner border */
   div[data-testid="stCameraInputWebcamStyledBox"]::after {
     content: "";
     position: absolute;
@@ -149,25 +149,22 @@ st.markdown("""
     pointer-events: none;
     z-index: 3;
   }
+  /* video/foto bulat & full */
   div[data-testid="stCameraInputWebcamStyledBox"] video,
   div[data-testid="stCameraInputWebcamStyledBox"] img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover;
-    border-radius: 50% !important;
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover;
+    border-radius:50% !important;
     box-shadow: 0 0 20px var(--glow);
   }
-
-  /* sembunyikan switch button */
+  /* hide switch */
   [data-testid="stCameraInputSwitchButton"] {
     display: none !important;
   }
 
-  /*―――――― RESPONSIVE (MOBILE) ――――――*/
+  /*―――――― RESPONSIVE MOBILE ――――――*/
   @media (max-width: 768px) {
-    html, body, [data-testid="stAppViewContainer"], .stApp {
-      background-size: cover !important;
-    }
     .logo-box, .mascot-box {
       width: 100px;
     }
@@ -176,6 +173,7 @@ st.markdown("""
       height: 80vw !important;
       margin-top: 90px;
     }
+    /* adapt overlay size */
     div[data-testid="stCameraInputWebcamStyledBox"]::before {
       top: -8px; left: -8px;
       width: calc(100% + 16px);
@@ -188,6 +186,7 @@ st.markdown("""
     }
   }
 </style>
+
 """, unsafe_allow_html=True)
 
 # --- LOGIC & LAYOUT ---
