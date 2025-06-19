@@ -9,22 +9,26 @@ import random
 
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
+# URL untuk gambar bingkai kamera baru Anda
+CAMERA_FRAME_URL = "https://github.com/husnanali05/FP_Datmin/blob/main/Halaman%20Story%20WA%20(1).png?raw=true"
+
+
 # --- CSS STYLES ---
-st.markdown("""
+st.markdown(f"""
 <style>
-/* Gaya dasar dan tema */
-html, body, [data-testid="stAppViewContainer"], .stApp {
+/* Gaya dasar dan tema (dari skrip awal Anda) */
+html, body, [data-testid="stAppViewContainer"], .stApp {{
     background: none !important;
     background-color: #19307f !important;
     background-size: cover !important;
     background-position: center !important;
     background-attachment: fixed !important;
-}
-::-webkit-scrollbar {
+}}
+::-webkit-scrollbar {{
   display: none;
-}
+}}
 
-.header-box {
+.header-box {{
     text-align: center;
     border: 2px solid #00f0ff;
     background-color: rgba(0,0,50,0.5);
@@ -36,9 +40,9 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     font-size: 25px;
     font-family: 'Orbitron', sans-serif;
     letter-spacing: 1px;
-}
+}}
 
-.portrait-box {
+.portrait-box {{
     border: 2px solid #00f0ff;
     background-color: rgba(0,0,30,0.6);
     border-radius: 8px;
@@ -46,30 +50,30 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     margin-bottom: 10px;
     box-shadow: 0 0 10px #00f0ff;
     text-align: center;
-}
+}}
 
-.column-wrapper {
+.column-wrapper {{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 400px;
-}
+}}
 
-.35thn-box {
+.35thn-box {{
   width: 150px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-}
+}}
 
-.35thn-box img {
+.35thn-box img {{
   width: 100%;
   border-radius: 8px;
   vertical-align: top;
-}
+}}
 
-.mascot-box {
+.mascot-box {{
   width: 150px;
   height: 200px;
   margin: 0 auto;
@@ -77,14 +81,14 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   align-items: center;
   justify-content: flex-end;
   margin-bottom: 20px;
-}
+}}
 
-.mascot-box img {
+.mascot-box img {{
   width: 100%;
   border-radius: 8px;
-}
+}}
 
-.mood-box-content {
+.mood-box-content {{
     border: 2px solid #00f0ff;
     background-color: rgba(10, 15, 30, 0.85);
     padding: 15px;
@@ -96,229 +100,99 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     width: 100%;
     height: auto;
     transition: all 0.3s ease-in-out;
-}
-.mood-box-content:hover {
+}}
+.mood-box-content:hover {{
     box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
-}
-.mood-box-content p {
+}}
+.mood-box-content p {{
     margin-bottom: 0;
-}
-.mood-box-content h2{
+}}
+.mood-box-content h2{{
     font-size: 45px
-}
-.mood-box-content ul {
+}}
+.mood-box-content ul {{
     margin-top: 0;
     margin-bottom: 1em;
     padding-left: 20px;
-}
+}}
 
-.camera-wrapper {
-  display: flex;
-  justify-content: center;
-}
+/* === PERUBAHAN CSS UNTUK BINGKAI KAMERA BARU === */
 
-/* Kamera style desktop */
-div[data-testid="stCameraInput"] {
-  width:500px !important;
-  height: 500px !important;
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  align-items: center;
-  justify-content: center;
-}
+/* 1. Wadah untuk Kamera dan Bingkai */
+.camera-frame-container {{
+    position: relative;
+    width: 500px; /* Lebar total area kamera */
+    height: 500px; /* Tinggi total area kamera */
+    margin: 0 auto; /* Pusatkan wadah */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}}
 
-div[data-testid="stCameraInput"] div {
-  background-color: transparent !important;
-  flex: 0 0 auto;
-  width: 100%;
-  height: 100%;
-  max-width: 500px;
-}
+/* 2. Lapisan (Overlay) untuk Bingkai dari URL */
+.camera-frame-overlay {{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('{CAMERA_FRAME_URL}');
+    background-size: contain; /* atau 'cover', sesuaikan */
+    background-position: center;
+    background-repeat: no-repeat;
+    pointer-events: none; /* Penting! Agar bingkai tidak bisa diklik */
+    z-index: 5;
+}}
 
-div[data-testid="stCameraInputWebcamStyledBox"] {
-  width: 500px !important;
-  height: 500px !important;
-  border-radius: 50% !important;
-  overflow: hidden;
-  margin: auto;
-  box-shadow: 0 0 20px rgba(0,240,255,0.5);
-}
+/* 3. Menyesuaikan posisi st.camera_input di dalam wadah */
+div[data-testid="stCameraInput"] {{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 1;
+}}
+/* Menghapus style lingkaran karena bentuk sudah dari bingkai */
+div[data-testid="stCameraInputWebcamStyledBox"] {{
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}}
+div[data-testid="stCameraInput"] video {{
+    object-fit: cover;
+}}
+div[data-testid="stCameraInput"] img {{
+    object-fit: cover;
+    border-radius: 0 !important;
+}}
 
-div[data-testid="stCameraInput"] video {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  border-radius: 0;
-}
-
-div[data-testid="stCameraInput"] img {
-  display: block;
-  object-fit: cover;
-  aspect-ratio: 1 / 1;
-  width: 500px !important;
-  height: 500px !important;
-  border-radius: 50% !important;
-  box-shadow: 0 0 20px rgba(0,240,255,0.5);
-  margin: 0;
-}
-
-div[data-testid="stCameraInput"] button {
-  z-index: 10;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  background-color: #00c0cc;
-  color: #000;
-  font-weight: 600;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  width: 150px;
-}
-
-div[data-testid="stCameraInput"] button:hover {
-  background-color: #00aabb;
-  transform: scale(1.05);
-  box-shadow: 0 6px 16px rgba(0, 240, 255, 0.8);
-}
-
-[data-testid="stCameraInputSwitchButton"] {
-  display: none !important;
-}
 
 /* RESPONSIVE KHUSUS MOBILE (MAX WIDTH 768px) */
-@media (max-width: 768px) {
-  .st-emotion-cache-z5fcl4 {
-      flex-direction: column;
-  }
+@media (max-width: 768px) {{
+    .st-emotion-cache-z5fcl4 {{
+        flex-direction: column;
+    }}
+    /* Menyesuaikan ukuran wadah kamera di mobile */
+    .camera-frame-container {{
+        width: 85vw !important;
+        height: 85vw !important;
+        max-width: 350px !important;
+        max-height: 350px !important;
+    }}
 
-  .header-box {
-      font-size: 18px;
-  }
-  .mood-box-content h2 {
-      font-size: 30px;
-  }
-  .mood-box-content {
-      font-size: 16px;
-  }
-  .portrait-box p {
-      font-size: 18px !important;
-  }
-
-  div[data-testid="stCameraInput"],
-  div[data-testid="stCameraInput"] div,
-  div[data-testid="stCameraInputWebcamStyledBox"],
-  div[data-testid="stCameraInput"] img {
-      width: 80vw !important;
-      height: 80vw !important;
-      max-width: 300px !important;
-      max-height: 300px !important;
-  }
-
-  div[data-testid="stCameraInput"] button {
-      width: 120px;
-      font-size: 14px;
-      bottom: 10px;
-      right: 50%;
-      transform: translateX(50%);
-  }
-
-  .column-wrapper {
-      flex-direction: row;
-      height: auto;
-      align-items: center;
-      justify-content: space-around;
-      margin-bottom: 20px;
-  }
-
-  .35thn-box, .mascot-box {
-      width: 100px;
-      height: auto;
-      margin: 0;
-  }
-
-  img[src*="bakrieland_logo"] {
-      height: 50px !important;
-  }
-  img[src*="google_logo"], img[src*="metrodata_logo"] {
-      height: 30px !important;
-  }
-
-  div[data-testid="stHorizontalBlock"] {
-      flex-direction: column;
-  }
-
-  /* Layout khusus HP: posisi ulang header, maskot, powered by */
-  .st-emotion-cache-z5fcl4 > div:first-child > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    gap: 6px;
-  }
-
-  .column-wrapper {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    width: 100%;
-    padding: 0 12px;
-  }
-
-  .35thn-box {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 70px;
-  }
-
-  .mascot-box {
-    position: absolute;
-    top: 140px;
-    left: 0;
-    width: 80px;
-  }
-
-  .mascot-box img {
-    width: 100%;
-    height: auto;
-  }
-
-  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) > div {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    padding-right: 12px;
-  }
-
-  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) img {
-    margin-bottom: 4px;
-  }
-
-  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) span {
-    font-size: 12px;
-    color: #fff;
-    text-align: right;
-  }
-
-  .camera-wrapper {
-    margin-top: 90px;
-  }
-}
+    .column-wrapper {{
+        flex-direction: row;
+        height: auto;
+        align-items: center;
+        justify-content: space-around;
+        margin-bottom: 20px;
+    }}
+}}
 </style>
 """, unsafe_allow_html=True)
 
 
-# --- LOGIC & LAYOUT (TIDAK ADA PERUBAHAN DI SINI) ---
+# --- LOGIC & LAYOUT (Kembali ke skrip awal) ---
 try:
     genai.configure(api_key=st.secrets["gemini_api"])
     model = genai.GenerativeModel("gemini-1.5-flash")
@@ -340,21 +214,28 @@ row1 = st.container()
 with row1:
     colA1, colA2, colA3 = st.columns([0.2, 0.6, 0.2])
     with colA1:
-      st.write("")
-      st.markdown("""
-      <div class="column-wrapper">
-        <div class="35thn-box">
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" />
+        st.write("")
+        st.markdown("""
+        <div class="column-wrapper">
+            <div class="35thn-box">
+                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" />
+            </div>
+            <div class="mascot-box">
+                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png" />
+            </div>
         </div>
-        <div class="mascot-box">
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png" />
-        </div>
-      </div>
-      """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
     with colA2:
-        st.markdown('<div class="camera-wrapper">', unsafe_allow_html=True)
-        user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
-        st.markdown('</div>', unsafe_allow_html=True)
+        # === PERUBAHAN LAYOUT UNTUK KAMERA BARU ===
+        st.markdown("""
+        <div class="camera-frame-container">
+            <div class="camera-frame-overlay"></div>
+        </div>
+        """, unsafe_allow_html=True)
+        # Menempatkan kamera di dalam wadah secara logis
+        with st.container():
+            user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
+
 
         if user_input is not None and user_input != st.session_state.last_photo:
             st.session_state.last_photo = user_input
@@ -362,7 +243,7 @@ with row1:
             with st.spinner("Menganalisis suasana hati Anda..."):
                 try:
                     image = Image.open(io.BytesIO(user_input.getvalue()))
-
+                    # ... (sisa logika analisis Anda tetap sama) ...
                     prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
                     prompt_response = requests.get(prompt_url)
                     prompt_response.raise_for_status()
@@ -433,28 +314,28 @@ with row1:
             st.session_state.last_photo = None
             st.rerun()
     with colA3:
-      colA3row11 = st.container()
-      with colA3row11:
-        st.markdown("""
-        <div>
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" />
-        </div>
-        """, unsafe_allow_html=True)
-      colA3row12 = st.container()
-      with colA3row12:
-        st.markdown("""
-        <div>
-          <span style="display: inline-block; vertical-align: middle;"><div>POWERED BY:</div></span>
-        </div>
-        """, unsafe_allow_html=True)
-      colA3row13 = st.container()
-      with colA3row13:
-        st.markdown("""
-        <div>
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 40px; vertical-align: middle; margin-left: -10px; margin-right: -30px;" />
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height: 40px; vertical-align: middle;" />
-        </div>
-        """, unsafe_allow_html=True)
+        colA3row11 = st.container()
+        with colA3row11:
+            st.markdown("""
+            <div>
+                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" />
+            </div>
+            """, unsafe_allow_html=True)
+        colA3row12 = st.container()
+        with colA3row12:
+            st.markdown("""
+            <div>
+                <span style="display: inline-block; vertical-align: middle;"><div>POWERED BY:</div></span>
+            </div>
+            """, unsafe_allow_html=True)
+        colA3row13 = st.container()
+        with colA3row13:
+            st.markdown("""
+            <div>
+                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 40px; vertical-align: middle; margin-left: -10px; margin-right: -30px;" />
+                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height: 40px; vertical-align: middle;" />
+            </div>
+            """, unsafe_allow_html=True)
 
 row2 = st.container()
 with row2:
