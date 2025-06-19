@@ -116,6 +116,25 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   display: flex;
   justify-content: center;
 }
+.svg-overlay {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+.svg-overlay svg circle {
+  stroke-dasharray: 4,4;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%   { stroke-opacity: 0.5; }
+  50%  { stroke-opacity: 1; }
+  100% { stroke-opacity: 0.5; }
+}
 
 /* Kamera style desktop */
 div[data-testid="stCameraInput"] {
@@ -137,6 +156,7 @@ div[data-testid="stCameraInput"] div {
 }
 
 div[data-testid="stCameraInputWebcamStyledBox"] {
+  position: relative;
   width: 500px !important;
   height: 500px !important;
   border-radius: 50% !important;
@@ -309,9 +329,13 @@ div[data-testid="stCameraInput"] button:hover {
     color: #fff;
     text-align: right;
   }
-
   .camera-wrapper {
     margin-top: 90px;
+  }
+
+  .svg-overlay {
+    width: 80vw;
+    height: 80vw;
   }
 }
 </style>
@@ -351,88 +375,107 @@ with row1:
         </div>
       </div>
       """, unsafe_allow_html=True)
-    with colA2:
-        st.markdown('<div class="camera-wrapper">', unsafe_allow_html=True)
-        user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
-        st.markdown('</div>', unsafe_allow_html=True)
+with colA2:
+  st.markdown("""
+  <div class="camera-wrapper" style="position: relative; width: 520px; height: 520px; margin: 0 auto;">
+    <div style="z-index: 10;">
+  """, unsafe_allow_html=True)
 
-        if user_input is not None and user_input != st.session_state.last_photo:
-            st.session_state.last_photo = user_input
+  user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
 
-            with st.spinner("Menganalisis suasana hati Anda..."):
-                try:
-                    image = Image.open(io.BytesIO(user_input.getvalue()))
+  st.markdown("""
+    </div>
+    <div class="svg-overlay">
+      <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="400" cy="400" r="290" fill="none" stroke="#00F0FF" stroke-width="4"/>
+        <circle cx="400" cy="400" r="310" fill="none" stroke="#00F0FF" stroke-width="2"/>
+        <circle cx="400" cy="400" r="350" fill="none" stroke="#00F0FF" stroke-width="6"/>
+        <path d="M670 210 A350 350 0 0 1 750 400" stroke="#00F0FF" stroke-width="18" fill="none"/>
+        <path d="M570 670 A350 350 0 0 1 670 700" stroke="#00F0FF" stroke-width="18" fill="none"/>
+        <path d="M130 590 A350 350 0 0 1 100 500" stroke="#00F0FF" stroke-width="14" fill="none"/>
+        <path d="M100 320 A350 350 0 0 1 120 270" stroke="#00F0FF" stroke-width="16" fill="none"/>
+      </svg>
+    </div>
+  </div>
+  """, unsafe_allow_html=True)
 
-                    prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
-                    prompt_response = requests.get(prompt_url)
-                    prompt_response.raise_for_status()
-                    analysis_prompt = prompt_response.text
+  if user_input is not None and user_input != st.session_state.last_photo:
+      st.session_state.last_photo = user_input
 
-                    json_prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
-                    json_prompt_response = requests.get(json_prompt_url)
-                    json_prompt_response.raise_for_status()
-                    json_prompt = json_prompt_response.text
+      with st.spinner("Menganalisis suasana hati Anda..."):
+          try:
+              image = Image.open(io.BytesIO(user_input.getvalue()))
 
-                    analysis_response = model.generate_content([analysis_prompt, image])
-                    raw_output = analysis_response.text
+              prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
+              prompt_response = requests.get(prompt_url)
+              prompt_response.raise_for_status()
+              analysis_prompt = prompt_response.text
 
-                    json_response = model.generate_content([json_prompt, raw_output])
+              json_prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
+              json_prompt_response = requests.get(json_prompt_url)
+              json_prompt_response.raise_for_status()
+              json_prompt = json_prompt_response.text
 
-                    filenames = json_response.text.strip().split(",")
-                    if len(filenames) >= 4:
-                        midpoint = len(filenames) // 2
-                        first_filenames = filenames[:midpoint]
-                        second_filenames = filenames[midpoint:]
+              analysis_response = model.generate_content([analysis_prompt, image])
+              raw_output = analysis_response.text
 
-                        first_target_names = [
-                            "Bogor Nirwana Residence", "Kahuripan Nirwana", "Sayana Bogor",
-                            "Taman Rasuna Epicentrum", "The Masterpiece & The Empyreal"
-                        ]
-                        first_filenames_edited = [
-                            name.strip() + " " + str(random.randint(1, 2)) if name.strip() in first_target_names else name.strip()
-                            for name in first_filenames
-                        ]
+              json_response = model.generate_content([json_prompt, raw_output])
 
-                        second_target_names = [
-                            "Aston Bogor", "Bagus Beach Walk", "Grand ELTY Krakatoa", "Hotel Aston Sidoarjo",
-                            "Jungleland", "Junglesea Kalianda", "Rivera", "Swiss Belresidences Rasuna Epicentrum",
-                            "The Alana Malioboro", "The Grove Suites", "The Jungle Waterpark"
-                        ]
-                        second_filenames_edited = [
-                            name.strip() + " " + str(random.randint(1, 2)) if name.strip() in second_target_names else name.strip()
-                            for name in second_filenames
-                        ]
+              filenames = json_response.text.strip().split(",")
+              if len(filenames) >= 4:
+                  midpoint = len(filenames) // 2
+                  first_filenames = filenames[:midpoint]
+                  second_filenames = filenames[midpoint:]
 
-                        st.session_state.image_urls = [
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[0].strip()}.jpg",
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[1].strip()}.jpg",
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[0].strip()}.jpg",
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[1].strip()}.jpg"
-                        ]
-                        st.session_state.image_captions = [
-                            first_filenames[0].strip(), first_filenames[1].strip(),
-                            second_filenames[0].strip(), second_filenames[1].strip()
-                        ]
-                        st.session_state.analysis_result = raw_output
-                    else:
-                        st.session_state.analysis_result = "Gagal memproses rekomendasi gambar. Silakan coba lagi."
+                  first_target_names = [
+                      "Bogor Nirwana Residence", "Kahuripan Nirwana", "Sayana Bogor",
+                      "Taman Rasuna Epicentrum", "The Masterpiece & The Empyreal"
+                  ]
+                  first_filenames_edited = [
+                      name.strip() + " " + str(random.randint(1, 2)) if name.strip() in first_target_names else name.strip()
+                      for name in first_filenames
+                  ]
 
-                except requests.exceptions.RequestException as http_err:
-                    st.error(f"Gagal mengambil prompt: {http_err}")
-                    st.session_state.analysis_result = "Terjadi kesalahan jaringan. Tidak dapat memuat model."
-                except Exception as e:
-                    st.error(f"Terjadi kesalahan saat pemrosesan: {e}")
-                    st.session_state.analysis_result = "Gagal menganalisis gambar. Silakan coba lagi."
+                  second_target_names = [
+                      "Aston Bogor", "Bagus Beach Walk", "Grand ELTY Krakatoa", "Hotel Aston Sidoarjo",
+                      "Jungleland", "Junglesea Kalianda", "Rivera", "Swiss Belresidences Rasuna Epicentrum",
+                      "The Alana Malioboro", "The Grove Suites", "The Jungle Waterpark"
+                  ]
+                  second_filenames_edited = [
+                      name.strip() + " " + str(random.randint(1, 2)) if name.strip() in second_target_names else name.strip()
+                      for name in second_filenames
+                  ]
 
-            st.rerun()
+                  st.session_state.image_urls = [
+                      f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[0].strip()}.jpg",
+                      f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[1].strip()}.jpg",
+                      f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[0].strip()}.jpg",
+                      f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[1].strip()}.jpg"
+                  ]
+                  st.session_state.image_captions = [
+                      first_filenames[0].strip(), first_filenames[1].strip(),
+                      second_filenames[0].strip(), second_filenames[1].strip()
+                  ]
+                  st.session_state.analysis_result = raw_output
+              else:
+                  st.session_state.analysis_result = "Gagal memproses rekomendasi gambar. Silakan coba lagi."
 
-        elif user_input is None and st.session_state.last_photo is not None:
-            st.session_state.analysis_result = placeholder_analysis
-            st.session_state.image_urls = [placeholder_url] * 4
-            st.session_state.image_captions = [placeholder_caption] * 4
-            st.session_state.last_photo = None
-            st.rerun()
-    with colA3:
+          except requests.exceptions.RequestException as http_err:
+              st.error(f"Gagal mengambil prompt: {http_err}")
+              st.session_state.analysis_result = "Terjadi kesalahan jaringan. Tidak dapat memuat model."
+          except Exception as e:
+              st.error(f"Terjadi kesalahan saat pemrosesan: {e}")
+              st.session_state.analysis_result = "Gagal menganalisis gambar. Silakan coba lagi."
+
+      st.rerun()
+
+  elif user_input is None and st.session_state.last_photo is not None:
+      st.session_state.analysis_result = placeholder_analysis
+      st.session_state.image_urls = [placeholder_url] * 4
+      st.session_state.image_captions = [placeholder_caption] * 4
+      st.session_state.last_photo = None
+      st.rerun()
+with colA3:
       colA3row11 = st.container()
       with colA3row11:
         st.markdown("""
