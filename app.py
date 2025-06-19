@@ -112,35 +112,9 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding-left: 20px;
 }
 
-/* FRAME KAMERA BARU */
 .camera-wrapper {
   display: flex;
   justify-content: center;
-  position: relative;
-  width: 520px;
-  height: 520px;
-  margin: 0 auto;
-}
-
-.svg-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 520px;
-  height: 520px;
-  z-index: 20;
-  pointer-events: none;
-}
-
-.svg-overlay svg circle {
-  stroke-dasharray: 4,4;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%   { stroke-opacity: 0.5; }
-  50%  { stroke-opacity: 1; }
-  100% { stroke-opacity: 0.5; }
 }
 
 /* Kamera style desktop */
@@ -218,19 +192,131 @@ div[data-testid="stCameraInput"] button:hover {
 
 /* RESPONSIVE KHUSUS MOBILE (MAX WIDTH 768px) */
 @media (max-width: 768px) {
-  .camera-wrapper {
-    width: 80vw;
-    height: 80vw;
-    margin-top: 90px;
+  .st-emotion-cache-z5fcl4 {
+      flex-direction: column;
   }
 
-  .svg-overlay {
-    width: 80vw;
-    height: 80vw;
+  .header-box {
+      font-size: 18px;
+  }
+  .mood-box-content h2 {
+      font-size: 30px;
+  }
+  .mood-box-content {
+      font-size: 16px;
+  }
+  .portrait-box p {
+      font-size: 18px !important;
+  }
+
+  div[data-testid="stCameraInput"],
+  div[data-testid="stCameraInput"] div,
+  div[data-testid="stCameraInputWebcamStyledBox"],
+  div[data-testid="stCameraInput"] img {
+      width: 80vw !important;
+      height: 80vw !important;
+      max-width: 300px !important;
+      max-height: 300px !important;
+  }
+
+  div[data-testid="stCameraInput"] button {
+      width: 120px;
+      font-size: 14px;
+      bottom: 10px;
+      right: 50%;
+      transform: translateX(50%);
+  }
+
+  .column-wrapper {
+      flex-direction: row;
+      height: auto;
+      align-items: center;
+      justify-content: space-around;
+      margin-bottom: 20px;
+  }
+
+  .35thn-box, .mascot-box {
+      width: 100px;
+      height: auto;
+      margin: 0;
+  }
+
+  img[src*="bakrieland_logo"] {
+      height: 50px !important;
+  }
+  img[src*="google_logo"], img[src*="metrodata_logo"] {
+      height: 30px !important;
+  }
+
+  div[data-testid="stHorizontalBlock"] {
+      flex-direction: column;
+  }
+
+  /* Layout khusus HP: posisi ulang header, maskot, powered by */
+  .st-emotion-cache-z5fcl4 > div:first-child > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    gap: 6px;
+  }
+
+  .column-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding: 0 12px;
+  }
+
+  .35thn-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 70px;
+  }
+
+  .mascot-box {
+    position: absolute;
+    top: 140px;
+    left: 0;
+    width: 80px;
+  }
+
+  .mascot-box img {
+    width: 100%;
+    height: auto;
+  }
+
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) > div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 12px;
+  }
+
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) img {
+    margin-bottom: 4px;
+  }
+
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) span {
+    font-size: 12px;
+    color: #fff;
+    text-align: right;
+  }
+
+  .camera-wrapper {
+    margin-top: 90px;
   }
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 # --- LOGIC & LAYOUT (TIDAK ADA PERUBAHAN DI SINI) ---
 try:
@@ -266,28 +352,10 @@ with row1:
       </div>
       """, unsafe_allow_html=True)
     with colA2:
-        st.markdown("""
-        <div class="camera-wrapper">
-            <div class="camera-inner">
-        """, unsafe_allow_html=True)
-
+        st.markdown('<div class="camera-wrapper">', unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
+        st.markdown('</div>', unsafe_allow_html=True)
 
-        st.markdown("""
-            </div>
-            <div class="svg-overlay">
-                <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="400" cy="400" r="290" fill="none" stroke="#00F0FF" stroke-width="4"/>
-                    <circle cx="400" cy="400" r="310" fill="none" stroke="#00F0FF" stroke-width="2"/>
-                    <circle cx="400" cy="400" r="350" fill="none" stroke="#00F0FF" stroke-width="6"/>
-                    <path d="M670 210 A350 350 0 0 1 750 400" stroke="#00F0FF" stroke-width="18" fill="none"/>
-                    <path d="M570 670 A350 350 0 0 1 670 700" stroke="#00F0FF" stroke-width="18" fill="none"/>
-                    <path d="M130 590 A350 350 0 0 1 100 500" stroke="#00F0FF" stroke-width="14" fill="none"/>
-                    <path d="M100 320 A350 350 0 0 1 120 270" stroke="#00F0FF" stroke-width="16" fill="none"/>
-                </svg>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
         if user_input is not None and user_input != st.session_state.last_photo:
             st.session_state.last_photo = user_input
 
@@ -321,8 +389,8 @@ with row1:
                             "Taman Rasuna Epicentrum", "The Masterpiece & The Empyreal"
                         ]
                         first_filenames_edited = [
-                          name.strip() + " " + str(random.randint(1, 2)) if name.strip() in first_target_names else name.strip()
-                          for name in first_filenames
+                            name.strip() + " " + str(random.randint(1, 2)) if name.strip() in first_target_names else name.strip()
+                            for name in first_filenames
                         ]
 
                         second_target_names = [
