@@ -7,7 +7,11 @@ import requests
 import html
 import random
 
-st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
+st.set_page_config(
+    layout="wide",
+    page_title="Bakrieland Mood Analytic",
+    initial_sidebar_state="collapsed"
+)
 
 # --- CSS STYLES ---
 st.markdown("""
@@ -20,9 +24,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     background-position: center !important;
     background-attachment: fixed !important;
 }
-::-webkit-scrollbar {
-  display: none;
-}
+::-webkit-scrollbar { display: none; }
 
 .header-box {
     text-align: center;
@@ -55,30 +57,11 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   height: 400px;
 }
 
-.35thn-box {
-  width: 150px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.35thn-box img {
-  width: 100%;
-  border-radius: 8px;
-  vertical-align: top;
-}
-
+.35thn-box,
 .mascot-box {
-  width: 150px;
-  height: 200px;
   margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-bottom: 20px;
 }
-
+.35thn-box img,
 .mascot-box img {
   width: 100%;
   border-radius: 8px;
@@ -91,100 +74,78 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     border-radius: 10px;
     box-shadow: 0 0 20px #00f0ff;
     font-size: 25px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px 0;
     width: 100%;
-    height: auto;
     transition: all 0.3s ease-in-out;
 }
 .mood-box-content:hover {
     box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
 }
-.mood-box-content p {
-    margin-bottom: 0;
-}
-.mood-box-content h2{
-    font-size: 45px;
-}
+.mood-box-content h2 { font-size: 45px; }
+.mood-box-content p { margin-bottom: 0; }
 .mood-box-content ul {
-    margin-top: 0;
-    margin-bottom: 1em;
+    margin: 0 0 1em;
     padding-left: 20px;
 }
 
 .camera-wrapper {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
-/* Kamera style desktop & overlay frame */
+/* Kamera style responsif */
 div[data-testid="stCameraInput"] {
-  width: 500px !important;
-  height: 500px !important;
-  display: flex;
-  flex-direction: column;
+  width: 100% !important;
+  max-width: 500px;
+  aspect-ratio: 1 / 1;
   margin: 0 auto;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
 
 div[data-testid="stCameraInput"] div {
   background-color: transparent !important;
-  flex: 0 0 auto;
   width: 100%;
   height: 100%;
-  max-width: 500px;
 }
 
-/* Reset frame bawaan & jadikan relatif */
 div[data-testid="stCameraInputWebcamStyledBox"] {
   position: relative !important;
   overflow: hidden !important;
-  border-radius: 50% !important;
-  width: 500px !important;
-  height: 500px !important;
+  border-radius: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
-/* Pasang overlay frame futuristik */
 div[data-testid="stCameraInputWebcamStyledBox"]::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background:
-      url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png")
-      no-repeat center center;
-    background-size: 130%;    
-    background-position: center;
-    pointer-events: none;
-    z-index: 2;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png")
+    no-repeat center center;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 2;
 }
 
-/* Video di bawah overlay */
-div[data-testid="stCameraInputWebcamStyledBox"] video {
-  position: relative !important;
-  z-index: 1 !important;
+div[data-testid="stCameraInputWebcamStyledBox"] video,
+# div[data-testid="stCameraInputWebcamStyledBox"] img {
+  width: 100% !important;
+  height: 100% !important;
   object-fit: cover;
-  width: 100%; height: 100%;
+  position: relative;
+  z-index: 1;
 }
 
-/* Snapshot image */
-div[data-testid="stCameraInput"] img {
-  display: block;
-  object-fit: cover;
-  aspect-ratio: 1 / 1;
-  width: 500px !important;
-  height: 500px !important;
-  border-radius: 50% !important;
-  box-shadow: 0 0 20px rgba(0,240,255,0.5);
-  margin: 0;
-}
-
-/* Tombol ambil foto */
+# Tombol ambil foto
 div[data-testid="stCameraInput"] button {
   z-index: 10;
   position: absolute;
-  bottom: 0; right: 0;
+  bottom: 0;
+  right: 0;
   background-color: #00c0cc;
   color: #000;
   font-weight: 600;
@@ -196,6 +157,7 @@ div[data-testid="stCameraInput"] button {
   transition: all 0.2s ease-in-out;
   width: 150px;
 }
+
 div[data-testid="stCameraInput"] button:hover {
   background-color: #00aabb;
   transform: scale(1.05);
@@ -206,133 +168,14 @@ div[data-testid="stCameraInput"] button:hover {
   display: none !important;
 }
 
-/* RESPONSIVE KHUSUS MOBILE (MAX WIDTH 768px) */
 @media (max-width: 768px) {
-  .st-emotion-cache-z5fcl4 {
-      flex-direction: column;
-  }
-
-  .header-box {
-      font-size: 18px;
-  }
-  .mood-box-content h2 {
-      font-size: 30px;
-  }
-  .mood-box-content {
-      font-size: 16px;
-  }
-  .portrait-box p {
-      font-size: 18px !important;
-  }
-
-  div[data-testid="stCameraInput"],
-  div[data-testid="stCameraInput"] div,
-  div[data-testid="stCameraInputWebcamStyledBox"],
-  div[data-testid="stCameraInput"] img {
-      width: 80vw !important;
-      height: 80vw !important;
-      max-width: 300px !important;
-      max-height: 300px !important;
-  }
-
-  div[data-testid="stCameraInput"] button {
-      width: 120px;
-      font-size: 14px;
-      bottom: 10px;
-      right: 50%;
-      transform: translateX(50%);
-  }
-
-  .column-wrapper {
-      flex-direction: row;
-      height: auto;
-      align-items: center;
-      justify-content: space-around;
-      margin-bottom: 20px;
-  }
-
-  .35thn-box, .mascot-box {
-      width: 100px;
-      height: auto;
-      margin: 0;
-  }
-
-  img[src*="bakrieland_logo"] {
-      height: 50px !important;
-  }
-  img[src*="google_logo"], img[src*="metrodata_logo"] {
-      height: 30px !important;
-  }
-
-  div[data-testid="stHorizontalBlock"] {
-      flex-direction: column;
-  }
-
-  /* Layout khusus HP: posisi ulang header, maskot, powered by */
-  .st-emotion-cache-z5fcl4 > div:first-child > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    gap: 6px;
-  }
-
-  .column-wrapper {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    width: 100%;
-    padding: 0 12px;
-  }
-
-  .35thn-box {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 70px;
-  }
-
-  .mascot-box {
-    position: absolute;
-    top: 140px;
-    left: 0;
-    width: 80px;
-  }
-
-  .mascot-box img {
-    width: 100%;
-    height: auto;
-  }
-
-  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) > div {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    padding-right: 12px;
-  }
-
-  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) img {
-    margin-bottom: 4px;
-  }
-
-  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) span {
-    font-size: 12px;
-    color: #fff;
-    text-align: right;
-  }
-
-  .camera-wrapper {
-    margin-top: 90px;
+  div[data-testid="stCameraInput"] {
+    max-width: 90vw;
+    aspect-ratio: 1;
   }
 }
 </style>
 """, unsafe_allow_html=True)
-
 # --- LOGIC & LAYOUT (TIDAK ADA PERUBAHAN DI SINI) ---
 try:
     genai.configure(api_key=st.secrets["gemini_api"])
