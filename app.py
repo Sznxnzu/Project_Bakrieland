@@ -24,64 +24,30 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   display: none;
 }
 
-/* === CSS BARU UNTUK FRAME FUTURISTIK === */
-
-/* Wadah utama untuk setiap frame, memberikan jarak */
-.futuristic-container {
-    margin-bottom: 20px;
-    position: relative;
-}
-
-/* Ini adalah frame utamanya */
-.futuristic-frame {
-    background-color: rgba(10, 25, 60, 0.85); /* Latar belakang biru tua transparan */
-    border: 1px solid #00f0ff; /* Garis tepi biru muda */
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.3), inset 0 0 15px rgba(0, 240, 255, 0.2);
-    position: relative;
-}
-
-/* Dekorasi sudut-sudut frame untuk efek sci-fi */
-.futuristic-frame::before,
-.futuristic-frame::after {
-    content: '';
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-color: #00f0ff;
-    border-style: solid;
-    border-radius: 10px;
-}
-
-.futuristic-frame::before {
-    top: -8px;
-    left: -8px;
-    border-width: 2px 0 0 2px;
-}
-
-.futuristic-frame::after {
-    bottom: -8px;
-    right: -8px;
-    border-width: 0 2px 2px 0;
-}
-
-
-/* Judul di dalam frame */
-.futuristic-title {
-    color: #ffffff;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+.header-box {
     text-align: center;
-    font-size: 20px;
-    margin-bottom: 15px;
-    text-shadow: 0 0 5px #00f0ff;
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,50,0.5);
+    border-radius: 8px;
+    padding: 6px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff;
+    color: #00f0ff;
+    font-size: 25px;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
 }
 
+.portrait-box {
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,30,0.6);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff;
+    text-align: center;
+}
 
-/* Styling untuk elemen-elemen lain yang sudah ada */
 .column-wrapper {
   display: flex;
   flex-direction: column;
@@ -116,6 +82,34 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 .mascot-box img {
   width: 100%;
   border-radius: 8px;
+}
+
+.mood-box-content {
+    border: 2px solid #00f0ff;
+    background-color: rgba(10, 15, 30, 0.85);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00f0ff;
+    font-size: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    height: auto;
+    transition: all 0.3s ease-in-out;
+}
+.mood-box-content:hover {
+    box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
+}
+.mood-box-content p {
+    margin-bottom: 0;
+}
+.mood-box-content h2{
+    font-size: 45px
+}
+.mood-box-content ul {
+    margin-top: 0;
+    margin-bottom: 1em;
+    padding-left: 20px;
 }
 
 .camera-wrapper {
@@ -201,8 +195,18 @@ div[data-testid="stCameraInput"] button:hover {
   .st-emotion-cache-z5fcl4 {
       flex-direction: column;
   }
-  .futuristic-title {
+
+  .header-box {
       font-size: 18px;
+  }
+  .mood-box-content h2 {
+      font-size: 30px;
+  }
+  .mood-box-content {
+      font-size: 16px;
+  }
+  .portrait-box p {
+      font-size: 18px !important;
   }
 
   div[data-testid="stCameraInput"],
@@ -314,7 +318,7 @@ div[data-testid="stCameraInput"] button:hover {
 """, unsafe_allow_html=True)
 
 
-# --- LOGIC & LAYOUT ---
+# --- LOGIC & LAYOUT (TIDAK ADA PERUBAHAN DI SINI) ---
 try:
     genai.configure(api_key=st.secrets["gemini_api"])
     model = genai.GenerativeModel("gemini-1.5-flash")
@@ -336,17 +340,17 @@ row1 = st.container()
 with row1:
     colA1, colA2, colA3 = st.columns([0.2, 0.6, 0.2])
     with colA1:
-        st.write("")
-        st.markdown("""
-        <div class="column-wrapper">
-            <div class="35thn-box">
-                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" />
-            </div>
-            <div class="mascot-box">
-                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png" />
-            </div>
+      st.write("")
+      st.markdown("""
+      <div class="column-wrapper">
+        <div class="35thn-box">
+          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" />
         </div>
-        """, unsafe_allow_html=True)
+        <div class="mascot-box">
+          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png" />
+        </div>
+      </div>
+      """, unsafe_allow_html=True)
     with colA2:
         st.markdown('<div class="camera-wrapper">', unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
@@ -429,71 +433,62 @@ with row1:
             st.session_state.last_photo = None
             st.rerun()
     with colA3:
-        colA3row11 = st.container()
-        with colA3row11:
-            st.markdown("""
-            <div>
-                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" />
-            </div>
-            """, unsafe_allow_html=True)
-        colA3row12 = st.container()
-        with colA3row12:
-            st.markdown("""
-            <div>
-                <span style="display: inline-block; vertical-align: middle;"><div>POWERED BY:</div></span>
-            </div>
-            """, unsafe_allow_html=True)
-        colA3row13 = st.container()
-        with colA3row13:
-            st.markdown("""
-            <div>
-                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 40px; vertical-align: middle; margin-left: -10px; margin-right: -30px;" />
-                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height: 40px; vertical-align: middle;" />
-            </div>
-            """, unsafe_allow_html=True)
+      colA3row11 = st.container()
+      with colA3row11:
+        st.markdown("""
+        <div>
+          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" />
+        </div>
+        """, unsafe_allow_html=True)
+      colA3row12 = st.container()
+      with colA3row12:
+        st.markdown("""
+        <div>
+          <span style="display: inline-block; vertical-align: middle;"><div>POWERED BY:</div></span>
+        </div>
+        """, unsafe_allow_html=True)
+      colA3row13 = st.container()
+      with colA3row13:
+        st.markdown("""
+        <div>
+          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 40px; vertical-align: middle; margin-left: -10px; margin-right: -30px;" />
+          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height: 40px; vertical-align: middle;" />
+        </div>
+        """, unsafe_allow_html=True)
 
-# --- BAGIAN HASIL ANALISIS DENGAN FRAME BARU ---
 row2 = st.container()
 with row2:
     escaped_analysis = html.escape(st.session_state.analysis_result)
     st.markdown(f"""
-    <div class="futuristic-container">
-        <div class="futuristic-frame">
-            <div class="futuristic-title">Mood Analytic</div>
-            <pre style="white-space: pre-wrap; font-family: inherit; color: #ccc; background: none; border: none;">{escaped_analysis}</pre>
-        </div>
+    <div class="mood-box-content">
+      <h2>Mood Analytic</h2>
+      <pre style="white-space: pre-wrap; font-family: inherit;">{escaped_analysis}</pre>
     </div>
     """, unsafe_allow_html=True)
 
-# --- BAGIAN REKOMENDASI DENGAN FRAME BARU ---
 row3 = st.container()
 with row3:
     colC1, colC2 = st.columns(2)
     with colC1:
+        st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.markdown(f"""
-        <div class="futuristic-container">
-            <div class="futuristic-frame">
-                <div class="futuristic-title">Property Recommendation</div>
-                <img src="{st.session_state.image_urls[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover; margin-bottom: 5px;" />
-                <p style="text-align:center; margin-top: 5px; font-size: 18px; color: #ccc;">{st.session_state.image_captions[0]}</p>
-                <img src="{st.session_state.image_urls[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover; margin-top: 10px; margin-bottom: 5px;" />
-                <p style="text-align:center; margin-top: 5px; font-size: 18px; color: #ccc;">{st.session_state.image_captions[1]}</p>
-            </div>
+        <div class="portrait-box">
+          <img src="{st.session_state.image_urls[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+          <p style="text-align:center; margin-top: 5px; font-size: 30px; color: #ccc;">{st.session_state.image_captions[0]}</p>
+          <img src="{st.session_state.image_urls[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+          <p style="text-align:center; margin-top: 5px; font-size: 30px; color: #ccc;">{st.session_state.image_captions[1]}</p>
         </div>
         """, unsafe_allow_html=True)
     with colC2:
+        st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
         st.markdown(f"""
-        <div class="futuristic-container">
-            <div class="futuristic-frame">
-                <div class="futuristic-title">Holiday Recommendation</div>
-                <img src="{st.session_state.image_urls[2]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover; margin-bottom: 5px;" />
-                <p style="text-align:center; margin-top: 5px; font-size: 18px; color: #ccc;">{st.session_state.image_captions[2]}</p>
-                <img src="{st.session_state.image_urls[3]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover; margin-top: 10px; margin-bottom: 5px;" />
-                <p style="text-align:center; margin-top: 5px; font-size: 18px; color: #ccc;">{st.session_state.image_captions[3]}</p>
-            </div>
+        <div class="portrait-box">
+          <img src="{st.session_state.image_urls[2]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+          <p style="text-align:center; margin-top: 5px; font-size: 30px; color: #ccc;">{st.session_state.image_captions[2]}</p>
+          <img src="{st.session_state.image_urls[3]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+          <p style="text-align:center; margin-top: 5px; font-size: 30px; color: #ccc;">{st.session_state.image_captions[3]}</p>
         </div>
         """, unsafe_allow_html=True)
-
 
 components.html("""
 <html>
