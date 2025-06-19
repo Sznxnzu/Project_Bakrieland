@@ -26,14 +26,11 @@ st.markdown(
   /* GLOBAL BACKGROUND */
   html, body, [data-testid="stAppViewContainer"], .stApp {
     background-color: #19307f !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-attachment: fixed !important;
   }
   ::-webkit-scrollbar { display: none; }
 
-  /* CAMERA CONTAINER STYLING */
-  div[data-testid="stCameraInput"] {
+  /* CAMERA BOX (webcam styled) */
+  div[data-testid="stCameraInputWebcamStyledBox"] {
     position: relative;
     width: var(--frame-size) !important;
     height: var(--frame-size) !important;
@@ -41,31 +38,27 @@ st.markdown(
     background: var(--bg-circle);
     border-radius: 50%;
     overflow: hidden;
+    box-shadow: 0 0 20px var(--glow);
   }
 
   /* RING UNDERLAY */
-  div[data-testid="stCameraInput"]::before {
+  div[data-testid="stCameraInputWebcamStyledBox"]::before {
     content: "";
     position: absolute;
     top: -8px; left: -8px;
     width: calc(100% + 16px);
     height: calc(100% + 16px);
     border-radius: 50%;
-    background: conic-gradient(
+    background: repeating-conic-gradient(
       from 0deg,
-      transparent 0deg 40deg,
-      var(--cyan) 40deg 55deg,
-      transparent 55deg 120deg,
-      var(--cyan) 120deg 135deg,
-      transparent 135deg 360deg
+      transparent 0deg 18deg,
+      var(--cyan) 18deg 36deg
     );
-    box-shadow: 0 0 20px var(--glow);
     pointer-events: none;
-    z-index: 1;
   }
 
-  /* THIN BORDER */
-  div[data-testid="stCameraInput"]::after {
+  /* INNER BORDER */
+  div[data-testid="stCameraInputWebcamStyledBox"]::after {
     content: "";
     position: absolute;
     top: -4px; left: -4px;
@@ -74,70 +67,68 @@ st.markdown(
     border-radius: 50%;
     border: 2px solid var(--border);
     pointer-events: none;
-    z-index: 1;
   }
 
-  /* VIDEO & SNAPSHOT IMAGE */
-  div[data-testid="stCameraInput"] video,
-  div[data-testid="stCameraInput"] img {
-    position: absolute;
-    top: 0; left: 0;
+  /* VIDEO & SNAPSHOT */
+  div[data-testid="stCameraInputWebcamStyledBox"] video,
+  div[data-testid="stCameraInputWebcamStyledBox"] img {
+    position: relative;
     width: 100% !important;
     height: 100% !important;
     object-fit: cover;
     border-radius: 50% !important;
-    z-index: 2;
   }
 
-  /* BUTTONS INSIDE FRAME */
-  div[data-testid="stCameraInput"] button {
+  /* TAKE & CLEAR BUTTONS INSIDE FRAME */
+  [data-testid="stCameraInputTakePhotoButton"],
+  [data-testid="stCameraInputClearButton"] {
     position: absolute;
-    bottom: 15px;
+    bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--cyan) !important;
     color: #000 !important;
     font-weight: 600;
+    border: none !important;
     border-radius: 8px;
-    padding: 8px 16px;
-    z-index: 3;
+    padding: 8px 16px !important;
+    z-index: 2;
     box-shadow: 0 0 10px var(--glow) !important;
   }
 
   /* HIDE DEFAULT CARD STYLE */
   div[data-testid="stFileUploader"],
-  div[data-testid="stCameraInput"] > div {
+  div[data-testid="stCameraInput"] {
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
   }
 
-  /* OTHER COMPONENT STYLES (UNCHANGED) */
-  .header-box { /* ... */ }
-  .portrait-box { /* ... */ }
-  .mood-box-content { /* ... */ }
-  .column-wrapper, .logo-box, .mascot-box { /* ... */ }
+  /* OTHER STYLES UNCHANGED */
+  .header-box, .portrait-box, .mood-box-content, .column-wrapper, .logo-box, .mascot-box {
+    /* keep existing */
+  }
 
   /* RESPONSIVE */
   @media (max-width: 768px) {
-    div[data-testid="stCameraInput"] {
+    div[data-testid="stCameraInputWebcamStyledBox"] {
       width: 80vw !important;
       height: 80vw !important;
       margin-top: 90px;
     }
-    div[data-testid="stCameraInput"]::before {
+    div[data-testid="stCameraInputWebcamStyledBox"]::before {
       top: -6px; left: -6px;
       width: calc(100% + 12px);
       height: calc(100% + 12px);
     }
-    div[data-testid="stCameraInput"]::after {
+    div[data-testid="stCameraInputWebcamStyledBox"]::after {
       top: -3px; left: -3px;
       width: calc(100% + 6px);
       height: calc(100% + 6px);
     }
   }
 </style>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
 # --- CONFIGURE AI ---
 try:
