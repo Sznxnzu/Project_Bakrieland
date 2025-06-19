@@ -11,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# --- INJECT UPDATED CSS ---
+# --- INJECT CSS ---
 st.markdown(
     """
 <style>
@@ -32,7 +32,7 @@ st.markdown(
   }
   ::-webkit-scrollbar { display: none; }
 
-  /* OVERRIDE CAMERA INPUT CONTAINER */
+  /* OVERRIDE STREAMLIT CAMERA CARD */
   div[data-testid="stFileUploader"],
   div[data-testid="stCameraInput"] {
     background: transparent !important;
@@ -114,32 +114,56 @@ st.markdown(
     box-shadow: 0 0 10px var(--glow) !important;
   }
 
-  /* OTHER COMPONENT STYLES */
-  .header-box { /* unchanged */ }
-  .portrait-box, .mood-box-content, .column-wrapper, .logo-box, .mascot-box { /* unchanged */ }
+  /* COMPONENT STYLES */
+  .header-box {
+    text-align: center;
+    border: 2px solid var(--cyan);
+    background-color: rgba(0,0,50,0.5);
+    border-radius: 8px;
+    padding: 6px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px var(--cyan);
+    color: var(--cyan);
+    font-size: 25px;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+  }
+  .portrait-box {
+    border: 2px solid var(--cyan);
+    background-color: rgba(0,0,30,0.6);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px var(--cyan);
+    text-align: center;
+  }
+  .portrait-box img { width:100%; height:200px; border-radius:8px; object-fit:cover; }
+  .portrait-box p { margin-top:5px; font-size:30px; color:#ccc; text-align:center; }
+  .mood-box-content {
+    border:2px solid var(--cyan);
+    background-color:rgba(10,15,30,0.85);
+    padding:15px; border-radius:10px;
+    box-shadow:0 0 20px var(--cyan);
+    font-size:25px; margin:10px 0;
+    transition:all .3s ease-in-out;
+  }
+  .mood-box-content:hover { box-shadow:0 0 25px var(--cyan),0 0 50px var(--cyan); }
+  .mood-box-content h2 { font-size:45px; margin-bottom:.5em; }
+  .mood-box-content pre { margin:0; white-space:pre-wrap; font-family:inherit; }
+  .column-wrapper { display:flex; flex-direction:column; justify-content:space-between; height:400px; }
+  .logo-box, .mascot-box { width:150px; margin:0 auto; }
+  .mascot-box img { width:100%; border-radius:8px; }
 
   /* RESPONSIVE MOBILE */
   @media (max-width: 768px) {
-    div[data-testid="stCameraInputWebcamStyledBox"] {
-      width: 80vw !important;
-      height: 80vw !important;
-      margin-top: 90px;
-    }
-    div[data-testid="stCameraInputWebcamStyledBox"]::before {
-      top: -6px; left: -6px;
-      width: calc(100% + 12px);
-      height: calc(100% + 12px);
-    }
-    div[data-testid="stCameraInputWebcamStyledBox"]::after {
-      top: -3px; left: -3px;
-      width: calc(100% + 6px);
-      height: calc(100% + 6px);
-    }
+    div[data-testid="stCameraInputWebcamStyledBox"] { width:80vw!important; height:80vw!important; margin-top:90px; }
+    div[data-testid="stCameraInputWebcamStyledBox"]::before { top:-6px; left:-6px; width:calc(100%+12px); height:calc(100%+12px); }
+    div[data-testid="stCameraInputWebcamStyledBox"]::after { top:-3px; left:-3px; width:calc(100%+6px); height:calc(100%+6px); }
   }
 </style>
 """, unsafe_allow_html=True)
 
-# --- REMAINING LOGIC & LAYOUT (unchanged) ---
+# --- CONFIGURE AI ---
 try:
     genai.configure(api_key=st.secrets["gemini_api"])
     model = genai.GenerativeModel("gemini-1.5-flash")
@@ -163,7 +187,7 @@ if "analysis_result" not in st.session_state:
     st.session_state.image_captions = [placeholder_caption] * 4
     st.session_state.last_photo = None
 
-# --- LOGIC & LAYOUT ---
+# --- LAYOUT & LOGIC ---
 row1 = st.container()
 with row1:
     colA1, colA2, colA3 = st.columns([0.2, 0.6, 0.2])
@@ -187,7 +211,7 @@ with row1:
             st.session_state.last_photo = user_input
             with st.spinner("Menganalisis suasana hati Anda..."):
                 try:
-                    image = Image.open(io.BytesIO(user_input.getvalue()))
+                    img = Image.open(io.BytesIO(user_input.getvalue()))
                     prompt_txt = requests.get(
                         "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
                     ).text
@@ -195,43 +219,24 @@ with row1:
                         "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
                     ).text
 
-                    raw_output = model.generate_content([prompt_txt, image]).text
+                    raw_output = model.generate_content([prompt_txt, img]).text
                     filenames = model.generate_content([json_txt, raw_output]).text.strip().split(",")
 
                     if len(filenames) >= 4:
                         mid = len(filenames) // 2
                         first, second = filenames[:mid], filenames[mid:]
-                        # random rename logic
-                        first_targets = [
-                            "Bogor Nirwana Residence", "Kahuripan Nirwana",
-                            "Sayana Bogor", "Taman Rasuna Epicentrum",
-                            "The Masterpiece & The Empyreal"
-                        ]
-                        first_edited = [
-                            f + " " + str(random.randint(1,2)) if f.strip() in first_targets else f.strip()
-                            for f in first
-                        ]
-                        second_targets = [
-                            "Aston Bogor", "Bagus Beach Walk",
-                            "Grand ELTY Krakatoa", "Hotel Aston Sidoarjo",
-                            "Jungleland", "Junglesea Kalianda",
-                            "Rivera", "Swiss Belresidences Rasuna Epicentrum",
-                            "The Alana Malioboro", "The Grove Suites",
-                            "The Jungle Waterpark"
-                        ]
-                        second_edited = [
-                            f + " " + str(random.randint(1,2)) if f.strip() in second_targets else f.strip()
-                            for f in second
-                        ]
+                        # random rename & session_state update
+                        first_targets = ["Bogor Nirwana Residence","Kahuripan Nirwana","Sayana Bogor","Taman Rasuna Epicentrum","The Masterpiece & The Empyreal"]
+                        first_edit = [f+" "+str(random.randint(1,2)) if f.strip() in first_targets else f.strip() for f in first]
+                        second_targets = ["Aston Bogor","Bagus Beach Walk","Grand ELTY Krakatoa","Hotel Aston Sidoarjo","Jungleland","Junglesea Kalianda","Rivera","Swiss Belresidences Rasuna Epicentrum","The Alana Malioboro","The Grove Suites","The Jungle Waterpark"]
+                        second_edit = [f+" "+str(random.randint(1,2)) if f.strip() in second_targets else f.strip() for f in second]
                         st.session_state.image_urls = [
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_edited[0].strip()}.jpg",
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_edited[1].strip()}.jpg",
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_edited[0].strip()}.jpg",
-                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_edited[1].strip()}.jpg"
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_edit[0].strip()}.jpg",
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_edit[1].strip()}.jpg",
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_edit[0].strip()}.jpg",
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_edit[1].strip()}.jpg"
                         ]
-                        st.session_state.image_captions = [
-                            first[0].strip(), first[1].strip(), second[0].strip(), second[1].strip()
-                        ]
+                        st.session_state.image_captions = [first[0].strip(),first[1].strip(),second[0].strip(),second[1].strip()]
                         st.session_state.analysis_result = raw_output
                     else:
                         st.session_state.analysis_result = "Gagal memproses rekomendasi gambar. Silakan coba lagi."
@@ -241,8 +246,8 @@ with row1:
             st.rerun()
         elif user_input is None and st.session_state.last_photo:
             st.session_state.analysis_result = placeholder_analysis
-            st.session_state.image_urls = [placeholder_url] * 4
-            st.session_state.image_captions = [placeholder_caption] * 4
+            st.session_state.image_urls = [placeholder_url]*4
+            st.session_state.image_captions = [placeholder_caption]*4
             st.session_state.last_photo = None
             st.rerun()
     with colA3:
@@ -320,4 +325,3 @@ components.html(
     </html>
     """, height=100
 )
-
