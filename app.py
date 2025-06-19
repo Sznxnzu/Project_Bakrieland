@@ -6,12 +6,12 @@ import io, requests, html, random
 
 # --- PAGE CONFIG ---
 st.set_page_config(
-    layout="wide", 
-    page_title="Bakrieland Mood Analytic", 
+    layout="wide",
+    page_title="Bakrieland Mood Analytic",
     initial_sidebar_state="collapsed"
 )
 
-# --- INJECT CSS (GLOBAL, COMPONENTS, CAMERA FRAME & OVERRIDE) ---
+# --- INJECT CSS ---
 st.markdown("""
 <style>
   :root {
@@ -209,20 +209,20 @@ except Exception as e:
     st.error(f"Error configuring Generative AI: {e}")
     st.stop()
 
-# --- PLACEHOLDERS & SESSION STATE ---
+# --- PLACEHOLDERS & STATE ---
 placeholder_url = (
-    "https://raw.githubusercontent.com/Sznxnzu/"
+    "https://raw.githubusercontent.com/Sznxnzu/" +
     "Project_Bakrieland/main/resources/other/placeholder.png"
 )
 placeholder_caption = ""
 placeholder_analysis = (
-    "Arahkan kamera ke wajah Anda dan ambil foto untuk memulai analisis suasana hati"
-    " dan mendapatkan rekomendasi yang dipersonalisasi."
+    "Arahkan kamera ke wajah Anda dan ambil foto untuk memulai analisis suasana hati " +
+    "dan mendapatkan rekomendasi yang dipersonalisasi."
 )
 if "analysis_result" not in st.session_state:
     st.session_state.analysis_result = placeholder_analysis
-    st.session_state.image_urls = [placeholder_url] * 4
-    st.session_state.image_captions = [placeholder_caption] * 4
+    st.session_state.image_urls = [placeholder_url]*4
+    st.session_state.image_captions = [placeholder_caption]*4
     st.session_state.last_photo = None
 
 # --- LAYOUT & LOGIC ---
@@ -234,20 +234,16 @@ with row1:
             """
             <div class="column-wrapper">
               <div class="logo-box">
-                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png"/>
+                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" />
               </div>
               <div class="mascot-box">
-                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png"/>
+                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png" />
               </div>
             </div>
-            """,
-            unsafe_allow_html=True
+            """, unsafe_allow_html=True
         )
     with colA2:
-        # langsung camera input tanpa wrapper manual
-        user_input = st.camera_input(
-            "", label_visibility="collapsed", key="camera"
-        )
+        user_input = st.camera_input("", label_visibility="collapsed", key="camera")
 
         if user_input is not None and user_input != st.session_state.last_photo:
             st.session_state.last_photo = user_input
@@ -265,12 +261,42 @@ with row1:
                     filenames = model.generate_content([json_txt, raw_output]).text.strip().split(",")
 
                     if len(filenames) >= 4:
-                        mid = len(filenames)//2
+                        mid = len(filenames) // 2
                         first, second = filenames[:mid], filenames[mid:]
-                        # ... masukkan logika random rename & simpan ke session_state ...
+                        # random rename example:
+                        first_targets = [
+                            "Bogor Nirwana Residence", "Kahuripan Nirwana",
+                            "Sayana Bogor", "Taman Rasuna Epicentrum",
+                            "The Masterpiece & The Empyreal"
+                        ]
+                        first_edited = [
+                            f + " " + str(random.randint(1,2)) if f.strip() in first_targets else f.strip()
+                            for f in first
+                        ]
+                        second_targets = [
+                            "Aston Bogor", "Bagus Beach Walk",
+                            "Grand ELTY Krakatoa", "Hotel Aston Sidoarjo",
+                            "Jungleland", "Junglesea Kalianda",
+                            "Rivera", "Swiss Belresidences Rasuna Epicentrum",
+                            "The Alana Malioboro", "The Grove Suites",
+                            "The Jungle Waterpark"
+                        ]
+                        second_edited = [
+                            f + " " + str(random.randint(1,2)) if f.strip() in second_targets else f.strip()
+                            for f in second
+                        ]
+                        st.session_state.image_urls = [
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_edited[0].strip()}.jpg",
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_edited[1].strip()}.jpg",
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_edited[0].strip()}.jpg",
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_edited[1].strip()}.jpg"
+                        ]
+                        st.session_state.image_captions = [
+                            first[0].strip(), first[1].strip(), second[0].strip(), second[1].strip()
+                        ]
+                        st.session_state.analysis_result = raw_output
                     else:
-                        st.session_state.analysis_result = 
-                            "Gagal memproses rekomendasi gambar. Silakan coba lagi."
+                        st.session_state.analysis_result = "Gagal memproses rekomendasi gambar. Silakan coba lagi."
                 except Exception as e:
                     st.error(f"Terjadi kesalahan: {e}")
                     st.session_state.analysis_result = "Terjadi kesalahan saat pemrosesan."
@@ -281,24 +307,18 @@ with row1:
             st.session_state.image_captions = [placeholder_caption]*4
             st.session_state.last_photo = None
             st.rerun()
-
     with colA3:
         st.markdown(
             """
             <div>
-              <img src="https://raw.githubusercontent.com/Sznxnzu/
-                  Project_Bakrieland/main/resources/logo/bakrieland_logo.png"
-                   style="height:70px; margin-bottom:4px;"/>
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height:70px; margin-bottom:4px;" />
             </div>
             <div>
               <span>POWERED BY:</span>
-              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png"
-                   style="height:40px; margin:0 8px;"/>
-              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png"
-                   style="height:40px;"/>
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height:40px; margin:0 8px;" />
+              <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height:40px;" />
             </div>
-            """,
-            unsafe_allow_html=True
+            """, unsafe_allow_html=True
         )
 
 row2 = st.container()
@@ -360,6 +380,6 @@ components.html(
         </script>
       </body>
     </html>
-    """, height=100
+    """,
+    height=100
 )
-
