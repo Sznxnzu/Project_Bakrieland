@@ -104,7 +104,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     margin-bottom: 0;
 }
 .mood-box-content h2{
-    font-size: 45px
+    font-size: 45px;
 }
 .mood-box-content ul {
     margin-top: 0;
@@ -117,9 +117,9 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   justify-content: center;
 }
 
-/* Kamera style desktop */
+/* Kamera style desktop & overlay frame */
 div[data-testid="stCameraInput"] {
-  width:500px !important;
+  width: 500px !important;
   height: 500px !important;
   display: flex;
   flex-direction: column;
@@ -136,54 +136,69 @@ div[data-testid="stCameraInput"] div {
   max-width: 500px;
 }
 
+/* Reset frame bawaan & jadikan relatif */
 div[data-testid="stCameraInputWebcamStyledBox"] {
+  position: relative !important;
+  overflow: hidden !important;
+  border-radius: 0 !important;
   width: 500px !important;
   height: 500px !important;
-  border-radius: 50% !important;
-  overflow: hidden;
-  margin: auto;
-  box-shadow: 0 0 20px rgba(0,240,255,0.5);
 }
 
-div[data-testid="stCameraInput"] video {
+/* Pasang overlay frame futuristik */
+div[data-testid="stCameraInputWebcamStyledBox"]::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background:
+      url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png")
+      no-repeat center center;
+    background-size: cover;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Video di bawah overlay */
+div[data-testid="stCameraInputWebcamStyledBox"] video {
+  position: relative !important;
+  z-index: 1 !important;
   object-fit: cover;
-  width: 100%;
-  height: 100%;
-  border-radius: 0;
+  width: 100%; height: 100%;
 }
 
+/* Snapshot image */
 div[data-testid="stCameraInput"] img {
   display: block;
   object-fit: cover;
   aspect-ratio: 1 / 1;
   width: 500px !important;
   height: 500px !important;
-  border-radius: 50% !important;
+  border-radius: 0 !important;
   box-shadow: 0 0 20px rgba(0,240,255,0.5);
   margin: 0;
 }
 
+/* Tombol ambil foto */
 div[data-testid="stCameraInput"] button {
   z-index: 10;
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 0; right: 0;
   background-color: #00c0cc;
   color: #000;
   font-weight: 600;
   font-size: 16px;
   border: none;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
+  box-shadow: 0 4px 12px rgba(0,240,255,0.6);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   width: 150px;
 }
-
 div[data-testid="stCameraInput"] button:hover {
   background-color: #00aabb;
   transform: scale(1.05);
-  box-shadow: 0 6px 16px rgba(0, 240, 255, 0.8);
+  box-shadow: 0 6px 16px rgba(0,240,255,0.8);
 }
 
 [data-testid="stCameraInputSwitchButton"] {
@@ -316,7 +331,6 @@ div[data-testid="stCameraInput"] button:hover {
 }
 </style>
 """, unsafe_allow_html=True)
-
 
 # --- LOGIC & LAYOUT (TIDAK ADA PERUBAHAN DI SINI) ---
 try:
