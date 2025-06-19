@@ -268,7 +268,7 @@ with row1:
     with colA2:
         st.markdown("""
         <div class="camera-wrapper">
-            <div style="z-index: 10;">
+            <div class="camera-inner">
         """, unsafe_allow_html=True)
 
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
