@@ -266,9 +266,14 @@ with row1:
       </div>
       """, unsafe_allow_html=True)
     with colA2:
-        st.markdown('<div class="camera-wrapper">', unsafe_allow_html=True)
+        st.markdown("""
+<div class="camera-wrapper">
+  <div style="z-index: 10;">
+""", unsafe_allow_html=True)
+
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
         st.markdown("""
+            
   </div>
   <div class="svg-overlay">
     <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
@@ -283,7 +288,6 @@ with row1:
   </div>
 </div>
 """, unsafe_allow_html=True)
-
         if user_input is not None and user_input != st.session_state.last_photo:
             st.session_state.last_photo = user_input
 
@@ -317,8 +321,8 @@ with row1:
                             "Taman Rasuna Epicentrum", "The Masterpiece & The Empyreal"
                         ]
                         first_filenames_edited = [
-                            name.strip() + " " + str(random.randint(1, 2)) if name.strip() in first_target_names else name.strip()
-                            for name in first_filenames
+                          name.strip() + " " + str(random.randint(1, 2)) if name.strip() in first_target_names else name.strip()
+                          for name in first_filenames
                         ]
 
                         second_target_names = [
