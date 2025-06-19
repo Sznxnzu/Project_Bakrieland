@@ -12,35 +12,35 @@ st.markdown("""
   :root {
     --frame-size: 500px;
     --cyan: #00ffff;
-    --cyan-glow: rgba(0,255,255,0.6);
-    --cyan-border: rgba(0,255,255,0.8);
+    --glow: rgba(0,255,255,0.6);
+    --border: rgba(0,255,255,0.8);
   }
 
+  /* global bg */
   html, body, [data-testid="stAppViewContainer"], .stApp {
     background-color: #19307f !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-attachment: fixed !important;
   }
   ::-webkit-scrollbar { display: none; }
 
+  /* header boxes */
   .header-box {
     text-align: center;
     border: 2px solid var(--cyan);
-    background-color: rgba(0,0,50,0.5);
+    background: rgba(0,0,50,0.5);
     border-radius: 8px;
     padding: 6px;
     margin-bottom: 10px;
     box-shadow: 0 0 10px var(--cyan);
     color: var(--cyan);
+    font-family: 'Orbitron',sans-serif;
     font-size: 25px;
-    font-family: 'Orbitron', sans-serif;
     letter-spacing: 1px;
   }
 
+  /* recommendation portraits */
   .portrait-box {
     border: 2px solid var(--cyan);
-    background-color: rgba(0,0,30,0.6);
+    background: rgba(0,0,30,0.6);
     border-radius: 8px;
     padding: 10px;
     margin-bottom: 10px;
@@ -48,15 +48,15 @@ st.markdown("""
     text-align: center;
   }
 
+  /* mood content */
   .mood-box-content {
     border: 2px solid var(--cyan);
-    background-color: rgba(10,15,30,0.85);
-    padding: 15px;
+    background: rgba(10,15,30,0.85);
     border-radius: 10px;
+    padding: 15px;
     box-shadow: 0 0 20px var(--cyan);
     font-size: 25px;
     margin: 10px 0;
-    width: 100%;
     transition: all 0.3s ease-in-out;
   }
   .mood-box-content:hover {
@@ -64,14 +64,14 @@ st.markdown("""
   }
   .mood-box-content h2 {
     font-size: 45px;
-    margin-bottom: 0.5em;
+    margin-bottom: .5em;
   }
-  .mood-box-content p,
-  .mood-box-content ul {
-    margin: 0 0 1em;
-    padding-left: 20px;
+  .mood-box-content pre {
+    margin: 0;
+    white-space: pre-wrap;
   }
 
+  /* sidebar logos */
   .column-wrapper {
     display: flex;
     flex-direction: column;
@@ -81,9 +81,6 @@ st.markdown("""
   .logo-box {
     width: 150px;
     margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
   }
   .logo-box img {
     width: 100%;
@@ -102,7 +99,7 @@ st.markdown("""
     border-radius: 8px;
   }
 
-  /* camera centering + overlay */
+  /* camera centering + overlay ring */
   .camera-container {
     display: flex;
     justify-content: center;
@@ -115,19 +112,16 @@ st.markdown("""
   .camera-wrapper::before {
     content: "";
     position: absolute;
-    top: -8px; left: -8px;
-    width: calc(100% + 16px);
-    height: calc(100% + 16px);
+    top: -10px; left: -10px;
+    width: calc(100% + 20px);
+    height: calc(100% + 20px);
     border-radius: 50%;
-    background: conic-gradient(
-      from 90deg,
-      transparent 0deg 40deg,
-      var(--cyan) 40deg 55deg,
-      transparent 55deg 120deg,
-      var(--cyan) 120deg 135deg,
-      transparent 135deg 360deg
+    background: repeating-conic-gradient(
+      from 0deg,
+      var(--cyan) 0deg 4deg,
+      transparent 4deg 12deg
     );
-    box-shadow: 0 0 20px var(--cyan-glow);
+    box-shadow: 0 0 20px var(--glow);
     pointer-events: none;
     z-index: 2;
   }
@@ -138,90 +132,48 @@ st.markdown("""
     width: calc(100% + 8px);
     height: calc(100% + 8px);
     border-radius: 50%;
-    border: 2px solid var(--cyan-border);
+    border: 2px solid var(--border);
     pointer-events: none;
     z-index: 3;
   }
 
-  /* Streamlit camera styling */
+  /* streamlit camera styling */
   div[data-testid="stCameraInput"] {
     width: 100% !important;
     height: 100% !important;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
   }
   div[data-testid="stCameraInputWebcamStyledBox"],
-  div[data-testid="stCameraInput"] img,
-  div[data-testid="stCameraInput"] video {
+  div[data-testid="stCameraInput"] video,
+  div[data-testid="stCameraInput"] img {
     width: 100% !important;
     height: 100% !important;
     border-radius: 50% !important;
     object-fit: cover;
-    box-shadow: 0 0 20px var(--cyan-glow);
+    box-shadow: 0 0 20px var(--glow);
   }
   div[data-testid="stCameraInput"] button {
     position: absolute;
     bottom: 0; right: 0;
     background-color: #00c0cc;
-    color: #000;
-    font-weight: 600;
-    font-size: 16px;
-    border: none;
     border-radius: 8px;
-    box-shadow: 0 4px 12px var(--cyan-glow);
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    width: 150px;
     z-index: 4;
   }
-  div[data-testid="stCameraInput"] button:hover {
-    background-color: #00aabb;
-    transform: scale(1.05);
-    box-shadow: 0 6px 16px var(--cyan-glow);
-  }
-  [data-testid="stCameraInputSwitchButton"] {
-    display: none !important;
-  }
+  [data-testid="stCameraInputSwitchButton"] { display: none !important; }
 
-  @media (max-width: 768px) {
-    .column-wrapper {
-      flex-direction: row;
-      justify-content: space-around;
-      align-items: center;
-      margin-bottom: 20px;
-      height: auto;
-    }
-    .logo-box, .mascot-box {
-      width: 100px;
-    }
-    img[src*="bakrieland_logo"] {
-      height: 50px !important;
-    }
-    img[src*="google_logo"],
-    img[src*="metrodata_logo"] {
-      height: 30px !important;
+  /* responsive untuk mobile */
+  @media (max-width:768px) {
+    .logo-box, .mascot-box { width: 100px; }
+    div[data-testid="stCameraInput"],
+    div[data-testid="stCameraInputWebcamStyledBox"],
+    div[data-testid="stCameraInput"] video,
+    div[data-testid="stCameraInput"] img {
+      max-width: 300px !important;
+      max-height: 300px !important;
     }
     .camera-wrapper {
       width: 80vw;
       height: 80vw;
       margin-top: 90px;
-    }
-    div[data-testid="stCameraInput"],
-    div[data-testid="stCameraInputWebcamStyledBox"],
-    div[data-testid="stCameraInput"] img {
-      width: 80vw !important;
-      height: 80vw !important;
-      max-width: 300px !important;
-      max-height: 300px !important;
-    }
-    div[data-testid="stCameraInput"] button {
-      width: 120px;
-      font-size: 14px;
-      bottom: 10px;
-      right: 50%;
-      transform: translateX(50%);
     }
   }
 </style>
