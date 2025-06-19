@@ -154,7 +154,7 @@ div[data-testid="stCameraInputWebcamStyledBox"]::before {
     background:
       url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png")
       no-repeat center center;
-    background-size: 200%;    
+    background-size: 100%;    
     background-position: center;
     pointer-events: none;
     z-index: 2;
