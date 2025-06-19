@@ -16,44 +16,59 @@ st.markdown("""
     --border: rgba(0,255,255,0.8);
   }
 
-  /* global bg */
+  /*―――――― GLOBAL ――――――*/
   html, body, [data-testid="stAppViewContainer"], .stApp {
     background-color: #19307f !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
   }
   ::-webkit-scrollbar { display: none; }
 
-  /* header boxes */
+  /*―――――― HEADER BOX ――――――*/
   .header-box {
     text-align: center;
     border: 2px solid var(--cyan);
-    background: rgba(0,0,50,0.5);
+    background-color: rgba(0,0,50,0.5);
     border-radius: 8px;
     padding: 6px;
     margin-bottom: 10px;
     box-shadow: 0 0 10px var(--cyan);
     color: var(--cyan);
-    font-family: 'Orbitron',sans-serif;
     font-size: 25px;
+    font-family: 'Orbitron', sans-serif;
     letter-spacing: 1px;
   }
 
-  /* recommendation portraits */
+  /*―――――― PORTRAIT BOX ――――――*/
   .portrait-box {
     border: 2px solid var(--cyan);
-    background: rgba(0,0,30,0.6);
+    background-color: rgba(0,0,30,0.6);
     border-radius: 8px;
     padding: 10px;
     margin-bottom: 10px;
     box-shadow: 0 0 10px var(--cyan);
     text-align: center;
   }
+  .portrait-box img {
+    width: 100%;
+    height: 200px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  .portrait-box p {
+    margin-top: 5px;
+    font-size: 30px;
+    color: #ccc;
+    text-align: center;
+  }
 
-  /* mood content */
+  /*―――――― MOOD CONTENT ――――――*/
   .mood-box-content {
     border: 2px solid var(--cyan);
-    background: rgba(10,15,30,0.85);
-    border-radius: 10px;
+    background-color: rgba(10,15,30,0.85);
     padding: 15px;
+    border-radius: 10px;
     box-shadow: 0 0 20px var(--cyan);
     font-size: 25px;
     margin: 10px 0;
@@ -64,14 +79,15 @@ st.markdown("""
   }
   .mood-box-content h2 {
     font-size: 45px;
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
   }
   .mood-box-content pre {
     margin: 0;
     white-space: pre-wrap;
+    font-family: inherit;
   }
 
-  /* sidebar logos */
+  /*―――――― SIDEBAR LOGOS ――――――*/
   .column-wrapper {
     display: flex;
     flex-direction: column;
@@ -99,17 +115,14 @@ st.markdown("""
     border-radius: 8px;
   }
 
-  /* camera centering + overlay ring */
-  .camera-container {
-    display: flex;
-    justify-content: center;
-  }
-  .camera-wrapper {
+  /*―――――― CAMERA FRAME & OVERLAY ――――――*/
+  div[data-testid="stCameraInputWebcamStyledBox"] {
     position: relative;
-    width: var(--frame-size);
-    height: var(--frame-size);
+    width: var(--frame-size) !important;
+    height: var(--frame-size) !important;
+    margin: auto;
   }
-  .camera-wrapper::before {
+  div[data-testid="stCameraInputWebcamStyledBox"]::before {
     content: "";
     position: absolute;
     top: -10px; left: -10px;
@@ -118,14 +131,14 @@ st.markdown("""
     border-radius: 50%;
     background: repeating-conic-gradient(
       from 0deg,
-      var(--cyan) 0deg 4deg,
-      transparent 4deg 12deg
+      var(--cyan) 0deg 18deg,
+      transparent 18deg 36deg
     );
     box-shadow: 0 0 20px var(--glow);
     pointer-events: none;
     z-index: 2;
   }
-  .camera-wrapper::after {
+  div[data-testid="stCameraInputWebcamStyledBox"]::after {
     content: "";
     position: absolute;
     top: -4px; left: -4px;
@@ -136,44 +149,42 @@ st.markdown("""
     pointer-events: none;
     z-index: 3;
   }
-
-  /* streamlit camera styling */
-  div[data-testid="stCameraInput"] {
+  div[data-testid="stCameraInputWebcamStyledBox"] video,
+  div[data-testid="stCameraInputWebcamStyledBox"] img {
     width: 100% !important;
     height: 100% !important;
-  }
-  div[data-testid="stCameraInputWebcamStyledBox"],
-  div[data-testid="stCameraInput"] video,
-  div[data-testid="stCameraInput"] img {
-    width: 100% !important;
-    height: 100% !important;
-    border-radius: 50% !important;
     object-fit: cover;
+    border-radius: 50% !important;
     box-shadow: 0 0 20px var(--glow);
   }
-  div[data-testid="stCameraInput"] button {
-    position: absolute;
-    bottom: 0; right: 0;
-    background-color: #00c0cc;
-    border-radius: 8px;
-    z-index: 4;
-  }
-  [data-testid="stCameraInputSwitchButton"] { display: none !important; }
 
-  /* responsive untuk mobile */
-  @media (max-width:768px) {
-    .logo-box, .mascot-box { width: 100px; }
-    div[data-testid="stCameraInput"],
-    div[data-testid="stCameraInputWebcamStyledBox"],
-    div[data-testid="stCameraInput"] video,
-    div[data-testid="stCameraInput"] img {
-      max-width: 300px !important;
-      max-height: 300px !important;
+  /* sembunyikan switch button */
+  [data-testid="stCameraInputSwitchButton"] {
+    display: none !important;
+  }
+
+  /*―――――― RESPONSIVE (MOBILE) ――――――*/
+  @media (max-width: 768px) {
+    html, body, [data-testid="stAppViewContainer"], .stApp {
+      background-size: cover !important;
     }
-    .camera-wrapper {
-      width: 80vw;
-      height: 80vw;
+    .logo-box, .mascot-box {
+      width: 100px;
+    }
+    div[data-testid="stCameraInputWebcamStyledBox"] {
+      width: 80vw !important;
+      height: 80vw !important;
       margin-top: 90px;
+    }
+    div[data-testid="stCameraInputWebcamStyledBox"]::before {
+      top: -8px; left: -8px;
+      width: calc(100% + 16px);
+      height: calc(100% + 16px);
+    }
+    div[data-testid="stCameraInputWebcamStyledBox"]::after {
+      top: -3px; left: -3px;
+      width: calc(100% + 6px);
+      height: calc(100% + 6px);
     }
   }
 </style>
