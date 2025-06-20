@@ -155,7 +155,7 @@ div[data-testid="stCameraInput"] img {
 }
 
 div[data-testid="stCameraInput"] button {
-  z-index: 10;
+  z-index: 50;
   position: absolute;
   bottom: 0;
   right: 0;
