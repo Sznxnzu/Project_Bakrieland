@@ -59,7 +59,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     height: 400px;
 }
 
-.35thn-box {
+.thirtyfive-thn-box {
     width: 150px;
     margin: 0 auto;
     display: flex;
@@ -67,7 +67,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     justify-content: flex-start;
 }
 
-.35thn-box img {
+.thirtyfive-thn-box img {
     width: 100%;
     border-radius: 8px;
     vertical-align: top;
@@ -115,13 +115,30 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     margin-bottom: 1em;
     padding-left: 20px;
 }
-
 /* --- Kamera wrapper & overlay responsive --- */
 .camera-wrapper {
     position: relative;
     width: 60%;        /* ikut mengecil/besar */
     max-width: 400px;   /* batas maksimal */
     margin: 0 auto;     /* center */
+}
+.camera-wrapper > div[data-testid="stCameraInput"] {
+    background: transparent !important;
+    width: 100% !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+}
+.camera-wrapper > div[data-testid="stCameraInputWebcamStyledBox"] {
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    height: auto !important;
+}
+.camera-wrapper button {
+    position: absolute;
+    bottom: 8px; right: 8px;
+    z-index: 4;
 }
 .camera-wrapper video,
 .camera-wrapper img {
@@ -188,7 +205,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
         justify-content: space-around;
         margin-bottom: 20px;
     }
-    .35thn-box, .mascot-box {
+    .thirtyfive-thn-box, .mascot-box {
         width: 100px;
         height: auto;
         margin: 0;
@@ -217,7 +234,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
         width: 100%;
         padding: 0 12px;
     }
-    .35thn-box {
+    .thirtyfive-thn-box {
         position: absolute;
         top: 0;
         left: 0;
@@ -278,7 +295,7 @@ with row1:
     with colA1:
         st.markdown("""
         <div class="column-wrapper">
-            <div class="35thn-box">
+            <div class="thirtyfive-thn-box">
                 <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" />
             </div>
             <div class="mascot-box">
