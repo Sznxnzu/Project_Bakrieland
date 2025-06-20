@@ -154,7 +154,7 @@ div[data-testid="stCameraInput"] img {
   border-radius: 50%;
   z-index: 1;
 }
-            div[data-testid="stCameraInput"] > button {
+div[data-testid="stCameraInput"] > button {
   position: absolute !important;
   bottom: -50px !important;          /* tweak this to taste */
   left: 50% !important;              
