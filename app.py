@@ -121,7 +121,7 @@ div[data-testid="stCameraInput"] {
   position: relative;
   width: 60%;           /* responsive width */
   max-width: 400px;
-  margin: 0 auto;
+  margin-bottom: 60px;  
   border-radius: 50%;
   overflow: hidden;
   background: transparent !important;
@@ -156,23 +156,29 @@ div[data-testid="stCameraInput"] img {
 
 div[data-testid="stCameraInput"] > button {
   position: absolute;
-  bottom: 8px;
-  right: 8px;
-  background-color: #00c0cc;
-  color: #000;
+  bottom: -50px;               /* negative to move it below the circle */
+  left: 50%;
+  transform: translateX(-50%);
+  
+  /* 3) Your custom styling */
+  background: linear-gradient(135deg, #00c0cc, #006f8e);
+  color: #fff;
   font-weight: 600;
   font-size: 16px;
   border: none;
-  border-radius: 8px;
-  padding: 6px 12px;
+  border-radius: 12px;
+  padding: 8px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  transition: all .2s ease-in-out;
+  transition: transform .2s, box-shadow .2s;
   z-index: 5;
 }
-div[data-testid="stCameraInput"] > button:hover {
-  transform: scale(1.05);
-}
 
+div[data-testid="stCameraInput"] > button:hover {
+  transform: translateX(-50%) scale(1.05);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+            
 /* mobile tweak */
 @media (max-width: 768px) {
   div[data-testid="stCameraInput"] {
