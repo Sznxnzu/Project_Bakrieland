@@ -140,7 +140,7 @@ div[data-testid="stCameraInput"]::before {
   background: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png")
               center/contain no-repeat;
   pointer-events: none;
-  z-index: 2;
+  z-index: 3;
 }
 
 div[data-testid="stCameraInput"] video,
@@ -156,7 +156,7 @@ div[data-testid="stCameraInput"] > button {
   position: absolute;
   bottom: 8px;
   right: 8px;
-  z-index: 3;
+  z-index: 4;
   background-color: #00c0cc;
   color: #000;
   font-weight: 600;
