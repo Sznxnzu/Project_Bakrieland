@@ -118,8 +118,8 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 }
 .camera-frame {
   position: absolute;
-  width: 800px;
-  height: 800px;
+  width: 750px;
+  height: 750px;
   top: -90px;
   left: 0;
   background-image: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png");
