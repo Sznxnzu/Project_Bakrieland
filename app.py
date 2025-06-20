@@ -24,7 +24,9 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     background-position: center !important;
     background-attachment: fixed !important;
 }
-::-webkit-scrollbar { display: none; }
+::-webkit-scrollbar {
+    display: none;
+}
 
 .header-box {
     text-align: center;
@@ -50,39 +52,98 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     text-align: center;
 }
 
-/* Kamera responsive override */
+.column-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 400px;
+}
+
+.thirtyfive-thn-box {
+    width: 150px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.thirtyfive-thn-box img {
+    width: 100%;
+    border-radius: 8px;
+    vertical-align: top;
+}
+
+.mascot-box {
+    width: 150px;
+    height: 200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.mascot-box img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.mood-box-content {
+    border: 2px solid #00f0ff;
+    background-color: rgba(10, 15, 30, 0.85);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00f0ff;
+    font-size: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    height: auto;
+    transition: all 0.3s ease-in-out;
+}
+.mood-box-content:hover {
+    box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
+}
+.mood-box-content p {
+    margin-bottom: 0;
+}
+.mood-box-content h2 {
+    font-size: 45px;
+}
+.mood-box-content ul {
+    margin-top: 0;
+    margin-bottom: 1em;
+    padding-left: 20px;
+}
+
+/* === Streamlit camera-input override === */
 div[data-testid="stCameraInput"] {
   position: relative;
-  width: 60%;
+  width: 60%;           /* responsive width */
   max-width: 400px;
   margin: 0 auto;
   border-radius: 50%;
   overflow: hidden;
   background: transparent !important;
-  box-shadow: none !important;
+  box-shadow: none   !important;
 }
 
-/* kill grey circle wrapper */
-div[data-testid="stCameraInputWebcamStyledBox"],
-div[data-testid="stCameraInput"] > div,
-div[data-testid="stCameraInput"] > div > div {
-  background: transparent !important;
-  box-shadow: none        !important;
+div[data-testid="stCameraInput"] > div:first-child {
+  border-radius: 50%;
+  overflow: hidden;
 }
 
-/* circular frame overlay */
 div[data-testid="stCameraInput"]::before {
   content: "";
   position: absolute;
   top: -13%; left: -18%;
-  width: 140%; height: 123%;
+  width: 140%;  height: 123%;
   background: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png")
               center/contain no-repeat;
   pointer-events: none;
   z-index: 4;
 }
 
-/* make video/image round */
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
   width: 100%;
@@ -90,14 +151,13 @@ div[data-testid="stCameraInput"] img {
   object-fit: cover;
   display: block;
   border-radius: 50%;
-  position: relative;
   z-index: 1;
 }
 
-/* restyle button on top */
 div[data-testid="stCameraInput"] > button {
   position: absolute;
-  bottom: 8px; right: 8px;
+  bottom: 8px;
+  right: 8px;
   background-color: #00c0cc;
   color: #000;
   font-weight: 600;
@@ -113,7 +173,7 @@ div[data-testid="stCameraInput"] > button:hover {
   transform: scale(1.05);
 }
 
-/* mobile tweaks */
+/* mobile tweak */
 @media (max-width: 768px) {
   div[data-testid="stCameraInput"] {
     width: 80%;
@@ -122,6 +182,83 @@ div[data-testid="stCameraInput"] > button:hover {
   div[data-testid="stCameraInput"] > button {
     right: 50%;
     transform: translateX(50%);
+  }
+
+  /* layout khusus mobile */
+  .st-emotion-cache-z5fcl4 { flex-direction: column; }
+  .header-box { font-size: 18px; }
+  .mood-box-content h2 { font-size: 30px; }
+  .mood-box-content { font-size: 16px; }
+  .portrait-box p { font-size: 18px !important; }
+
+  .column-wrapper {
+      flex-direction: row;
+      height: auto;
+      align-items: center;
+      justify-content: space-around;
+      margin-bottom: 20px;
+  }
+  .thirtyfive-thn-box, .mascot-box {
+      width: 100px;
+      height: auto;
+      margin: 0;
+  }
+  img[src*="bakrieland_logo"] {
+      height: 50px !important;
+  }
+  img[src*="google_logo"], img[src*="metrodata_logo"] {
+      height: 30px !important;
+  }
+  div[data-testid="stHorizontalBlock"] {
+      flex-direction: column;
+  }
+  .st-emotion-cache-z5fcl4 > div:first-child > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      gap: 6px;
+  }
+  .column-wrapper {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      width: 100%;
+      padding: 0 12px;
+  }
+  .thirtyfive-thn-box {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 70px;
+  }
+  .mascot-box {
+      position: absolute;
+      top: 140px;
+      left: 0;
+      width: 80px;
+  }
+  .mascot-box img {
+      width: 100%;
+      height: auto;
+  }
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) > div {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding-right: 12px;
+  }
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) img {
+      margin-bottom: 4px;
+  }
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) span {
+      font-size: 12px;
+      color: #fff;
+      text-align: right;
   }
 }
 </style>
