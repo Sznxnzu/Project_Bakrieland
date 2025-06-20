@@ -121,7 +121,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   width: 750px;
   height: 750px;
   top: -110px;
-  left: -30;
+  left: -40;
   background-image: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png");
   background-size: contain;
   background-repeat: no-repeat;
