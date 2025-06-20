@@ -116,6 +116,18 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   display: flex;
   justify-content: center;
 }
+.camera-frame {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  top: 0;
+  left: 0;
+  background-image: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 3;
+}
 
 /* Kamera style desktop */
 div[data-testid="stCameraInput"] {
@@ -352,7 +364,8 @@ with row1:
       </div>
       """, unsafe_allow_html=True)
     with colA2:
-        st.markdown('<div class="camera-wrapper">', unsafe_allow_html=True)
+        st.markdown('<div class="camera-wrapper"><div class="camera-frame"></div>', unsafe_allow_html=True)
+
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
         st.markdown('</div>', unsafe_allow_html=True)
 
