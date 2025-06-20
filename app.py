@@ -155,7 +155,7 @@ div[data-testid="stCameraInput"] img {
 }
 
 div[data-testid="stCameraInput"] button {
-  z-index: 50;
+  z-index: 10;
   position: absolute;
   bottom: 0;
   right: 0;
@@ -175,6 +175,7 @@ div[data-testid="stCameraInput"] button:hover {
   background-color: #00aabb;
   transform: scale(1.05);
   box-shadow: 0 6px 16px rgba(0, 240, 255, 0.8);
+  z-index: 11;
 }
             
 [data-testid="stCameraInputSwitchButton"] {
