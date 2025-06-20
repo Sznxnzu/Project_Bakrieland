@@ -7,11 +7,7 @@ import requests
 import html
 import random
 
-st.set_page_config(
-    layout="wide",
-    page_title="Bakrieland Mood Analytic",
-    initial_sidebar_state="collapsed"
-)
+st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
 # --- CSS STYLES ---
 st.markdown("""
@@ -25,7 +21,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     background-attachment: fixed !important;
 }
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .header-box {
@@ -53,39 +49,39 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 }
 
 .column-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 400px;
 }
 
-.thirtyfive-thn-box {
-    width: 150px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+.35thn-box {
+  width: 150px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-.thirtyfive-thn-box img {
-    width: 100%;
-    border-radius: 8px;
-    vertical-align: top;
+.35thn-box img {
+  width: 100%;
+  border-radius: 8px;
+  vertical-align: top;
 }
 
 .mascot-box {
-    width: 150px;
-    height: 200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-bottom: 20px;
+  width: 150px;
+  height: 200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 20px;
 }
 
 .mascot-box img {
-    width: 100%;
-    border-radius: 8px;
+  width: 100%;
+  border-radius: 8px;
 }
 
 .mood-box-content {
@@ -107,8 +103,8 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 .mood-box-content p {
     margin-bottom: 0;
 }
-.mood-box-content h2 {
-    font-size: 45px;
+.mood-box-content h2{
+    font-size: 45px
 }
 .mood-box-content ul {
     margin-top: 0;
@@ -116,23 +112,56 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding-left: 20px;
 }
 
-/* === Streamlit camera-input override === */
+.camera-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+/* Kamera style desktop */
 div[data-testid="stCameraInput"] {
-  position: relative;
-  width: 60%;           /* responsive width */
-  max-width: 400px;
+  width:500px !important;
+  height: 500px !important;
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
-  border-radius: 50%;
-  overflow: hidden;
-  background: transparent !important;
-  box-shadow: none   !important;
+  align-items: center;
+  justify-content: center;
 }
 
-div[data-testid="stCameraInput"] > div:first-child {
-  border-radius: 50%;
-  overflow: hidden;
+div[data-testid="stCameraInput"] div {
+  background-color: transparent !important;
+  flex: 0 0 auto;
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
 }
 
+div[data-testid="stCameraInputWebcamStyledBox"] {
+  width: 500px !important;
+  height: 500px !important;
+  border-radius: 50% !important;
+  overflow: hidden;
+  margin: auto;
+  box-shadow: 0 0 20px rgba(0,240,255,0.5);
+}
+
+div[data-testid="stCameraInput"] video {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+div[data-testid="stCameraInput"] img {
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  width: 500px !important;
+  height: 500px !important;
+  border-radius: 50% !important;
+  box-shadow: 0 0 20px rgba(0,240,255,0.5);
+  margin: 0;
+}
 div[data-testid="stCameraInput"]::before {
   content: "";
   position: absolute;
@@ -144,52 +173,69 @@ div[data-testid="stCameraInput"]::before {
   z-index: 4;
 }
 
-div[data-testid="stCameraInput"] video,
-div[data-testid="stCameraInput"] img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  border-radius: 50%;
-  z-index: 1;
-}
-
-div[data-testid="stCameraInput"] > button {
+div[data-testid="stCameraInput"] button {
+  z-index: 10;
   position: absolute;
-  bottom: 8px;
-  right: 8px;
+  bottom: 0;
+  right: 0;
   background-color: #00c0cc;
   color: #000;
   font-weight: 600;
   font-size: 16px;
   border: none;
   border-radius: 8px;
-  padding: 6px 12px;
+  box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
   cursor: pointer;
-  transition: all .2s ease-in-out;
-  z-index: 5;
+  transition: all 0.2s ease-in-out;
+  width: 150px;
 }
-div[data-testid="stCameraInput"] > button:hover {
+
+div[data-testid="stCameraInput"] button:hover {
+  background-color: #00aabb;
   transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 240, 255, 0.8);
 }
 
-/* mobile tweak */
+[data-testid="stCameraInputSwitchButton"] {
+  display: none !important;
+}
+
+/* RESPONSIVE KHUSUS MOBILE (MAX WIDTH 768px) */
 @media (max-width: 768px) {
-  div[data-testid="stCameraInput"] {
-    width: 80%;
-    max-width: 300px;
-  }
-  div[data-testid="stCameraInput"] > button {
-    right: 50%;
-    transform: translateX(50%);
+  .st-emotion-cache-z5fcl4 {
+      flex-direction: column;
   }
 
-  /* layout khusus mobile */
-  .st-emotion-cache-z5fcl4 { flex-direction: column; }
-  .header-box { font-size: 18px; }
-  .mood-box-content h2 { font-size: 30px; }
-  .mood-box-content { font-size: 16px; }
-  .portrait-box p { font-size: 18px !important; }
+  .header-box {
+      font-size: 18px;
+  }
+  .mood-box-content h2 {
+      font-size: 30px;
+  }
+  .mood-box-content {
+      font-size: 16px;
+  }
+  .portrait-box p {
+      font-size: 18px !important;
+  }
+
+  div[data-testid="stCameraInput"],
+  div[data-testid="stCameraInput"] div,
+  div[data-testid="stCameraInputWebcamStyledBox"],
+  div[data-testid="stCameraInput"] img {
+      width: 80vw !important;
+      height: 80vw !important;
+      max-width: 300px !important;
+      max-height: 300px !important;
+  }
+
+  div[data-testid="stCameraInput"] button {
+      width: 120px;
+      font-size: 14px;
+      bottom: 10px;
+      right: 50%;
+      transform: translateX(50%);
+  }
 
   .column-wrapper {
       flex-direction: row;
@@ -198,71 +244,89 @@ div[data-testid="stCameraInput"] > button:hover {
       justify-content: space-around;
       margin-bottom: 20px;
   }
-  .thirtyfive-thn-box, .mascot-box {
+
+  .35thn-box, .mascot-box {
       width: 100px;
       height: auto;
       margin: 0;
   }
+
   img[src*="bakrieland_logo"] {
       height: 50px !important;
   }
   img[src*="google_logo"], img[src*="metrodata_logo"] {
       height: 30px !important;
   }
+
   div[data-testid="stHorizontalBlock"] {
       flex-direction: column;
   }
+
+  /* Layout khusus HP: posisi ulang header, maskot, powered by */
   .st-emotion-cache-z5fcl4 > div:first-child > div {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      gap: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    gap: 6px;
   }
+
   .column-wrapper {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      position: relative;
-      width: 100%;
-      padding: 0 12px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding: 0 12px;
   }
-  .thirtyfive-thn-box {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 70px;
+
+  .35thn-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 70px;
   }
+
   .mascot-box {
-      position: absolute;
-      top: 140px;
-      left: 0;
-      width: 80px;
+    position: absolute;
+    top: 140px;
+    left: 0;
+    width: 80px;
   }
+
   .mascot-box img {
-      width: 100%;
-      height: auto;
+    width: 100%;
+    height: auto;
   }
+
   .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) > div {
-      position: absolute;
-      top: 0;
-      right: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      padding-right: 12px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 12px;
   }
+
   .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) img {
-      margin-bottom: 4px;
+    margin-bottom: 4px;
   }
+
   .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) span {
-      font-size: 12px;
-      color: #fff;
-      text-align: right;
+    font-size: 12px;
+    color: #fff;
+    text-align: right;
+  }
+
+  .camera-wrapper {
+    margin-top: 90px;
   }
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 # --- LOGIC & LAYOUT (TIDAK ADA PERUBAHAN DI SINI) ---
 try:
@@ -286,60 +350,69 @@ row1 = st.container()
 with row1:
     colA1, colA2, colA3 = st.columns([0.2, 0.6, 0.2])
     with colA1:
-        st.markdown("""
-        <div class="column-wrapper">
-            <div class="thirtyfive-thn-box">
-                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" />
-            </div>
-            <div class="mascot-box">
-                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png" />
-            </div>
+      st.write("")
+      st.markdown("""
+      <div class="column-wrapper">
+        <div class="35thn-box">
+          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" />
         </div>
-        """, unsafe_allow_html=True)
+        <div class="mascot-box">
+          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png" />
+        </div>
+      </div>
+      """, unsafe_allow_html=True)
     with colA2:
+        st.markdown('<div class="camera-wrapper">', unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
+        st.markdown('</div>', unsafe_allow_html=True)
 
         if user_input is not None and user_input != st.session_state.last_photo:
             st.session_state.last_photo = user_input
+
             with st.spinner("Menganalisis suasana hati Anda..."):
                 try:
                     image = Image.open(io.BytesIO(user_input.getvalue()))
+
                     prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
-                    prompt_response = requests.get(prompt_url); prompt_response.raise_for_status()
+                    prompt_response = requests.get(prompt_url)
+                    prompt_response.raise_for_status()
                     analysis_prompt = prompt_response.text
 
                     json_prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
-                    json_prompt_response = requests.get(json_prompt_url); json_prompt_response.raise_for_status()
+                    json_prompt_response = requests.get(json_prompt_url)
+                    json_prompt_response.raise_for_status()
                     json_prompt = json_prompt_response.text
 
                     analysis_response = model.generate_content([analysis_prompt, image])
                     raw_output = analysis_response.text
-                    json_response = model.generate_content([json_prompt, raw_output])
-                    filenames = json_response.text.strip().split(",")
 
+                    json_response = model.generate_content([json_prompt, raw_output])
+
+                    filenames = json_response.text.strip().split(",")
                     if len(filenames) >= 4:
                         midpoint = len(filenames) // 2
                         first_filenames = filenames[:midpoint]
                         second_filenames = filenames[midpoint:]
+
                         first_target_names = [
                             "Bogor Nirwana Residence", "Kahuripan Nirwana", "Sayana Bogor",
                             "Taman Rasuna Epicentrum", "The Masterpiece & The Empyreal"
                         ]
                         first_filenames_edited = [
-                            name.strip() + " " + str(random.randint(1, 2))
-                            if name.strip() in first_target_names else name.strip()
+                            name.strip() + " " + str(random.randint(1, 2)) if name.strip() in first_target_names else name.strip()
                             for name in first_filenames
                         ]
+
                         second_target_names = [
                             "Aston Bogor", "Bagus Beach Walk", "Grand ELTY Krakatoa", "Hotel Aston Sidoarjo",
                             "Jungleland", "Junglesea Kalianda", "Rivera", "Swiss Belresidences Rasuna Epicentrum",
                             "The Alana Malioboro", "The Grove Suites", "The Jungle Waterpark"
                         ]
                         second_filenames_edited = [
-                            name.strip() + " " + str(random.randint(1, 2))
-                            if name.strip() in second_target_names else name.strip()
+                            name.strip() + " " + str(random.randint(1, 2)) if name.strip() in second_target_names else name.strip()
                             for name in second_filenames
                         ]
+
                         st.session_state.image_urls = [
                             f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[0].strip()}.jpg",
                             f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[1].strip()}.jpg",
@@ -369,21 +442,27 @@ with row1:
             st.session_state.image_captions = [placeholder_caption] * 4
             st.session_state.last_photo = None
             st.rerun()
-
     with colA3:
+      colA3row11 = st.container()
+      with colA3row11:
         st.markdown("""
         <div>
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png"
-               style="height: 70px; margin-bottom: 4px;" />
+          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" />
         </div>
+        """, unsafe_allow_html=True)
+      colA3row12 = st.container()
+      with colA3row12:
+        st.markdown("""
         <div>
-          <span style="display: inline-block; vertical-align: middle;">POWERED BY:</span>
+          <span style="display: inline-block; vertical-align: middle;"><div>POWERED BY:</div></span>
         </div>
+        """, unsafe_allow_html=True)
+      colA3row13 = st.container()
+      with colA3row13:
+        st.markdown("""
         <div>
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png"
-               style="height: 40px; vertical-align: middle; margin-right: -30px;" />
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png"
-               style="height: 40px; vertical-align: middle;" />
+          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 40px; vertical-align: middle; margin-left: -10px; margin-right: -30px;" />
+          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height: 40px; vertical-align: middle;" />
         </div>
         """, unsafe_allow_html=True)
 
