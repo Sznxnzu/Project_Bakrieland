@@ -123,10 +123,9 @@ div[data-testid="stCameraInput"] {
   max-width: 400px;
   margin: 0 auto;
   border-radius: 50%;
-  overflow: visible !important;      /* allow button overflow */
-  margin-bottom: 80px !important;    /* space for button below */
+  overflow: hidden;
   background: transparent !important;
-  box-shadow: none !important;
+  box-shadow: none   !important;
 }
 
 div[data-testid="stCameraInput"] > div:first-child {
@@ -134,12 +133,13 @@ div[data-testid="stCameraInput"] > div:first-child {
   overflow: hidden;
 }
 
-div[data-testid="stCameraInput"] > div:first-child::before {
+div[data-testid="stCameraInput"]::before {
   content: "";
   position: absolute;
   top: -13%; left: -18%;
   width: 140%;  height: 123%;
-  background: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png") center/contain no-repeat;
+  background: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png")
+              center/contain no-repeat;
   pointer-events: none;
   z-index: 2;
 }
@@ -155,10 +155,10 @@ div[data-testid="stCameraInput"] img {
 }
 
 div[data-testid="stCameraInput"] button {
-  position: absolute !important;
-  bottom: -50px !important;          /* pull below circle */
-  left: 50% !important;
-  transform: translateX(-50%) !important;
+  z-index: 10;
+  position: absolute;
+  bottom: 0;
+  right: 0;
   background-color: #00c0cc;
   color: #000;
   font-weight: 600;
@@ -169,18 +169,18 @@ div[data-testid="stCameraInput"] button {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   width: 150px;
-  z-index: 10;
 }
-
+            
 div[data-testid="stCameraInput"] button:hover {
   background-color: #00aabb;
-  transform: translateX(-50%) scale(1.05) !important;
+  transform: scale(1.05);
   box-shadow: 0 6px 16px rgba(0, 240, 255, 0.8);
 }
-
+            
 [data-testid="stCameraInputSwitchButton"] {
   display: none !important;
 }
+
 
 /* mobile tweak */
 @media (max-width: 768px) {
@@ -189,13 +189,89 @@ div[data-testid="stCameraInput"] button:hover {
     max-width: 300px;
   }
   div[data-testid="stCameraInput"] button {
-    width: 120px;
-    font-size: 14px;
-    bottom: -40px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
+      width: 120px;
+      font-size: 14px;
+      bottom: 10px;
+      right: 50%;
+      transform: translateX(50%);
   }
-  /* other mobile rules unchanged... */
+
+  /* layout khusus mobile */
+  .st-emotion-cache-z5fcl4 { flex-direction: column; }
+  .header-box { font-size: 18px; }
+  .mood-box-content h2 { font-size: 30px; }
+  .mood-box-content { font-size: 16px; }
+  .portrait-box p { font-size: 18px !important; }
+
+  .column-wrapper {
+      flex-direction: row;
+      height: auto;
+      align-items: center;
+      justify-content: space-around;
+      margin-bottom: 20px;
+  }
+  .thirtyfive-thn-box, .mascot-box {
+      width: 100px;
+      height: auto;
+      margin: 0;
+  }
+  img[src*="bakrieland_logo"] {
+      height: 50px !important;
+  }
+  img[src*="google_logo"], img[src*="metrodata_logo"] {
+      height: 30px !important;
+  }
+  div[data-testid="stHorizontalBlock"] {
+      flex-direction: column;
+  }
+  .st-emotion-cache-z5fcl4 > div:first-child > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      gap: 6px;
+  }
+  .column-wrapper {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      width: 100%;
+      padding: 0 12px;
+  }
+  .thirtyfive-thn-box {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 70px;
+  }
+  .mascot-box {
+      position: absolute;
+      top: 140px;
+      left: 0;
+      width: 80px;
+  }
+  .mascot-box img {
+      width: 100%;
+      height: auto;
+  }
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) > div {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding-right: 12px;
+  }
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) img {
+      margin-bottom: 4px;
+  }
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) span {
+      font-size: 12px;
+      color: #fff;
+      text-align: right;
+  }
 }
 </style>
 """, unsafe_allow_html=True)
@@ -309,14 +385,17 @@ with row1:
     with colA3:
         st.markdown("""
         <div>
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" />
+          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png"
+               style="height: 70px; margin-bottom: 4px;" />
         </div>
         <div>
           <span style="display: inline-block; vertical-align: middle;">POWERED BY:</span>
         </div>
         <div>
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 40px; vertical-align: middle; margin-right: -30px;" />
-          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height: 40px; vertical-align: middle;" />
+          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png"
+               style="height: 40px; vertical-align: middle; margin-right: -30px;" />
+          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png"
+               style="height: 40px; vertical-align: middle;" />
         </div>
         """, unsafe_allow_html=True)
 
