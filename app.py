@@ -112,11 +112,12 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding-left: 20px;
 }
 .camera-wrapper {
-  position: relative;     
-  width: 80vw;             
+  position: relative;
+  width: 80vw;
   max-width: 500px;
-  aspect-ratio: 1;        
-  margin: 0 auto;          
+  height: 80vw;     /* atau height:500px; */
+  max-height: 500px;
+  margin: 0 auto;
 }
             
 .camera-frame {
