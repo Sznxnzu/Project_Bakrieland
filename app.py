@@ -154,24 +154,33 @@ div[data-testid="stCameraInput"] img {
   z-index: 1;
 }
 
-div[data-testid="stCameraInput"] > button {
+div[data-testid="stCameraInput"] button {
+  z-index: 10;
   position: absolute;
-  bottom: 8px;
-  right: 8px;
+  bottom: 0;
+  right: 0;
   background-color: #00c0cc;
   color: #000;
   font-weight: 600;
   font-size: 16px;
   border: none;
   border-radius: 8px;
-  padding: 6px 12px;
+  box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
   cursor: pointer;
-  transition: all .2s ease-in-out;
-  z-index: 5;
+  transition: all 0.2s ease-in-out;
+  width: 150px;
 }
-div[data-testid="stCameraInput"] > button:hover {
+            
+div[data-testid="stCameraInput"] button:hover {
+  background-color: #00aabb;
   transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 240, 255, 0.8);
 }
+            
+[data-testid="stCameraInputSwitchButton"] {
+  display: none !important;
+}
+
 
 /* mobile tweak */
 @media (max-width: 768px) {
@@ -179,9 +188,12 @@ div[data-testid="stCameraInput"] > button:hover {
     width: 80%;
     max-width: 300px;
   }
-  div[data-testid="stCameraInput"] > button {
-    right: 50%;
-    transform: translateX(50%);
+  div[data-testid="stCameraInput"] button {
+      width: 120px;
+      font-size: 14px;
+      bottom: 10px;
+      right: 50%;
+      transform: translateX(50%);
   }
 
   /* layout khusus mobile */
