@@ -113,14 +113,9 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 }
 
 .camera-wrapper {
-    position: relative;
-    width: 750px;
-    height: 750px;
-    margin: 0 auto;
-    margin-top: -110px;
-    z-index: 2;
+  display: flex;
+  justify-content: center;
 }
-            
 .camera-frame {
   position: absolute;
   width: 750px;
