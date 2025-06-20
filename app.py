@@ -146,7 +146,7 @@ div[data-testid="stCameraInput"]::before {
 div[data-testid="stCameraInput"] video,
 div[data-testid="stCameraInput"] img {
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
   display: block;
   border-radius: 50%;
