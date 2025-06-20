@@ -115,158 +115,149 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     margin-bottom: 1em;
     padding-left: 20px;
 }
-/* --- Kamera wrapper & overlay responsive --- */
-.camera-wrapper {
-    position: relative;
-    width: 60%;        /* ikut mengecil/besar */
-    max-width: 400px;   /* batas maksimal */
-    margin: 0 auto;     /* center */
-}
-.camera-wrapper > div[data-testid="stCameraInput"] {
-    background: transparent !important;
-    width: 100% !important;
-    padding: 0 !important;
-    border-radius: 50% !important;
-    overflow: hidden !important;
-}
-.camera-wrapper > div[data-testid="stCameraInputWebcamStyledBox"] {
-    border-radius: 50% !important;
-    overflow: hidden !important;
-    width: 100% !important;
-    height: auto !important;
-}
-.camera-wrapper button {
-    position: absolute;
-    bottom: 8px; right: 8px;
-    z-index: 4;
-}
-.camera-wrapper video,
-.camera-wrapper img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 50%;   /* bulat sempurna */
-    object-fit: cover;
-}
-.camera-wrapper .camera-frame {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-image: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    pointer-events: none;
-    z-index: 3;
-}
-.camera-wrapper button {
-    position: absolute;
-    bottom: 8px; right: 8px;
-    z-index: 4;
-    background-color: #00c0cc;
-    color: #000;
-    font-weight: 600;
-    font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    padding: 6px 12px;
-    cursor: pointer;
-    transition: all .2s ease-in-out;
-}
-.camera-wrapper button:hover {
-    transform: scale(1.05);
+
+/* === Streamlit camera-input override === */
+div[data-testid="stCameraInput"] {
+  position: relative;
+  width: 60%;           /* responsive width */
+  max-width: 400px;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  background: transparent !important;
 }
 
-/* RESPONSIVE khusus mobile (max-width: 768px) */
+div[data-testid="stCameraInput"] > div:first-child {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+div[data-testid="stCameraInput"]::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;  height: 100%;
+  background: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png")
+              center/contain no-repeat;
+  pointer-events: none;
+  z-index: 2;
+}
+
+div[data-testid="stCameraInput"] video,
+div[data-testid="stCameraInput"] img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
+}
+
+div[data-testid="stCameraInput"] > button {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  z-index: 3;
+  background-color: #00c0cc;
+  color: #000;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+}
+div[data-testid="stCameraInput"] > button:hover {
+  transform: scale(1.05);
+}
+
+/* mobile tweak */
 @media (max-width: 768px) {
-    /* layout umum mobile */
-    .st-emotion-cache-z5fcl4 { flex-direction: column; }
-    .header-box { font-size: 18px; }
-    .mood-box-content h2 { font-size: 30px; }
-    .mood-box-content { font-size: 16px; }
-    .portrait-box p { font-size: 18px !important; }
+  div[data-testid="stCameraInput"] {
+    width: 80%;
+    max-width: 300px;
+  }
+  div[data-testid="stCameraInput"] > button {
+    right: 50%;
+    transform: translateX(50%);
+  }
 
-    /* kamera di mobile */
-    .camera-wrapper {
-        width: 80%;
-        max-width: 300px;
-    }
-    .camera-wrapper button {
-        bottom: 10px;
-        right: 50%;
-        transform: translateX(50%);
-    }
+  /* layout khusus mobile */
+  .st-emotion-cache-z5fcl4 { flex-direction: column; }
+  .header-box { font-size: 18px; }
+  .mood-box-content h2 { font-size: 30px; }
+  .mood-box-content { font-size: 16px; }
+  .portrait-box p { font-size: 18px !important; }
 
-    /* sisanya layout mobile tetap */
-    .column-wrapper {
-        flex-direction: row;
-        height: auto;
-        align-items: center;
-        justify-content: space-around;
-        margin-bottom: 20px;
-    }
-    .thirtyfive-thn-box, .mascot-box {
-        width: 100px;
-        height: auto;
-        margin: 0;
-    }
-    img[src*="bakrieland_logo"] {
-        height: 50px !important;
-    }
-    img[src*="google_logo"], img[src*="metrodata_logo"] {
-        height: 30px !important;
-    }
-    div[data-testid="stHorizontalBlock"] {
-        flex-direction: column;
-    }
-    .st-emotion-cache-z5fcl4 > div:first-child > div {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: relative;
-        gap: 6px;
-    }
-    .column-wrapper {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        position: relative;
-        width: 100%;
-        padding: 0 12px;
-    }
-    .thirtyfive-thn-box {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 70px;
-    }
-    .mascot-box {
-        position: absolute;
-        top: 140px;
-        left: 0;
-        width: 80px;
-    }
-    .mascot-box img {
-        width: 100%;
-        height: auto;
-    }
-    .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) > div {
-        position: absolute;
-        top: 0;
-        right: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        padding-right: 12px;
-    }
-    .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) img {
-        margin-bottom: 4px;
-    }
-    .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) span {
-        font-size: 12px;
-        color: #fff;
-        text-align: right;
-    }
+  .column-wrapper {
+      flex-direction: row;
+      height: auto;
+      align-items: center;
+      justify-content: space-around;
+      margin-bottom: 20px;
+  }
+  .thirtyfive-thn-box, .mascot-box {
+      width: 100px;
+      height: auto;
+      margin: 0;
+  }
+  img[src*="bakrieland_logo"] {
+      height: 50px !important;
+  }
+  img[src*="google_logo"], img[src*="metrodata_logo"] {
+      height: 30px !important;
+  }
+  div[data-testid="stHorizontalBlock"] {
+      flex-direction: column;
+  }
+  .st-emotion-cache-z5fcl4 > div:first-child > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      gap: 6px;
+  }
+  .column-wrapper {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      width: 100%;
+      padding: 0 12px;
+  }
+  .thirtyfive-thn-box {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 70px;
+  }
+  .mascot-box {
+      position: absolute;
+      top: 140px;
+      left: 0;
+      width: 80px;
+  }
+  .mascot-box img {
+      width: 100%;
+      height: auto;
+  }
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) > div {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding-right: 12px;
+  }
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) img {
+      margin-bottom: 4px;
+  }
+  .st-emotion-cache-z5fcl4 > div:first-child > div:nth-child(3) span {
+      font-size: 12px;
+      color: #fff;
+      text-align: right;
+  }
 }
 </style>
 """, unsafe_allow_html=True)
@@ -304,9 +295,7 @@ with row1:
         </div>
         """, unsafe_allow_html=True)
     with colA2:
-        st.markdown('<div class="camera-wrapper"><div class="camera-frame"></div>', unsafe_allow_html=True)
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
-        st.markdown('</div>', unsafe_allow_html=True)
 
         if user_input is not None and user_input != st.session_state.last_photo:
             st.session_state.last_photo = user_input
