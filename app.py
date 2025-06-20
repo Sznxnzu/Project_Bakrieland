@@ -112,16 +112,19 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding-left: 20px;
 }
 .camera-wrapper {
-  display: flex;
-  justify-content: center;
+  position: relative;     
+  width: 80vw;             
+  max-width: 500px;
+  aspect-ratio: 1;        
+  margin: 0 auto;          
 }
             
 .camera-frame {
   position: absolute;
-  width: 750px !important;
-  height: 750px !important;
-  top: -110px !important;
-  left: -35px !important;
+  width: 750px;
+  height: 750px;
+  top: -110px;
+  left: -35px;
   background-image: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png");
   background-size: contain;
   background-repeat: no-repeat;
@@ -138,6 +141,7 @@ div[data-testid="stCameraInput"] {
   margin: 0 auto;
   align-items: center;
   justify-content: center;
+  z-index: 2 !important;
 }
 
 div[data-testid="stCameraInput"] div {
