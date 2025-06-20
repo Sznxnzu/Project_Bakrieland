@@ -121,16 +121,15 @@ div[data-testid="stCameraInput"] {
   position: relative;
   width: 60%;           /* responsive width */
   max-width: 400px;
-  margin-bottom: 80px;  
+  margin: 0 auto;
   border-radius: 50%;
-  overflow: visible !important;  
+  overflow: hidden;
   background: transparent !important;
   box-shadow: none   !important;
 }
 
 div[data-testid="stCameraInput"] > div:first-child {
   border-radius: 50%;
-  position: relative;
   overflow: hidden;
 }
 
@@ -154,27 +153,26 @@ div[data-testid="stCameraInput"] img {
   border-radius: 50%;
   z-index: 1;
 }
+
 div[data-testid="stCameraInput"] > button {
-  position: absolute !important;
-  bottom: -50px !important;          /* tweak this to taste */
-  left: 50% !important;              
-  transform: translateX(-50%) !important;
-  background: linear-gradient(135deg, #00c0cc, #006f8e);
-  color: #fff;
-  font-size: 16px;
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background-color: #00c0cc;
+  color: #000;
   font-weight: 600;
+  font-size: 16px;
   border: none;
-  border-radius: 12px;
-  padding: 8px 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  padding: 6px 12px;
   cursor: pointer;
-  transition: transform .2s, box-shadow .2s;
+  transition: all .2s ease-in-out;
   z-index: 5;
 }
 div[data-testid="stCameraInput"] > button:hover {
-  transform: translateX(-50%) scale(1.05);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  transform: scale(1.05);
 }
+
 /* mobile tweak */
 @media (max-width: 768px) {
   div[data-testid="stCameraInput"] {
