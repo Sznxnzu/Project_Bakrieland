@@ -111,31 +111,22 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     margin-bottom: 1em;
     padding-left: 20px;
 }
-            
 .camera-wrapper {
   display: flex;
   justify-content: center;
 }
-               
-.camera-wrapper {
-    position: relative;
-    width: 750px;
-    height: 750px;
-    margin: 0 auto;
-    margin-top: -100px;
-    z-index: 2;
-}      
+            
 .camera-frame {
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  width: 100% !important;
-  height: 100% !important;
-  background: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png") 
-              center/contain no-repeat !important;
-  pointer-events: none !important;
-  z-index: 3 !important;
+  position: absolute;
+  width: 750px !important;
+  height: 750px !important;
+  top: -110px !important;
+  left: -35px !important;
+  background-image: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 3;
 }
 
 /* Kamera style desktop */
@@ -147,7 +138,6 @@ div[data-testid="stCameraInput"] {
   margin: 0 auto;
   align-items: center;
   justify-content: center;
-  z-index: 2 !important;
 }
 
 div[data-testid="stCameraInput"] div {
