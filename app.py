@@ -114,10 +114,10 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 
 .camera-wrapper {
     position: relative;
-    width: 550px;
-    height: 550px;
+    width: 750px;
+    height: 750px;
     margin: 0 auto;
-    margin-top: 50px;
+    margin-top: -110px;
     z-index: 2;
 }
             
