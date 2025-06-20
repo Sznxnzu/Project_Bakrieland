@@ -116,6 +116,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
   display: flex;
   justify-content: center;
 }
+            
 .camera-frame {
   position: absolute;
   width: 750px;
