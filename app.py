@@ -135,7 +135,7 @@ div[data-testid="stCameraInput"] > div:first-child {
 div[data-testid="stCameraInput"]::before {
   content: "";
   position: absolute;
-  top: -10%; left: -10%;
+  top: -50%; left: -50%;
   width: 120%;  height: 120%;
   background: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png")
               center/contain no-repeat;
