@@ -125,6 +125,7 @@ div[data-testid="stCameraInput"] {
   border-radius: 50%;
   overflow: hidden;
   background: transparent !important;
+  box-shadow: none   !important;
 }
 
 div[data-testid="stCameraInput"] > div:first-child {
@@ -140,7 +141,7 @@ div[data-testid="stCameraInput"]::before {
   background: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png")
               center/contain no-repeat;
   pointer-events: none;
-  z-index: 2;
+  z-index: 4;
 }
 
 div[data-testid="stCameraInput"] video,
@@ -150,13 +151,13 @@ div[data-testid="stCameraInput"] img {
   object-fit: cover;
   display: block;
   border-radius: 50%;
+  z-index: 1;
 }
 
 div[data-testid="stCameraInput"] > button {
   position: absolute;
   bottom: 8px;
   right: 8px;
-  z-index: 3;
   background-color: #00c0cc;
   color: #000;
   font-weight: 600;
@@ -166,6 +167,7 @@ div[data-testid="stCameraInput"] > button {
   padding: 6px 12px;
   cursor: pointer;
   transition: all .2s ease-in-out;
+  z-index: 5;
 }
 div[data-testid="stCameraInput"] > button:hover {
   transform: scale(1.05);
