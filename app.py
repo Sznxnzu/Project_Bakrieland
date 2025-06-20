@@ -136,7 +136,7 @@ div[data-testid="stCameraInput"]::before {
   content: "";
   position: absolute;
   top: 0; left: 0;
-  width: 100%;  height: 100%;
+  width: 120%;  height: 120%;
   background: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png")
               center/contain no-repeat;
   pointer-events: none;
