@@ -117,7 +117,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     width: 750px;
     height: 750px;
     margin: 0 auto;
-    margin-top: 0px;
+    margin-top: -100px;
     z-index: 2;
 }
             
