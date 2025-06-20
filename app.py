@@ -16,156 +16,375 @@ st.set_page_config(
 # --- CSS STYLES ---
 st.markdown("""
 <style>
-/* Global background */
+/* Gaya dasar dan tema */
 html, body, [data-testid="stAppViewContainer"], .stApp {
-    background-color: #19307f !important;
     background: none !important;
+    background-color: #19307f !important;
     background-size: cover !important;
     background-position: center !important;
     background-attachment: fixed !important;
 }
-::-webkit-scrollbar { display: none; }
+::-webkit-scrollbar {
+    display: none;
+}
 
-/* Header boxes */
-.header-box { /* unchanged */ }
-.portrait-box { /* unchanged */ }
-.column-wrapper { /* unchanged */ }
-.thirtyfive-thn-box, .mascot-box { /* unchanged */ }
-.mood-box-content { /* unchanged */ }
-.mood-box-content:hover { /* unchanged */ }
-.mood-box-content p, .mood-box-content h2, .mood-box-content ul { /* unchanged */ }
+.header-box {
+    text-align: center;
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,50,0.5);
+    border-radius: 8px;
+    padding: 6px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff;
+    color: #00f0ff;
+    font-size: 25px;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+}
 
-/* === Camera Input Overrides === */
+.portrait-box {
+    border: 2px solid #00f0ff;
+    background-color: rgba(0,0,30,0.6);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f0ff;
+    text-align: center;
+}
+
+.column-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 400px;
+}
+
+.thirtyfive-thn-box {
+    width: 150px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.thirtyfive-thn-box img {
+    width: 100%;
+    border-radius: 8px;
+    vertical-align: top;
+}
+
+.mascot-box {
+    width: 150px;
+    height: 200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.mascot-box img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.mood-box-content {
+    border: 2px solid #00f0ff;
+    background-color: rgba(10, 15, 30, 0.85);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00f0ff;
+    font-size: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    height: auto;
+    transition: all 0.3s ease-in-out;
+}
+.mood-box-content:hover {
+    box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
+}
+.mood-box-content p {
+    margin-bottom: 0;
+}
+.mood-box-content h2 {
+    font-size: 45px;
+}
+.mood-box-content ul {
+    margin-top: 0;
+    margin-bottom: 1em;
+    padding-left: 20px;
+}
+
+/* === Streamlit camera-input override === */
 div[data-testid="stCameraInput"] {
-  position: relative !important;
-  width: 60% !important;
-  max-width: 400px !important;
-  margin: 0 auto !important;
-  margin-bottom: 80px !important;  /* space for button */
-  overflow: visible !important;     /* allow button to show */
+  position: relative;
+  width: 60%;           /* responsive width */
+  max-width: 400px;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: visible !important;      /* allow button overflow */
+  margin-bottom: 80px !important;    /* space for button below */
   background: transparent !important;
+  box-shadow: none !important;
 }
 
 div[data-testid="stCameraInput"] > div:first-child {
-  /* disable default clipping */
-  overflow: visible !important;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
-/* clip the video itself into a circle */
-div[data-testid="stCameraInput"] video,
-div[data-testid="stCameraInput"] img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  clip-path: circle(50% at 50% 50%) !important;
-  -webkit-clip-path: circle(50% at 50% 50%) !important;
-  position: relative;
-  z-index: 1;
-}
-
-/* overlay PNG frame */
-div[data-testid="stCameraInput"]::before {
+div[data-testid="stCameraInput"] > div:first-child::before {
   content: "";
   position: absolute;
   top: -13%; left: -18%;
-  width: 140%; height: 123%;
-  background: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png") center/contain no-repeat !important;
+  width: 140%;  height: 123%;
+  background: url("https://raw.githubusercontent.com/husnanali05/FP_Datmin/main/Halaman%20Story%20WA%20(1).png") center/contain no-repeat;
   pointer-events: none;
   z-index: 2;
 }
 
-/* move button below the circle */
+div[data-testid="stCameraInput"] video,
+div[data-testid="stCameraInput"] img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
+  z-index: 1;
+}
+
 div[data-testid="stCameraInput"] button {
   position: absolute !important;
-  bottom: -50px !important;
+  bottom: -50px !important;          /* pull below circle */
   left: 50% !important;
   transform: translateX(-50%) !important;
-  background: linear-gradient(135deg, #00c0cc, #006f8e) !important;
-  color: #fff !important;
-  font-size: 16px !important;
-  font-weight: 600 !important;
-  border: none !important;
-  border-radius: 12px !important;
-  padding: 8px 16px !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
-  cursor: pointer !important;
-  transition: transform .2s, box-shadow .2s !important;
-  z-index: 3 !important;
+  background-color: #00c0cc;
+  color: #000;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  width: 150px;
+  z-index: 10;
 }
 
 div[data-testid="stCameraInput"] button:hover {
+  background-color: #00aabb;
   transform: translateX(-50%) scale(1.05) !important;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.3) !important;
+  box-shadow: 0 6px 16px rgba(0, 240, 255, 0.8);
 }
 
-/* hide switch button */
-[data-testid="stCameraInputSwitchButton"] { display: none !important; }
+[data-testid="stCameraInputSwitchButton"] {
+  display: none !important;
+}
 
-/* mobile tweaks */
+/* mobile tweak */
 @media (max-width: 768px) {
   div[data-testid="stCameraInput"] {
-    width: 80% !important;
-    max-width: 300px !important;
-    margin-bottom: 60px !important;
+    width: 80%;
+    max-width: 300px;
   }
   div[data-testid="stCameraInput"] button {
+    width: 120px;
+    font-size: 14px;
     bottom: -40px !important;
-    width: 120px !important;
-    font-size: 14px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
   }
+  /* other mobile rules unchanged... */
 }
 </style>
 """, unsafe_allow_html=True)
 
-# --- Logic & Layout ---
+# --- LOGIC & LAYOUT (TIDAK ADA PERUBAHAN DI SINI) ---
 try:
     genai.configure(api_key=st.secrets["gemini_api"])
     model = genai.GenerativeModel("gemini-1.5-flash")
 except Exception as e:
-    st.error(f"Error configuring AI: {e}")
+    st.error(f"Error configuring Generative AI: {e}")
     st.stop()
 
 placeholder_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/other/placeholder.png"
 placeholder_caption = ""
-placeholder_analysis = (
-    "Arahkan kamera ke wajah Anda dan ambil foto untuk memulai analisis suasana hati "
-    "dan mendapatkan rekomendasi yang dipersonalisasi."
-)
+placeholder_analysis = "Arahkan kamera ke wajah Anda dan ambil foto untuk memulai analisis suasana hati dan mendapatkan rekomendasi yang dipersonalisasi."
 
 if "analysis_result" not in st.session_state:
     st.session_state.analysis_result = placeholder_analysis
-    st.session_state.image_urls = [placeholder_url]*4
-    st.session_state.image_captions = [placeholder_caption]*4
+    st.session_state.image_urls = [placeholder_url] * 4
+    st.session_state.image_captions = [placeholder_caption] * 4
     st.session_state.last_photo = None
 
 row1 = st.container()
 with row1:
-    colA1, colA2, colA3 = st.columns([0.2,0.6,0.2])
+    colA1, colA2, colA3 = st.columns([0.2, 0.6, 0.2])
     with colA1:
-        st.markdown(
-            '<div class="column-wrapper">'
-            '<div class="thirtyfive-thn-box"><img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png"/></div>'
-            '<div class="mascot-box"><img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png"/></div>'
-            '</div>', unsafe_allow_html=True)
+        st.markdown("""
+        <div class="column-wrapper">
+            <div class="thirtyfive-thn-box">
+                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/35thn_logo.png" />
+            </div>
+            <div class="mascot-box">
+                <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/mascot_logo.png" />
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
     with colA2:
         user_input = st.camera_input("Ambil foto wajah Anda", label_visibility="collapsed", key="camera")
-        # ... rest of your camera logic unchanged ...
-    with colA3:
-        st.markdown(
-            '<div><img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height:70px;"/></div>'
-            '<div>POWERED BY:</div>'
-            '<div><img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height:40px; margin-right:-20px;"/>'
-            '<img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height:40px;"/></div>',
-            unsafe_allow_html=True)
-# ... remaining layout & recommendation sections remain unchanged ...
 
-# Screenshot component unchanged
-components.html(
-    """
-<html><head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-</head><body>
-<button id="screenshotBtn" style="position:fixed;bottom:20px;right:20px;border:none;padding:10px;border-radius:8px;background:#00c0cc;color:#fff;cursor:pointer;z-index:9999;">📸 Screenshot</button>
-<script>document.getElementById('screenshotBtn').onclick=()=>{html2canvas(parent.document.body).then(c=>{let a=document.createElement('a');a.href=c.toDataURL();a.download='screenshot.png';a.click();});};</script>
-</body></html>
-    """, height=100)
+        if user_input is not None and user_input != st.session_state.last_photo:
+            st.session_state.last_photo = user_input
+            with st.spinner("Menganalisis suasana hati Anda..."):
+                try:
+                    image = Image.open(io.BytesIO(user_input.getvalue()))
+                    prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt.txt"
+                    prompt_response = requests.get(prompt_url); prompt_response.raise_for_status()
+                    analysis_prompt = prompt_response.text
+
+                    json_prompt_url = "https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/prompt_json.txt"
+                    json_prompt_response = requests.get(json_prompt_url); json_prompt_response.raise_for_status()
+                    json_prompt = json_prompt_response.text
+
+                    analysis_response = model.generate_content([analysis_prompt, image])
+                    raw_output = analysis_response.text
+                    json_response = model.generate_content([json_prompt, raw_output])
+                    filenames = json_response.text.strip().split(",")
+
+                    if len(filenames) >= 4:
+                        midpoint = len(filenames) // 2
+                        first_filenames = filenames[:midpoint]
+                        second_filenames = filenames[midpoint:]
+                        first_target_names = [
+                            "Bogor Nirwana Residence", "Kahuripan Nirwana", "Sayana Bogor",
+                            "Taman Rasuna Epicentrum", "The Masterpiece & The Empyreal"
+                        ]
+                        first_filenames_edited = [
+                            name.strip() + " " + str(random.randint(1, 2))
+                            if name.strip() in first_target_names else name.strip()
+                            for name in first_filenames
+                        ]
+                        second_target_names = [
+                            "Aston Bogor", "Bagus Beach Walk", "Grand ELTY Krakatoa", "Hotel Aston Sidoarjo",
+                            "Jungleland", "Junglesea Kalianda", "Rivera", "Swiss Belresidences Rasuna Epicentrum",
+                            "The Alana Malioboro", "The Grove Suites", "The Jungle Waterpark"
+                        ]
+                        second_filenames_edited = [
+                            name.strip() + " " + str(random.randint(1, 2))
+                            if name.strip() in second_target_names else name.strip()
+                            for name in second_filenames
+                        ]
+                        st.session_state.image_urls = [
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[0].strip()}.jpg",
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/property/{first_filenames_edited[1].strip()}.jpg",
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[0].strip()}.jpg",
+                            f"https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/holiday/{second_filenames_edited[1].strip()}.jpg"
+                        ]
+                        st.session_state.image_captions = [
+                            first_filenames[0].strip(), first_filenames[1].strip(),
+                            second_filenames[0].strip(), second_filenames[1].strip()
+                        ]
+                        st.session_state.analysis_result = raw_output
+                    else:
+                        st.session_state.analysis_result = "Gagal memproses rekomendasi gambar. Silakan coba lagi."
+
+                except requests.exceptions.RequestException as http_err:
+                    st.error(f"Gagal mengambil prompt: {http_err}")
+                    st.session_state.analysis_result = "Terjadi kesalahan jaringan. Tidak dapat memuat model."
+                except Exception as e:
+                    st.error(f"Terjadi kesalahan saat pemrosesan: {e}")
+                    st.session_state.analysis_result = "Gagal menganalisis gambar. Silakan coba lagi."
+
+            st.rerun()
+
+        elif user_input is None and st.session_state.last_photo is not None:
+            st.session_state.analysis_result = placeholder_analysis
+            st.session_state.image_urls = [placeholder_url] * 4
+            st.session_state.image_captions = [placeholder_caption] * 4
+            st.session_state.last_photo = None
+            st.rerun()
+
+    with colA3:
+        st.markdown("""
+        <div>
+          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/bakrieland_logo.png" style="height: 70px; margin-bottom: 4px;" />
+        </div>
+        <div>
+          <span style="display: inline-block; vertical-align: middle;">POWERED BY:</span>
+        </div>
+        <div>
+          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/google_logo.png" style="height: 40px; vertical-align: middle; margin-right: -30px;" />
+          <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height: 40px; vertical-align: middle;" />
+        </div>
+        """, unsafe_allow_html=True)
+
+row2 = st.container()
+with row2:
+    escaped_analysis = html.escape(st.session_state.analysis_result)
+    st.markdown(f"""
+    <div class="mood-box-content">
+      <h2>Mood Analytic</h2>
+      <pre style="white-space: pre-wrap; font-family: inherit;">{escaped_analysis}</pre>
+    </div>
+    """, unsafe_allow_html=True)
+
+row3 = st.container()
+with row3:
+    colC1, colC2 = st.columns(2)
+    with colC1:
+        st.markdown('<div class="header-box">PROPERTY RECOMMENDATION</div>', unsafe_allow_html=True)
+        st.markdown(f"""
+        <div class="portrait-box">
+          <img src="{st.session_state.image_urls[0]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+          <p style="text-align:center; margin-top: 5px; font-size: 30px; color: #ccc;">{st.session_state.image_captions[0]}</p>
+          <img src="{st.session_state.image_urls[1]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+          <p style="text-align:center; margin-top: 5px; font-size: 30px; color: #ccc;">{st.session_state.image_captions[1]}</p>
+        </div>
+        """, unsafe_allow_html=True)
+    with colC2:
+        st.markdown('<div class="header-box">HOLIDAY RECOMMENDATION</div>', unsafe_allow_html=True)
+        st.markdown(f"""
+        <div class="portrait-box">
+          <img src="{st.session_state.image_urls[2]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+          <p style="text-align:center; margin-top: 5px; font-size: 30px; color: #ccc;">{st.session_state.image_captions[2]}</p>
+          <img src="{st.session_state.image_urls[3]}" style="width:100%; height:200px; border-radius:8px; object-fit:cover;" />
+          <p style="text-align:center; margin-top: 5px; font-size: 30px; color: #ccc;">{st.session_state.image_captions[3]}</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+components.html("""
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  </head>
+  <body>
+    <button id="screenshotBtn" style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 9999;
+        background-color: #00c0cc;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
+    ">📸 Screenshot</button>
+
+    <script>
+      document.getElementById("screenshotBtn").addEventListener("click", function () {
+        html2canvas(parent.document.body).then(canvas => {
+          const link = document.createElement("a");
+          link.download = "screenshot.png";
+          link.href = canvas.toDataURL();
+          link.click();
+        });
+      });
+    </script>
+  </body>
+</html>
+""", height=100)
