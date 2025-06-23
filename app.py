@@ -503,7 +503,12 @@ with row3:
 components.html("""
 <html>
   <head>
+    <!-- html2canvas untuk screenshot -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- QR Generator -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
   </head>
   <body>
     <button id="screenshotBtn" style="
@@ -521,16 +526,57 @@ components.html("""
         box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
     ">📸 Screenshot</button>
 
+    <div id="qrContainer" style="position: fixed; bottom: 100px; right: 20px;"></div>
+
     <script>
-      document.getElementById("screenshotBtn").addEventListener("click", function () {
-        html2canvas(parent.document.body).then(canvas => {
-          const link = document.createElement("a");
-          link.download = "screenshot.png";
-          link.href = canvas.toDataURL();
-          link.click();
+      const supabase = supabase.createClient(
+        "https://jysdksiamclhxsidaaje.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5c2Rrc2lhbWNsaHhzaWRhYWplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2NzAyNTUsImV4cCI6MjA2NjI0NjI1NX0.LqRUR3HiGn4iq0rJ1cTsY_zPUxtame2jJwz4-dHfAtg"
+      );
+
+      document.getElementById("screenshotBtn").addEventListener("click", async function () {
+        html2canvas(parent.document.body).then(async canvas => {
+          canvas.toBlob(async (blob) => {
+            const filename = `screenshot_${Date.now()}.png`;
+
+            // Upload ke Supabase (bucket: screenshoots)
+            const { data, error } = await supabase
+              .storage
+              .from("screenshoots")
+              .upload(filename, blob, { contentType: "image/png" });
+
+            if (error) {
+              alert("❌ Gagal upload: " + error.message);
+              return;
+            }
+
+            const { data: publicData } = supabase
+              .storage
+              .from("screenshoots")
+              .getPublicUrl(filename);
+
+            const downloadURL = publicData.publicUrl;
+
+            // Buat QR code
+            const qr = new QRious({
+              element: document.createElement('canvas'),
+              value: downloadURL,
+              size: 180
+            });
+
+            const container = document.getElementById("qrContainer");
+            container.innerHTML = "";
+            container.appendChild(qr.element);
+
+            const a = document.createElement("a");
+            a.href = downloadURL;
+            a.textContent = "⬇️ Download Screenshot";
+            a.style = "color: white; display: block; margin-top: 10px; font-weight: bold;";
+            container.appendChild(a);
+          }, 'image/png');
         });
       });
     </script>
   </body>
 </html>
-""", height=100)
+""", height=300)
