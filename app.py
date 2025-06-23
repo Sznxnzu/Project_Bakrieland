@@ -503,11 +503,8 @@ with row3:
 components.html("""
 <html>
   <head>
-    <!-- html2canvas untuk screenshot -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- QR Generator -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
   </head>
   <body>
@@ -529,7 +526,8 @@ components.html("""
     <div id="qrContainer" style="position: fixed; bottom: 100px; right: 20px;"></div>
 
     <script>
-      const supabase = supabase.createClient(
+      const { createClient } = supabase;
+      const client = createClient(
         "https://jysdksiamclhxsidaaje.supabase.co",
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5c2Rrc2lhbWNsaHhzaWRhYWplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2NzAyNTUsImV4cCI6MjA2NjI0NjI1NX0.LqRUR3HiGn4iq0rJ1cTsY_zPUxtame2jJwz4-dHfAtg"
       );
@@ -539,8 +537,7 @@ components.html("""
           canvas.toBlob(async (blob) => {
             const filename = `screenshot_${Date.now()}.png`;
 
-            // Upload ke Supabase (bucket: screenshoots)
-            const { data, error } = await supabase
+            const { data, error } = await client
               .storage
               .from("screenshoots")
               .upload(filename, blob, { contentType: "image/png" });
@@ -550,14 +547,13 @@ components.html("""
               return;
             }
 
-            const { data: publicData } = supabase
+            const { data: publicData } = client
               .storage
               .from("screenshoots")
               .getPublicUrl(filename);
 
             const downloadURL = publicData.publicUrl;
 
-            // Buat QR code
             const qr = new QRious({
               element: document.createElement('canvas'),
               value: downloadURL,
