@@ -522,16 +522,7 @@ components.html("""
         box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
     ">📸 Screenshot</button>
 
-    <div id="qrContainer" style="
-        position: fixed;
-        bottom: 100px;
-        right: 20px;
-        background-color: rgba(0,0,0,0.7);
-        padding: 10px;
-        border-radius: 10px;
-        box-shadow: 0 0 15px cyan;
-        z-index: 9999;
-    "></div>
+    <div id="qrContainer" style="position: fixed; bottom: 100px; right: 20px;"></div>
 
     <script>
       const { createClient } = supabase;
@@ -541,11 +532,13 @@ components.html("""
       );
 
       document.getElementById("screenshotBtn").addEventListener("click", async function () {
-        // Scroll ke bawah agar semua konten termuat
-        window.scrollTo(0, document.body.scrollHeight);
-        await new Promise(r => setTimeout(r, 1200));
+        const fullPage = document.documentElement;
 
-        html2canvas(document.body, { useCORS: true }).then(async canvas => {
+        html2canvas(fullPage, {
+          useCORS: true,
+          windowWidth: fullPage.scrollWidth,
+          windowHeight: fullPage.scrollHeight
+        }).then(async canvas => {
           canvas.toBlob(async (blob) => {
             const filename = `screenshot_${Date.now()}.png`;
 
@@ -566,7 +559,6 @@ components.html("""
 
             const downloadURL = publicData.publicUrl;
 
-            // QR code generation
             const qr = new QRious({
               element: document.createElement('canvas'),
               value: downloadURL,
@@ -574,15 +566,13 @@ components.html("""
             });
 
             const container = document.getElementById("qrContainer");
-            container.innerHTML = ""; // Clear previous
+            container.innerHTML = "";
             container.appendChild(qr.element);
 
-            // Optional: tampilkan URL (tanpa tombol download)
             const linkText = document.createElement("div");
             linkText.innerHTML = '<p style="color:white;font-size:14px;text-align:center;margin-top:8px;">Scan QR untuk melihat hasil</p>';
             container.appendChild(linkText);
 
-            // Scroll kembali ke atas
             window.scrollTo(0, 0);
           }, 'image/png');
         });
@@ -590,4 +580,4 @@ components.html("""
     </script>
   </body>
 </html>
-""", height=350)
+""", height=300)
