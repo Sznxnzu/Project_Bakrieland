@@ -499,7 +499,6 @@ with row3:
           <p style="text-align:center; margin-top: 5px; font-size: 30px; color: #ccc;">{st.session_state.image_captions[3]}</p>
         </div>
         """, unsafe_allow_html=True)
-
 components.html("""
 <html>
   <head>
@@ -533,21 +532,27 @@ components.html("""
       );
 
       document.getElementById("screenshotBtn").addEventListener("click", async function () {
+        const root = document.querySelector("#root");
+
+        // Scroll ke bawah dulu
         window.scrollTo(0, document.body.scrollHeight);
-        await new Promise(r => setTimeout(r, 800));
+        await new Promise(r => setTimeout(r, 500));
 
-        // Tunggu semua gambar selesai dimuat
-        await new Promise(resolve => {
-          const imgs = Array.from(document.images);
-          let loaded = 0;
-          if (imgs.length === 0) resolve();
-          imgs.forEach(img => {
-            if (img.complete) loaded++;
-            else img.onload = img.onerror = () => { if (++loaded === imgs.length) resolve(); };
+        // Tunggu semua gambar termuat
+        const images = Array.from(root.querySelectorAll("img"));
+        await Promise.all(images.map(img => {
+          if (img.complete) return Promise.resolve();
+          return new Promise(resolve => {
+            img.onload = resolve;
+            img.onerror = resolve;
           });
-        });
+        }));
 
-        html2canvas(document.body).then(async canvas => {
+        html2canvas(root, {
+          useCORS: true,
+          allowTaint: true,
+          scrollY: -window.scrollY
+        }).then(async canvas => {
           canvas.toBlob(async (blob) => {
             const filename = `screenshot_${Date.now()}.png`;
 
@@ -568,6 +573,7 @@ components.html("""
 
             const downloadURL = publicData.publicUrl;
 
+            // Tampilkan QR dan tombol download
             const qr = new QRious({
               element: document.createElement('canvas'),
               value: downloadURL,
@@ -584,11 +590,6 @@ components.html("""
             a.textContent = "⬇️ Download Screenshot";
             a.style = "color: white; display: block; margin-top: 10px; font-weight: bold;";
             container.appendChild(a);
-
-            const clickDownload = document.createElement('a');
-            clickDownload.href = downloadURL;
-            clickDownload.download = filename;
-            clickDownload.click();
 
             window.scrollTo(0, 0);
           }, 'image/png');
