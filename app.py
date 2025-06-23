@@ -532,17 +532,15 @@ components.html("""
       );
 
       document.getElementById("screenshotBtn").addEventListener("click", async function () {
-        const fullPage = document.documentElement;
+        // Scroll ke bawah dan tunggu render
+        window.scrollTo(0, document.body.scrollHeight);
+        await new Promise(r => setTimeout(r, 800));
 
-        html2canvas(fullPage, {
-          useCORS: true,
-          windowWidth: fullPage.scrollWidth,
-          windowHeight: fullPage.scrollHeight
-        }).then(async canvas => {
+        html2canvas(parent.document.body).then(async canvas => {
           canvas.toBlob(async (blob) => {
             const filename = `screenshot_${Date.now()}.png`;
 
-            const { error } = await client
+            const { data, error } = await client
               .storage
               .from("screenshoots")
               .upload(filename, blob, { contentType: "image/png" });
@@ -559,6 +557,7 @@ components.html("""
 
             const downloadURL = publicData.publicUrl;
 
+            // QR code
             const qr = new QRious({
               element: document.createElement('canvas'),
               value: downloadURL,
@@ -569,10 +568,15 @@ components.html("""
             container.innerHTML = "";
             container.appendChild(qr.element);
 
-            const linkText = document.createElement("div");
-            linkText.innerHTML = '<p style="color:white;font-size:14px;text-align:center;margin-top:8px;">Scan QR untuk melihat hasil</p>';
-            container.appendChild(linkText);
+            // Link download otomatis
+            const a = document.createElement("a");
+            a.href = downloadURL;
+            a.download = filename; // auto-download!
+            a.textContent = "⬇️ Download Screenshot";
+            a.style = "color: white; display: block; margin-top: 10px; font-weight: bold;";
+            container.appendChild(a);
 
+            // Scroll kembali ke atas
             window.scrollTo(0, 0);
           }, 'image/png');
         });
