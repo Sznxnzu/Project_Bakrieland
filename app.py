@@ -533,7 +533,11 @@ components.html("""
       );
 
       document.getElementById("screenshotBtn").addEventListener("click", async function () {
-        html2canvas(parent.document.body).then(async canvas => {
+        html2canvas(parent.document.body, {
+          scrollY: -window.scrollY,
+          windowWidth: document.documentElement.scrollWidth,
+          windowHeight: document.documentElement.scrollHeight
+        }).then(async canvas => {
           canvas.toBlob(async (blob) => {
             const filename = `screenshot_${Date.now()}.png`;
 
@@ -566,9 +570,12 @@ components.html("""
 
             const a = document.createElement("a");
             a.href = downloadURL;
+            a.download = filename;  // auto download
             a.textContent = "⬇️ Download Screenshot";
             a.style = "color: white; display: block; margin-top: 10px; font-weight: bold;";
             container.appendChild(a);
+
+            a.click(); // trigger download langsung
           }, 'image/png');
         });
       });
