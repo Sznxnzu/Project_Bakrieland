@@ -22,46 +22,51 @@ const { createClient } = require('@supabase/supabase-js');
 
   try {
     await page.goto(STREAMLIT_URL, { waitUntil: 'networkidle' });
-    await page.waitForTimeout(3000); // let dynamic content settle
-  } catch (e) {
-    console.error("❌ Failed to load Streamlit page:", e);
-    await browser.close();
-    process.exit(1);
-  }
+    await page.waitForTimeout(3000); // allow page to stabilize
 
-  // Auto-scroll to bottom to trigger lazy loading in Streamlit
-  async function autoScroll(page) {
+    // Auto scroll to bottom to force full render
+    console.log("🔽 Scrolling to load entire page...");
     await page.evaluate(async () => {
+      const scrollable = document.querySelector(".main") || document.body;
       await new Promise((resolve) => {
         let totalHeight = 0;
         const distance = 100;
         const timer = setInterval(() => {
-          const scrollHeight = document.body.scrollHeight;
-          window.scrollBy(0, distance);
+          scrollable.scrollBy(0, distance);
           totalHeight += distance;
 
-          if (totalHeight >= scrollHeight) {
+          if (totalHeight >= scrollable.scrollHeight) {
             clearInterval(timer);
             resolve();
           }
         }, 100);
       });
     });
-  }
 
-  console.log("↕️ Scrolling through page to load all content...");
-  await autoScroll(page);
-  await page.waitForTimeout(500);
+    await page.waitForTimeout(2000); // wait for any remaining rendering
+
+    const dimensions = await page.evaluate(() => ({
+      scrollHeight: document.documentElement.scrollHeight,
+      clientHeight: document.documentElement.clientHeight,
+      windowHeight: window.innerHeight
+    }));
+    console.log("🧭 Page dimensions:", dimensions);
+
+  } catch (e) {
+    console.error("❌ Failed to load or scroll page:", e);
+    await browser.close();
+    process.exit(1);
+  }
 
   const timestamp = Date.now();
   const filename = `screenshot_${timestamp}.png`;
   const filepath = path.join(process.cwd(), filename);
 
-  console.log(`📸 Capturing screenshot to ${filepath}`);
+  console.log(`📸 Capturing full-page screenshot: ${filename}`);
   try {
     await page.screenshot({ path: filepath, fullPage: true });
   } catch (e) {
-    console.error("❌ Screenshot capture failed:", e);
+    console.error("❌ Screenshot failed:", e);
     await browser.close();
     process.exit(1);
   }
@@ -71,7 +76,7 @@ const { createClient } = require('@supabase/supabase-js');
   const fileSizeKB = (fs.statSync(filepath).size / 1024).toFixed(2);
   console.log(`✅ Screenshot saved (${fileSizeKB} KB)`);
 
-  // Uploading to Supabase
+  // Upload to Supabase
   const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
   const fileBuffer = fs.readFileSync(filepath);
 
