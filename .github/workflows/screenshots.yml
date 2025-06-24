@@ -24,6 +24,6 @@ jobs:
       - name: Take Screenshot
         run: node playwright/screenshot.js
         env:
-          STREAMLIT_URL: https://your-app.streamlit.app/
-          SUPABASE_URL: https://your-project.supabase.co
+          STREAMLIT_URL: https://xxgwueozt6kgv6d8fzin5y.streamlit.app/
+          SUPABASE_URL: https://jysdksiamclhxsidaaje.supabase.co
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
