@@ -557,7 +557,7 @@ if isinstance(captured_data_url, str) and captured_data_url.startswith("data:ima
     st.image(image_bytes, caption="📷 Screenshot Halaman", use_column_width=True)
 
     st.download_button(
-        label="📎 Unduh Screenshot",
+        label="💾 Unduh Screenshot",
         data=image_bytes,
         file_name="screenshot_bakrieland.png",
         mime="image/png"
