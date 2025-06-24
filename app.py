@@ -332,7 +332,7 @@ div[data-testid="stCameraInput"] button:hover {
 # --- LOGIC & LAYOUT (TIDAK ADA PERUBAHAN DI SINI) ---
 try:
     genai.configure(api_key=st.secrets["gemini_api"])
-    model = genai.GenerativeModel("gemini-2.0-flash")
+    model = genai.GenerativeModel("gemini-2.5-flash-lite-preview-06-17")
 except Exception as e:
     st.error(f"Error configuring Generative AI: {e}")
     st.stop()
