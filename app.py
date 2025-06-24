@@ -516,7 +516,7 @@ with row3:
 
 if st.button("📸 Trigger Screenshot"):
     response = requests.post(
-        "https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO/actions/workflows/screenshots.yml/dispatches",
+        "https://api.github.com/repos/Sznxnzu/Project_Bakrieland/actions/workflows/screenshots.yml/dispatches",
         headers={
             "Accept": "application/vnd.github+json",
             "Authorization": f"Bearer {st.secrets['GITHUB_PAT']}"
