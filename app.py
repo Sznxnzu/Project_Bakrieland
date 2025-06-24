@@ -433,6 +433,7 @@ with row1:
                     st.session_state.analysis_result = "Terjadi kesalahan jaringan. Tidak dapat memuat model."
                 except Exception as e:
                     st.error(f"Terjadi kesalahan saat pemrosesan: {e}")
+                    st.write(e)
                     st.session_state.analysis_result = "Gagal menganalisis gambar. Silakan coba lagi."
 
             st.rerun()
