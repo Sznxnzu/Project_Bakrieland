@@ -502,46 +502,88 @@ with row3:
         """, unsafe_allow_html=True)
 # Komponen tombol download & QR
 
-components.html(
-    """
+components.html("""
+<html>
+  <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    
-    <div style="display: flex; justify-content: center; padding: 1em;">
-        <button onclick="takeScreenshot()" style="
-            font-weight: 600;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            border: 1px solid rgba(49, 51, 63, 0.2);
-            background-color: white;
-            color: black;
-            cursor: pointer;
-        ">
-            📸 Ambil Screenshot & Unduh
-        </button>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  </head>
+  <body>
+    <button id="screenshotBtn" style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 9999;
+        background-color: #00c0cc;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
+    ">📸 Screenshot</button>
+
+    <div id="qrContainer" style="position: fixed; bottom: 100px; right: 20px;"></div>
 
     <script>
-    function takeScreenshot() {
-        // Memberitahu script untuk menunggu semua font di halaman utama selesai dimuat
-        window.parent.document.fonts.ready.then(function () {
-            console.log('Fonts are ready, taking screenshot.');
-            
-            // Setelah font siap, jalankan html2canvas
-            html2canvas(window.parent.document.body, { 
-                useCORS: true,
-                scale: 1.5 // Sedikit meningkatkan skala bisa membantu rendering
-            }).then(canvas => {
-                var image = canvas.toDataURL("image/png");
-                var link = document.createElement('a');
-                link.href = image;
-                link.download = 'screenshot_halaman.png';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+      const { createClient } = supabase;
+      const client = createClient(
+        "https://jysdksiamclhxsidaaje.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5c2Rrc2lhbWNsaHhzaWRhYWplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2NzAyNTUsImV4cCI6MjA2NjI0NjI1NX0.LqRUR3HiGn4iq0rJ1cTsY_zPUxtame2jJwz4-dHfAtg"
+      );
+
+      document.getElementById("screenshotBtn").addEventListener("click", async function () {
+        const target = parent.document.querySelector("#captureArea");
+        if (!target) return alert("❌ Gagal menemukan area untuk screenshot.");
+
+        window.scrollTo(0, 0);
+        await new Promise(r => setTimeout(r, 1000));
+
+        html2canvas(target).then(async canvas => {
+          canvas.toBlob(async (blob) => {
+            const filename = `screenshot_${Date.now()}.png`;
+
+            const { data, error } = await client
+              .storage
+              .from("screenshoots")
+              .upload(filename, blob, { contentType: "image/png" });
+
+            if (error) {
+              alert("❌ Gagal upload: " + error.message);
+              return;
+            }
+
+            const { data: publicData } = client
+              .storage
+              .from("screenshoots")
+              .getPublicUrl(filename);
+
+            const downloadURL = publicData.publicUrl;
+
+            const qr = new QRious({
+              element: document.createElement('canvas'),
+              value: downloadURL,
+              size: 180
             });
+
+            const container = document.getElementById("qrContainer");
+            container.innerHTML = "";
+            container.appendChild(qr.element);
+
+            const a = document.createElement("a");
+            a.href = downloadURL;
+            a.download = filename;
+            a.textContent = "⬇️ Download Screenshot";
+            a.style = "color: white; display: block; margin-top: 10px; font-weight: bold;";
+            container.appendChild(a);
+
+            window.scrollTo(0, 0);
+          }, 'image/png');
         });
-    }
+      });
     </script>
-    """,
-    height=100,
-)
+  </body>
+</html>
+""", height=100)
