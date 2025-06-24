@@ -503,12 +503,12 @@ with row3:
 # Komponen tombol download & QR
 
 components.html("""
-    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js\"></script>
-    <script src=\"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2\"></script>
-    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js\"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 
-    <div style=\"display: flex; justify-content: center; padding: 1em;\">
-        <button onclick=\"takeScreenshot()\" style=\"
+    <div style="display: flex; justify-content: center; padding: 1em;">
+        <button onclick="takeScreenshot()" style="
             font-weight: 600;
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
@@ -516,17 +516,17 @@ components.html("""
             background-color: white;
             color: black;
             cursor: pointer;
-        \">
+        ">
             📸 Ambil Screenshot & Upload QR
         </button>
     </div>
 
-    <div id=\"qrContainer\" style=\"display: flex; justify-content: center; margin-top: 20px;\"></div>
+    <div id="qrContainer" style="display: flex; justify-content: center; margin-top: 20px;"></div>
 
     <script>
     const client = supabase.createClient(
-        \"https://jysdksiamclhxsidaaje.supabase.co\",
-        \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5c2Rrc2lhbWNsaHhzaWRhYWplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2NzAyNTUsImV4cCI6MjA2NjI0NjI1NX0.LqRUR3HiGn4iq0rJ1cTsY_zPUxtame2jJwz4-dHfAtg\"
+        "https://jysdksiamclhxsidaaje.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5c2Rrc2lhbWNsaHhzaWRhYWplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2NzAyNTUsImV4cCI6MjA2NjI0NjI1NX0.LqRUR3HiGn4iq0rJ1cTsY_zPUxtame2jJwz4-dHfAtg"
     );
 
     function takeScreenshot() {
@@ -539,16 +539,16 @@ components.html("""
                     const filename = `screenshot_${Date.now()}.png`;
 
                     const { data, error } = await client.storage
-                        .from(\"screenshoots\")
-                        .upload(filename, blob, { contentType: \"image/png\" });
+                        .from("screenshoots")
+                        .upload(filename, blob, { contentType: "image/png" });
 
                     if (error) {
-                        alert(\"❌ Gagal upload: \" + error.message);
+                        alert("❌ Gagal upload: " + error.message);
                         return;
                     }
 
                     const { data: publicData } = client.storage
-                        .from(\"screenshoots\")
+                        .from("screenshoots")
                         .getPublicUrl(filename);
 
                     const downloadURL = publicData.publicUrl;
@@ -559,19 +559,19 @@ components.html("""
                         size: 180
                     });
 
-                    const container = document.getElementById(\"qrContainer\");
+                    const container = document.getElementById("qrContainer");
                     container.innerHTML = "";
                     container.appendChild(qr.element);
 
-                    const a = document.createElement(\"a\");
+                    const a = document.createElement("a");
                     a.href = downloadURL;
                     a.download = filename;
-                    a.textContent = \"⬇️ Download Screenshot\";
-                    a.style = \"display: block; margin-top: 10px; font-weight: bold; color: white; text-align: center;\";
+                    a.textContent = "⬇️ Download Screenshot";
+                    a.style = "display: block; margin-top: 10px; font-weight: bold; color: white; text-align: center;";
                     container.appendChild(a);
                 }, 'image/png');
             });
         });
     }
     </script>
-""", height=300)
+""", height=320)
