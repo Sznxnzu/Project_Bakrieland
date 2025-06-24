@@ -15,18 +15,9 @@ st.markdown("""
 <style>
 /* Gaya dasar dan tema */
 
-* {
-  -webkit-font-smoothing: antialiased;
-  text-rendering: geometricPrecision;
-  letter-spacing: normal !important;
-  word-spacing: normal !important;
-}
-
-body {
-  font-family: 'Orbitron', sans-serif !important;
-}
-
 html, body, [data-testid="stAppViewContainer"], .stApp {
+      overflow: hidden !important;
+    height: 100vh !important;
     background: none !important;
     background-color: #19307f !important;
     background-size: cover !important;
