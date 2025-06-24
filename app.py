@@ -14,6 +14,14 @@ st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial
 st.markdown("""
 <style>
 /* Gaya dasar dan tema */
+
+* {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+  letter-spacing: normal !important;
+  word-spacing: normal !important;
+}
+
 html, body, [data-testid="stAppViewContainer"], .stApp {
     background: none !important;
     background-color: #19307f !important;
@@ -513,7 +521,7 @@ with row3:
 # --- Screenshot dan QR ---
 
 components.html("""
-    <script src="https://cdn.jsdelivr.net/npm/dom-to-image-more@2.9.0/dist/dom-to-image-more.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 
@@ -540,44 +548,47 @@ components.html("""
     );
 
     function takeScreenshot() {
-        domtoimage.toBlob(document.body)
-        .then(async function(blob) {
-            const filename = `screenshot_${Date.now()}.png`;
+        window.parent.document.fonts.ready.then(function () {
+            html2canvas(window.parent.document.body, {
+                useCORS: true,
+                scale: 2
+            }).then(canvas => {
+                canvas.toBlob(async (blob) => {
+                    const filename = `screenshot_${Date.now()}.png`;
 
-            const { data, error } = await client.storage
-                .from("screenshoots")
-                .upload(filename, blob, { contentType: "image/png" });
+                    const { data, error } = await client.storage
+                        .from("screenshoots")
+                        .upload(filename, blob, { contentType: "image/png" });
 
-            if (error) {
-                alert("❌ Gagal upload: " + error.message);
-                return;
-            }
+                    if (error) {
+                        alert("❌ Gagal upload: " + error.message);
+                        return;
+                    }
 
-            const { data: publicData } = client.storage
-                .from("screenshoots")
-                .getPublicUrl(filename);
+                    const { data: publicData } = client.storage
+                        .from("screenshoots")
+                        .getPublicUrl(filename);
 
-            const downloadURL = publicData.publicUrl;
+                    const downloadURL = publicData.publicUrl;
 
-            const qr = new QRious({
-                element: document.createElement('canvas'),
-                value: downloadURL,
-                size: 180
+                    const qr = new QRious({
+                        element: document.createElement('canvas'),
+                        value: downloadURL,
+                        size: 180
+                    });
+
+                    const container = document.getElementById("qrContainer");
+                    container.innerHTML = "";
+                    container.appendChild(qr.element);
+
+                    const a = document.createElement("a");
+                    a.href = downloadURL;
+                    a.download = filename;
+                    a.textContent = "⬇️ Download Screenshot";
+                    a.style = "display: block; margin-top: 10px; font-weight: bold; color: white; text-align: center;";
+                    container.appendChild(a);
+                }, 'image/png');
             });
-
-            const container = document.getElementById("qrContainer");
-            container.innerHTML = "";
-            container.appendChild(qr.element);
-
-            const a = document.createElement("a");
-            a.href = downloadURL;
-            a.download = filename;
-            a.textContent = "⬇️ Download Screenshot";
-            a.style = "display: block; margin-top: 10px; font-weight: bold; color: white; text-align: center;";
-            container.appendChild(a);
-        })
-        .catch(function(error) {
-            alert("❌ Gagal render: " + error);
         });
     }
     </script>
