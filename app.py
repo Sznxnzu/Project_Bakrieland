@@ -501,6 +501,57 @@ with row3:
         </div>
         """, unsafe_allow_html=True)
 # Komponen tombol download & QR
+
+components.html(
+    """
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <div style="display: flex; justify-content: center; padding: 1em;">
+        <button onclick="takeScreenshot()" style="
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(49, 51, 63, 0.2);
+            background-color: white;
+            color: black;
+            cursor: pointer;
+        ">
+            📸 Ambil Screenshot & Unduh
+        </button>
+    </div>
+
+    <script>
+    function takeScreenshot() {
+        // Memberitahu script untuk menunggu semua font di halaman utama selesai dimuat
+        window.parent.document.fonts.ready.then(function () {
+            console.log('Fonts are ready, taking screenshot.');
+            
+            // Setelah font siap, jalankan html2canvas
+            html2canvas(window.parent.document.body, { 
+                useCORS: true,
+                scale: 1.5 // Sedikit meningkatkan skala bisa membantu rendering
+            }).then(canvas => {
+                var image = canvas.toDataURL("image/png");
+                var link = document.createElement('a');
+                link.href = image;
+                link.download = 'screenshot_halaman.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+        });
+    }
+    </script>
+    """,
+    height=100,
+)
+
+
+
+
+
+
+
 st.markdown("Klik tombol di bawah untuk memicu popup izin dan memilih area layar untuk ditangkap.")
 
 CLIENT_SIDE_SCREEN_CAPTURE_HTML = """
