@@ -500,7 +500,11 @@ with row3:
           <p style="text-align:center; margin-top: 5px; font-size: 30px; color: #ccc;">{st.session_state.image_captions[3]}</p>
         </div>
         """, unsafe_allow_html=True)
-# Komponen tombol download & QR
+
+
+
+        
+# --- Screenshot dan QR ---
 
 components.html("""
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
