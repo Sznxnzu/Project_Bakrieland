@@ -516,7 +516,7 @@ with row3:
 
 components.html("""
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 
@@ -551,54 +551,61 @@ document.getElementById("screenshotButton").addEventListener("click", () => {
   button.innerText = "⏳ Generating...";
 
   window.parent.document.fonts.ready.then(() => {
-    html2canvas(window.parent.document.body, {
-      useCORS: true,
-      scale: 2,
-      backgroundColor: null
-    }).then(canvas => {
-      canvas.toBlob(async blob => {
-        const filename = `screenshot_${Date.now()}.png`;
+    const node = window.parent.document.body;
+    const options = {
+      quality: 1,
+      style: {
+        'font-family': "'Orbitron', sans-serif"
+      }
+    };
 
-        const { data, error } = await client.storage
-          .from("screenshoots")
-          .upload(filename, blob, { contentType: "image/png" });
+    domtoimage.toBlob(node, options).then(async (blob) => {
+      const filename = `screenshot_${Date.now()}.png`;
 
-        if (error) {
-          alert("❌ Upload failed: " + error.message);
-          button.disabled = false;
-          button.innerText = "📸 Screenshot & QR";
-          return;
-        }
+      const { data, error } = await client.storage
+        .from("screenshoots")
+        .upload(filename, blob, { contentType: "image/png" });
 
-        const { data: publicData } = client.storage
-          .from("screenshoots")
-          .getPublicUrl(filename);
-
-        const downloadURL = publicData.publicUrl;
-        const qr = new QRious({
-          value: downloadURL,
-          size: 180,
-          background: 'white',
-          foreground: '#19307f',
-          level: 'H'
-        });
-
-        const container = document.getElementById("qrContainer");
-        container.innerHTML = "";
-        container.appendChild(qr.image);
-
-        const a = document.createElement("a");
-        a.href = downloadURL;
-        a.download = filename;
-        a.textContent = "⬇️ Download Screenshot";
-        a.style = "font-family: 'Orbitron', sans-serif; color: #00f0ff; text-decoration: none; font-weight: bold; margin-top: 10px;";
-        container.appendChild(a);
-
+      if (error) {
+        alert("❌ Upload failed: " + error.message);
         button.disabled = false;
         button.innerText = "📸 Screenshot & QR";
-      }, 'image/png');
+        return;
+      }
+
+      const { data: publicData } = client.storage
+        .from("screenshoots")
+        .getPublicUrl(filename);
+
+      const downloadURL = publicData.publicUrl;
+      const qr = new QRious({
+        value: downloadURL,
+        size: 180,
+        background: 'white',
+        foreground: '#19307f',
+        level: 'H'
+      });
+
+      const container = document.getElementById("qrContainer");
+      container.innerHTML = "";
+      container.appendChild(qr.image);
+
+      const a = document.createElement("a");
+      a.href = downloadURL;
+      a.download = filename;
+      a.textContent = "⬇️ Download Screenshot";
+      a.style = "font-family: 'Orbitron', sans-serif; color: #00f0ff; text-decoration: none; font-weight: bold; margin-top: 10px;";
+      container.appendChild(a);
+
+      button.disabled = false;
+      button.innerText = "📸 Screenshot & QR";
+    }).catch((error) => {
+      console.error("❌ dom-to-image error:", error);
+      alert("Screenshot failed.");
+      button.disabled = false;
+      button.innerText = "📸 Screenshot & QR";
     });
   });
 });
 </script>
-""", height=340)
+""", height=360)
