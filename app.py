@@ -515,75 +515,91 @@ with row3:
 # --- Screenshot dan QR ---
 
 components.html("""
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 
-    <div style="display: flex; justify-content: center; padding: 1em;">
-        <button onclick="takeScreenshot()" style="
-            font-weight: 600;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            border: 1px solid rgba(49, 51, 63, 0.2);
-            background-color: white;
-            color: black;
-            cursor: pointer;
-        ">
-            📸 Ambil Screenshot & Upload QR
-        </button>
-    </div>
+<div style="display: flex; justify-content: center; padding: 1em;">
+  <button id="screenshotButton" style="
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 600;
+      padding: 0.6rem 1.2rem;
+      border-radius: 0.6rem;
+      border: 2px solid #00f0ff;
+      background-color: #11193f;
+      color: #00f0ff;
+      cursor: pointer;
+      box-shadow: 0 0 12px #00f0ff;
+      transition: all 0.2s ease-in-out;
+  " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+    📸 Screenshot & QR
+  </button>
+</div>
 
-    <div id="qrContainer" style="display: flex; justify-content: center; margin-top: 20px;"></div>
+<div id="qrContainer" style="display: flex; justify-content: center; flex-direction: column; align-items: center; margin-top: 20px;"></div>
 
-    <script>
-    const client = supabase.createClient(
-        "https://jysdksiamclhxsidaaje.supabase.co",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5c2Rrc2lhbWNsaHhzaWRhYWplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2NzAyNTUsImV4cCI6MjA2NjI0NjI1NX0.LqRUR3HiGn4iq0rJ1cTsY_zPUxtame2jJwz4-dHfAtg"
-    );
+<script>
+const client = supabase.createClient(
+  "https://jysdksiamclhxsidaaje.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5c2Rrc2lhbWNsaHhzaWRhYWplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2NzAyNTUsImV4cCI6MjA2NjI0NjI1NX0.LqRUR3HiGn4iq0rJ1cTsY_zPUxtame2jJwz4-dHfAtg"
+);
 
-    function takeScreenshot() {
-        window.parent.document.fonts.ready.then(function () {
-            html2canvas(window.parent.document.body, {
-                useCORS: true,
-                scale: 2
-            }).then(canvas => {
-                canvas.toBlob(async (blob) => {
-                    const filename = `screenshot_${Date.now()}.png`;
+document.getElementById("screenshotButton").addEventListener("click", () => {
+  const button = document.getElementById("screenshotButton");
+  button.disabled = true;
+  button.innerText = "⏳ Generating...";
 
-                    const { data, error } = await client.storage
-                        .from("screenshoots")
-                        .upload(filename, blob, { contentType: "image/png" });
+  window.parent.document.fonts.ready.then(() => {
+    html2canvas(window.parent.document.body, {
+      useCORS: true,
+      scale: 2,
+      backgroundColor: null
+    }).then(canvas => {
+      canvas.toBlob(async blob => {
+        const filename = `screenshot_${Date.now()}.png`;
 
-                    if (error) {
-                        alert("❌ Gagal upload: " + error.message);
-                        return;
-                    }
+        const { data, error } = await client.storage
+          .from("screenshoots")
+          .upload(filename, blob, { contentType: "image/png" });
 
-                    const { data: publicData } = client.storage
-                        .from("screenshoots")
-                        .getPublicUrl(filename);
+        if (error) {
+          alert("❌ Upload failed: " + error.message);
+          button.disabled = false;
+          button.innerText = "📸 Screenshot & QR";
+          return;
+        }
 
-                    const downloadURL = publicData.publicUrl;
+        const { data: publicData } = client.storage
+          .from("screenshoots")
+          .getPublicUrl(filename);
 
-                    const qr = new QRious({
-                        element: document.createElement('canvas'),
-                        value: downloadURL,
-                        size: 180
-                    });
-
-                    const container = document.getElementById("qrContainer");
-                    container.innerHTML = "";
-                    container.appendChild(qr.element);
-
-                    const a = document.createElement("a");
-                    a.href = downloadURL;
-                    a.download = filename;
-                    a.textContent = "⬇️ Download Screenshot";
-                    a.style = "display: block; margin-top: 10px; font-weight: bold; color: white; text-align: center;";
-                    container.appendChild(a);
-                }, 'image/png');
-            });
+        const downloadURL = publicData.publicUrl;
+        const qr = new QRious({
+          value: downloadURL,
+          size: 180,
+          background: 'white',
+          foreground: '#19307f',
+          level: 'H'
         });
-    }
-    </script>
-""", height=320)
+
+        const container = document.getElementById("qrContainer");
+        container.innerHTML = "";
+        container.appendChild(qr.image);
+
+        const a = document.createElement("a");
+        a.href = downloadURL;
+        a.download = filename;
+        a.textContent = "⬇️ Download Screenshot";
+        a.style = "font-family: 'Orbitron', sans-serif; color: #00f0ff; text-decoration: none; font-weight: bold; margin-top: 10px;";
+        container.appendChild(a);
+
+        button.disabled = false;
+        button.innerText = "📸 Screenshot & QR";
+      }, 'image/png');
+    });
+  });
+});
+</script>
+""", height=340)
+
