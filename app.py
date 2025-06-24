@@ -540,7 +540,7 @@ components.html("""
     );
 
     function takeScreenshot() {
-        domtoimage.toBlob(window.parent.document.body)
+        domtoimage.toBlob(document.body)
         .then(async function(blob) {
             const filename = `screenshot_${Date.now()}.png`;
 
