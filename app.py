@@ -505,12 +505,12 @@ with row3:
 components.html("""
 <html>
   <head>
-    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js\"></script>
-    <script src=\"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2\"></script>
-    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js\"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
   </head>
   <body>
-    <button id=\"screenshotBtn\" style=\"
+    <button id="screenshotBtn" style="
         position: fixed;
         bottom: 20px;
         right: 20px;
@@ -523,18 +523,18 @@ components.html("""
         border-radius: 8px;
         cursor: pointer;
         box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
-    \">📸 Screenshot</button>
+    ">📸 Screenshot & QR</button>
 
-    <div id=\"qrContainer\" style=\"position: fixed; bottom: 100px; right: 20px;\"></div>
+    <div id="qrContainer" style="position: fixed; bottom: 100px; right: 20px; background: rgba(0,0,0,0.6); padding: 10px; border-radius: 8px;"></div>
 
     <script>
       const { createClient } = supabase;
       const client = createClient(
-        \"https://jysdksiamclhxsidaaje.supabase.co\",
-        \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5c2Rrc2lhbWNsaHhzaWRhYWplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2NzAyNTUsImV4cCI6MjA2NjI0NjI1NX0.LqRUR3HiGn4iq0rJ1cTsY_zPUxtame2jJwz4-dHfAtg\"
+        "https://jysdksiamclhxsidaaje.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5c2Rrc2lhbWNsaHhzaWRhYWplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2NzAyNTUsImV4cCI6MjA2NjI0NjI1NX0.LqRUR3HiGn4iq0rJ1cTsY_zPUxtame2jJwz4-dHfAtg"
       );
 
-      document.getElementById(\"screenshotBtn\").addEventListener(\"click\", async function () {
+      document.getElementById("screenshotBtn").addEventListener("click", async function () {
         window.scrollTo(0, document.body.scrollHeight);
         await new Promise(r => setTimeout(r, 800));
 
@@ -544,17 +544,17 @@ components.html("""
 
             const { data, error } = await client
               .storage
-              .from(\"screenshoots\")
-              .upload(filename, blob, { contentType: \"image/png\" });
+              .from("screenshoots")
+              .upload(filename, blob, { contentType: "image/png" });
 
             if (error) {
-              alert(\"❌ Gagal upload: \" + error.message);
+              alert("❌ Gagal upload: " + error.message);
               return;
             }
 
             const { data: publicData } = client
               .storage
-              .from(\"screenshoots\")
+              .from("screenshoots")
               .getPublicUrl(filename);
 
             const downloadURL = publicData.publicUrl;
@@ -565,15 +565,15 @@ components.html("""
               size: 180
             });
 
-            const container = document.getElementById(\"qrContainer\");
+            const container = document.getElementById("qrContainer");
             container.innerHTML = "";
             container.appendChild(qr.element);
 
-            const a = document.createElement(\"a\");
+            const a = document.createElement("a");
             a.href = downloadURL;
             a.download = filename;
-            a.textContent = \"⬇️ Download Screenshot\";
-            a.style = \"color: white; display: block; margin-top: 10px; font-weight: bold;\";
+            a.textContent = "⬇️ Download Screenshot";
+            a.style = "color: white; display: block; margin-top: 10px; font-weight: bold;";
             container.appendChild(a);
 
             window.scrollTo(0, 0);
