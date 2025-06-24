@@ -499,15 +499,15 @@ with row3:
           <p style="text-align:center; margin-top: 5px; font-size: 30px; color: #ccc;">{st.session_state.image_captions[3]}</p>
         </div>
         """, unsafe_allow_html=True)
+# Komponen tombol download & QR
 components.html("""
 <html>
   <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
   </head>
   <body>
-    <button id="screenshotBtn" style="
+    <button id="downloadBtn" style="
         position: fixed;
         bottom: 20px;
         right: 20px;
@@ -520,64 +520,31 @@ components.html("""
         border-radius: 8px;
         cursor: pointer;
         box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
-    ">📸 Screenshot</button>
+    ">⬇️ Download</button>
 
     <div id="qrContainer" style="position: fixed; bottom: 100px; right: 20px;"></div>
 
     <script>
-      const { createClient } = supabase;
-      const client = createClient(
-        "https://jysdksiamclhxsidaaje.supabase.co",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5c2Rrc2lhbWNsaHhzaWRhYWplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2NzAyNTUsImV4cCI6MjA2NjI0NjI1NX0.LqRUR3HiGn4iq0rJ1cTsY_zPUxtame2jJwz4-dHfAtg"
-      );
+      document.getElementById("downloadBtn").addEventListener("click", async function () {
+        const target = parent.document.querySelector("#captureArea");
+        if (!target) return alert("❌ Gagal menemukan area untuk screenshot.");
 
-      document.getElementById("screenshotBtn").addEventListener("click", async function () {
-        // Scroll ke bawah dan tunggu render
-        window.scrollTo(0, document.body.scrollHeight);
-        await new Promise(r => setTimeout(r, 800));
+        window.scrollTo(0, 0);
+        await new Promise(r => setTimeout(r, 1000));
 
-        html2canvas(parent.document.body).then(async canvas => {
-          canvas.toBlob(async (blob) => {
-            const filename = `screenshot_${Date.now()}.png`;
+        html2canvas(target).then(canvas => {
+          canvas.toBlob(blob => {
+            const imgURL = URL.createObjectURL(blob);
 
-            const { data, error } = await client
-              .storage
-              .from("screenshoots")
-              .upload(filename, blob, { contentType: "image/png" });
-
-            if (error) {
-              alert("❌ Gagal upload: " + error.message);
-              return;
-            }
-
-            const { data: publicData } = client
-              .storage
-              .from("screenshoots")
-              .getPublicUrl(filename);
-
-            const downloadURL = publicData.publicUrl;
-
-            // QR code
             const qr = new QRious({
               element: document.createElement('canvas'),
-              value: downloadURL,
+              value: imgURL,
               size: 180
             });
 
             const container = document.getElementById("qrContainer");
             container.innerHTML = "";
             container.appendChild(qr.element);
-
-            // Link download otomatis
-            const a = document.createElement("a");
-            a.href = downloadURL;
-            a.download = filename; // auto-download!
-            a.textContent = "⬇️ Download Screenshot";
-            a.style = "color: white; display: block; margin-top: 10px; font-weight: bold;";
-            container.appendChild(a);
-
-            // Scroll kembali ke atas
-            window.scrollTo(0, 0);
           }, 'image/png');
         });
       });
