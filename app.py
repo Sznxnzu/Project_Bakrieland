@@ -16,7 +16,7 @@ st.markdown("""
 /* Gaya dasar dan tema */
 
 html, body, [data-testid="stAppViewContainer"], .stApp {
-      overflow: hidden !important;
+    overflow: hidden !important;
     height: 100vh !important;
     background: none !important;
     background-color: #19307f !important;
