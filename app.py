@@ -501,70 +501,89 @@ with row3:
         </div>
         """, unsafe_allow_html=True)
 # Komponen tombol download & QR
-st.markdown("Klik tombol di bawah untuk mengambil tangkapan layar dari halaman ini. Gambar akan muncul setelah berhasil dan dapat diunduh.")
+st.markdown("Klik tombol di bawah untuk memicu popup izin dan memilih area layar untuk ditangkap.")
 
 CLIENT_SIDE_SCREEN_CAPTURE_HTML = """
 <!DOCTYPE html>
 <html lang=\"en\">
 <head>
   <meta charset=\"UTF-8\">
-  <script src=\"https://html2canvas.hertzen.com/dist/html2canvas.min.js\"></script>
+  <style>
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+    #preview-img {
+      margin-top: 20px;
+      max-width: 100%;
+      display: none;
+      border: 1px solid #ccc;
+    }
+  </style>
 </head>
 <body style=\"text-align:center; padding:20px;\">
-  <button id=\"captureButton\" style=\"padding:10px 20px; font-size:16px;\">📸 Tangkap Halaman Ini</button>
-  <p id=\"status-message\" style=\"margin-top:10px;\"></p>
-  <img id=\"preview-img\" style=\"display:none; max-width:100%; margin-top:20px;\" />
+  <button id=\"captureButton\">🎥 Pilih Area Layar</button>
+  <p id=\"status-message\"></p>
+  <img id=\"preview-img\" />
 
-  <script>
-    document.getElementById(\"captureButton\").onclick = async () => {
-      const status = document.getElementById(\"status-message\");
-      const preview = document.getElementById(\"preview-img\");
-      status.textContent = \"⏳ Menangkap halaman...\";
-      try {
-        window.parent.scrollTo(0, 0);
-        await new Promise(resolve => setTimeout(resolve, 500));
+<script>
+  document.getElementById("captureButton").onclick = async () => {
+    const status = document.getElementById("status-message");
+    const preview = document.getElementById("preview-img");
+    status.textContent = "⏳ Menunggu izin dan menangkap layar...";
 
-        const target = window.parent.document.querySelector('#root') || window.parent.document.body;
-        const canvas = await html2canvas(target, {
-          useCORS: true,
-          scale: 2,
-          backgroundColor: '#ffffff'
-        });
+    try {
+      const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+      const video = document.createElement("video");
+      video.srcObject = stream;
+      await video.play();
 
-        const imgData = canvas.toDataURL(\"image/png\");
-        status.textContent = \"✅ Tangkapan selesai!\";
-        preview.src = imgData;
-        preview.style.display = 'block';
-        window.parent.postMessage({ type: \"streamlit:setComponentValue\", value: imgData }, \"*\");
-      } catch (e) {
-        status.textContent = \"❌ Gagal menangkap halaman.\";
-        console.error(\"html2canvas error\", e);
-        window.parent.postMessage({ type: \"streamlit:setComponentValue\", value: null }, \"*\");
-      }
-    };
-  </script>
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const context = canvas.getContext("2d");
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const imageData = canvas.toDataURL("image/png");
+      preview.src = imageData;
+      preview.style.display = "block";
+      status.textContent = "✅ Tangkapan selesai!";
+
+      window.parent.postMessage({ type: "streamlit:setComponentValue", value: imageData }, "*");
+
+      // Hentikan semua track stream setelah capture
+      stream.getTracks().forEach(track => track.stop());
+    } catch (err) {
+      console.error("Error saat menangkap layar:", err);
+      status.textContent = "❌ Gagal menangkap layar.";
+      window.parent.postMessage({ type: "streamlit:setComponentValue", value: null }, "*");
+    }
+  };
+</script>
 </body>
 </html>
 """
 
-# Render komponen HTML
 captured_data_url = components.html(
     CLIENT_SIDE_SCREEN_CAPTURE_HTML,
-    height=550,
+    height=600,
     scrolling=False
 )
 
-# Proses data screenshot jika diterima
 if isinstance(captured_data_url, str) and captured_data_url.startswith("data:image/png;base64,"):
     encoded_data = captured_data_url.split(",", 1)[1]
     image_bytes = base64.b64decode(encoded_data)
 
-    st.image(image_bytes, caption="📷 Screenshot Halaman", use_column_width=True)
-
+    st.image(image_bytes, caption="📷 Screenshot dari Layar", use_column_width=True)
     st.download_button(
         label="💾 Unduh Screenshot",
         data=image_bytes,
-        file_name="screenshot_bakrieland.png",
+        file_name="screenshot_layar.png",
         mime="image/png"
     )
 elif captured_data_url is None:
