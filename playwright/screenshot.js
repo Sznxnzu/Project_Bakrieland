@@ -29,6 +29,30 @@ const { createClient } = require('@supabase/supabase-js');
     process.exit(1);
   }
 
+  // Auto-scroll to bottom to trigger lazy loading in Streamlit
+  async function autoScroll(page) {
+    await page.evaluate(async () => {
+      await new Promise((resolve) => {
+        let totalHeight = 0;
+        const distance = 100;
+        const timer = setInterval(() => {
+          const scrollHeight = document.body.scrollHeight;
+          window.scrollBy(0, distance);
+          totalHeight += distance;
+
+          if (totalHeight >= scrollHeight) {
+            clearInterval(timer);
+            resolve();
+          }
+        }, 100);
+      });
+    });
+  }
+
+  console.log("↕️ Scrolling through page to load all content...");
+  await autoScroll(page);
+  await page.waitForTimeout(500);
+
   const timestamp = Date.now();
   const filename = `screenshot_${timestamp}.png`;
   const filepath = path.join(process.cwd(), filename);
