@@ -555,7 +555,7 @@ components.html("""
     <script>
     const client = supabase.createClient(
         "https://jysdksiamclhxsidaaje.supabase.co",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5c2Rrc2lhbWNsaHhzaWRhYWplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2NzAyNTUsImV4cCI6MjA2NjI0NjI1NX0.LqRUR3HiGn4iq0rJ1cTsY_zPUxtame2jJwz4-dHfAtg"
     );
 
     function takeScreenshot() {
@@ -606,3 +606,4 @@ components.html("""
     }
     </script>
 """, height=340)
+
