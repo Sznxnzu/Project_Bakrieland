@@ -15,42 +15,47 @@ const { createClient } = require('@supabase/supabase-js');
 
   console.log(`🌐 Launching Chromium to visit: ${STREAMLIT_URL}`);
   const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage();
+  const page = await browser.newPage({
+    viewport: { width: 1280, height: 800 }
+  });
 
   page.on('console', msg => console.log(`🗨️  PAGE LOG: ${msg.text()}`));
   page.on('pageerror', err => console.error(`🚨 PAGE ERROR: ${err}`));
 
   try {
     await page.goto(STREAMLIT_URL, { waitUntil: 'networkidle' });
-    await page.waitForTimeout(3000); // allow page to stabilize
+    await page.waitForTimeout(3000);
 
-    // Auto scroll to bottom to force full render
+    // Scroll to bottom slowly until no more new height
     console.log("🔽 Scrolling to load entire page...");
     await page.evaluate(async () => {
-      const scrollable = document.querySelector(".main") || document.body;
       await new Promise((resolve) => {
         let totalHeight = 0;
-        const distance = 100;
-        const timer = setInterval(() => {
-          scrollable.scrollBy(0, distance);
+        const distance = 300;
+        const delay = 200;
+
+        const scroll = () => {
+          window.scrollBy(0, distance);
           totalHeight += distance;
 
-          if (totalHeight >= scrollable.scrollHeight) {
-            clearInterval(timer);
-            resolve();
-          }
-        }, 100);
+          setTimeout(() => {
+            if (document.documentElement.scrollTop + window.innerHeight >= document.documentElement.scrollHeight) {
+              resolve();
+            } else {
+              scroll();
+            }
+          }, delay);
+        };
+        scroll();
       });
     });
 
-    await page.waitForTimeout(2000); // wait for any remaining rendering
+    await page.waitForTimeout(2000);
 
-    const dimensions = await page.evaluate(() => ({
-      scrollHeight: document.documentElement.scrollHeight,
-      clientHeight: document.documentElement.clientHeight,
-      windowHeight: window.innerHeight
-    }));
-    console.log("🧭 Page dimensions:", dimensions);
+    // Resize viewport to match full height
+    const fullHeight = await page.evaluate(() => document.documentElement.scrollHeight);
+    console.log(`📏 Resizing viewport to height: ${fullHeight}`);
+    await page.setViewportSize({ width: 1280, height: fullHeight });
 
   } catch (e) {
     console.error("❌ Failed to load or scroll page:", e);
@@ -64,7 +69,7 @@ const { createClient } = require('@supabase/supabase-js');
 
   console.log(`📸 Capturing full-page screenshot: ${filename}`);
   try {
-    await page.screenshot({ path: filepath, fullPage: true });
+    await page.screenshot({ path: filepath });
   } catch (e) {
     console.error("❌ Screenshot failed:", e);
     await browser.close();
