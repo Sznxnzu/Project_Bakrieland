@@ -91,7 +91,7 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 0 20px #00f0ff;
-    font-size: 25px;
+    font-size: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
     width: 100%;
@@ -503,6 +503,12 @@ with row3:
 
 
 
+
+
+
+
+
+
         
 # --- Screenshot dan QR ---
 
@@ -537,7 +543,7 @@ components.html("""
         window.parent.document.fonts.ready.then(function () {
             html2canvas(window.parent.document.body, {
                 useCORS: true,
-                scale: 1.5
+                scale: 2
             }).then(canvas => {
                 canvas.toBlob(async (blob) => {
                     const filename = `screenshot_${Date.now()}.png`;
