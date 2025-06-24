@@ -22,6 +22,10 @@ st.markdown("""
   word-spacing: normal !important;
 }
 
+body {
+  font-family: 'Orbitron', sans-serif !important;
+}
+
 html, body, [data-testid="stAppViewContainer"], .stApp {
     background: none !important;
     background-color: #19307f !important;
@@ -524,6 +528,13 @@ components.html("""
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+
+    <style>
+      body {
+        font-family: 'Orbitron', sans-serif !important;
+      }
+    </style>
 
     <div style="display: flex; justify-content: center; padding: 1em;">
         <button onclick="takeScreenshot()" style="
@@ -544,14 +555,16 @@ components.html("""
     <script>
     const client = supabase.createClient(
         "https://jysdksiamclhxsidaaje.supabase.co",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5c2Rrc2lhbWNsaHhzaWRhYWplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2NzAyNTUsImV4cCI6MjA2NjI0NjI1NX0.LqRUR3HiGn4iq0rJ1cTsY_zPUxtame2jJwz4-dHfAtg"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
     );
 
     function takeScreenshot() {
         window.parent.document.fonts.ready.then(function () {
             html2canvas(window.parent.document.body, {
                 useCORS: true,
-                scale: 2
+                scale: 2,
+                letterRendering: true,
+                backgroundColor: null
             }).then(canvas => {
                 canvas.toBlob(async (blob) => {
                     const filename = `screenshot_${Date.now()}.png`;
@@ -592,4 +605,4 @@ components.html("""
         });
     }
     </script>
-""", height=320)
+""", height=340)
