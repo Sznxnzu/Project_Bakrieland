@@ -500,6 +500,7 @@ with row3:
         </div>
         """, unsafe_allow_html=True)
 # Komponen tombol download & QR
+# Tombol download/screenshot dan QR
 components.html("""
 <html>
   <head>
@@ -526,29 +527,40 @@ components.html("""
 
     <script>
       document.getElementById("downloadBtn").addEventListener("click", async function () {
-        const target = parent.document.querySelector("#captureArea");
-        if (!target) return alert("❌ Gagal menemukan area untuk screenshot.");
-
         window.scrollTo(0, 0);
         await new Promise(r => setTimeout(r, 1000));
 
-        html2canvas(target).then(canvas => {
-          canvas.toBlob(blob => {
-            const imgURL = URL.createObjectURL(blob);
-
-            const qr = new QRious({
-              element: document.createElement('canvas'),
-              value: imgURL,
-              size: 180
-            });
-
-            const container = document.getElementById("qrContainer");
-            container.innerHTML = "";
-            container.appendChild(qr.element);
-          }, 'image/png');
+        html2canvas(document.body).then(canvas => {
+          const base64img = canvas.toDataURL("image/png");
+          fetch("http://127.0.0.1:8000/upload-image", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ img_base64: base64img })
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              const qr = new QRious({
+                element: document.createElement('canvas'),
+                value: data.image_url,
+                size: 180
+              });
+              const container = document.getElementById("qrContainer");
+              container.innerHTML = "";
+              container.appendChild(qr.element);
+            } else {
+              alert("Upload gagal: " + data.message);
+            }
+          })
+          .catch(err => alert("❌ Gagal: " + err));
         });
       });
     </script>
   </body>
 </html>
 """, height=300)
+
+st.title("📸 Screenshot & QR Code Generator")
+st.markdown("Klik tombol di kanan bawah untuk mengambil screenshot halaman dan generate QR.")
