@@ -1,0 +1,29 @@
+name: Streamlit Screenshot & Upload
+
+on:
+  workflow_dispatch:
+
+jobs:
+  screenshot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: |
+          npm install -g playwright
+          playwright install chromium
+
+      - name: Take Screenshot
+        run: node playwright/screenshot.js
+        env:
+          STREAMLIT_URL: https://your-app.streamlit.app/
+          SUPABASE_URL: https://your-project.supabase.co
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
