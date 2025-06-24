@@ -514,17 +514,91 @@ with row3:
 
 # --- Screenshot dan QR ---
 
-if st.button("📸 Trigger Screenshot"):
-    response = requests.post(
-        "https://api.github.com/repos/Sznxnzu/Project_Bakrieland/actions/workflows/screenshots.yml/dispatches",
-        headers={
-            "Accept": "application/vnd.github+json",
-            "Authorization": f"Bearer {st.secrets['GITHUB_PAT']}"
-        },
-        json={"ref": "main"}  # Or your branch name
-    )
+components.html("""
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 
-    if response.status_code == 204:
-        st.success("✅ Screenshot job triggered!")
-    else:
-        st.error(f"❌ Failed: {response.status_code} — {response.text}")
+<div style="display: flex; justify-content: center; padding: 1em;">
+  <button id="screenshotButton" style="
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 600;
+      padding: 0.6rem 1.2rem;
+      border-radius: 0.6rem;
+      border: 2px solid #00f0ff;
+      background-color: #11193f;
+      color: #00f0ff;
+      cursor: pointer;
+      box-shadow: 0 0 12px #00f0ff;
+      transition: all 0.2s ease-in-out;
+  " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+    📸 Screenshot & QR
+  </button>
+</div>
+
+<div id="qrContainer" style="display: flex; justify-content: center; flex-direction: column; align-items: center; margin-top: 20px;"></div>
+
+<script>
+const client = supabase.createClient(
+  "https://jysdksiamclhxsidaaje.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5c2Rrc2lhbWNsaHhzaWRhYWplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA2NzAyNTUsImV4cCI6MjA2NjI0NjI1NX0.LqRUR3HiGn4iq0rJ1cTsY_zPUxtame2jJwz4-dHfAtg"
+);
+
+document.getElementById("screenshotButton").addEventListener("click", () => {
+  const button = document.getElementById("screenshotButton");
+  button.disabled = true;
+  button.innerText = "⏳ Generating...";
+
+  window.parent.document.fonts.ready.then(() => {
+    html2canvas(window.parent.document.body, {
+      useCORS: true,
+      scale: 2,
+      backgroundColor: null
+    }).then(canvas => {
+      canvas.toBlob(async blob => {
+        const filename = `screenshot_${Date.now()}.png`;
+
+        const { data, error } = await client.storage
+          .from("screenshoots")
+          .upload(filename, blob, { contentType: "image/png" });
+
+        if (error) {
+          alert("❌ Upload failed: " + error.message);
+          button.disabled = false;
+          button.innerText = "📸 Screenshot & QR";
+          return;
+        }
+
+        const { data: publicData } = client.storage
+          .from("screenshoots")
+          .getPublicUrl(filename);
+
+        const downloadURL = publicData.publicUrl;
+        const qr = new QRious({
+          value: downloadURL,
+          size: 180,
+          background: 'white',
+          foreground: '#19307f',
+          level: 'H'
+        });
+
+        const container = document.getElementById("qrContainer");
+        container.innerHTML = "";
+        container.appendChild(qr.image);
+
+        const a = document.createElement("a");
+        a.href = downloadURL;
+        a.download = filename;
+        a.textContent = "⬇️ Download Screenshot";
+        a.style = "font-family: 'Orbitron', sans-serif; color: #00f0ff; text-decoration: none; font-weight: bold; margin-top: 10px;";
+        container.appendChild(a);
+
+        button.disabled = false;
+        button.innerText = "📸 Screenshot & QR";
+      }, 'image/png');
+    });
+  });
+});
+</script>
+""", height=340)
