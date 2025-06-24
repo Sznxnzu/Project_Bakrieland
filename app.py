@@ -501,40 +501,45 @@ with row3:
         </div>
         """, unsafe_allow_html=True)
 # Komponen tombol download & QR
-# Tombol download/screenshot dan QR
 st.markdown("Klik tombol di bawah untuk mengambil tangkapan layar dari halaman ini. Gambar akan muncul setelah berhasil dan dapat diunduh.")
 
 CLIENT_SIDE_SCREEN_CAPTURE_HTML = """
 <!DOCTYPE html>
-<html lang="en">
+<html lang=\"en\">
 <head>
-  <meta charset="UTF-8">
-  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <meta charset=\"UTF-8\">
+  <script src=\"https://html2canvas.hertzen.com/dist/html2canvas.min.js\"></script>
 </head>
-<body style="text-align:center; padding:20px;">
-  <button id="captureButton" style="padding:10px 20px; font-size:16px;">📸 Tangkap Halaman Ini</button>
-  <p id="status-message" style="margin-top:10px;"></p>
-  <img id="preview-img" style="display:none; max-width:100%; margin-top:20px;" />
+<body style=\"text-align:center; padding:20px;\">
+  <button id=\"captureButton\" style=\"padding:10px 20px; font-size:16px;\">📸 Tangkap Halaman Ini</button>
+  <p id=\"status-message\" style=\"margin-top:10px;\"></p>
+  <img id=\"preview-img\" style=\"display:none; max-width:100%; margin-top:20px;\" />
 
   <script>
-    document.getElementById("captureButton").onclick = async () => {
-      const status = document.getElementById("status-message");
-      const preview = document.getElementById("preview-img");
-      status.textContent = "⏳ Menangkap halaman...";
+    document.getElementById(\"captureButton\").onclick = async () => {
+      const status = document.getElementById(\"status-message\");
+      const preview = document.getElementById(\"preview-img\");
+      status.textContent = \"⏳ Menangkap halaman...\";
       try {
-        const canvas = await html2canvas(window.parent.document.body, {
+        window.parent.scrollTo(0, 0);
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        const target = window.parent.document.querySelector('#root') || window.parent.document.body;
+        const canvas = await html2canvas(target, {
           useCORS: true,
-          scale: 2
+          scale: 2,
+          backgroundColor: '#ffffff'
         });
-        const imgData = canvas.toDataURL("image/png");
-        status.textContent = "✅ Tangkapan selesai!";
+
+        const imgData = canvas.toDataURL(\"image/png\");
+        status.textContent = \"✅ Tangkapan selesai!\";
         preview.src = imgData;
         preview.style.display = 'block';
-        window.parent.postMessage({ type: "streamlit:setComponentValue", value: imgData }, "*");
+        window.parent.postMessage({ type: \"streamlit:setComponentValue\", value: imgData }, \"*\");
       } catch (e) {
-        status.textContent = "❌ Gagal menangkap halaman.";
-        console.error("html2canvas error", e);
-        window.parent.postMessage({ type: "streamlit:setComponentValue", value: null }, "*");
+        status.textContent = \"❌ Gagal menangkap halaman.\";
+        console.error(\"html2canvas error\", e);
+        window.parent.postMessage({ type: \"streamlit:setComponentValue\", value: null }, \"*\");
       }
     };
   </script>
