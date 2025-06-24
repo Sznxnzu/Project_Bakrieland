@@ -469,6 +469,7 @@ with row1:
           <img src="https://raw.githubusercontent.com/Sznxnzu/Project_Bakrieland/main/resources/logo/metrodata_logo.png" style="height: 40px; vertical-align: middle;" />
         </div>
         """, unsafe_allow_html=True)
+      colA3row14 = st.container()
       with colA3row14:
         components.html("""
         <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
