@@ -6,6 +6,7 @@ import io
 import requests
 import html
 import random
+import base64
 
 st.set_page_config(layout="wide", page_title="Bakrieland Mood Analytic", initial_sidebar_state="collapsed")
 
@@ -501,66 +502,67 @@ with row3:
         """, unsafe_allow_html=True)
 # Komponen tombol download & QR
 # Tombol download/screenshot dan QR
-components.html("""
-<html>
-  <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-  </head>
-  <body>
-    <button id="downloadBtn" style="
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 9999;
-        background-color: #00c0cc;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        border-radius: 8px;
-        cursor: pointer;
-        box-shadow: 0 4px 12px rgba(0, 240, 255, 0.6);
-    ">⬇️ Download</button>
+st.markdown("Klik tombol di bawah untuk mengambil tangkapan layar dari halaman ini. Gambar akan muncul setelah berhasil dan dapat diunduh.")
 
-    <div id="qrContainer" style="position: fixed; bottom: 100px; right: 20px;"></div>
+CLIENT_SIDE_SCREEN_CAPTURE_HTML = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<body style="text-align:center; padding:20px;">
+  <button id="captureButton" style="padding:10px 20px; font-size:16px;">📸 Tangkap Halaman Ini</button>
+  <p id="status-message" style="margin-top:10px;"></p>
+  <img id="preview-img" style="display:none; max-width:100%; margin-top:20px;" />
 
-    <script>
-      document.getElementById("downloadBtn").addEventListener("click", async function () {
-        window.scrollTo(0, 0);
-        await new Promise(r => setTimeout(r, 1000));
-
-        html2canvas(document.body).then(canvas => {
-          const base64img = canvas.toDataURL("image/png");
-          fetch("http://127.0.0.1:8000/upload-image", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ img_base64: base64img })
-          })
-          .then(response => response.json())
-          .then(data => {
-            if (data.success) {
-              const qr = new QRious({
-                element: document.createElement('canvas'),
-                value: data.image_url,
-                size: 180
-              });
-              const container = document.getElementById("qrContainer");
-              container.innerHTML = "";
-              container.appendChild(qr.element);
-            } else {
-              alert("Upload gagal: " + data.message);
-            }
-          })
-          .catch(err => alert("❌ Gagal: " + err));
+  <script>
+    document.getElementById("captureButton").onclick = async () => {
+      const status = document.getElementById("status-message");
+      const preview = document.getElementById("preview-img");
+      status.textContent = "⏳ Menangkap halaman...";
+      try {
+        const canvas = await html2canvas(window.parent.document.body, {
+          useCORS: true,
+          scale: 2
         });
-      });
-    </script>
-  </body>
+        const imgData = canvas.toDataURL("image/png");
+        status.textContent = "✅ Tangkapan selesai!";
+        preview.src = imgData;
+        preview.style.display = 'block';
+        window.parent.postMessage({ type: "streamlit:setComponentValue", value: imgData }, "*");
+      } catch (e) {
+        status.textContent = "❌ Gagal menangkap halaman.";
+        console.error("html2canvas error", e);
+        window.parent.postMessage({ type: "streamlit:setComponentValue", value: null }, "*");
+      }
+    };
+  </script>
+</body>
 </html>
-""", height=300)
+"""
 
-st.title("📸 Screenshot & QR Code Generator")
-st.markdown("Klik tombol di kanan bawah untuk mengambil screenshot halaman dan generate QR.")
+# Render komponen HTML
+captured_data_url = components.html(
+    CLIENT_SIDE_SCREEN_CAPTURE_HTML,
+    height=550,
+    scrolling=False
+)
+
+# Proses data screenshot jika diterima
+if isinstance(captured_data_url, str) and captured_data_url.startswith("data:image/png;base64,"):
+    encoded_data = captured_data_url.split(",", 1)[1]
+    image_bytes = base64.b64decode(encoded_data)
+
+    st.image(image_bytes, caption="📷 Screenshot Halaman", use_column_width=True)
+
+    st.download_button(
+        label="📎 Unduh Screenshot",
+        data=image_bytes,
+        file_name="screenshot_bakrieland.png",
+        mime="image/png"
+    )
+elif captured_data_url is None:
+    st.warning("Belum ada screenshot yang diambil.")
+else:
+    st.error("❌ Gagal memproses data screenshot.")
