@@ -7,3 +7,6 @@ qrcode[pil]
 firebase-admin
 google-generativeai
 html2image
+fastapi
+uvicorn
+pdf2image
