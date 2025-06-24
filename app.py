@@ -501,7 +501,6 @@ with row3:
         </div>
         """, unsafe_allow_html=True)
 # Komponen tombol download & QR
-
 components.html("""
 <html>
   <head>
@@ -535,8 +534,11 @@ components.html("""
       );
 
       document.getElementById("screenshotBtn").addEventListener("click", async function () {
-        const target = parent.document.querySelector("#captureArea");
-        if (!target) return alert("❌ Gagal menemukan area untuk screenshot.");
+        let target = parent.document.querySelector("#captureArea");
+        if (!target) {
+          console.warn("📛 #captureArea tidak ditemukan, fallback ke document.body");
+          target = parent.document.body;
+        }
 
         window.scrollTo(0, 0);
         await new Promise(r => setTimeout(r, 1000));
